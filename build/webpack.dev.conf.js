@@ -14,6 +14,7 @@ const HOST = process.env.HOST;
 const PORT = process.env.PORT && Number(process.env.PORT);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
+    mode: 'development',
     module: {
         rules: utils.styleLoaders({
             sourceMap: config.dev.cssSourceMap,
@@ -62,7 +63,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
-            inject: true
+            inject: true,
         }),
         // copy custom static assets
         new CopyWebpackPlugin([{
