@@ -8,8 +8,8 @@ module.exports = {
     dev: {
 
         // Paths
-        assetsSubDirectory: 'static',
-        assetsPublicPath: '/blog/',
+        assetsSubDirectory: '',
+        assetsPublicPath: '/',
         proxyTable: [{
             context: ['/blog'],
             target: 'http://localhost:8001',
@@ -59,7 +59,7 @@ module.exports = {
         // Paths
         assetsRoot: path.resolve(__dirname, '../dist'),
         assetsSubDirectory: 'static',
-        assetsPublicPath: '/blog/',
+        assetsPublicPath: '/',
 
         /**
          * Source Maps
