@@ -99,7 +99,6 @@ module.exports = {
         'no-trailing-spaces': 'warn',
         'no-unneeded-ternary': 'warn',
         'no-whitespace-before-property': 'warn',
-        'object-curly-spacing': 'warn',
         'operator-assignment': 'warn',
         'quotes': 'warn',
         'semi': ['warn', 'always'],
