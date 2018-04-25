@@ -8,9 +8,9 @@ Vue.use(Router);
 
 const frameCompontent = {
     template: `
-    <div class='et-blog'>
+    <div class="et-blog">
         <et-header></et-header>
-        <main>
+        <main class="et-main">
             <keep-alive>
                 <router-view v-if="$route.meta.keepAlive"/>
             </keep-alive>

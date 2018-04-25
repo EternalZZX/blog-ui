@@ -1,1 +1,73 @@
-$fontSize: 18px;
+@import "./style-common";
+@import "./style-setting";
+
+html {
+    font-family: $contentFontFamily;
+    height: 100%;
+    
+    body {
+        height: 100%;
+        padding: 0rem;
+        margin: 0rem;
+    }
+}
+
+@include max-screen(1280px) {
+    .et-header--inner, .et-main--inner {
+        width: 100%;
+    }
+}
+
+@include filter-screen(1280px, 1366px) {
+    .et-header--inner, .et-main--inner {
+        width: 1000px;
+    }
+}
+
+@include min-screen(1366px) {
+    .et-header--inner, .et-main--inner {
+        width: 1280px;
+    }
+}
+
+.et-blog {
+    height: 100%;
+    background: $mainBackground;
+}
+
+.et-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $headerHeight;
+    background: $headerBackground;
+    box-shadow: $borderShadow;
+    border-bottom: $deepenBorder;
+
+    .et-logo {
+        height: $headerHeight - $headerHeight / 5;
+        padding: $headerHeight / 10;
+    }
+}
+
+.et-main {
+    width: 100%;
+    padding-top: $headerHeight;
+    padding-bottom: $footerHeight;
+}
+
+.et-header--inner, .et-main--inner {
+    margin: auto;
+}
+
+.et-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: $footerHeight;
+    background: $footerBackground;
+    box-shadow: $borderShadow;
+    border-top: $deepenBorder;
+}

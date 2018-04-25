@@ -1,12 +1,10 @@
 <template>
-    <div class="home">
-        <img src="images/logo.png">
-    </div>
+    <div class="et-content"></div>
 </template>
 
 <script>
 export default {
-    name: 'Home',
+    name: 'home',
     data () {
         return {
             msg: 'Welcome to Your Vue.js App'

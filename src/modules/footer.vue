@@ -1,3 +1,3 @@
 <template>
-    <footer></footer>
+    <footer class="et-footer"></footer>
 </template>
