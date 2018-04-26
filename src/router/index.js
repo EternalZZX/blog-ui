@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import header from '@/modules/header';
 import footer from '@/modules/footer';
-import mainRouter from './main';
+import rootRouter from './root';
 
 Vue.use(Router);
 
@@ -28,8 +28,8 @@ export default new Router({
     mode: 'history',
     base: '/',
     routes: [{
-        path: mainRouter.base,
+        path: rootRouter.base,
         component: frameCompontent,
-        children: mainRouter.routes
+        children: rootRouter.routes
     }]
 });
