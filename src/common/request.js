@@ -5,7 +5,7 @@ import SETTING from '@/setting';
 class BaseRequest {
     constructor () {
         this.header = {};
-        this.header[SETTING.TOKRN_KEY] = Common.getToken();
+        this.header[SETTING.TOKRN_HEADER_KEY] = Common.getToken();
         this.$http = axios.create({
             baseURL: SETTING.BASE_URL,
             transformResponse: [response => response.data],
@@ -20,7 +20,12 @@ class BaseRequest {
     }
 
     post (url, data = null, config = {}) {
-        return this.$http.post(url, data, config);
+        return this.$http.post(url, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            ...config
+        });
     }
 
     put (url, data = null, config = {}) {

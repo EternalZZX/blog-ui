@@ -13,9 +13,13 @@ export default {
         };
     },
     mounted: () => {
-        Common.setToken('RVRFNzc3YzJjOTllZDg3NzEzZmFhOTE1NmE4YTMyNDhjYmJOek0xTjJR' +
+        Common.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
                         'eU9HRXRZVFl4TVMwMVpXWmtMV0ZsTm1VdFlUVTFNR0UxWWprMU5EZzM');
-        sectionApi.getSection(18).then(response => {
+        sectionApi.create({
+            name: 'guitar',
+            nick: '吉他',
+            moderator_uuids: '7357d28a-a611-5efd-ae6e-a550a5b95487'
+        }).then(response => {
             console.warn(response.data);
         }).catch(err => {
             if (err.response) {
