@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import VueCookie from 'vue-cookie';
 import Vuex from 'vuex';
 import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import index from './index';
 import router from './router';
 

@@ -1,15 +1,19 @@
 import axios from 'axios';
+import qs from 'query-string';
 import Common from '@/common/common';
 import SETTING from '@/setting';
 
 class BaseRequest {
     constructor () {
-        this.header = {};
+        this.header = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        };
         this.header[SETTING.TOKRN_HEADER_KEY] = Common.getToken();
         this.$http = axios.create({
             baseURL: SETTING.BASE_URL,
-            transformResponse: [response => response.data],
             headers: this.header,
+            transformResponse: [response => response.data],
+            transformRequest: [request => qs.stringify(request)],
             maxContentLength: 30000,
             responseType: 'json'
         });
@@ -21,9 +25,6 @@ class BaseRequest {
 
     post (url, data = null, config = {}) {
         return this.$http.post(url, data, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
             ...config
         });
     }
