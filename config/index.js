@@ -11,7 +11,7 @@ module.exports = {
         assetsSubDirectory: '',
         assetsPublicPath: '/',
         proxyTable: [{
-            context: ['/blog'],
+            context: ['/blog', '/media'],
             target: 'http://0.0.0.0:8001',
             // target: 'http://39.104.116.209:8001',
             changeOrigin: true,

@@ -1,3 +1,4 @@
+import FormData from 'form-data';
 import BaseRequest from '@/common/request';
 
 class PhotoApi extends BaseRequest {
@@ -14,8 +15,19 @@ class PhotoApi extends BaseRequest {
         return super.get(this.url, { params });
     }
 
-    create (data, config = {}) {
-        return super.post(this.url, data, config);
+    create (image, data = {}, config = {}) {
+        let formData = new FormData();
+        formData.append('image', image);
+        for (let key in data) {
+            formData.append(key, data[key]);
+        }
+        return super.post(this.url, formData, {
+            headers: {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
+            },
+            transformRequest: [],
+            ...config
+        });
     }
 }
 

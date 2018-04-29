@@ -13,8 +13,7 @@ class BaseRequest {
             baseURL: SETTING.BASE_URL,
             headers: this.header,
             transformResponse: [response => response.data],
-            transformRequest: [request => qs.stringify(request)],
-            maxContentLength: 30000,
+            maxContentLength: 300000,
             responseType: 'json'
         });
     }
@@ -25,6 +24,7 @@ class BaseRequest {
 
     post (url, data = null, config = {}) {
         return this.$http.post(url, data, {
+            transformRequest: [request => qs.stringify(request)],
             ...config
         });
     }

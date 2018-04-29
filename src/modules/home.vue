@@ -4,6 +4,7 @@
             ref='upload'
             class="avatar-uploader"
             action="blog/v1/content/photos/"
+            :http-request="upload"
             :headers="header"
             :data="{description: 'abc'}"
             name="image"
@@ -21,7 +22,7 @@
 <script>
 import Common from '@/common/common';
 // import sectionApi from '@/api/sections';
-// import photoApi from '@/api/photos';
+import photoApi from '@/api/photos';
 export default {
     name: 'home',
     data () {
@@ -56,6 +57,20 @@ export default {
         },
         submit () {
             this.$refs.upload.submit();
+        },
+        upload (content) {
+            photoApi.create(content.file, {
+                description: 'a'
+            }).then(response => {
+                console.warn(response.data);
+            }).catch(err => {
+                if (err.response) {
+                    console.warn(err.response.data);
+                    console.warn(err.response.status);
+                } else {
+                    console.error(err.message);
+                }
+            });
         }
     }
 };
