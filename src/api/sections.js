@@ -6,12 +6,15 @@ class SectionApi extends BaseRequest {
         this.url = '/content/sections/';
     }
 
-    get (id) {
-        return super.get(`${this.url}${id}/`);
+    get (id, config = {}) {
+        return super.get(`${this.url}${id}/`, config);
     }
 
-    list (params = {}) {
-        return super.get(this.url, { params });
+    list (params = {}, config = {}) {
+        return super.get(this.url, {
+            params,
+            ...config
+        });
     }
 
     create (data, config = {}) {

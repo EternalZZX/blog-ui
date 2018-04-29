@@ -11,10 +11,12 @@ const frameCompontent = {
     <div class="et-blog">
         <et-header></et-header>
         <main class="et-main">
-            <keep-alive>
-                <router-view v-if="$route.meta.keepAlive"/>
-            </keep-alive>
-            <router-view v-if="!$route.meta.keepAlive"/>
+            <div class="et-main__inner">
+                <keep-alive>
+                    <router-view v-if="$route.meta.keepAlive"/>
+                </keep-alive>
+                <router-view v-if="!$route.meta.keepAlive"/>
+            </div>
         </main>
         <et-footer></et-footer>
     </div>`,

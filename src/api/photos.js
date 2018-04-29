@@ -7,12 +7,15 @@ class PhotoApi extends BaseRequest {
         this.url = '/content/photos/';
     }
 
-    get (uuid) {
-        return super.get(`${this.url}${uuid}/`);
+    get (uuid, config = {}) {
+        return super.get(`${this.url}${uuid}/`, config);
     }
 
-    list (params = {}) {
-        return super.get(this.url, { params });
+    list (params = {}, config = {}) {
+        return super.get(this.url, {
+            params,
+            ...config
+        });
     }
 
     create (image, data = {}, config = {}) {

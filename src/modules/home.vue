@@ -1,17 +1,15 @@
 <template>
     <div class="et-content">
         <el-upload
-            ref='upload'
+            ref="upload"
+            action="upload"
             class="avatar-uploader"
-            action="blog/v1/content/photos/"
             :http-request="upload"
-            :headers="header"
-            :data="{description: 'abc'}"
-            name="image"
             :show-file-list="false"
             :multiple="false"
             :auto-upload="false"
-            :on-change="handleChange">
+            :on-change="handleChange"
+            :on-success="handleSuccess">
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -55,6 +53,9 @@ export default {
         handleChange (file) {
             this.imageUrl = URL.createObjectURL(file.raw);
         },
+        handleSuccess (response) {
+            console.warn(response);
+        },
         submit () {
             this.$refs.upload.submit();
         },
@@ -62,13 +63,12 @@ export default {
             photoApi.create(content.file, {
                 description: 'a'
             }).then(response => {
-                console.warn(response.data);
+                content.onSuccess(response.data);
             }).catch(err => {
                 if (err.response) {
-                    console.warn(err.response.data);
-                    console.warn(err.response.status);
+                    content.onError(err.response.data);
                 } else {
-                    console.error(err.message);
+                    content.onError(err.message);
                 }
             });
         }
