@@ -4,7 +4,10 @@ import VueRouter from 'vue-router';
 import VueCookie from 'vue-cookie';
 import VueI18n from 'vue-i18n';
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import '~/theme/index.css';
+import ElementLocale from 'element-ui/lib/locale';
+import zhLocale from '@/common/lang/zh';
+import enLocale from '@/common/lang/en';
 import index from '@/index';
 import router from '@/router';
 
@@ -18,10 +21,12 @@ const i18n = new VueI18n({
     locale: 'zh',
     fallbackLocale: 'en',
     messages: {
-        'zh': require('@/common/lang/zh'),
-        'en': require('@/common/lang/en')
+        'zh': zhLocale,
+        'en': enLocale
     }
 });
+
+ElementLocale.i18n((key, value) => i18n.t(key, value));
 
 Vue.config.productionTip = false;
 
