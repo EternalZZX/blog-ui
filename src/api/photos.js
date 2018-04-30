@@ -19,9 +19,9 @@ class PhotoApi extends BaseRequest {
     }
 
     create (image, data = {}, config = {}) {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append('image', image);
-        for (let key in data) {
+        for (const key in data) {
             formData.append(key, data[key]);
         }
         return super.post(this.url, formData, {

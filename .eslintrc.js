@@ -121,6 +121,7 @@ module.exports = {
         'no-var': 'warn',
         'object-shorthand': 'warn',
         'prefer-arrow-callback': 'warn',
+        'prefer-const': 'warn',
         'prefer-rest-params': 'warn',
         'prefer-spread': 'warn',
         'rest-spread-spacing': 'warn',
