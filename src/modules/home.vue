@@ -19,7 +19,7 @@
 
 <script>
 import Common from '@/common/common';
-// import sectionApi from '@/api/sections';
+import sectionApi from '@/api/sections';
 import photoApi from '@/api/photos';
 export default {
     name: 'home',
@@ -34,20 +34,19 @@ export default {
     mounted: () => {
         Common.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
                         'eU9HRXRZVFl4TVMwMVpXWmtMV0ZsTm1VdFlUVTFNR0UxWWprMU5EZzM');
-        // sectionApi.create({
-        //     name: 'guitar',
-        //     nick: '吉他',
-        //     moderator_uuids: '7357d28a-a611-5efd-ae6e-a550a5b95487'
-        // }).then(response => {
-        //     console.warn(response.data);
-        // }).catch(err => {
-        //     if (err.response) {
-        //         console.warn(err.response.data);
-        //         console.warn(err.response.status);
-        //     } else {
-        //         console.error(err.message);
-        //     }
-        // });
+        sectionApi.delete('', {
+            id_list: 20,
+            force: true
+        }).then(response => {
+            console.warn(response.data);
+        }).catch(err => {
+            if (err.response) {
+                console.warn(err.response.data);
+                console.warn(err.response.status);
+            } else {
+                console.error(err.message);
+            }
+        });
     },
     methods: {
         handleChange (file) {

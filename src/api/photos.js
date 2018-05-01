@@ -32,6 +32,18 @@ class PhotoApi extends BaseRequest {
             ...config
         });
     }
+
+    update (id, data, config = {}) {
+        return super.put(`${this.url}${id}/`, data, config);
+    }
+
+    delete (id = '', data = {}, config = {}) {
+        const deleteUrl = id === '' ? `${this.url}` : `${this.url}${id}/`;
+        return super.delete(deleteUrl, {
+            data,
+            ...config
+        });
+    }
 }
 
 export default new PhotoApi();

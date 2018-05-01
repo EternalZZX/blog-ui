@@ -28,11 +28,17 @@ class BaseRequest {
     }
 
     put (url, data = null, config = {}) {
-        return this.$http.put(url, data, config);
+        return this.$http.put(url, data, {
+            transformRequest: [request => qs.stringify(request)],
+            ...config
+        });
     }
 
     delete (url, config = {}) {
-        return this.$http.delete(url, config);
+        return this.$http.delete(url, {
+            transformRequest: [request => qs.stringify(request)],
+            ...config
+        });
     }
 }
 

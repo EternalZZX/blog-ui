@@ -20,6 +20,18 @@ class SectionApi extends BaseRequest {
     create (data, config = {}) {
         return super.post(this.url, data, config);
     }
+
+    update (id, data, config = {}) {
+        return super.put(`${this.url}${id}/`, data, config);
+    }
+
+    delete (id = '', data = {}, config = {}) {
+        const deleteUrl = id === '' ? `${this.url}` : `${this.url}${id}/`;
+        return super.delete(deleteUrl, {
+            data,
+            ...config
+        });
+    }
 }
 
 export default new SectionApi();
