@@ -33,12 +33,12 @@ class PhotoApi extends BaseRequest {
         });
     }
 
-    update (id, data, config = {}) {
-        return super.put(`${this.url}${id}/`, data, config);
+    update (uuid, data, config = {}) {
+        return super.put(`${this.url}${uuid}/`, data, config);
     }
 
-    delete (id = '', data = {}, config = {}) {
-        const deleteUrl = id === '' ? `${this.url}` : `${this.url}${id}/`;
+    delete (uuid = '', data = {}, config = {}) {
+        const deleteUrl = uuid === '' ? `${this.url}` : `${this.url}${uuid}/`;
         return super.delete(deleteUrl, {
             data,
             ...config
