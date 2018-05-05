@@ -1,6 +1,6 @@
 <template>
     <div class="et-content">
-        <el-upload
+        <!-- <el-upload
             ref="upload"
             action="upload"
             class="avatar-uploader"
@@ -13,13 +13,13 @@
             <img v-if="imageUrl" :src="imageUrl" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-        <el-button size="small" type="primary" @click="submit">点击上传</el-button>
+        <el-button size="small" type="primary" @click="submit">点击上传</el-button> -->
     </div>
 </template>
 
 <script>
 import Common from '@/common/common';
-import sectionApi from '@/api/sections';
+// import sectionApi from '@/api/sections';
 import photoApi from '@/api/photos';
 export default {
     name: 'home',
@@ -34,19 +34,19 @@ export default {
     mounted: () => {
         Common.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
                         'eU9HRXRZVFl4TVMwMVpXWmtMV0ZsTm1VdFlUVTFNR0UxWWprMU5EZzM');
-        sectionApi.delete('', {
-            id_list: 20,
-            force: true
-        }).then(response => {
-            console.warn(response.data);
-        }).catch(err => {
-            if (err.response) {
-                console.warn(err.response.data);
-                console.warn(err.response.status);
-            } else {
-                console.error(err.message);
-            }
-        });
+        // sectionApi.delete('', {
+        //     id_list: 20,
+        //     force: true
+        // }).then(response => {
+        //     console.warn(response.data);
+        // }).catch(err => {
+        //     if (err.response) {
+        //         console.warn(err.response.data);
+        //         console.warn(err.response.status);
+        //     } else {
+        //         console.error(err.message);
+        //     }
+        // });
     },
     methods: {
         handleChange (file) {

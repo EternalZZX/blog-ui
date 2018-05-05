@@ -12,21 +12,35 @@ html {
     }
 }
 
+$innerList: et-header, et-main;
+
+%inner {
+    display: flex;
+    height: 100%;
+    margin: auto;
+}
+
 @include max-screen(1280px) {
-    .et-header__inner, .et-main__inner {
-        width: 100%;
+    @each $inner in $innerList {
+        .#{$inner}__inner {
+            width: 100%;
+        }
     }
 }
 
 @include filter-screen(1280px, 1366px) {
-    .et-header__inner, .et-main__inner {
-        width: 1000px;
+    @each $inner in $innerList {
+        .#{$inner}__inner {
+            width: 1000px;
+        }
     }
 }
 
-@include min-screen(1366px) {
-    .et-header__inner, .et-main__inner {
-        width: 1280px;
+@include min-screen(1366px) { 
+    @each $inner in $innerList {
+        .#{$inner}__inner {
+            width: 1280px;
+        }
     }
 }
 
@@ -45,9 +59,45 @@ html {
     box-shadow: $borderShadow;
     border-bottom: $deepenBorder;
 
-    .et-logo {
-        height: $headerHeight - $headerHeight / 5;
+    .et-header__inner {
+        @extend %inner;
+    }
+
+    .et-header__logo {
         padding: $headerHeight / 10;
+        img {
+            height: 100%;
+        }
+    }
+
+    .et-header__menu {
+        border-bottom: none;
+        margin: 0 1rem;
+
+        .el-menu-item {
+            height: $headerHeight;
+            line-height: $headerHeight;
+        }
+
+        .el-menu-item .et-icon {
+            font-size: 1.3rem;
+            margin-right: 0.2rem;
+            transition: color .3s;
+        }
+
+        .el-menu-item.is-active {
+            border-bottom: 0.2rem solid $themeColor;
+            color: $themeColor;
+        }
+
+        .el-menu-item:not(.is-disabled):hover {
+            color: $themeHoverColor;
+            border-bottom-color: $themeHoverColor;
+        }
+
+        .el-menu-item:not(.is-disabled):hover .et-icon {
+            color: $themeHoverColor;
+        }
     }
 }
 
@@ -55,11 +105,10 @@ html {
     width: 100%;
     padding-top: $headerHeight;
     padding-bottom: $footerHeight;
-}
 
-.et-header__inner, .et-main__inner {
-    height: 100%;
-    margin: auto;
+    .et-main__inner {
+        @extend %inner;
+    }
 }
 
 .et-footer {
