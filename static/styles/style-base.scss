@@ -56,23 +56,27 @@ $innerList: et-header, et-main;
     width: 100%;
     height: $headerHeight;
     background: $headerBackground;
-    box-shadow: $borderShadow;
     border-bottom: $deepenBorder;
+    box-shadow: $borderShadow;
 
     .et-header__inner {
         @extend %inner;
     }
 
     .et-header__logo {
+        flex: 0 0 auto;
+        margin-right: $headerHeight / 6;
         padding: $headerHeight / 10;
+
         img {
             height: 100%;
         }
     }
 
     .et-header__menu {
+        flex: 0 0 auto;
+        margin: 0 $headerHeight / 6;
         border-bottom: none;
-        margin: 0 1rem;
 
         .el-menu-item {
             height: $headerHeight;
@@ -80,14 +84,14 @@ $innerList: et-header, et-main;
         }
 
         .el-menu-item .et-icon {
-            font-size: 1.3rem;
             margin-right: 0.2rem;
+            font-size: $iconFontSizeLg;
             transition: color .3s;
         }
 
         .el-menu-item.is-active {
-            border-bottom: 0.2rem solid $themeColor;
             color: $themeColor;
+            border-bottom: 0.2rem solid $themeColor;
         }
 
         .el-menu-item:not(.is-disabled):hover {
@@ -97,6 +101,44 @@ $innerList: et-header, et-main;
 
         .el-menu-item:not(.is-disabled):hover .et-icon {
             color: $themeHoverColor;
+        }
+    }
+
+    .et-header__search {
+        margin: $headerHeight / 6;
+
+        .el-input__inner {    
+            height: $headerHeight * 2 / 3;
+            padding-left: 1.6rem;
+            font-size: $elementFontSize;
+            line-height: $headerHeight * 2 / 3;
+        }
+
+        .el-input__icon {
+            font-size: 1.2rem;
+            line-height: $headerHeight * 2 / 3;
+            transition: color .2s cubic-bezier(.645, .045, .355, 1);
+        }
+
+        .el-input__inner:focus + .el-input__prefix > .el-input__icon {
+            color: $themeColor;
+        }
+    }
+
+    .et-header__post {
+        margin: $headerHeight / 6;
+        padding: $headerHeight / 6;
+        font-size: $elementFontSize;
+    }
+
+    .et-header__account {
+        flex: 0 0 auto;
+        padding: $headerHeight / 6;
+
+        .et-header__avatar {
+            width: $headerHeight * 2 / 3;
+            height: $headerHeight * 2 / 3;
+            border-radius: 50%;
         }
     }
 }
@@ -118,6 +160,6 @@ $innerList: et-header, et-main;
     width: 100%;
     height: $footerHeight;
     background: $footerBackground;
-    box-shadow: $borderShadow;
     border-top: $deepenBorder;
+    box-shadow: $borderShadow;
 }

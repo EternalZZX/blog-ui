@@ -1,3 +1,5 @@
+@import "./style-setting";
+
 @mixin max-screen($width) {
     @media screen and (max-width: $width) {
         @content;
@@ -14,4 +16,14 @@
     @media screen and (min-width: $minWidth) and (max-width: $maxWidth) {
         @content;
     }
+}
+
+.el-button--primary:focus {
+    background-color: $themeColor;
+    border-color: $themeColor;
+}
+
+.el-button--primary:hover {
+    background: $themeHoverColor;
+    border-color: $themeHoverColor;
 }

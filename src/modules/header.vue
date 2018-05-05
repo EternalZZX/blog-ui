@@ -18,6 +18,29 @@
                     <i class="et-icon ei-like-fill"></i>{{ $t("header.favorite") }}
                 </el-menu-item>
             </el-menu>
+            <el-input class="et-header__search"
+                v-model="search_str"
+                placeholder="搜索新发现...">
+                <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
+            </el-input>
+            <el-button class="et-header__post" type="primary">
+                {{ $t("header.post") }}
+            </el-button>
+            <div class="et-header__account">
+                <img class="et-header__avatar" :src="avatar_url">
+            </div>
         </div>
     </header>
 </template>
+
+<script>
+export default {
+    name: 'et-header',
+    data () {
+        return {
+            search_str: '',
+            avatar_url: 'images/et-avatar.png'
+        };
+    }
+};
+</script>

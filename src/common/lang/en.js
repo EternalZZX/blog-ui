@@ -4,7 +4,8 @@ export default {
     header: {
         home: 'Home',
         section: 'Forum',
-        favorite: 'Bookmark'
+        favorite: 'Bookmark',
+        post: 'Post'
     },
     ...enLocale
 };

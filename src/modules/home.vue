@@ -22,7 +22,7 @@ import Common from '@/common/common';
 // import sectionApi from '@/api/sections';
 import photoApi from '@/api/photos';
 export default {
-    name: 'home',
+    name: 'et-home',
     data () {
         return {
             header: {
