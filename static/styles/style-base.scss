@@ -85,7 +85,7 @@ $innerList: et-header, et-main;
 
         .el-menu-item .et-icon {
             margin-right: 0.2rem;
-            font-size: $iconFontSizeLg;
+            font-size: $iconFontSizeLarge;
             transition: color .3s;
         }
 
@@ -105,40 +105,99 @@ $innerList: et-header, et-main;
     }
 
     .et-header__search {
+        width: 100%;
         margin: $headerHeight / 6;
 
         .el-input__inner {    
             height: $headerHeight * 2 / 3;
-            padding-left: 1.6rem;
-            font-size: $elementFontSize;
             line-height: $headerHeight * 2 / 3;
         }
 
         .el-input__icon {
-            font-size: 1.2rem;
             line-height: $headerHeight * 2 / 3;
-            transition: color .2s cubic-bezier(.645, .045, .355, 1);
-        }
-
-        .el-input__inner:focus + .el-input__prefix > .el-input__icon {
-            color: $themeColor;
         }
     }
 
     .et-header__post {
         margin: $headerHeight / 6;
         padding: $headerHeight / 6;
-        font-size: $elementFontSize;
     }
 
     .et-header__account {
         flex: 0 0 auto;
-        padding: $headerHeight / 6;
+        position: relative;
 
         .et-header__avatar {
             width: $headerHeight * 2 / 3;
             height: $headerHeight * 2 / 3;
+            padding: $headerHeight / 6;
             border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .et-header__dropdown {
+            position: absolute;
+            overflow: hidden;
+            top: $headerHeight;
+            right: 0;
+            height: 0;
+            width: 15rem;
+            border: $deepenBorder;
+            border-top: none;
+            background-color: $headerBackground;
+        }
+
+        .et-header__dropdown.open {
+            animation: dropdown-open .2s ease-in-out 1 alternate;
+            animation-fill-mode: forwards;
+        }
+
+        .et-header__dropdown.close {
+            animation: dropdown-close .2s ease-in-out 1 alternate;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes dropdown-open {
+            0% {
+                height: 0;
+                border-radius: 0 0 50% 50%;
+            }
+            50% {
+                height: 6rem;
+                border-radius: 0 0 50% 50%;
+            }
+            100% {
+                height: 8rem;
+                border-radius: 0 0 .5rem .5rem;
+            }
+        }
+
+        @keyframes dropdown-close {
+            0% {
+                height: 8rem;
+                border-radius: 0 0 .5rem .5rem;
+            }
+            50% {
+                height: 6rem;
+                border-radius: 0 0 50% 50%;
+            }
+            100% {
+                height: 0;
+                border-radius: 0 0 50% 50%;
+            }
+        }
+
+        .et-header__dropdown .el-form {
+            padding: $spaceTiny;
+        }
+
+        .et-header__dropdown .el-form .el-form-item {
+            margin-bottom: $spaceTiny;
+        }
+
+        .et-header__dropdown .el-form .el-form-item .el-input__inner {    
+            height: $headerHeight * 2 / 3;
+            line-height: $headerHeight * 2 / 3;
         }
     }
 }

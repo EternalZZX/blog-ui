@@ -1,11 +1,14 @@
-$contentFontSize: 0.9375rem !default;
-$elementFontSize: 0.8rem;
-$iconFontSizeLg: 1.3rem;
+$contentFontSize: .9375rem !default;
+$elementFontSize: .8rem;
+$elementIconFontSize: 1.2rem;
+$iconFontSizeLarge: 1.3rem;
 
 $contentFontFamily: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
 
 $themeColor: #00b1ff;
 $themeHoverColor: #33c1ff;
+
+$animationDuration: .5s; 
 
 $headerHeight: 3rem;
 $footerHeight: 1.25rem;
@@ -13,6 +16,11 @@ $footerHeight: 1.25rem;
 $headerBackground: #fff;
 $mainBackground: #fafafa;
 $footerBackground: #f1f1f1;
+
+$spaceTiny: .5rem;
+$spaceSmall: .8rem;
+
+$inputHeight: 2rem;
 
 $splitBorder: 1px solid #e2e2e2;
 $deepenBorder: 1px solid #ddd;

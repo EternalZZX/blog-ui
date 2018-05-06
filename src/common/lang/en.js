@@ -5,7 +5,14 @@ export default {
         home: 'Home',
         section: 'Forum',
         favorite: 'Bookmark',
-        post: 'Post'
+        search: 'Search for new discoveries...',
+        post: 'Post',
+        username: 'Username',
+        password: 'Password',
+        signIn: 'Sign In',
+        signOut: 'Sign Out',
+        signUp: 'Sign Up',
+        forgetPassword: 'Forgot password?'
     },
     ...enLocale
 };

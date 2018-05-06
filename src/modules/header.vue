@@ -18,29 +18,75 @@
                     <i class="et-icon ei-like-fill"></i>{{ $t("header.favorite") }}
                 </el-menu-item>
             </el-menu>
-            <el-input class="et-header__search"
-                v-model="search_str"
-                placeholder="搜索新发现...">
+            <el-autocomplete class="et-header__search"
+                v-model="searchStr"
+                :placeholder="$t('header.search')"
+                :fetch-suggestions="querySearch"
+                :trigger-on-focus="false"
+                @select="handleSelect">
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
-            </el-input>
+                <template slot-scope="scope">
+                    <div>{{ scope.item }}</div>
+                </template>
+            </el-autocomplete>
             <el-button class="et-header__post" type="primary">
                 {{ $t("header.post") }}
             </el-button>
-            <div class="et-header__account">
-                <img class="et-header__avatar" :src="avatar_url">
+            <div class="et-header__account" v-clickoutside="clickoutside">
+                <img class="et-header__avatar" :src="avatarUrl" @click="dropdownOpen = !dropdownOpen">
+                <div :class="['et-header__dropdown', {'open': dropdownOpen, 'close': dropdownOpen === false}]">
+                    <el-form>
+                        <el-form-item>
+                            <el-input :placeholder="$t('header.username')"
+                                :clearable="true">
+                                <i slot="prefix" class="el-input__icon et-icon ei-user"></i>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-input type="password"
+                                :placeholder="$t('header.password')"
+                                :clearable="true">
+                                <i slot="prefix" class="el-input__icon et-icon ei-lock"></i>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button>{{ $t("header.signUp") }}</el-button>
+                            <el-button type="primary">{{ $t("header.signIn") }}</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
             </div>
         </div>
     </header>
 </template>
 
 <script>
+import Clickoutside from 'element-ui/src/utils/clickoutside';
 export default {
     name: 'et-header',
+    directives: { Clickoutside },
     data () {
         return {
-            search_str: '',
-            avatar_url: 'images/et-avatar.png'
+            searchStr: '',
+            avatarUrl: 'images/et-avatar.png',
+            dropdownOpen: null,
+
+            queryList: [{
+                value: 'ABV',
+                address: 'ABC'
+            }]
         };
+    },
+    methods: {
+        querySearch (queryString, callback) {
+            callback(this.queryList);
+        },
+        handleSelect (item) {
+            console.warn(item);
+        },
+        clickoutside () {
+            this.dropdownOpen = false;
+        }
     }
 };
 </script>

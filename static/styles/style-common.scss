@@ -1,4 +1,5 @@
 @import "./style-setting";
+@import "vue2-animate/src/sass/vue2-animate.scss";
 
 @mixin max-screen($width) {
     @media screen and (max-width: $width) {
@@ -18,12 +19,61 @@
     }
 }
 
-.el-button--primary:focus {
-    background-color: $themeColor;
-    border-color: $themeColor;
+.el-button {
+    padding: $spaceTiny;
+    font-size: $elementFontSize;
+
+    &.el-button--primary {
+        &:hover {
+            background: $themeHoverColor;
+            border-color: $themeHoverColor;
+        }
+    
+        &:focus {
+            background-color: $themeColor;
+            border-color: $themeColor;
+        }
+    }
 }
 
-.el-button--primary:hover {
-    background: $themeHoverColor;
-    border-color: $themeHoverColor;
+.el-input {
+    .el-input__inner {    
+        height: $inputHeight;
+        font-size: $elementFontSize;
+        line-height: $inputHeight;
+    
+        &:focus + .el-input__prefix > .el-input__icon {
+            color: $themeColor;
+        }
+    }
+
+    &.el-input--prefix {
+        .el-input__inner {
+            padding-left: 1.8rem;
+        }
+    
+        .el-input__prefix {
+            left: .4rem;
+        }
+    }
+
+    .el-input__suffix {
+        right: .1rem;
+    }
+
+    .el-input__icon {
+        font-size: $elementIconFontSize;
+        line-height: $inputHeight;
+        transition: color .2s cubic-bezier(.645, .045, .355, 1);
+    }
+
+    .el-input__clear {
+        font-size: .9rem;
+    }
+}
+
+.el-form {
+    .el-form-item__content {
+        line-height: initial;
+    }
 }
