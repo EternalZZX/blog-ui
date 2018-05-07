@@ -2,19 +2,19 @@
     <header class="et-header">
         <div class="et-header__inner">
             <div class="et-header__logo">
-                <img src="images/et-logo-text.png">
+                <img src="/static/images/et-logo-text.png">
             </div>
             <el-menu class="et-header__menu"
-                default-active="1"
+                default-active="home"
                 mode="horizontal"
                 :router="true">
-                <el-menu-item index="1">
+                <el-menu-item index="home">
                     <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
                 </el-menu-item>
-                <el-menu-item index="2">
+                <el-menu-item index="section">
                     <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
                 </el-menu-item>
-                <el-menu-item index="3">
+                <el-menu-item index="mark">
                     <i class="et-icon ei-like-fill"></i>{{ $t("header.favorite") }}
                 </el-menu-item>
             </el-menu>
@@ -68,7 +68,7 @@ export default {
     data () {
         return {
             searchStr: '',
-            avatarUrl: 'images/et-avatar.png',
+            avatarUrl: '/static/images/et-avatar.png',
             dropdownOpen: null,
 
             queryList: [{

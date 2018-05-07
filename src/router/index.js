@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import header from '@/modules/header';
-import footer from '@/modules/footer';
+import header from '@/modules/header/header';
+import footer from '@/modules/footer/footer';
 import rootRouter from './root';
+import sectionRouter from './section';
+import markRouter from './mark';
 
 Vue.use(Router);
 
@@ -33,5 +35,13 @@ export default new Router({
         path: rootRouter.base,
         component: frameCompontent,
         children: rootRouter.routes
+    }, {
+        path: sectionRouter.base,
+        component: frameCompontent,
+        children: sectionRouter.routes
+    }, {
+        path: markRouter.base,
+        component: frameCompontent,
+        children: markRouter.routes
     }]
 });

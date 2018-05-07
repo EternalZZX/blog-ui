@@ -1,10 +1,9 @@
 export default {
-    base: '/',
+    base: '/mark',
     routes: [{
         path: '/',
-        alias: '/home',
-        name: 'home',
-        component: () => import('@/modules/home/home'),
+        name: 'mark',
+        component: () => import('@/modules/mark/mark'),
         meta: {
             auth: true,
             keepAlive: true
