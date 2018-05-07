@@ -60,6 +60,7 @@ $innerList: et-header, et-main;
     box-shadow: $borderShadow;
 
     .et-header__inner {
+        position: relative;
         @extend %inner;
     }
 
@@ -95,8 +96,9 @@ $innerList: et-header, et-main;
         }
 
         .el-menu-item:not(.is-disabled):hover {
-            color: $themeHoverColor;
-            border-bottom-color: $themeHoverColor;
+            color: $themeColor;
+            border-bottom-color: $themeColor;
+            background-color: $headerHoverBackground;
         }
 
         .el-menu-item:not(.is-disabled):hover .et-icon {
@@ -125,34 +127,41 @@ $innerList: et-header, et-main;
 
     .et-header__account {
         flex: 0 0 auto;
-        position: relative;
+        padding: $headerHeight / 6;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $headerHoverBackground;
+        }
 
         .et-header__avatar {
             width: $headerHeight * 2 / 3;
             height: $headerHeight * 2 / 3;
-            padding: $headerHeight / 6;
             border-radius: 50%;
-            cursor: pointer;
         }
+    }
 
-        .et-header__dropdown {
-            position: absolute;
-            overflow: hidden;
-            top: $headerHeight;
-            right: 0;
-            height: 0;
-            width: 15rem;
-            border: $deepenBorder;
-            border-top: none;
-            background-color: $headerBackground;
-        }
+    .et-header__dropdown {
+        $dropdownhWidth: 20rem;
 
-        .et-header__dropdown.open {
+        position: absolute;
+        overflow: hidden;
+        top: $headerHeight;
+        right: 0;
+        left: 0;
+        height: 0;
+        width: 0;
+        margin: auto;
+        border: $deepenBorder;
+        border-top: none;
+        background-color: $headerBackground;
+
+        &.open {
             animation: dropdown-open .2s ease-in-out 1 alternate;
             animation-fill-mode: forwards;
         }
 
-        .et-header__dropdown.close {
+        &.close {
             animation: dropdown-close .2s ease-in-out 1 alternate;
             animation-fill-mode: forwards;
         }
@@ -160,44 +169,63 @@ $innerList: et-header, et-main;
         @keyframes dropdown-open {
             0% {
                 height: 0;
+                width: 60%;
                 border-radius: 0 0 50% 50%;
             }
-            50% {
-                height: 6rem;
+            40% {
+                height: 7rem;
                 border-radius: 0 0 50% 50%;
             }
             100% {
-                height: 8rem;
+                height: auto;
+                width: $dropdownhWidth;
                 border-radius: 0 0 .5rem .5rem;
             }
         }
 
         @keyframes dropdown-close {
             0% {
-                height: 8rem;
+                height: auto;
+                width: $dropdownhWidth;
                 border-radius: 0 0 .5rem .5rem;
             }
-            50% {
-                height: 6rem;
+            60% {
+                height: 7rem;
                 border-radius: 0 0 50% 50%;
             }
             100% {
                 height: 0;
+                width: 60%;
                 border-radius: 0 0 50% 50%;
             }
         }
 
-        .et-header__dropdown .el-form {
-            padding: $spaceTiny;
+        .et-form-item_alert {
+            margin-bottom: 0;
         }
 
-        .et-header__dropdown .el-form .el-form-item {
+        .et-form-item_alert .el-alert {
+            padding: .3rem;
             margin-bottom: $spaceTiny;
         }
 
-        .et-header__dropdown .el-form .el-form-item .el-input__inner {    
+        .et-form-item_alert .el-alert .el-alert__closebtn {
+            font-size: 1rem;
+            top: .4rem;
+            right: .4rem;
+        }
+
+        .et-header__sign-in {
+            padding: $spaceTiny;
+        }
+
+        .et-header__sign-in .el-form-item .el-input__inner {    
             height: $headerHeight * 2 / 3;
             line-height: $headerHeight * 2 / 3;
+        }
+
+        .et-header__sign-in .el-form-item.et-form-item_right .el-button {
+            width: 30%;
         }
     }
 }

@@ -24,14 +24,19 @@
     font-size: $elementFontSize;
 
     &.el-button--primary {
+        &:focus {
+            background-color: $themeColor;
+            border-color: $themeColor;
+        }
+
         &:hover {
             background: $themeHoverColor;
             border-color: $themeHoverColor;
         }
-    
-        &:focus {
-            background-color: $themeColor;
-            border-color: $themeColor;
+
+        &:active {
+            background: $themeActiveColor;
+            border-color: $themeActiveColor;
         }
     }
 }
@@ -73,7 +78,24 @@
 }
 
 .el-form {
-    .el-form-item__content {
+    .el-form-item {
+        margin-bottom: $spaceTiny;
+    }
+
+    .el-form-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .el-form-item .el-form-item__content {
         line-height: initial;
+    }
+
+    .el-form-item.et-form-item_right .el-form-item__content {
+        display: flex;
+        flex-direction: row-reverse;
+
+        .el-button {
+            margin-left: $spaceTiny;
+        }
     }
 }

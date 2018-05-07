@@ -32,10 +32,18 @@
             <el-button class="et-header__post" type="primary">
                 {{ $t("header.post") }}
             </el-button>
-            <div class="et-header__account" v-clickoutside="clickoutside">
-                <img class="et-header__avatar" :src="avatarUrl" @click="dropdownOpen = !dropdownOpen">
-                <div :class="['et-header__dropdown', {'open': dropdownOpen, 'close': dropdownOpen === false}]">
-                    <el-form>
+            <div class="et-header__account"
+                v-clickoutside="dropdownClose"
+                @click="open = !open">
+                <img class="et-header__avatar" :src="avatarUrl">
+                <div :class="['et-header__dropdown', {'open': open, 'close': open === false}]">
+                    <el-form class="et-header__sign-in">
+                        <el-form-item class="et-form-item_alert">
+                            <el-alert
+                                :title="$t('header.errorPassword')"
+                                type="error">
+                            </el-alert>
+                        </el-form-item>
                         <el-form-item>
                             <el-input :placeholder="$t('header.username')"
                                 :clearable="true">
@@ -49,9 +57,9 @@
                                 <i slot="prefix" class="el-input__icon et-icon ei-lock"></i>
                             </el-input>
                         </el-form-item>
-                        <el-form-item>
-                            <el-button>{{ $t("header.signUp") }}</el-button>
+                        <el-form-item class="et-form-item_right">
                             <el-button type="primary">{{ $t("header.signIn") }}</el-button>
+                            <el-button>{{ $t("header.signUp") }}</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -69,7 +77,7 @@ export default {
         return {
             searchStr: '',
             avatarUrl: '/static/images/et-avatar.png',
-            dropdownOpen: null,
+            open: null,
 
             queryList: [{
                 value: 'ABV',
@@ -84,8 +92,8 @@ export default {
         handleSelect (item) {
             console.warn(item);
         },
-        clickoutside () {
-            this.dropdownOpen = false;
+        dropdownClose () {
+            this.open === true && (this.open = false);
         }
     }
 };

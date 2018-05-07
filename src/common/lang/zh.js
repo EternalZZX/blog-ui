@@ -12,7 +12,11 @@ export default {
         signIn: '登陆',
         signOut: '登出',
         signUp: '注册',
-        forgetPassword: '忘记密码?'
+        forgetPassword: '忘记密码?',
+        noUsername: '请输入用户名!',
+        noPassword: '请输入用户密码!',
+        errorPassword: '用户名或密码错误!',
+        errorConnection: '连接服务器失败!'
     },
     ...zhLocale
 };

@@ -12,7 +12,11 @@ export default {
         signIn: 'Sign In',
         signOut: 'Sign Out',
         signUp: 'Sign Up',
-        forgetPassword: 'Forgot password?'
+        forgetPassword: 'Forgot password?',
+        noUsername: 'Please enter your account!',
+        noPassword: 'Please enter password!',
+        errorPassword: 'Account or password is wrong!',
+        errorConnection: 'Failed to connect to the server!'
     },
     ...enLocale
 };
