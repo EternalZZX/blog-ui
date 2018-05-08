@@ -38,7 +38,7 @@
                 </div>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
-                        <i class="et-icon ei-home"></i>{{ $t("header.profile") }}
+                        <i class="et-icon ei-user"></i>{{ $t("header.profile") }}
                     </el-dropdown-item>
                     <el-dropdown-item>
                         <i class="et-icon ei-setup"></i>{{ $t("header.setting") }}
@@ -81,6 +81,22 @@
                     </el-form>
                 </div>
             </div>
+            <el-dropdown trigger="click">
+                <div class="et-header__menu_mobile">
+                    <i class="et-icon ei-menu"></i>
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>
+                        <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <i class="et-icon ei-like-fill"></i>{{ $t("header.favorite") }}
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </div>
     </header>
 </template>

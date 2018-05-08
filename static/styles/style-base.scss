@@ -20,7 +20,7 @@ $innerList: et-header, et-main;
     margin: auto;
 }
 
-@include max-screen(1279px) {
+@include max-screen($padMaxWidth) {
     @each $inner in $innerList {
         .#{$inner}__inner {
             width: 100%;
@@ -28,7 +28,7 @@ $innerList: et-header, et-main;
     }
 }
 
-@include filter-screen(1280px, 1365px) {
+@include filter-screen($laptopMinWidth, $laptopMaxWidth) {
     @each $inner in $innerList {
         .#{$inner}__inner {
             width: 1000px;
@@ -36,7 +36,7 @@ $innerList: et-header, et-main;
     }
 }
 
-@include min-screen(1366px) { 
+@include min-screen($pcMinWidth) { 
     @each $inner in $innerList {
         .#{$inner}__inner {
             width: 1280px;
@@ -72,7 +72,7 @@ $innerList: et-header, et-main;
         background-position: $headerHeight / 6 center;
         background-size: 90%;
 
-        @include max-screen(1279px) {
+        @include max-screen($padMaxWidth) {
             & {
                 width: $headerHeight;
                 background-image: url('/static/images/et-logo.png');
@@ -86,7 +86,7 @@ $innerList: et-header, et-main;
         margin: 0 $headerHeight / 6;
         border-bottom: none;
 
-        @include max-screen(1279px) {
+        @include max-screen($phoneMaxWidth) {
             & {
                 display: none;
             }
@@ -119,6 +119,28 @@ $innerList: et-header, et-main;
         }
     }
 
+    .et-header__menu_mobile {
+        flex: 0 0 auto;
+        display: none;
+        padding: .5rem;
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                display: block;
+            }
+        }
+
+        &:hover {
+            background-color: $headerHoverBackground;
+        }
+
+        .et-icon {
+            font-size: 2rem;
+            line-height: 2rem;
+            color: #8f9398;
+        }
+    }
+
     .et-header__search {
         width: 100%;
         margin: $headerHeight / 6;
@@ -137,7 +159,7 @@ $innerList: et-header, et-main;
         margin: $headerHeight / 6;
         padding: $headerHeight / 6;
 
-        @include max-screen(1279px) {
+        @include max-screen($phoneMaxWidth) {
             & {
                 display: none;
             }
@@ -167,8 +189,6 @@ $innerList: et-header, et-main;
     }
 
     .et-header__dropdown {
-        $dropdownhWidth: 20rem;
-
         position: absolute;
         overflow: hidden;
         top: $headerHeight;
@@ -191,19 +211,36 @@ $innerList: et-header, et-main;
             animation-fill-mode: forwards;
         }
 
+        @include max-screen($phoneMaxWidth) {
+            & {
+                border-left: none;
+                border-right: none;
+            }
+
+            &.open {
+                animation: dropdown-open-mobile .2s ease-in-out 1 alternate;
+                animation-fill-mode: forwards;
+            }
+    
+            &.close {
+                animation: dropdown-close-mobile .2s ease-in-out 1 alternate;
+                animation-fill-mode: forwards;
+            }
+        }
+
         @keyframes dropdown-open {
             0% {
                 height: 0;
                 width: 60%;
                 border-radius: 0 0 50% 50%;
             }
-            40% {
-                height: 7rem;
+            50% {
+                height: 8rem;
                 border-radius: 0 0 50% 50%;
             }
             100% {
                 height: auto;
-                width: $dropdownhWidth;
+                width: 20rem;
                 border-radius: 0 0 .5rem .5rem;
             }
         }
@@ -211,16 +248,50 @@ $innerList: et-header, et-main;
         @keyframes dropdown-close {
             0% {
                 height: auto;
-                width: $dropdownhWidth;
+                width: 20rem;
                 border-radius: 0 0 .5rem .5rem;
             }
-            60% {
-                height: 7rem;
+            50% {
+                height: 8rem;
                 border-radius: 0 0 50% 50%;
             }
             100% {
                 height: 0;
                 width: 60%;
+                border-radius: 0 0 50% 50%;
+            }
+        }
+
+        @keyframes dropdown-open-mobile {
+            0% {
+                height: 0;
+                width: 100%;
+                border-radius: 0 0 50% 50%;
+            }
+            50% {
+                height: 8rem;
+                border-radius: 0 0 50% 50%;
+            }
+            100% {
+                height: auto;
+                width: 100%;
+                border-radius: 0;
+            }
+        }
+
+        @keyframes dropdown-close-mobile {
+            0% {
+                height: auto;
+                width: 100%;
+                border-radius: 0;
+            }
+            50% {
+                height: 8rem;
+                border-radius: 0 0 50% 50%;
+            }
+            100% {
+                height: 0;
+                width: 100%;
                 border-radius: 0 0 50% 50%;
             }
         }
