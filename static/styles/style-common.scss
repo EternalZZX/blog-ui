@@ -20,7 +20,7 @@
 }
 
 .el-button {
-    padding: $spaceTiny;
+    padding: $spaceSmall;
     font-size: $elementFontSize;
 
     &.el-button--primary {
@@ -43,9 +43,9 @@
 
 .el-input {
     .el-input__inner {    
-        height: $inputHeight;
+        height: $elementHeight;
         font-size: $elementFontSize;
-        line-height: $inputHeight;
+        line-height: $elementHeight;
     
         &:focus + .el-input__prefix > .el-input__icon {
             color: $themeColor;
@@ -68,7 +68,7 @@
 
     .el-input__icon {
         font-size: $elementIconFontSize;
-        line-height: $inputHeight;
+        line-height: $elementHeight;
         transition: color .2s cubic-bezier(.645, .045, .355, 1);
     }
 
@@ -79,13 +79,13 @@
 
 .el-form {
     .el-form-item {
-        margin-bottom: $spaceTiny;
-    }
+        margin-bottom: $spaceSmall;
 
-    .el-form-item:last-child {
-        margin-bottom: 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
-
+    
     .el-form-item .el-form-item__content {
         line-height: initial;
     }
@@ -95,7 +95,49 @@
         flex-direction: row-reverse;
 
         .el-button {
-            margin-left: $spaceTiny;
+            margin-left: $spaceSmall;
+        }
+    }
+}
+
+.el-popper {
+    &[x-placement^=bottom] {
+        margin-top: .5rem;
+        padding: 0;
+        box-shadow: none;
+        border: $darkBorder;
+
+        .popper__arrow {
+            border-bottom-color: $darkBorderColor;
+        }
+
+        .popper__arrow::after {
+            border-bottom-color: $dropdownBackground;
+        }
+    }
+
+    .el-dropdown-menu__item {
+        line-height: $elementHeight;
+        padding: 0 $spaceMiddle;
+        font-size: $elementFontSize;
+        color: $dropdownColor;
+        background-color: $dropdownBackground;
+        border-bottom: $splitBorder;
+
+        &:last-of-type {
+            border-bottom: none;
+        }
+
+        &:focus, &:not(.is-disabled):hover {
+            background-color: $dropdownHoverBackground;
+            color: $dropdownColor;
+        }
+
+        .et-icon {
+            font-size: $iconFontSizeSmall;
+            line-height: $iconFontSizeSmall;
+            vertical-align: text-bottom;
+            margin-right: $spaceTiny;
         }
     }
 }

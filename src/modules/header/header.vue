@@ -1,9 +1,7 @@
 <template>
     <header class="et-header">
         <div class="et-header__inner">
-            <div class="et-header__logo">
-                <img src="/static/images/et-logo-text.png">
-            </div>
+            <a class="et-header__logo"></a>
             <el-menu class="et-header__menu"
                 default-active="home"
                 mode="horizontal"
@@ -32,10 +30,29 @@
             <el-button class="et-header__post" type="primary">
                 {{ $t("header.post") }}
             </el-button>
-            <div class="et-header__account"
-                v-clickoutside="dropdownClose"
-                @click="open = !open">
-                <img class="et-header__avatar" :src="avatarUrl">
+            <el-dropdown v-if="isLogin" trigger="click">
+                <div class="et-header__account">
+                    <div class="et-header__avatar">
+                        <img :src="avatarUrl">
+                    </div>
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>
+                        <i class="et-icon ei-home"></i>{{ $t("header.profile") }}
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <i class="et-icon ei-setup"></i>{{ $t("header.setting") }}
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                        <i class="et-icon ei-exit"></i>{{ $t("header.signOut") }}
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+            <div v-else class="et-header__account"
+                v-clickoutside="dropdownClose">
+                <div class="et-header__avatar" @click="open = !open">
+                    <img :src="avatarUrl">
+                </div>
                 <div :class="['et-header__dropdown', {'open': open, 'close': open === false}]">
                     <el-form class="et-header__sign-in">
                         <el-form-item class="et-form-item_alert">
@@ -70,6 +87,7 @@
 
 <script>
 import Clickoutside from 'element-ui/src/utils/clickoutside';
+import Common from '@/common/common';
 export default {
     name: 'et-header',
     directives: { Clickoutside },
@@ -84,6 +102,11 @@ export default {
                 address: 'ABC'
             }]
         };
+    },
+    computed: {
+        isLogin () {
+            return Common.isLogin();
+        }
     },
     methods: {
         querySearch (queryString, callback) {

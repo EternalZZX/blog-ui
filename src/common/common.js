@@ -2,6 +2,10 @@ import Vue from 'vue';
 import SETTING from '@/setting';
 
 class Common {
+    static isLogin () {
+        return this.getToken() !== null;
+    }
+
     static getToken () {
         return Vue.cookie.get(SETTING.TOKRN_COOKIE_KEY);
     }

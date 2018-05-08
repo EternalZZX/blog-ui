@@ -2,29 +2,38 @@ $contentFontSize: .9375rem !default;
 $elementFontSize: .8rem;
 $elementIconFontSize: 1.2rem;
 $iconFontSizeLarge: 1.3rem;
+$iconFontSizeSmall: 1rem;
 
 $contentFontFamily: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+
+$headerHeight: 3rem;
+$footerHeight: 1.25rem;
+$elementHeight: 2rem;
+
+$spaceTiny: .2rem;
+$spaceSmall: .5rem;
+$spaceMiddle: .8rem;
 
 $themeColor: #00b1ff;
 $themeHoverColor: #33c1ff;
 $themeActiveColor: #009fe6;
 
-$animationDuration: .5s; 
-
-$headerHeight: 3rem;
-$footerHeight: 1.25rem;
+$splitBorderColor: #e2e2e2;
+$deepenBorderColor: #ddd;
+$darkBorderColor: #ccc;
+$splitBorder: 1px solid $splitBorderColor;
+$deepenBorder: 1px solid $deepenBorderColor;
+$darkBorder: 1px solid $darkBorderColor;
 
 $headerBackground: #fff;
 $headerHoverBackground: #f6f6f6;
 $mainBackground: #fafafa;
 $footerBackground: #f1f1f1;
 
-$spaceTiny: .5rem;
-$spaceSmall: .8rem;
-
-$inputHeight: 2rem;
-
-$splitBorder: 1px solid #e2e2e2;
-$deepenBorder: 1px solid #ddd;
+$dropdownColor: #2b6dad;
+$dropdownBackground: #f6f6f6;
+$dropdownHoverBackground: #dfeffa;
 
 $borderShadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
+
+$animationDuration: .5s; 

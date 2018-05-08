@@ -10,13 +10,15 @@ export default {
         username: '用户名',
         password: '密码',
         signIn: '登陆',
-        signOut: '登出',
         signUp: '注册',
         forgetPassword: '忘记密码?',
         noUsername: '请输入用户名!',
         noPassword: '请输入用户密码!',
         errorPassword: '用户名或密码错误!',
-        errorConnection: '连接服务器失败!'
+        errorConnection: '连接服务器失败!',
+        profile: '我的主页',
+        setting: '设置',
+        signOut: '退出'
     },
     ...zhLocale
 };

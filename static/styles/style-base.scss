@@ -20,7 +20,7 @@ $innerList: et-header, et-main;
     margin: auto;
 }
 
-@include max-screen(1280px) {
+@include max-screen(1279px) {
     @each $inner in $innerList {
         .#{$inner}__inner {
             width: 100%;
@@ -28,7 +28,7 @@ $innerList: et-header, et-main;
     }
 }
 
-@include filter-screen(1280px, 1366px) {
+@include filter-screen(1280px, 1365px) {
     @each $inner in $innerList {
         .#{$inner}__inner {
             width: 1000px;
@@ -66,11 +66,18 @@ $innerList: et-header, et-main;
 
     .et-header__logo {
         flex: 0 0 auto;
-        margin-right: $headerHeight / 6;
-        padding: $headerHeight / 10;
+        width: $headerHeight * 2.5;
+        background-image: url('/static/images/et-logo-text.png');
+        background-repeat: no-repeat;
+        background-position: $headerHeight / 6 center;
+        background-size: 90%;
 
-        img {
-            height: 100%;
+        @include max-screen(1279px) {
+            & {
+                width: $headerHeight;
+                background-image: url('/static/images/et-logo.png');
+                background-position: .4rem .4rem;
+            }
         }
     }
 
@@ -78,6 +85,12 @@ $innerList: et-header, et-main;
         flex: 0 0 auto;
         margin: 0 $headerHeight / 6;
         border-bottom: none;
+
+        @include max-screen(1279px) {
+            & {
+                display: none;
+            }
+        }
 
         .el-menu-item {
             height: $headerHeight;
@@ -123,12 +136,17 @@ $innerList: et-header, et-main;
     .et-header__post {
         margin: $headerHeight / 6;
         padding: $headerHeight / 6;
+
+        @include max-screen(1279px) {
+            & {
+                display: none;
+            }
+        }
     }
 
     .et-header__account {
         flex: 0 0 auto;
-        padding: $headerHeight / 6;
-        cursor: pointer;
+        height: $headerHeight;
 
         &:hover {
             background-color: $headerHoverBackground;
@@ -137,6 +155,13 @@ $innerList: et-header, et-main;
         .et-header__avatar {
             width: $headerHeight * 2 / 3;
             height: $headerHeight * 2 / 3;
+            padding: $headerHeight / 6;
+            cursor: pointer;
+        }
+
+        .et-header__avatar > img {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
         }
     }
@@ -206,7 +231,7 @@ $innerList: et-header, et-main;
 
         .et-form-item_alert .el-alert {
             padding: .3rem;
-            margin-bottom: $spaceTiny;
+            margin-bottom: $spaceSmall;
         }
 
         .et-form-item_alert .el-alert .el-alert__closebtn {
@@ -216,7 +241,7 @@ $innerList: et-header, et-main;
         }
 
         .et-header__sign-in {
-            padding: $spaceTiny;
+            padding: $spaceSmall;
         }
 
         .et-header__sign-in .el-form-item .el-input__inner {    

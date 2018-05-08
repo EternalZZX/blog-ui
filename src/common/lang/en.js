@@ -10,13 +10,15 @@ export default {
         username: 'Username',
         password: 'Password',
         signIn: 'Sign In',
-        signOut: 'Sign Out',
         signUp: 'Sign Up',
         forgetPassword: 'Forgot password?',
         noUsername: 'Please enter your account!',
         noPassword: 'Please enter password!',
         errorPassword: 'Account or password is wrong!',
-        errorConnection: 'Failed to connect to the server!'
+        errorConnection: 'Failed to connect to the server!',
+        profile: 'Profile',
+        setting: 'Settings',
+        signOut: 'Sign Out'
     },
     ...enLocale
 };
