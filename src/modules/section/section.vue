@@ -5,7 +5,7 @@
 
 <script>
 export default {
-    name: 'et-section',
+    name: 'EtSection',
     data () {
         return {
         };

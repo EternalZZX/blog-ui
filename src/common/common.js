@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import VueCookie from 'vue-cookie';
 import SETTING from '@/setting';
+
+Vue.use(VueCookie);
 
 class Common {
     static isLogin () {

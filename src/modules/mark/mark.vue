@@ -5,7 +5,7 @@
 
 <script>
 export default {
-    name: 'et-favorite',
+    name: 'EtMark',
     data () {
         return {
         };

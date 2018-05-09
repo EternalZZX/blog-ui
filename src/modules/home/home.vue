@@ -19,10 +19,10 @@
 
 <script>
 import Common from '@/common/common';
-// import sectionApi from '@/api/sections';
-import photoApi from '@/api/photos';
+// import sectionApi from '@/common/api/sections';
+import photoApi from '@/common/api/photos';
 export default {
-    name: 'et-home',
+    name: 'EtHome',
     data () {
         return {
             header: {

@@ -1,12 +1,12 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
 import header from '@/modules/header/header';
 import footer from '@/modules/footer/footer';
 import rootRouter from './root';
 import sectionRouter from './section';
 import markRouter from './mark';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
 const frameCompontent = {
     template: `
@@ -28,7 +28,7 @@ const frameCompontent = {
     }
 };
 
-export default new Router({
+export default new VueRouter({
     mode: 'history',
     base: '/',
     routes: [{

@@ -3,8 +3,8 @@
         <div class="et-header__inner">
             <a class="et-header__logo"></a>
             <el-menu class="et-header__menu"
-                default-active="home"
                 mode="horizontal"
+                :default-active="$route.name"
                 :router="true">
                 <el-menu-item index="home">
                     <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
@@ -48,39 +48,7 @@
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
-            <div v-else class="et-header__account"
-                v-clickoutside="dropdownClose">
-                <div class="et-header__avatar" @click="open = !open">
-                    <img :src="avatarUrl">
-                </div>
-                <div :class="['et-header__dropdown', {'open': open, 'close': open === false}]">
-                    <el-form class="et-header__sign-in">
-                        <el-form-item class="et-form-item_alert">
-                            <el-alert
-                                :title="$t('header.errorPassword')"
-                                type="error">
-                            </el-alert>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-input :placeholder="$t('header.username')"
-                                :clearable="true">
-                                <i slot="prefix" class="el-input__icon et-icon ei-user"></i>
-                            </el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-input type="password"
-                                :placeholder="$t('header.password')"
-                                :clearable="true">
-                                <i slot="prefix" class="el-input__icon et-icon ei-lock"></i>
-                            </el-input>
-                        </el-form-item>
-                        <el-form-item class="et-form-item_right">
-                            <el-button type="primary">{{ $t("header.signIn") }}</el-button>
-                            <el-button>{{ $t("header.signUp") }}</el-button>
-                        </el-form-item>
-                    </el-form>
-                </div>
-            </div>
+            <et-login v-else></et-login>
             <el-dropdown trigger="click">
                 <div class="et-header__menu_mobile">
                     <i class="et-icon ei-menu"></i>
@@ -104,14 +72,15 @@
 <script>
 import Clickoutside from 'element-ui/src/utils/clickoutside';
 import Common from '@/common/common';
+import EtLogin from './login';
 export default {
-    name: 'et-header',
+    name: 'EtHeader',
+    components: { EtLogin },
     directives: { Clickoutside },
     data () {
         return {
             searchStr: '',
             avatarUrl: '/static/images/et-avatar.png',
-            open: null,
 
             queryList: [{
                 value: 'ABV',
@@ -130,9 +99,6 @@ export default {
         },
         handleSelect (item) {
             console.warn(item);
-        },
-        dropdownClose () {
-            this.open === true && (this.open = false);
         }
     }
 };
