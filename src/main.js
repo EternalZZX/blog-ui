@@ -1,4 +1,3 @@
-
 import Vue from 'vue';
 import VueInfiniteScroll from 'vue-infinite-scroll';
 import ElementUI from 'element-ui';

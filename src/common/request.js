@@ -6,7 +6,7 @@ import SETTING from '@/setting';
 class BaseRequest {
     constructor () {
         const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-        headers[SETTING.TOKRN_HEADER_KEY] = Common.getToken();
+        headers[SETTING.TOKEN_HEADER_KEY] = Common.getToken();
         this.$http = axios.create({
             baseURL: SETTING.BASE_URL,
             headers,
