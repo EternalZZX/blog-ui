@@ -4,7 +4,9 @@
         <div class="et-header__avatar" @click="dropdownTrigger">
             <img :src="avatarUrl">
         </div>
-        <transition name="dropdown">
+        <transition name="dropdown"
+            enter-active-class="animated flipInX"
+            leave-active-class="animated flipOutX">
             <div v-show="open" class="et-header__dropdown">
                 <el-form class="et-header__sign-in" :model="data">
                     <el-form-item class="et-form-item_alert">
