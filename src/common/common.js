@@ -33,14 +33,7 @@ class Common {
     //     var component = option.component;
     //     let template = '';
     //     if (typeof component == 'string') {
-    //       template = `<div class="w680" v-if="show">
-    //            <el-dialog :title="title" v-model="show" :size="size" @close="close"><${component} v-on:callback="callback" :init_data="data">        
-    //            </${component}></el-dialog></div>`;
-    //     } else if (option.htmlText != null) {
-    //       template = `<div class="w680" v-if="show"><el-dialog :title="title" v-model="show" :size="size" @close="close">${option.htmlText}</el-dialog></div>`;
-    //     } else {
-    //        template = '<div class="w680" v-if="show"><el-dialog :style="style" :title="title" v-model="show" :size="size" :before-close="handleClose" @close="close"><child v-on:callback="callback" :init_data="data"> \
-    //         </child></el-dialog></div>';
+    //       template = `<div class="w680" v-if="show">`;
     //     }
     //       v = new Vue({
     //           el: el,
@@ -94,7 +87,6 @@ class Common {
     //               child: option.component,
     //             },
     //         });
-    
     //     return v;
     //   };
 }

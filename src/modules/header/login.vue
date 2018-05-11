@@ -1,37 +1,39 @@
 <template>
     <div class="et-header__account"
         v-clickoutside="dropdownClose">
-        <div class="et-header__avatar" @click="open = !open">
+        <div class="et-header__avatar" @click="dropdownTrigger">
             <img :src="avatarUrl">
         </div>
-        <div :class="['et-header__dropdown', {'open': open, 'close': open === false}]">
-            <el-form class="et-header__sign-in" :model="data">
-                <el-form-item class="et-form-item_alert">
-                    <el-alert v-if="alert.show" :title="alert.message"
-                        :type="alert.type">
-                    </el-alert>
-                </el-form-item>
-                <el-form-item>
-                    <el-input v-model="data.username"
-                        :placeholder="$t('header.username')"
-                        :clearable="true">
-                        <i slot="prefix" class="el-input__icon et-icon ei-user"></i>
-                    </el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-input type="password"
-                        v-model="data.password"
-                        :placeholder="$t('header.password')"
-                        :clearable="true">
-                        <i slot="prefix" class="el-input__icon et-icon ei-lock"></i>
-                    </el-input>
-                </el-form-item>
-                <el-form-item class="et-form-item_right">
-                    <el-button type="primary" @click="signIn">{{ $t("header.signIn") }}</el-button>
-                    <el-button @click="signUp">{{ $t("header.signUp") }}</el-button>
-                </el-form-item>
-            </el-form>
-        </div>
+        <transition name="dropdown">
+            <div v-show="open" class="et-header__dropdown">
+                <el-form class="et-header__sign-in" :model="data">
+                    <el-form-item class="et-form-item_alert">
+                        <el-alert v-if="alert.show" :title="alert.message"
+                            :type="alert.type">
+                        </el-alert>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input v-model.trim="data.username"
+                            :placeholder="$t('header.username')"
+                            :clearable="true">
+                            <i slot="prefix" class="el-input__icon et-icon ei-user"></i>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-input type="password"
+                            v-model="data.password"
+                            :placeholder="$t('header.password')"
+                            :clearable="true">
+                            <i slot="prefix" class="el-input__icon et-icon ei-lock"></i>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="et-form-item_right">
+                        <el-button type="primary" @click="signIn">{{ $t("header.signIn") }}</el-button>
+                        <el-button @click="signUp">{{ $t("header.signUp") }}</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -55,7 +57,7 @@ export default {
                 show: false
             },
             avatarUrl: '/static/images/et-avatar.png',
-            open: null
+            open: false
         };
     },
     methods: {
@@ -89,8 +91,11 @@ export default {
                 };
             });
         },
+        dropdownTrigger () {
+            this.open = !this.open;
+        },
         dropdownClose () {
-            this.open === true && (this.open = false);
+            this.open = false;
         }
     }
 };

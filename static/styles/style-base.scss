@@ -189,110 +189,75 @@ $innerList: et-header, et-main;
     }
 
     .et-header__dropdown {
+        $dropdownWidth: 20rem;
+
         position: absolute;
         overflow: hidden;
         top: $headerHeight;
         right: 0;
         left: 0;
-        height: 0;
-        width: 0;
+        width: $dropdownWidth;
+        height: auto;
         margin: auto;
         border: $deepenBorder;
         border-top: none;
         background-color: $headerBackground;
 
-        &.open {
-            animation: dropdown-open .2s ease-in-out 1 alternate;
-            animation-fill-mode: forwards;
+        &.dropdown-enter-active {
+            animation: dropdown-enter .2s ease-in-out;
         }
 
-        &.close {
-            animation: dropdown-close .2s ease-in-out 1 alternate;
-            animation-fill-mode: forwards;
+        &.dropdown-leave-active {
+            animation: dropdown-enter .2s ease-in-out reverse;
+        }
+
+        @keyframes dropdown-enter {
+            0% {
+                height: 0;
+                width: 60%;
+                border-radius: 0 0 50% 50%;
+            }
+            50% {
+                height: 8rem;
+                border-radius: 0 0 50% 50%;
+            }
+            100% {
+                height: auto;
+                width: $dropdownWidth;
+                border-radius: 0 0 .5rem .5rem;
+            }
         }
 
         @include max-screen($phoneMaxWidth) {
             & {
+                width: 100%;
                 border-left: none;
                 border-right: none;
             }
 
-            &.open {
-                animation: dropdown-open-mobile .2s ease-in-out 1 alternate;
-                animation-fill-mode: forwards;
+            &.dropdown-enter-active {
+                animation: dropdown-enter-mobile .2s ease-in-out;
             }
     
-            &.close {
-                animation: dropdown-close-mobile .2s ease-in-out 1 alternate;
-                animation-fill-mode: forwards;
+            &.dropdown-leave-active {
+                animation: dropdown-enter-mobile .2s ease-in-out reverse;
             }
-        }
 
-        @keyframes dropdown-open {
-            0% {
-                height: 0;
-                width: 60%;
-                border-radius: 0 0 50% 50%;
-            }
-            50% {
-                height: 8rem;
-                border-radius: 0 0 50% 50%;
-            }
-            100% {
-                height: auto;
-                width: 20rem;
-                border-radius: 0 0 .5rem .5rem;
-            }
-        }
-
-        @keyframes dropdown-close {
-            0% {
-                height: auto;
-                width: 20rem;
-                border-radius: 0 0 .5rem .5rem;
-            }
-            50% {
-                height: 8rem;
-                border-radius: 0 0 50% 50%;
-            }
-            100% {
-                height: 0;
-                width: 60%;
-                border-radius: 0 0 50% 50%;
-            }
-        }
-
-        @keyframes dropdown-open-mobile {
-            0% {
-                height: 0;
-                width: 100%;
-                border-radius: 0 0 50% 50%;
-            }
-            50% {
-                height: 8rem;
-                border-radius: 0 0 50% 50%;
-            }
-            100% {
-                height: auto;
-                width: 100%;
-                border-radius: 0;
-            }
-        }
-
-        @keyframes dropdown-close-mobile {
-            0% {
-                height: auto;
-                width: 100%;
-                border-radius: 0;
-            }
-            50% {
-                height: 8rem;
-                border-radius: 0 0 50% 50%;
-            }
-            100% {
-                height: 0;
-                width: 100%;
-                border-radius: 0 0 50% 50%;
+            @keyframes dropdown-enter-mobile {
+                0% {
+                    height: 0;
+                    width: 100%;
+                    border-radius: 0 0 50% 50%;
+                }
+                50% {
+                    height: 8rem;
+                    border-radius: 0 0 50% 50%;
+                }
+                100% {
+                    height: auto;
+                    width: 100%;
+                    border-radius: 0;
+                }
             }
         }
 

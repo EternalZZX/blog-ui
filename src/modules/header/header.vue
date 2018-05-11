@@ -23,8 +23,8 @@
                 :trigger-on-focus="false"
                 @select="handleSelect">
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
-                <template slot-scope="scope">
-                    <div>{{ scope.item }}</div>
+                <template slot-scope="{ item }">
+                    <div>{{ item }}</div>
                 </template>
             </el-autocomplete>
             <el-button class="et-header__post" type="primary">
