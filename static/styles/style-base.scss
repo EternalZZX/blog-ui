@@ -261,23 +261,19 @@ $innerList: et-header, et-main;
             }
         }
 
-        .et-form-item_alert {
-            margin-bottom: 0;
+        .et-header__sign-in {
+            padding: $spaceSmall;
         }
 
-        .et-form-item_alert .el-alert {
+        .et-header__sign-in .el-form-item .el-alert {
             padding: .3rem;
             margin-bottom: $spaceSmall;
         }
 
-        .et-form-item_alert .el-alert .el-alert__closebtn {
+        .et-header__sign-in .el-form-item .el-alert .el-alert__closebtn {
             font-size: 1rem;
             top: .3rem;
             right: .4rem;
-        }
-
-        .et-header__sign-in {
-            padding: $spaceSmall;
         }
 
         .et-header__sign-in .el-form-item .el-input__inner {    

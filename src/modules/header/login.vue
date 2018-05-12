@@ -9,10 +9,8 @@
             leave-active-class="animated flipOutX">
             <div v-show="open" class="et-header__dropdown">
                 <el-form class="et-header__sign-in" :model="data">
-                    <el-form-item class="et-form-item_alert">
-                        <el-alert v-if="alert.show" :title="alert.message"
-                            :type="alert.type">
-                        </el-alert>
+                    <el-form-item class="et-form-item_hide">
+                        <div ref="alert"></div>
                     </el-form-item>
                     <el-form-item>
                         <el-input v-model.trim="data.username"
@@ -44,6 +42,7 @@ import { mapMutations } from 'vuex';
 import STORE_TYPES from '@/store/types';
 import Clickoutside from 'element-ui/src/utils/clickoutside';
 import AccountApi from '@/common/api/account';
+import Common from '@/common/common';
 export default {
     name: 'EtLogin',
     directives: { Clickoutside },
@@ -53,13 +52,9 @@ export default {
                 username: '',
                 password: ''
             },
-            alert: {
-                message: '',
-                type: 'error',
-                show: false
-            },
             avatarUrl: '/static/images/et-avatar.png',
-            open: false
+            open: false,
+            alert: null
         };
     },
     methods: {
@@ -74,11 +69,11 @@ export default {
                 // if (err.response.code === 403) {
                 // } else {
                 // }
-                this.alert = {
+                this.alert = Common.alert(this.$refs.alert, {
                     message: this.$t('header.errorPassword'),
                     type: 'error',
-                    show: true
-                };
+                    instance: this.alert
+                });
             });
         },
         signUp () {

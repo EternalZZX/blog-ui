@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueInfiniteScroll from 'vue-infinite-scroll';
 import ElementUI from 'element-ui';
 import '~/theme/index.css';
+import '~/styles/animate.css';
 import router from '@/router';
 import store from '@/store';
 import i18n from '@/common/lang';

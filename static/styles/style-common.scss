@@ -1,5 +1,4 @@
 @import "./style-setting";
-@import "./animate";
 
 @mixin max-screen($width) {
     @media screen and (max-width: $width) {
@@ -81,7 +80,8 @@
     .el-form-item {
         margin-bottom: $spaceSmall;
 
-        &:last-child {
+        &:last-child,
+        &.et-form-item_hide {
             margin-bottom: 0;
         }
     }
