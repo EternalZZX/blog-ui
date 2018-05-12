@@ -4,10 +4,14 @@ import Utils from '@/common/utils';
 
 export default {
     [TYPES.UPDATE_IDENTITY] ({commit}) {
-        UserApi.self().then(response => {
-            commit(TYPES.SET_IDENTITY, response.data);
-        }).catch(err => {
-            Utils.errorLog(err, 'USER-SELF');
+        return new Promise((resolve, reject) => {
+            UserApi.self().then(response => {
+                commit(TYPES.SET_IDENTITY, response.data);
+                resolve(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'USER-SELF');
+                reject(err);
+            });
         });
     }
 };

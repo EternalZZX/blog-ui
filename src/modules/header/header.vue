@@ -33,7 +33,7 @@
             <el-dropdown v-if="isLogin" trigger="click">
                 <div class="et-header__account">
                     <div class="et-header__avatar">
-                        <img :src="avatarUrl">
+                        <img :src="identity.avatarUrl">
                     </div>
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -71,7 +71,7 @@
 
 <script>
 import Clickoutside from 'element-ui/src/utils/clickoutside';
-import Common from '@/common/common';
+import { mapState } from 'vuex';
 import EtLogin from './login';
 export default {
     name: 'EtHeader',
@@ -80,8 +80,6 @@ export default {
     data () {
         return {
             searchStr: '',
-            avatarUrl: '/static/images/et-avatar.png',
-
             queryList: [{
                 value: 'ABV',
                 address: 'ABC'
@@ -90,8 +88,11 @@ export default {
     },
     computed: {
         isLogin () {
-            return Common.isLogin();
-        }
+            return this.$store.getters.isLogin;
+        },
+        ...mapState({
+            identity: 'identity'
+        })
     },
     methods: {
         querySearch (queryString, callback) {

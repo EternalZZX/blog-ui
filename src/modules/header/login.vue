@@ -62,19 +62,23 @@ export default {
             setIdentity: STORE_TYPES.SET_IDENTITY
         }),
         signIn () {
-            AccountApi.signIn(this.data).then(response => {
-                this.setIdentity(response.data);
-                this.dropdownClose();
-            }).catch(err => {
-                // if (err.response.code === 403) {
-                // } else {
-                // }
-                this.alert = Common.alert(this.$refs.alert, {
-                    message: this.$t('header.errorPassword'),
-                    type: 'error',
-                    instance: this.alert
+            if (this.validateForm(this.data)) {
+                AccountApi.signIn(this.data).then(response => {
+                    this.setIdentity(response.data);
+                    this.dropdownClose();
+                }).catch(err => {
+                    const options = {
+                        type: 'error',
+                        instance: this.alert
+                    };
+                    if (err.response.status === 403) {
+                        options.message = this.$t('header.errorPassword');
+                    } else {
+                        options.message = this.$t('header.errorConnection');
+                    }
+                    this.alert = Common.alert(this.$refs.alert, options);
                 });
-            });
+            }
         },
         signUp () {
             AccountApi.signUp(this.data).then(response => {
@@ -87,6 +91,21 @@ export default {
                     show: true
                 };
             });
+        },
+        validateForm (data) {
+            const options = {
+                type: 'info',
+                instance: this.alert
+            };
+            if (data.username === '') {
+                options.message = this.$t('header.noUsername');
+            } else if (data.password === '') {
+                options.message = this.$t('header.noPassword');
+            } else {
+                return true;
+            }
+            this.alert = Common.alert(this.$refs.alert, options);
+            return false;
         },
         dropdownTrigger () {
             this.open = !this.open;
