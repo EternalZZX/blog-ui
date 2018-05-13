@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Common from '@/common/common';
+import Utils from '@/common/utils';
 import header from '@/modules/header/header';
 import footer from '@/modules/footer/footer';
 import rootRouter from './root';
@@ -28,7 +30,7 @@ const frameCompontent = {
     }
 };
 
-export default new VueRouter({
+const router = new VueRouter({
     mode: 'history',
     base: '/',
     routes: [{
@@ -45,3 +47,18 @@ export default new VueRouter({
         children: markRouter.routes
     }]
 });
+
+router.beforeEach((to, from, next) => {
+    Common.isLogin().then(res => {
+        if (res) {
+            next();
+        } else {
+            if (!Utils.hasGuestToken()) {
+                Common.guestLogin();
+            }
+            next();
+        }
+    });
+});
+
+export default router;

@@ -1,24 +1,31 @@
 import Vue from 'vue';
-import VueCookie from 'vue-cookie';
-import SETTING from '@/setting';
-
-Vue.use(VueCookie);
+import Utils from '@/common/utils';
+import store from '@/store';
+import STORE_TYPES from '@/store/types';
+import AccountApi from '@/common/api/account';
 
 class Common {
-    static isLogin () {
-        return this.getToken() !== null;
+    static async isLogin () {
+        try {
+            if (!Utils.hasUserToken()) {
+                return false;
+            }
+            if (store.getters.hasIdentity) {
+                return true;
+            }
+            await updateIdentity();
+            return true;
+        } catch (err) {
+            return false;
+        }
     }
 
-    static getToken () {
-        return Vue.cookie.get(SETTING.TOKEN_COOKIE_KEY);
-    }
-
-    static setToken (token) {
-        Vue.cookie.set(SETTING.TOKEN_COOKIE_KEY, token, 7);
-    }
-
-    static deleteToken () {
-        return Vue.cookie.delete(SETTING.TOKEN_COOKIE_KEY);
+    static guestLogin () {
+        AccountApi.signInGuest().then(response => {
+            Utils.setToken(response.data.token);
+        }).catch(err => {
+            Utils.errorLog(err, 'GUEST-SIGN-IN');
+        });
     }
 
     static alert (parent, options = {}) {
@@ -30,6 +37,8 @@ class Common {
         return instance;
     }
 }
+
+const updateIdentity = () => store.dispatch(STORE_TYPES.UPDATE_IDENTITY);
 
 const alertFactory = (options = {}) => {
     const AlertComponent = Vue.extend({

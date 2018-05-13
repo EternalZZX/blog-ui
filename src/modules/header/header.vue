@@ -30,10 +30,10 @@
             <el-button class="et-header__post" type="primary">
                 {{ $t("header.post") }}
             </el-button>
-            <el-dropdown v-if="isLogin" trigger="click">
+            <el-dropdown v-if="hasIdentity" trigger="click">
                 <div class="et-header__account">
                     <div class="et-header__avatar">
-                        <img :src="identity.avatarUrl">
+                        <img :src="identity.avatar">
                     </div>
                 </div>
                 <el-dropdown-menu slot="dropdown">
@@ -71,7 +71,7 @@
 
 <script>
 import Clickoutside from 'element-ui/src/utils/clickoutside';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import EtLogin from './login';
 export default {
     name: 'EtHeader',
@@ -87,11 +87,11 @@ export default {
         };
     },
     computed: {
-        isLogin () {
-            return this.$store.getters.isLogin;
-        },
         ...mapState({
             identity: 'identity'
+        }),
+        ...mapGetters({
+            hasIdentity: 'hasIdentity'
         })
     },
     methods: {

@@ -1,3 +1,3 @@
 export default {
-    isLogin: state => state.identity !== null
+    hasIdentity: state => state.identity !== null
 };

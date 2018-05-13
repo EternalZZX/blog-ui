@@ -43,6 +43,7 @@ import STORE_TYPES from '@/store/types';
 import Clickoutside from 'element-ui/src/utils/clickoutside';
 import AccountApi from '@/common/api/account';
 import Common from '@/common/common';
+import Utils from '@/common/utils';
 export default {
     name: 'EtLogin',
     directives: { Clickoutside },
@@ -64,6 +65,7 @@ export default {
         signIn () {
             if (this.validateForm(this.data)) {
                 AccountApi.signIn(this.data).then(response => {
+                    Utils.setToken(response.data.token);
                     this.setIdentity(response.data);
                     this.dropdownClose();
                 }).catch(err => {

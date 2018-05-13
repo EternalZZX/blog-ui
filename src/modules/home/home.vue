@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import Common from '@/common/common';
+import Utils from '@/common/utils';
 // import sectionApi from '@/common/api/sections';
 import photoApi from '@/common/api/photos';
 export default {
@@ -26,13 +26,13 @@ export default {
     data () {
         return {
             header: {
-                'Auth-Token': Common.getToken()
+                'Auth-Token': Utils.getToken()
             },
             imageUrl: ''
         };
     },
     mounted: () => {
-        // Common.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
+        // Utils.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
         //                 'eU9HRXRZVFl4TVMwMVpXWmtMV0ZsTm1VdFlUVTFNR0UxWWprMU5EZzM');
         // sectionApi.delete('', {
         //     id_list: 20,

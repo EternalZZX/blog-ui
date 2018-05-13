@@ -1,12 +1,12 @@
 import axios from 'axios';
 import qs from 'query-string';
-import Common from '@/common/common';
+import Utils from '@/common/utils';
 import SETTING from '@/setting';
 
 class BaseRequest {
     constructor () {
         const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-        headers[SETTING.TOKEN_HEADER_KEY] = Common.getToken();
+        headers[SETTING.TOKEN_HEADER_KEY] = Utils.getToken();
         this.$http = axios.create({
             baseURL: SETTING.BASE_URL,
             headers,
