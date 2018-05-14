@@ -107,6 +107,9 @@ export default {
             Utils.setToken(data.token);
             this.setIdentity(data);
             this.dropdownClose();
+            Common.notify(this.$t('account.welcome', {
+                name: data.nick
+            }), 'success');
         },
         alertError (err, messages) {
             const options = {

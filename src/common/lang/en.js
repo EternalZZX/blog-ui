@@ -21,7 +21,9 @@ export default {
         noPassword: 'Please enter password!',
         errorPassword: 'Account or password is wrong!',
         UsernameConflict: 'The username is already taken!',
-        signUpForbidden: 'Account sign up is disabled!'
+        signUpForbidden: 'Account sign up is disabled!',
+        welcome: 'Welcome {name} !',
+        adieu: 'Goodbye {name} !'
     },
     request: {
         errorRequest: 'Request error!',

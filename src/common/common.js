@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Utils from '@/common/utils';
 import store from '@/store';
 import STORE_TYPES from '@/store/types';
+import { Message } from 'element-ui';
 import AccountApi from '@/common/api/account';
 
 class Common {
@@ -35,6 +36,16 @@ class Common {
         const instance = alertFactory(options);
         parent.appendChild(instance.$mount().$el);
         return instance;
+    }
+
+    static notify (message, type = 'info', duration = 3000) {
+        Message({
+            message,
+            type,
+            duration,
+            customClass: 'et-notify',
+            showClose: true
+        });
     }
 }
 

@@ -21,7 +21,9 @@ export default {
         noPassword: '请输入账号密码!',
         errorPassword: '用户名或密码错误!',
         UsernameConflict: '该用户名已被占用!',
-        signUpForbidden: '账号注册已禁用!'
+        signUpForbidden: '账号注册已禁用!',
+        welcome: '欢迎 {name} !',
+        adieu: '{name} 已退出登陆!'
     },
     request: {
         errorRequest: '请求错误!',

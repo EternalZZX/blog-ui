@@ -52,6 +52,9 @@ export default {
             deleteIdentity: STORE_TYPES.DELETE_IDENTITY
         }),
         signOut () {
+            Common.notify(this.$t('account.adieu', {
+                name: this.identity.nick
+            }), 'success');
             this.deleteIdentity();
             Utils.deleteToken();
             Common.guestLogin();

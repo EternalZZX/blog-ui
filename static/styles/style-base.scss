@@ -51,6 +51,7 @@ $innerList: et-header, et-main;
 
 .et-header {
     position: fixed;
+    z-index: $headerIndex;
     top: 0;
     left: 0;
     width: 100%;
@@ -299,6 +300,7 @@ $innerList: et-header, et-main;
 
 .et-footer {
     position: fixed;
+    z-index: $footerIndex;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -306,4 +308,17 @@ $innerList: et-header, et-main;
     background: $footerBackground;
     border-top: $deepenBorder;
     box-shadow: $borderShadow;
+}
+
+.et-notify {
+    z-index: $notifyIndex !important;
+    top: $headerHeight + .5rem;
+    padding: $spaceSmall;
+    padding-left: 1rem;
+
+    @include max-screen($phoneMaxWidth) {
+        & {
+            top: $headerHeight;
+        }
+    }
 }
