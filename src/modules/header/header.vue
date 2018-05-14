@@ -30,25 +30,7 @@
             <el-button class="et-header__post" type="primary">
                 {{ $t("header.post") }}
             </el-button>
-            <el-dropdown v-if="hasIdentity" trigger="click">
-                <div class="et-header__account">
-                    <div class="et-header__avatar">
-                        <img :src="identity.avatar">
-                    </div>
-                </div>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>
-                        <i class="et-icon ei-user"></i>{{ $t("header.profile") }}
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                        <i class="et-icon ei-setup"></i>{{ $t("header.setting") }}
-                    </el-dropdown-item>
-                    <el-dropdown-item>
-                        <i class="et-icon ei-exit"></i>{{ $t("header.signOut") }}
-                    </el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
-            <et-login v-else></et-login>
+            <et-account></et-account>
             <el-dropdown trigger="click">
                 <div class="et-header__menu_mobile">
                     <i class="et-icon ei-menu"></i>
@@ -71,11 +53,10 @@
 
 <script>
 import Clickoutside from 'element-ui/src/utils/clickoutside';
-import { mapState, mapGetters } from 'vuex';
-import EtLogin from './login';
+import EtAccount from './account';
 export default {
     name: 'EtHeader',
-    components: { EtLogin },
+    components: { EtAccount },
     directives: { Clickoutside },
     data () {
         return {
@@ -85,14 +66,6 @@ export default {
                 address: 'ABC'
             }]
         };
-    },
-    computed: {
-        ...mapState({
-            identity: 'identity'
-        }),
-        ...mapGetters({
-            hasIdentity: 'hasIdentity'
-        })
     },
     methods: {
         querySearch (queryString, callback) {
