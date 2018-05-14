@@ -4,7 +4,7 @@ export default {
     header: {
         home: '首页',
         section: '话题',
-        favorite: '书签',
+        mark: '书签',
         search: '搜索新发现...',
         post: '发帖',
         profile: '我的主页',

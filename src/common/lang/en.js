@@ -4,7 +4,7 @@ export default {
     header: {
         home: 'Home',
         section: 'Forum',
-        favorite: 'Bookmark',
+        mark: 'Bookmark',
         search: 'Search for new discoveries...',
         post: 'Post',
         profile: 'Profile',

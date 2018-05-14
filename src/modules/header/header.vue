@@ -13,20 +13,10 @@
                     <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
                 </el-menu-item>
                 <el-menu-item index="mark">
-                    <i class="et-icon ei-like-fill"></i>{{ $t("header.favorite") }}
+                    <i class="et-icon ei-like-fill"></i>{{ $t("header.mark") }}
                 </el-menu-item>
             </el-menu>
-            <el-autocomplete class="et-header__search"
-                v-model="searchStr"
-                :placeholder="$t('header.search')"
-                :fetch-suggestions="querySearch"
-                :trigger-on-focus="false"
-                @select="handleSelect">
-                <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
-                <template slot-scope="{ item }">
-                    <div>{{ item }}</div>
-                </template>
-            </el-autocomplete>
+            <et-search></et-search>
             <el-button class="et-header__post" type="primary">
                 {{ $t("header.post") }}
             </el-button>
@@ -37,13 +27,19 @@
                 </div>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
-                        <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
+                        <router-link :to="{ path:'home' }">
+                            <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
+                        </router-link>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
+                        <router-link :to="{ path:'section' }">
+                            <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
+                        </router-link>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <i class="et-icon ei-like-fill"></i>{{ $t("header.favorite") }}
+                        <router-link :to="{ path:'mark' }">
+                            <i class="et-icon ei-like-fill"></i>{{ $t("header.mark") }}
+                        </router-link>
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -52,26 +48,16 @@
 </template>
 
 <script>
+import EtSearch from './search';
 import EtAccount from './account';
 export default {
     name: 'EtHeader',
-    components: { EtAccount },
+    components: { EtSearch, EtAccount },
     data () {
         return {
-            searchStr: '',
-            queryList: [{
-                value: 'ABV',
-                address: 'ABC'
-            }]
         };
     },
     methods: {
-        querySearch (queryString, callback) {
-            callback(this.queryList);
-        },
-        handleSelect (item) {
-            console.warn(item);
-        }
     }
 };
 </script>
