@@ -7,18 +7,22 @@ export default {
         favorite: '书签',
         search: '搜索新发现...',
         post: '发帖',
+        profile: '我的主页',
+        setting: '设置',
+        signOut: '退出'
+    },
+    account: {
         username: '用户名',
         password: '密码',
         signIn: '登陆',
         signUp: '注册',
         forgetPassword: '忘记密码?',
         noUsername: '请输入用户名!',
-        noPassword: '请输入用户密码!',
+        noPassword: '请输入账号密码!',
         errorPassword: '用户名或密码错误!',
         errorConnection: '连接服务器失败!',
-        profile: '我的主页',
-        setting: '设置',
-        signOut: '退出'
+        UsernameConflict: '该用户名已被占用!',
+        signUpForbidden: '账号注册已禁用!'
     },
     ...zhLocale
 };

@@ -52,12 +52,10 @@
 </template>
 
 <script>
-import Clickoutside from 'element-ui/src/utils/clickoutside';
 import EtAccount from './account';
 export default {
     name: 'EtHeader',
     components: { EtAccount },
-    directives: { Clickoutside },
     data () {
         return {
             searchStr: '',

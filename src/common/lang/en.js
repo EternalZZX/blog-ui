@@ -7,6 +7,11 @@ export default {
         favorite: 'Bookmark',
         search: 'Search for new discoveries...',
         post: 'Post',
+        profile: 'Profile',
+        setting: 'Settings',
+        signOut: 'Sign Out'
+    },
+    account: {
         username: 'Username',
         password: 'Password',
         signIn: 'Sign In',
@@ -16,9 +21,8 @@ export default {
         noPassword: 'Please enter password!',
         errorPassword: 'Account or password is wrong!',
         errorConnection: 'Failed to connect to the server!',
-        profile: 'Profile',
-        setting: 'Settings',
-        signOut: 'Sign Out'
+        UsernameConflict: 'The username is already taken!',
+        signUpForbidden: 'Account sign up is disabled!'
     },
     ...enLocale
 };
