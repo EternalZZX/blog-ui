@@ -27,17 +27,17 @@
                 </div>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
-                        <router-link :to="{ path:'home' }">
+                        <router-link to="home">
                             <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
                         </router-link>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link :to="{ path:'section' }">
+                        <router-link to="section">
                             <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
                         </router-link>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link :to="{ path:'mark' }">
+                        <router-link to="mark">
                             <i class="et-icon ei-like-fill"></i>{{ $t("header.mark") }}
                         </router-link>
                     </el-dropdown-item>
