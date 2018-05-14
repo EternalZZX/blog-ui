@@ -13,14 +13,6 @@ $laptopMinWidth: 1280px;
 $laptopMaxWidth: 1365px;
 $pcMinWidth: 1366px;
 
-$headerHeight: 3rem;
-$footerHeight: 1.25rem;
-$elementHeight: 2rem;
-
-$headerIndex: 3;
-$footerIndex: 3;
-$notifyIndex: 2;
-
 $spaceTiny: .2rem;
 $spaceSmall: .5rem;
 $spaceMiddle: .8rem;
@@ -32,9 +24,22 @@ $themeActiveColor: #009fe6;
 $splitBorderColor: #e2e2e2;
 $deepenBorderColor: #ddd;
 $darkBorderColor: #ccc;
+
 $splitBorder: 1px solid $splitBorderColor;
 $deepenBorder: 1px solid $deepenBorderColor;
 $darkBorder: 1px solid $darkBorderColor;
+
+$borderShadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
+
+$radiusSmall: .3rem;
+
+$headerHeight: 3rem;
+$footerHeight: 1.25rem;
+$elementHeight: 2rem;
+
+$headerIndex: 3;
+$footerIndex: 3;
+$notifyIndex: 2;
 
 $headerBackground: #fff;
 $headerHoverBackground: #f6f6f6;
@@ -44,7 +49,3 @@ $footerBackground: #f1f1f1;
 $dropdownColor: #2b6dad;
 $dropdownBackground: #f6f6f6;
 $dropdownHoverBackground: #dfeffa;
-
-$borderShadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
-
-$animationDuration: .5s; 
