@@ -42,6 +42,10 @@ class Utils {
         return newObj;
     }
 
+    static isArray (object) {
+        return Object.prototype.toString.call(object) === '[object Array]';
+    }
+
     static errorLog (err, modules = 'ET-BLOG') {
         if (!SETTING.DEBUG) {
             return;

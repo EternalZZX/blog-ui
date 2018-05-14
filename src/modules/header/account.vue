@@ -4,7 +4,7 @@
             trigger="click"
             @command="handleCommand">
             <div class="et-header__avatar">
-                <img :src="identity.avatar">
+                <img :src="avator" :title="identity.nick">
             </div>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="profile">
@@ -36,6 +36,10 @@ export default {
         };
     },
     computed: {
+        avator () {
+            const defaultAvator = '/static/images/et-avatar.png';
+            return this.identity.avatar ? this.identity.avatar : defaultAvator;
+        },
         ...mapState({
             identity: 'identity'
         }),
