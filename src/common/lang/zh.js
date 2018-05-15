@@ -25,6 +25,16 @@ export default {
         welcome: '欢迎 {name} !',
         adieu: '{name} 已退出登陆!'
     },
+    section: {
+        nav: {
+            title: '话题',
+            create: '新增',
+            all: '全部话题',
+            hot: '热门话题',
+            follow: '我关注的话题',
+            manage: '我管理的话题'
+        }
+    },
     request: {
         errorRequest: '请求错误!',
         errorConnection: '连接服务器失败!'

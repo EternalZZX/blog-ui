@@ -19,6 +19,7 @@
 }
 
 .el-button {
+    min-height: $buttonHeight;
     padding: 0 $spaceSmall;
     font-size: $elementFontSize;
 
@@ -66,7 +67,7 @@
     }
 
     .el-input__icon {
-        font-size: $elementIconFontSize;
+        font-size: $iconFontSizeMiddle;
         line-height: $elementHeight;
         transition: color .2s cubic-bezier(.645, .045, .355, 1);
     }

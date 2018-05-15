@@ -25,6 +25,16 @@ export default {
         welcome: 'Welcome {name} !',
         adieu: 'Goodbye {name} !'
     },
+    section: {
+        nav: {
+            title: 'Topics',
+            create: 'Add',
+            all: 'All Topics',
+            hot: 'Hot Topics',
+            follow: 'Topics Followed',
+            manage: 'Topics Managed'
+        }
+    },
     request: {
         errorRequest: 'Request error!',
         errorConnection: 'Failed to connect to the server!'

@@ -1,8 +1,8 @@
 $contentFontSize: .9375rem !default;
 $elementFontSizeLarge: .875rem;
 $elementFontSize: .81rem;
-$elementIconFontSize: 1.2rem;
 $iconFontSizeLarge: 1.3rem;
+$iconFontSizeMiddle: 1.2rem;
 $iconFontSizeSmall: 1rem;
 
 $contentFontFamily: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
@@ -17,10 +17,17 @@ $pcMinWidth: 1366px;
 $spaceTiny: .2rem;
 $spaceSmall: .5rem;
 $spaceMiddle: .8rem;
+$spaceLarge: 1rem;
 
 $themeColor: #00b1ff;
 $themeHoverColor: #33c1ff;
 $themeActiveColor: #009fe6;
+
+$titleColor: #262626;
+$titleFontWeight: bold;
+$subtitleColor: #333;
+$subtitleFontWeight: 500;
+$navFontWeight: 400;
 
 $splitBorderColor: #e2e2e2;
 $deepenBorderColor: #ddd;
@@ -32,11 +39,15 @@ $darkBorder: 1px solid $darkBorderColor;
 
 $borderShadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
 
+$radiusTiny: .2rem;
 $radiusSmall: .3rem;
 
 $headerHeight: 3rem;
 $footerHeight: 1.25rem;
 $elementHeight: 2rem;
+$buttonHeight: 1.8rem;
+$navWidth: 130px;
+$navHeight: 1.2rem;
 
 $headerIndex: 3;
 $footerIndex: 3;
@@ -50,3 +61,8 @@ $footerBackground: #f1f1f1;
 $dropdownColor: #2b6dad;
 $dropdownBackground: #f6f6f6;
 $dropdownHoverBackground: #dfeffa;
+
+$navActiveBackground: #ececec;
+
+$textButtonColor: #999;
+$navColor: #666;
