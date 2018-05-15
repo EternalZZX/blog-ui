@@ -306,6 +306,7 @@ $innerList: et-header, et-main;
 
     .et-layout {
         display: flex;
+        align-items: flex-start;
         width: 100%;
         height: 100%;
 
@@ -376,7 +377,40 @@ $innerList: et-header, et-main;
 
         .et-content {
             flex: 1 0 auto;
+            display: flex;
+            align-items: flex-start;
             padding: $spaceLarge 0;
+        }
+
+        .et-content .et-content__wrapper {
+            flex: 1 0 auto;
+        }
+
+        .et-toolbar {
+            flex: 0 0 auto;
+            width: $navWidth;
+            margin-left: $spaceLarge;
+            border: $splitBorder;
+            border-radius: $radiusTiny;
+            background-color: $blockBackground;
+        }
+
+        .et-toolbar .et-toolbar__header {
+            height: $toolbarHeaderHeight;
+            padding: $spaceSmall;
+            line-height: $toolbarHeaderHeight;
+            background-color: $mainBackground;
+            border-bottom: $splitBorder;
+        }
+
+        .et-toolbar .et-toolbar__title {
+            font-size: .938rem;
+            font-weight: $subtitleFontWeight;
+            color: $subtitleColor;
+        }
+
+        .et-toolbar .et-toolbar__body {
+            padding: $spaceSmall;
         }
     }
 }

@@ -22,7 +22,19 @@
                 </el-menu>
             </div>
         </nav>
-        <div class="et-content">content</div>
+        <div class="et-content">
+            <div class="et-content__wrapper">
+                wrapper
+            </div>
+            <div class="et-toolbar">
+                <div class="et-toolbar__header">
+                    <span class="et-toolbar__title">ToolBar</span>
+                </div>
+                <div class="et-toolbar__body">
+                    Content
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
