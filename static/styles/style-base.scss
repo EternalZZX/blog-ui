@@ -106,6 +106,7 @@ $innerList: et-header, et-main;
         .el-menu-item {
             height: $headerHeight;
             line-height: $headerHeight;
+            font-size: $elementFontSizeLarge;
         }
 
         .el-menu-item .et-icon {
@@ -168,7 +169,7 @@ $innerList: et-header, et-main;
 
     .et-header__post {
         margin: $headerHeight / 6;
-        padding: $headerHeight / 6;
+        padding: 0 $headerHeight / 6;
 
         @include max-screen($phoneMaxWidth) {
             & {
@@ -282,12 +283,6 @@ $innerList: et-header, et-main;
             margin-bottom: $spaceSmall;
         }
 
-        .et-header__sign-in .el-form-item .el-alert .el-alert__closebtn {
-            font-size: 1rem;
-            top: .3rem;
-            right: .4rem;
-        }
-
         .et-header__sign-in .el-form-item .el-input__inner {    
             height: $headerHeight * 2 / 3;
             line-height: $headerHeight * 2 / 3;
@@ -306,6 +301,29 @@ $innerList: et-header, et-main;
 
     .et-main__inner {
         @extend %inner;
+    }
+
+    .et-layout {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        background: $mainBackground;
+
+        .et-nav {
+            display: none;
+            flex: 0 0 auto;
+            width: 150px;
+
+            @include min-screen($laptopMinWidth) { 
+                & {
+                    display: block;
+                }
+            }
+        }
+
+        .et-content {
+            flex: 1 0 auto;
+        }
     }
 }
 

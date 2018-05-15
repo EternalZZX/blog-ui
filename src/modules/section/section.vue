@@ -1,5 +1,7 @@
 <template>
-    <div class="et-content">
+    <div class="et-layout">
+        <nav class="et-nav">nav</nav>
+        <div class="et-content">content</div>
     </div>
 </template>
 

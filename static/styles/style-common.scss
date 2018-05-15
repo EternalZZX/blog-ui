@@ -19,7 +19,7 @@
 }
 
 .el-button {
-    padding: $spaceSmall;
+    padding: 0 $spaceSmall;
     font-size: $elementFontSize;
 
     &.el-button--primary {
@@ -143,5 +143,27 @@
             vertical-align: text-bottom;
             margin-right: $spaceTiny;
         }
+    }
+}
+
+.el-alert {
+    .el-alert__title {
+        font-size: $elementFontSize;
+    }
+    
+    .el-alert__closebtn {
+        font-size: $iconFontSizeSmall;
+        top: .3rem;
+        right: .4rem;
+    }
+}
+
+.el-message {
+    .el-message__content {
+        font-size: $elementFontSizeLarge;
+    }
+
+    .el-message__closeBtn {
+        font-size: $iconFontSizeSmall;
     }
 }
