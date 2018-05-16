@@ -1,4 +1,5 @@
 $contentFontSize: .9375rem !default;
+$descriptionFontSize: .81rem;
 $elementFontSizeLarge: .875rem;
 $elementFontSize: .81rem;
 $iconFontSizeLarge: 1.3rem;
@@ -24,8 +25,8 @@ $themeHoverColor: #33c1ff;
 $themeActiveColor: #009fe6;
 
 $titleColor: #262626;
-$titleFontWeight: bold;
 $subtitleColor: #333;
+$titleFontWeight: bold;
 $subtitleFontWeight: 500;
 $navFontWeight: 400;
 
@@ -38,6 +39,7 @@ $deepenBorder: 1px solid $deepenBorderColor;
 $darkBorder: 1px solid $darkBorderColor;
 
 $borderShadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
+$cardShadow: 0 2px 1px 0 rgba(0,0,0,.1);
 
 $radiusTiny: .2rem;
 $radiusSmall: .3rem;
@@ -66,5 +68,5 @@ $dropdownHoverBackground: #dfeffa;
 
 $navActiveBackground: #ececec;
 
-$textButtonColor: #999;
+$descriptionColor: #999;
 $navColor: #666;

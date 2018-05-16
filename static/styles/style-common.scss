@@ -18,6 +18,12 @@
     }
 }
 
+%text-overview {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .el-button {
     min-height: $buttonHeight;
     padding: 0 $spaceSmall;
