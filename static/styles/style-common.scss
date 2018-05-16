@@ -28,6 +28,7 @@
     min-height: $buttonHeight;
     padding: 0 $spaceSmall;
     font-size: $elementFontSize;
+    user-select: none;
 
     &.el-button--primary {
         &:focus {
@@ -130,6 +131,7 @@
         color: $dropdownColor;
         background-color: $dropdownBackground;
         border-bottom: $splitBorder;
+        user-select: none;
 
         &:last-of-type {
             border-bottom: none;
@@ -156,6 +158,7 @@
 .el-alert {
     .el-alert__title {
         font-size: $elementFontSize;
+        user-select: none;
     }
     
     .el-alert__closebtn {

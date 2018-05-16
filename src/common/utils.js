@@ -54,6 +54,33 @@ class Utils {
         /* eslint-disable no-console */
         console.log(message);
     }
+
+    static formatNone (str) {
+        const items = ['', null, undefined];
+        if (items.indexOf(str) !== -1) {
+            return '-';
+        }
+        return str;
+    }
+
+    static formatTime (str) {
+        if (!str) {
+            return '-';
+        }
+        try {
+            let dataArr = [], timeArr = [];
+            const arr = str.replace('T', ' ').replace('Z', '').split('.')[0].split(' ');
+            dataArr = arr[0].split('-');
+            timeArr = arr[1].split(':');
+            const timeObj = new Date(Date.UTC(
+                parseInt(dataArr[0]), parseInt(dataArr[1]) - 1, parseInt(dataArr[2]),
+                parseInt(timeArr[0]), parseInt(timeArr[1]), parseInt(timeArr[2]))
+            );
+            return timeObj.toLocaleString('zh-Hans-CN', { hour12: false });
+        } catch (e) {
+            return '-';
+        }
+    }
 }
 
 export default Utils;

@@ -6,10 +6,14 @@ import '~/styles/animate.css';
 import router from '@/router';
 import store from '@/store';
 import i18n from '@/common/lang';
+import Utils from '@/common/utils';
 import index from '@/index';
 
 Vue.use(VueInfiniteScroll);
 Vue.use(ElementUI);
+
+Vue.filter('none', value => Utils.formatNone(value));
+Vue.filter('time', value => Utils.formatTime(value));
 
 Vue.config.productionTip = false;
 

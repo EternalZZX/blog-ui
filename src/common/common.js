@@ -3,7 +3,7 @@ import Utils from '@/common/utils';
 import store from '@/store';
 import STORE_TYPES from '@/store/types';
 import { Message } from 'element-ui';
-import AccountApi from '@/common/api/account';
+import AccountApi from '@/common/api/accounts';
 
 class Common {
     static async isLogin () {

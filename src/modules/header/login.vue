@@ -47,7 +47,7 @@ import Clickoutside from 'element-ui/src/utils/clickoutside';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
 import validate from '@/common/validate';
-import AccountApi from '@/common/api/account';
+import AccountApi from '@/common/api/accounts';
 export default {
     name: 'EtLogin',
     directives: { Clickoutside },

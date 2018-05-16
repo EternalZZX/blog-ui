@@ -26,39 +26,19 @@
         </nav>
         <div class="et-content">
             <div class="et-content__wrapper">
-                <div class="et-card">
-                    <div class="et-card__cover"></div>
+                <div class="et-card" v-for="section in sections" :key="section.id">
+                    <div class="et-card__cover" :style="getCover(section)"></div>
                     <div class="et-card__body">
                         <div class="et-card__body_left">
-                            <a class="et-card__title">Section Title</a>
-                            <span class="et-card__description">section description section description</span>
+                            <a class="et-card__title">{{ section.nick }}</a>
+                            <span class="et-card__description">{{ section.description | none }}</span>
                         </div>
                         <div class="et-card__body_right">
-                            <span>content</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="et-card">
-                    <div class="et-card__cover"></div>
-                    <div class="et-card__body">
-                        <div class="et-card__body_left">
-                            <a class="et-card__title">Section Title</a>
-                            <span class="et-card__description">section description section description</span>
-                        </div>
-                        <div class="et-card__body_right">
-                            <span>content</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="et-card">
-                    <div class="et-card__cover"></div>
-                    <div class="et-card__body">
-                        <div class="et-card__body_left">
-                            <a class="et-card__title">Section Title</a>
-                            <span class="et-card__description">section description section description</span>
-                        </div>
-                        <div class="et-card__body_right">
-                            <span>content</span>
+                            <span>
+                                <i class="et-icon ei-lock"></i>
+                                <i class="et-card__popover_button et-icon ei-group"></i>
+                            </span>
+                            <span>{{ section.create_at | time }}</span>
                         </div>
                     </div>
                 </div>
@@ -76,13 +56,26 @@
 </template>
 
 <script>
+import SectionApi from '@/common/api/sections';
 export default {
     name: 'EtSection',
     data () {
         return {
+            sections: []
         };
     },
     methods: {
+        getList () {
+            SectionApi.list().then(response => {
+                this.sections = response.data.sections;
+            });
+        },
+        getCover (section) {
+            return { backgroundImage: `url(${section.cover})` };
+        }
+    },
+    mounted () {
+        this.getList();
     }
 };
 </script>
