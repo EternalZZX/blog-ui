@@ -20,7 +20,6 @@
             <el-button class="et-header__post" type="primary">
                 {{ $t("header.post") }}
             </el-button>
-            <et-account></et-account>
             <el-dropdown trigger="click">
                 <div class="et-header__menu_mobile">
                     <i class="et-icon ei-menu"></i>
@@ -43,6 +42,7 @@
                     </el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
+            <et-account></et-account>
         </div>
     </header>
 </template>

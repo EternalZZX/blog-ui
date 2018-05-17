@@ -1,11 +1,11 @@
 <template>
     <div class="et-user">
-        <img class="et-user__avatar" :src="user.avatar">
+        <img class="et-user__avatar" :src="avatar" :title="user.nick">
         <div class="et-user__info">
-            <span class="et-user__nick">
+            <span class="et-user__nick" :title="user.nick">
                 {{ user.nick }}
             </span>
-            <span class="et-user__remark">
+            <span class="et-user__remark" :title="user.remark">
                 {{ user.remark | none }}
             </span>
         </div>
@@ -31,6 +31,12 @@ export default {
     },
     filters: {
         'none': value => Utils.formatNone(value)
+    },
+    computed: {
+        avatar () {
+            const defaultAvator = '/static/images/et-avatar.png';
+            return this.user.avatar ? this.user.avatar : defaultAvator;
+        }
     }
 };
 </script>
@@ -39,8 +45,14 @@ export default {
 @import '~static/styles/style-common';
 
 .et-user {
-    display: flex;
+    display: inline-flex;
     width: $userWidth;
+
+    @include max-screen($phoneMaxWidth) {
+        & {
+            width: 8rem;
+        }
+    }
 
     .et-user__avatar {
         width: $userHeight;

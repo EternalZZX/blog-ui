@@ -442,6 +442,10 @@ $innerList: et-header, et-main;
                 border-radius: $radiusTiny $radiusTiny 0 0;
             }
         }
+
+        @at-root .et-card.disabled .et-card__cover {
+            cursor: not-allowed;
+        }
     }
 
     &:hover .et-card__cover {
@@ -481,17 +485,21 @@ $innerList: et-header, et-main;
     }
 
     .et-card__title {
-        display: block;
-        width: 100%;
+        display: inline-block;
+        max-width: 100%;
         font-size: $titleFontSize;
         font-weight: $titleFontWeight;
-        line-height: 1.5rem;
+        line-height: $titleFontSize;
         color: $titleColor;
         user-select: none;
         cursor: pointer;
         @extend %text-overview;
 
-        &:hover {
+        @at-root .et-card.disabled .et-card__title {
+            cursor: not-allowed;
+        }
+
+        @at-root .et-card:not(.disabled) .et-card__title:hover {
             color: $subThemeColor;
         }        
     }
@@ -512,6 +520,17 @@ $innerList: et-header, et-main;
         &:hover {
             color: $subThemeColor;
         }
+    }
+
+}
+
+.et-card__popover {
+    max-width: $userWidth * 3;
+
+    .el-form .el-form-item .el-form-item__label {
+        font-size: $descriptionFontSize;
+        line-height: $descriptionFontSize;
+        color: $descriptionColor;
     }
 }
 

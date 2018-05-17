@@ -31,10 +31,6 @@ import EtLogin from './login';
 export default {
     name: 'EtAccount',
     components: { EtLogin },
-    data () {
-        return {
-        };
-    },
     computed: {
         avator () {
             const defaultAvator = '/static/images/et-avatar.png';

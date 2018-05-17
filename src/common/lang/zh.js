@@ -36,7 +36,10 @@ export default {
         },
         card: {
             detail: '信息详情',
-            noPermission: '没有话题阅读权限'
+            noPermission: '没有话题阅读权限',
+            owner: '发起人',
+            moderator: '版主',
+            assistant: '小版主'
         }
     },
     request: {

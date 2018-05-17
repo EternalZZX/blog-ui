@@ -36,7 +36,10 @@ export default {
         },
         card: {
             detail: 'Information details',
-            noPermission: 'Topic permission denied'
+            noPermission: 'Topic permission denied',
+            owner: 'Initiator',
+            moderator: 'Moderator',
+            assistant: 'Assistants'
         }
     },
     request: {
