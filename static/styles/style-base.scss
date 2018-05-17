@@ -406,7 +406,7 @@ $innerList: et-header, et-main;
         .et-card .et-card__cover {
             height: 5rem;
             background-size: 100%;
-            transition: .3s;
+            transition: .5s;
             cursor: pointer;
 
             @include min-screen($laptopMinWidth) { 
@@ -418,7 +418,7 @@ $innerList: et-header, et-main;
         }
 
         .et-card:hover .et-card__cover {
-            background-position-y: 20%;
+            background-position-y: 10%;
         }
 
         .et-card .et-card__body {

@@ -30,13 +30,27 @@
                     <div class="et-card__cover" :style="getCover(section)"></div>
                     <div class="et-card__body">
                         <div class="et-card__body_left">
-                            <a class="et-card__title">{{ section.nick }}</a>
+                            <a class="et-card__title">{{ section.nick | none }}</a>
                             <span class="et-card__description">{{ section.description | none }}</span>
                         </div>
                         <div class="et-card__body_right">
                             <span>
-                                <i class="et-icon ei-lock"></i>
-                                <i class="et-card__popover_button et-icon ei-group"></i>
+                                <i v-if="!section.read_permission"
+                                    class="et-icon ei-lock"
+                                    :title="$t('section.card.noPermission')">
+                                </i>
+                                <el-popover placement="left" trigger="click">
+                                    <div class="et-card__popover">
+                                        <div class="et-user">
+                                            <img>
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                    <i class="et-card__popover_button et-icon ei-group"
+                                        slot="reference"
+                                        :title="$t('section.card.detail')">
+                                    </i>
+                                </el-popover>
                             </span>
                             <span>{{ section.create_at | time }}</span>
                         </div>
@@ -57,6 +71,8 @@
 
 <script>
 import SectionApi from '@/common/api/sections';
+import Utils from '@/common/utils';
+import { EVENT } from '@/common/bus';
 export default {
     name: 'EtSection',
     data () {
@@ -64,18 +80,22 @@ export default {
             sections: []
         };
     },
+    mounted () {
+        this.init();
+        this.$root.Bus.$on(EVENT.REFRESH, this.init);
+    },
     methods: {
+        init () {
+            this.getList();
+        },
         getList () {
             SectionApi.list().then(response => {
                 this.sections = response.data.sections;
             });
         },
         getCover (section) {
-            return { backgroundImage: `url(${section.cover})` };
+            return { backgroundImage: `url(${section.cover}?hash=${Utils.randString()})` };
         }
-    },
-    mounted () {
-        this.getList();
     }
 };
 </script>

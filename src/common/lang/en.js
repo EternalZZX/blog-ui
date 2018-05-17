@@ -33,6 +33,10 @@ export default {
             hot: 'Hot Topics',
             follow: 'Topics Followed',
             manage: 'Topics Managed'
+        },
+        card: {
+            detail: 'Information details',
+            noPermission: 'Topic permission denied'
         }
     },
     request: {

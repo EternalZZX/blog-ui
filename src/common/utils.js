@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueCookie from 'vue-cookie';
+import Bus, { EVENT } from '@/common/bus';
 import SETTING from '@/setting';
 
 Vue.use(VueCookie);
@@ -11,6 +12,7 @@ class Utils {
 
     static setToken (token) {
         Vue.cookie.set(SETTING.TOKEN_COOKIE_KEY, token, 7);
+        Bus.$emit(EVENT.REFRESH);
     }
 
     static deleteToken () {
@@ -44,6 +46,15 @@ class Utils {
 
     static isArray (object) {
         return Object.prototype.toString.call(object) === '[object Array]';
+    }
+
+    static randString (len = 8) {
+        const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+        let str = '';
+        for (let i = 0; i < len; i++) {
+            str += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return str;
     }
 
     static errorLog (err, modules = 'ET-BLOG') {

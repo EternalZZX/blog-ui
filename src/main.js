@@ -7,6 +7,7 @@ import router from '@/router';
 import store from '@/store';
 import i18n from '@/common/lang';
 import Utils from '@/common/utils';
+import Bus from '@/common/bus';
 import index from '@/index';
 
 Vue.use(VueInfiniteScroll);
@@ -24,5 +25,8 @@ new Vue({
     store,
     i18n,
     components: { index },
+    data: {
+        Bus
+    },
     template: '<index/>'
 });

@@ -33,6 +33,10 @@ export default {
             hot: '热门话题',
             follow: '我关注的话题',
             manage: '我管理的话题'
+        },
+        card: {
+            detail: '信息详情',
+            noPermission: '没有话题阅读权限'
         }
     },
     request: {
