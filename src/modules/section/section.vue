@@ -30,8 +30,12 @@
                     <div class="et-card__cover" :style="getCover(section)"></div>
                     <div class="et-card__body">
                         <div class="et-card__body_left">
-                            <a class="et-card__title">{{ section.nick | none }}</a>
-                            <span class="et-card__description">{{ section.description | none }}</span>
+                            <a class="et-card__title">
+                                {{ section.nick | none }}
+                            </a>
+                            <span class="et-card__description">
+                                {{ section.description | none }}
+                            </span>
                         </div>
                         <div class="et-card__body_right">
                             <span>
@@ -41,10 +45,11 @@
                                 </i>
                                 <el-popover placement="left" trigger="click">
                                     <div class="et-card__popover">
-                                        <div class="et-user">
-                                            <img>
-                                            <span></span>
-                                        </div>
+                                        <el-form label-position="top">
+                                            <el-form-item label="发起人">
+                                                <et-user :user="section.owner"></et-user>
+                                            </el-form-item>
+                                        </el-form>
                                     </div>
                                     <i class="et-card__popover_button et-icon ei-group"
                                         slot="reference"

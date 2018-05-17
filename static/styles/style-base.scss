@@ -1,5 +1,4 @@
 @import "./style-common";
-@import "./style-setting";
 
 html {
     font-family: $contentFontFamily;
@@ -313,8 +312,6 @@ $innerList: et-header, et-main;
         .et-nav {
             display: none;
             flex: none;
-            width: $navWidth;
-            margin: $spaceLarge;
             margin-left: 0;
 
             @include min-screen($laptopMinWidth) { 
@@ -328,58 +325,7 @@ $innerList: et-header, et-main;
             position: fixed;
             width: $navWidth;
         }
-
-        .et-nav .et-nav__header {
-            display: flex;
-            height: 2rem;
-            margin: $spaceTiny;
-            margin-top: 0;
-            border-bottom: $splitBorder;
-        }
-
-        .et-nav .et-nav__title {
-            flex: auto;
-            font-size: .938rem;
-            font-weight: $subtitleFontWeight;
-            line-height: 2rem;
-            color: $subtitleColor;
-        }
-
-        .et-nav .et-nav__button {
-            color: $descriptionColor;
-            padding: 0;
-        }
-
-        .et-nav .et-nav__button:hover {
-            color: $dropdownColor;
-        }
-
-        .et-nav .et-nav__body .el-menu {
-            padding: $spaceTiny 0;
-            border: none;
-            background-color: $mainBackground;
-        }
-
-        .et-nav .et-nav__body .el-menu .el-menu-item {
-            height: auto;
-            line-height: $navHeight;
-            font-size: $elementFontSize;
-            color: $navColor;
-            padding: $spaceTiny !important;
-            border-radius: $radiusTiny;
-            margin-bottom: $spaceTiny;
-            font-weight: $navFontWeight;
-        }
-
-        .et-nav .et-nav__body .el-menu .el-menu-item:hover {
-            color: $dropdownColor;
-            background-color: $mainBackground;
-        }
-
-        .et-nav .et-nav__body .el-menu .el-menu-item.is-active {
-            background: $navActiveBackground;
-        }
-
+        
         .et-content {
             flex: auto;
             display: flex;
@@ -391,134 +337,16 @@ $innerList: et-header, et-main;
             flex: auto;
         }
 
-        .et-card {
-            margin-bottom: $spaceLarge;
-            background-color: $blockBackground;
-            box-shadow: $cardShadow;
-
-            @include min-screen($laptopMinWidth) { 
-                & {
-                    border-radius: $radiusTiny;
-                }
-            }
-        }
-
-        .et-card .et-card__cover {
-            height: 5rem;
-            background-size: 100%;
-            transition: .5s;
-            cursor: pointer;
-
-            @include min-screen($laptopMinWidth) { 
-                & {
-                    height: 10rem;
-                    border-radius: $radiusTiny $radiusTiny 0 0;
-                }
-            }
-        }
-
-        .et-card:hover .et-card__cover {
-            background-position-y: 10%;
-        }
-
-        .et-card .et-card__body {
-            display: flex;
-        }
-
-        .et-card .et-card__body .et-card__body_left {
-            flex: auto;
-            width: 0;
-            padding: $spaceSmall;
-        }
-
-        .et-card .et-card__title {
-            display: block;
-            width: 100%;
-            font-size: $titleFontSize;
-            font-weight: $titleFontWeight;
-            line-height: 1.5rem;
-            color: $titleColor;
-            user-select: none;
-            cursor: pointer;
-            @extend %text-overview;
-        }
-
-        .et-card .et-card__title:hover {
-            color: $dropdownColor;
-        }
-
-        .et-card .et-card__description {
-            display: block;
-            width: 100%;
-            font-size: $descriptionFontSize;
-            color: $descriptionColor;
-            user-select: none;
-            @extend %text-overview;
-        }
-
-        .et-card .et-card__body .et-card__body_right {
-            display: flex;
-            flex-direction: column;
-            padding: $spaceSmall;
-        }
-
-        .et-card .et-card__body .et-card__body_right span {
-            display: block;
-            text-align: right;
-            font-size: $descriptionFontSize;
-            color: $descriptionColor;
-            user-select: none;
-        }
-
-        .et-card .et-card__body .et-card__body_right span:first-child {
-            flex: auto;
-        }
-
-        .et-card .et-card__body .et-card__body_right i {
-            font-size: $iconFontSizeSmall; 
-        }
-
-        .et-card .et-card__body .et-card__body_right .et-card__popover_button {
-            font-size: $iconFontSizeMiddle;
-            cursor: pointer;
-        }
-
-        .et-card .et-card__body .et-card__body_right .et-card__popover_button:hover {
-            color: $dropdownColor;
-        }
-
         .et-toolbar {
             display: none;
             flex: none;
-            width: $navWidth;
             margin-left: $spaceLarge;
-            border: $splitBorder;
-            border-radius: $radiusTiny;
-            background-color: $blockBackground;
 
             @include min-screen($laptopMinWidth) { 
                 & {
                     display: block;
                 }
             }
-        }
-
-        .et-toolbar .et-toolbar__header {
-            height: $toolbarHeaderHeight;
-            padding: $spaceSmall;
-            line-height: $toolbarHeaderHeight;
-            background-color: $mainBackground;
-            border-bottom: $splitBorder;
-        }
-
-        .et-toolbar .et-toolbar__title {
-            font-size: .938rem;
-            font-weight: $subtitleFontWeight;
-            color: $subtitleColor;
-        }
-
-        .et-toolbar .et-toolbar__body {
-            padding: $spaceSmall;
         }
     }
 }
@@ -533,6 +361,183 @@ $innerList: et-header, et-main;
     background: $footerBackground;
     border-top: $deepenBorder;
     box-shadow: $borderShadow;
+}
+
+.et-nav {
+    width: $navWidth;
+    margin: $spaceLarge;
+
+    .et-nav__header {
+        display: flex;
+        height: 2rem;
+        margin: $spaceTiny;
+        margin-top: 0;
+        border-bottom: $splitBorder;
+    }
+
+    .et-nav__title {
+        flex: auto;
+        font-size: .938rem;
+        font-weight: $subtitleFontWeight;
+        line-height: 2rem;
+        color: $subtitleColor;
+    }
+
+    .et-nav__button {
+        color: $descriptionColor;
+        padding: 0;
+
+        &:hover {
+            color: $dropdownColor;
+        }
+    }
+
+    .et-nav__body .el-menu {
+        padding: $spaceTiny 0;
+        border: none;
+        background-color: $mainBackground;
+
+        .el-menu-item {
+            height: auto;
+            line-height: $navHeight;
+            font-size: $elementFontSize;
+            color: $navColor;
+            padding: $spaceTiny !important;
+            border-radius: $radiusTiny;
+            margin-bottom: $spaceTiny;
+            font-weight: $navFontWeight;
+        }
+
+        .el-menu-item:hover {
+            color: $dropdownColor;
+            background-color: $mainBackground;
+        }
+
+        .el-menu-item.is-active {
+            background: $navActiveBackground;
+        }
+    }
+}
+
+.et-card {
+    margin-bottom: $spaceLarge;
+    background-color: $blockBackground;
+    box-shadow: $cardShadow;
+
+    @include min-screen($laptopMinWidth) { 
+        & {
+            border-radius: $radiusTiny;
+        }
+    }
+
+    .et-card__cover {
+        height: 5rem;
+        background-size: 100%;
+        transition: .5s;
+        cursor: pointer;
+    
+        @include min-screen($laptopMinWidth) { 
+            & {
+                height: 10rem;
+                border-radius: $radiusTiny $radiusTiny 0 0;
+            }
+        }
+    }
+
+    &:hover .et-card__cover {
+        background-position-y: 10%;
+    }
+
+    .et-card__body {
+        display: flex;
+
+        .et-card__body_left {
+            flex: auto;
+            width: 0;
+            padding: $spaceSmall;
+        }
+
+        .et-card__body_right {
+            display: flex;
+            flex-direction: column;
+            padding: $spaceSmall;
+        }
+
+        .et-card__body_right > span {
+            display: block;
+            text-align: right;
+            font-size: $descriptionFontSize;
+            color: $descriptionColor;
+            user-select: none;
+        }
+
+        .et-card__body_right > span:first-child {
+            flex: auto;
+        }
+
+        .et-card__body_right i {
+            font-size: $iconFontSizeSmall; 
+        }
+    }
+
+    .et-card__title {
+        display: block;
+        width: 100%;
+        font-size: $titleFontSize;
+        font-weight: $titleFontWeight;
+        line-height: 1.5rem;
+        color: $titleColor;
+        user-select: none;
+        cursor: pointer;
+        @extend %text-overview;
+
+        &:hover {
+            color: $dropdownColor;
+        }        
+    }
+
+    .et-card__description {
+        display: block;
+        width: 100%;
+        font-size: $descriptionFontSize;
+        color: $descriptionColor;
+        user-select: none;
+        @extend %text-overview;
+    }
+
+    .et-card__popover_button {
+        font-size: $iconFontSizeMiddle;
+        cursor: pointer;
+
+        &:hover {
+            color: $dropdownColor;
+        }
+    }
+}
+
+.et-toolbar {
+    width: $navWidth;
+    border: $splitBorder;
+    border-radius: $radiusTiny;
+    background-color: $blockBackground;
+
+    .et-toolbar__header {
+        height: $toolbarHeaderHeight;
+        padding: $spaceSmall;
+        line-height: $toolbarHeaderHeight;
+        background-color: $mainBackground;
+        border-bottom: $splitBorder;
+    }
+
+    .et-toolbar__title {
+        font-size: .938rem;
+        font-weight: $subtitleFontWeight;
+        color: $subtitleColor;
+    }
+
+    .et-toolbar__body {
+        padding: $spaceSmall;
+    }
 }
 
 .et-notify {

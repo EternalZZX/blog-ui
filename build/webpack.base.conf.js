@@ -36,8 +36,8 @@ module.exports = {
         extensions: ['.js', '.vue', '.json', '.css', '.png'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
-            '@': resolve('src'),
-            '~': resolve('static')
+            'static': resolve('static'),
+            '@': resolve('src')
         }
     },
     module: {
@@ -55,7 +55,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loaders: ['style-loader', 'css-loader', 'sass-loader']
+                loaders: ['style', 'css', 'sass']
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

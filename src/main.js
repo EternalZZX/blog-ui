@@ -1,17 +1,19 @@
 import Vue from 'vue';
 import VueInfiniteScroll from 'vue-infinite-scroll';
 import ElementUI from 'element-ui';
-import '~/theme/index.css';
-import '~/styles/animate.css';
+import 'static/theme/index.css';
+import 'static/styles/animate.css';
 import router from '@/router';
 import store from '@/store';
 import i18n from '@/common/lang';
 import Utils from '@/common/utils';
 import Bus from '@/common/bus';
+import EtComponents from '@/components';
 import index from '@/index';
 
-Vue.use(VueInfiniteScroll);
 Vue.use(ElementUI);
+Vue.use(EtComponents);
+Vue.use(VueInfiniteScroll);
 
 Vue.filter('none', value => Utils.formatNone(value));
 Vue.filter('time', value => Utils.formatTime(value));

@@ -8,6 +8,6 @@ export default {
 };
 </script>
 
-<style lang="sass">
-@import '../static/styles/style-blog'
+<style lang="scss">
+@import '~static/styles/style-blog';
 </style>
