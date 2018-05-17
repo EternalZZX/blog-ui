@@ -105,7 +105,7 @@ $innerList: et-header, et-main;
         .el-menu-item {
             height: $headerHeight;
             line-height: $headerHeight;
-            font-size: $elementFontSizeLarge;
+            font-size: $subtitleFontSize;
         }
 
         .el-menu-item .et-icon {
@@ -388,7 +388,7 @@ $innerList: et-header, et-main;
         padding: 0;
 
         &:hover {
-            color: $dropdownColor;
+            color: $subThemeColor;
         }
     }
 
@@ -400,7 +400,7 @@ $innerList: et-header, et-main;
         .el-menu-item {
             height: auto;
             line-height: $navHeight;
-            font-size: $elementFontSize;
+            font-size: $descriptionFontSize;
             color: $navColor;
             padding: $spaceTiny !important;
             border-radius: $radiusTiny;
@@ -409,7 +409,7 @@ $innerList: et-header, et-main;
         }
 
         .el-menu-item:hover {
-            color: $dropdownColor;
+            color: $subThemeColor;
             background-color: $mainBackground;
         }
 
@@ -492,7 +492,7 @@ $innerList: et-header, et-main;
         @extend %text-overview;
 
         &:hover {
-            color: $dropdownColor;
+            color: $subThemeColor;
         }        
     }
 
@@ -510,7 +510,7 @@ $innerList: et-header, et-main;
         cursor: pointer;
 
         &:hover {
-            color: $dropdownColor;
+            color: $subThemeColor;
         }
     }
 }

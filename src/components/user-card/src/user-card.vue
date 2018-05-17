@@ -40,11 +40,11 @@ export default {
 
 .et-user {
     display: flex;
-    width: 10rem;
+    width: $userWidth;
 
     .et-user__avatar {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: $userHeight;
+        height: $userHeight;
         border-radius: 50%;
         cursor: pointer;
     }
@@ -56,12 +56,16 @@ export default {
     }
 
     .et-user__nick {
-        display: block;
-        width: 100%;
+        display: inline-block;
+        max-width: 100%;
         font-size: $subtitleFontSize;
         color: $subtitleColor;
         cursor: pointer;
         @extend %text-overview;
+
+        &:hover {
+            color: $subThemeColor;
+        }
     }
 
     .et-user__remark {

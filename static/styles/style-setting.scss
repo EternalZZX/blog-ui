@@ -1,74 +1,84 @@
-$contentFontSize: .9375rem !default;
+/* Font Size Setting */
 $titleFontSize: 1.125rem;
+$contentFontSize: .9375rem;
 $subtitleFontSize: .875rem;
 $descriptionFontSize: .81rem;
-$elementFontSizeLarge: .875rem;
-$elementFontSize: .81rem;
 $iconFontSizeLarge: 1.3rem;
 $iconFontSizeMiddle: 1.2rem;
 $iconFontSizeSmall: 1rem;
 
-$contentFontFamily: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
-
-$phoneMaxWidth: 767px;
-$padMinWidth: 768px;
-$padMaxWidth: 1279px;
-$laptopMinWidth: 1280px;
-$laptopMaxWidth: 1365px;
-$pcMinWidth: 1366px;
-
-$spaceTiny: .2rem;
-$spaceSmall: .5rem;
-$spaceMiddle: .8rem;
-$spaceLarge: 1rem;
-
-$themeColor: #00b1ff;
-$themeHoverColor: #33c1ff;
-$themeActiveColor: #009fe6;
-
+/* Font Color Setting */
 $titleColor: #262626;
 $subtitleColor: #333;
+$descriptionColor: #999;
+$navColor: #666;
+
+/* Font Weight Setting */
 $titleFontWeight: bold;
 $subtitleFontWeight: 500;
 $navFontWeight: 400;
 
-$splitBorderColor: #e2e2e2;
-$deepenBorderColor: #ddd;
-$darkBorderColor: #ccc;
+/* Font Family Setting*/
+$contentFontFamily: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
 
+/* Theme Color Setting */
+$themeColor: #00b1ff;
+$themeHoverColor: #33c1ff;
+$themeActiveColor: #009fe6;
+$subThemeColor: #2b6dad;
+
+/* Background Color Setting */
+$headerBackground: #fff;
+$headerHoverBackground: #f6f6f6;
+$dropdownBackground: #f6f6f6;
+$dropdownHoverBackground: #dfeffa;
+$mainBackground: #fafafa;
+$navActiveBackground: #ececec;
+$blockBackground: #fff;
+$footerBackground: #f1f1f1;
+
+/* Border Setting */
+$splitBorderColor: #e2e2e2;
 $splitBorder: 1px solid $splitBorderColor;
+$deepenBorderColor: #ddd;
 $deepenBorder: 1px solid $deepenBorderColor;
+$darkBorderColor: #ccc;
 $darkBorder: 1px solid $darkBorderColor;
 
-$borderShadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
-$cardShadow: 0 2px 1px 0 rgba(0,0,0,.1);
-
-$radiusTiny: .2rem;
+/* Border Radius Setting */
 $radiusSmall: .3rem;
+$radiusTiny: .2rem;
 
+/* Margin Setting */
+$spaceLarge: 1rem;
+$spaceMiddle: .8rem;
+$spaceSmall: .5rem;
+$spaceTiny: .2rem;
+
+/* Size Setting */
 $headerHeight: 3rem;
 $footerHeight: 1.25rem;
 $elementHeight: 2rem;
 $buttonHeight: 1.8rem;
-$navWidth: 130px;
 $navHeight: 1.2rem;
+$navWidth: 130px;
+$userHeight: 2.5rem;
+$userWidth: 10rem;
 $toolbarHeaderHeight: 1rem;
 
+/* Shadow Box Setting */
+$borderShadow: 0 3px 2px -2px rgba(200, 200, 200, 0.2);
+$cardShadow: 0 2px 1px 0 rgba(0,0,0,.1);
+
+/* z-index Setting */
 $headerIndex: 3;
 $footerIndex: 3;
 $notifyIndex: 2;
 
-$headerBackground: #fff;
-$headerHoverBackground: #f6f6f6;
-$mainBackground: #fafafa;
-$blockBackground: #fff;
-$footerBackground: #f1f1f1;
-
-$dropdownColor: #2b6dad;
-$dropdownBackground: #f6f6f6;
-$dropdownHoverBackground: #dfeffa;
-
-$navActiveBackground: #ececec;
-
-$descriptionColor: #999;
-$navColor: #666;
+/* Media Setting */
+$pcMinWidth: 1366px;
+$laptopMaxWidth: 1365px;
+$laptopMinWidth: 1280px;
+$padMaxWidth: 1279px;
+$padMinWidth: 768px;
+$phoneMaxWidth: 767px;

@@ -27,7 +27,7 @@
 .el-button {
     min-height: $buttonHeight;
     padding: 0 $spaceSmall;
-    font-size: $elementFontSize;
+    font-size: $descriptionFontSize;
     user-select: none;
 
     &.el-button--primary {
@@ -51,7 +51,7 @@
 .el-input {
     .el-input__inner {    
         height: $elementHeight;
-        font-size: $elementFontSize;
+        font-size: $descriptionFontSize;
         line-height: $elementHeight;
     
         &:focus + .el-input__prefix > .el-input__icon {
@@ -127,8 +127,8 @@
     .el-dropdown-menu__item {
         line-height: $elementHeight;
         padding: 0 $spaceMiddle;
-        font-size: $elementFontSize;
-        color: $dropdownColor;
+        font-size: $descriptionFontSize;
+        color: $subThemeColor;
         background-color: $dropdownBackground;
         border-bottom: $splitBorder;
         user-select: none;
@@ -139,11 +139,11 @@
 
         &:focus, &:not(.is-disabled):hover {
             background-color: $dropdownHoverBackground;
-            color: $dropdownColor;
+            color: $subThemeColor;
         }
 
         a {
-            color: $dropdownColor;
+            color: $subThemeColor;
         }
 
         .et-icon {
@@ -157,7 +157,7 @@
 
 .el-alert {
     .el-alert__title {
-        font-size: $elementFontSize;
+        font-size: $descriptionFontSize;
         user-select: none;
     }
     
@@ -170,7 +170,7 @@
 
 .el-message {
     .el-message__content {
-        font-size: $elementFontSizeLarge;
+        font-size: $subtitleFontSize;
     }
 
     .el-message__closeBtn {
