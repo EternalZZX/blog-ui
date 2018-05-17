@@ -25,10 +25,12 @@
             </div>
         </nav>
         <div class="et-content">
-            <div class="et-content__wrapper">
-                <div class="et-card"
-                    :class="{ disabled: !section.read_permission }"
-                    v-for="section in sections" :key="section.id">
+            <div class="et-content__wrapper"
+                v-infinite-scroll="loadMore"
+                infinite-scroll-disabled="loadBusy"
+                infinite-scroll-distance="10">
+                <div class="et-card" :class="{ disabled: !section.read_permission }"
+                    v-for="section in dataList" :key="section.id">
                     <div class="et-card__cover" :style="getCover(section)"></div>
                     <div class="et-card__body">
                         <div class="et-card__body_left">
@@ -98,20 +100,30 @@ export default {
     name: 'EtSection',
     data () {
         return {
-            sections: []
+            dataList: [],
+            loadBusy: false,
+            params: {
+                page: 1,
+                page_size: 5
+            }
         };
     },
     mounted () {
-        this.init();
         this.$root.Bus.$on(EVENT.REFRESH, this.init);
     },
     methods: {
         init () {
-            this.getList();
+            this.params.page = 1;
+            this.dataList = [];
+            this.loadMore();
         },
-        getList () {
-            SectionApi.list().then(response => {
-                this.sections = response.data.sections;
+        loadMore () {
+            this.loadBusy = true;
+            SectionApi.list(this.params).then(response => {
+                const data = response.data.sections;
+                this.dataList = this.dataList.concat(data);
+                this.loadBusy = data.length === 0;
+                this.params.page ++;
             });
         },
         getCover (section) {
