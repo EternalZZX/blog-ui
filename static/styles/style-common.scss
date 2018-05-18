@@ -177,3 +177,19 @@
         font-size: $iconFontSizeSmall;
     }
 }
+
+.el-loading-mask  {
+    z-index: initial;
+    
+    .el-loading-spinner {
+        .circular {
+            height: $loadingWidth;
+            width: $loadingWidth;
+        }
+
+        .path {
+            stroke-width: .6rem;
+            stroke: $loadingColor;
+        }
+    }
+}

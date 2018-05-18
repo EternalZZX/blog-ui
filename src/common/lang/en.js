@@ -57,5 +57,8 @@ export default {
         phone: 'Please enter the correct phone number!',
         password: 'Password contain at least 6 characters!'
     },
+    common: {
+        noMore: 'No more'
+    },
     ...enLocale
 };

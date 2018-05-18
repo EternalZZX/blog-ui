@@ -55,5 +55,8 @@ export default {
         phone: '请输入正确的手机号码!',
         password: '密码长度至少6位!'
     },
+    common: {
+        noMore: '没有更多了'
+    },
     ...zhLocale
 };

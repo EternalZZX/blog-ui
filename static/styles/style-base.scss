@@ -330,11 +330,23 @@ $innerList: et-header, et-main;
             flex: auto;
             display: flex;
             align-items: flex-start;
-            padding: $spaceLarge 0;
+            padding-top: $spaceLarge;
         }
 
         .et-content .et-content__wrapper {
             flex: auto;
+        }
+
+        .et-content .et-content__load {
+            height: 3rem;
+        }
+
+        .et-content .et-content__load > div {
+            height: 100%;
+        }
+
+        .et-content .et-content__load .el-loading-mask {
+            background-color: transparent;
         }
 
         .et-toolbar {
@@ -569,5 +581,37 @@ $innerList: et-header, et-main;
         & {
             top: $headerHeight;
         }
+    }
+}
+
+.et-content__line {
+    position: relative;
+    margin-top: -.3rem;
+    text-align: center;
+    font-size: $descriptionFontSize;
+    color: $loadingColor;
+
+    &:before, &:after {
+        content: "";  
+        position: absolute;  
+        top: 50%; 
+        width: 43%;  
+        height: 1px;  
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                width: 38%;  
+            }
+        }
+    }
+
+    &:before {
+        background: linear-gradient(to left, $loadingColor, $mainBackground);  
+        left: 0;  
+    }  
+
+    &:after {  
+        background: linear-gradient(to right, $loadingColor, $mainBackground);  
+        right: 0;  
     }
 }

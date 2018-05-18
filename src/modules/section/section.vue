@@ -28,7 +28,7 @@
             <div class="et-content__wrapper"
                 v-infinite-scroll="loadMore"
                 infinite-scroll-disabled="loadBusy"
-                infinite-scroll-distance="10">
+                infinite-scroll-distance="100">
                 <div class="et-card" :class="{ disabled: !section.read_permission }"
                     v-for="section in dataList" :key="section.id">
                     <div class="et-card__cover" :style="getCover(section)"></div>
@@ -79,6 +79,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="et-content__load" v-show="loadShow">
+                    <div v-loading="true"></div>
+                </div>
+                <p class="et-content__line" v-show="loadBusy && !loadShow">{{ $t("common.noMore") }}</p>
             </div>
             <div class="et-toolbar">
                 <div class="et-toolbar__header">
@@ -102,9 +106,10 @@ export default {
         return {
             dataList: [],
             loadBusy: false,
+            loadShow: false,
             params: {
                 page: 1,
-                page_size: 5
+                page_size: 10
             }
         };
     },
@@ -119,10 +124,11 @@ export default {
         },
         loadMore () {
             this.loadBusy = true;
+            this.loadShow = true;
             SectionApi.list(this.params).then(response => {
-                const data = response.data.sections;
-                this.dataList = this.dataList.concat(data);
-                this.loadBusy = data.length === 0;
+                this.dataList = this.dataList.concat(response.data.sections);
+                this.loadBusy = response.data.total === this.dataList.length;
+                this.loadShow = false;
                 this.params.page ++;
             });
         },
