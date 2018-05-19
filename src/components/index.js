@@ -1,6 +1,8 @@
+import LoadScroll from './load-scroll';
 import UserCard from './user-card';
 
 const components = [
+    LoadScroll,
     UserCard
 ];
 

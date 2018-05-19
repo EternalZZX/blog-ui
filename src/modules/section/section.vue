@@ -25,10 +25,9 @@
             </div>
         </nav>
         <div class="et-content">
-            <div class="et-content__wrapper"
-                v-infinite-scroll="loadMore"
-                infinite-scroll-disabled="loadBusy"
-                infinite-scroll-distance="100">
+            <et-scroll class="et-content__wrapper"
+                v-model="loadStatus"
+                @more="loadMore">
                 <div class="et-card" :class="{ disabled: !section.read_permission }"
                     v-for="section in dataList" :key="section.id">
                     <div class="et-card__cover" :style="getCover(section)"></div>
@@ -79,11 +78,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="et-content__load" v-show="loadShow">
-                    <div v-loading="true"></div>
-                </div>
-                <p class="et-content__line" v-show="loadBusy && !loadShow">{{ $t("common.noMore") }}</p>
-            </div>
+            </et-scroll>
             <div class="et-toolbar">
                 <div class="et-toolbar__header">
                     <span class="et-toolbar__title">ToolBar</span>
@@ -105,12 +100,12 @@ export default {
     data () {
         return {
             dataList: [],
-            loadBusy: false,
-            loadShow: false,
+            loadStatus: 'active',
             params: {
                 page: 1,
                 page_size: 10
-            }
+            },
+            hashCode: Utils.randString()
         };
     },
     mounted () {
@@ -118,22 +113,20 @@ export default {
     },
     methods: {
         init () {
-            this.params.page = 1;
             this.dataList = [];
+            this.params.page = 1;
+            this.hashCode = Utils.randString();
             this.loadMore();
         },
         loadMore () {
-            this.loadBusy = true;
-            this.loadShow = true;
             SectionApi.list(this.params).then(response => {
                 this.dataList = this.dataList.concat(response.data.sections);
-                this.loadBusy = response.data.total === this.dataList.length;
-                this.loadShow = false;
+                this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
                 this.params.page ++;
             });
         },
         getCover (section) {
-            return { backgroundImage: `url(${section.cover}?hash=${Utils.randString()})` };
+            return section.cover ? { backgroundImage: `url(${section.cover}?hash=${this.hashCode})` } : null;
         }
     }
 };
