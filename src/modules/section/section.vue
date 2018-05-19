@@ -126,7 +126,9 @@ export default {
             });
         },
         getCover (section) {
-            return section.cover ? { backgroundImage: `url(${section.cover}?hash=${this.hashCode})` } : null;
+            return section.cover ? {
+                backgroundImage: `url(${section.cover}?hash=${this.hashCode})`
+            } : null;
         }
     }
 };
