@@ -4,7 +4,9 @@
             <div class="et-nav__wrapper">
                 <div class="et-nav__header">
                     <span class="et-nav__title">{{ $t("section.nav.title") }}</span>
-                    <el-button class="et-nav__button" type="text">{{ $t("section.nav.create") }}</el-button>
+                    <el-button v-perm:section-add class="et-nav__button" type="text">
+                        {{ $t("section.nav.create") }}
+                    </el-button>
                 </div>
                 <div class="et-nav__body">
                     <el-menu>

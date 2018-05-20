@@ -21,16 +21,15 @@ class Common {
         }
     }
 
-    static guestLogin () {
-        return new Promise((resolve, reject) => {
-            AccountApi.signInGuest().then(response => {
-                Utils.setToken(response.data.token);
-                resolve(response.data);
-            }).catch(err => {
-                Utils.errorLog(err, 'GUEST-SIGN-IN');
-                reject(err);
-            });
-        });
+    static async getPermission () {
+        try {
+            if (store.getters.hasPermission) {
+                return store.state.permission;
+            }
+            return await updatePermission();
+        } catch (err) {
+            return err;
+        }
     }
 
     static auth () {
@@ -45,15 +44,17 @@ class Common {
         });
     }
 
-    static async getPermission () {
-        try {
-            if (store.getters.hasPermission) {
-                return store.state.permission;
-            }
-            return await updatePermission();
-        } catch (err) {
-            return err;
-        }
+    static guestLogin () {
+        return new Promise((resolve, reject) => {
+            AccountApi.signInGuest().then(response => {
+                Utils.setToken(response.data.token);
+                updatePermission();
+                resolve(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'GUEST-SIGN-IN');
+                reject(err);
+            });
+        });
     }
 
     static alert (parent, options = {}) {

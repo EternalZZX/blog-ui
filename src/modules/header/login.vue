@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 import STORE_TYPES from '@/store/types';
 import Clickoutside from 'element-ui/src/utils/clickoutside';
 import Common from '@/common/common';
@@ -65,6 +65,9 @@ export default {
     methods: {
         ...mapMutations({
             setIdentity: STORE_TYPES.SET_IDENTITY
+        }),
+        ...mapActions({
+            updatePermission: STORE_TYPES.UPDATE_PERMISSION
         }),
         signIn () {
             const validateResult = validate(this.data, {
@@ -106,6 +109,7 @@ export default {
         signInInit (data) {
             Utils.setToken(data.token);
             this.setIdentity(data);
+            this.updatePermission();
             this.dropdownClose();
             Common.notify(this.$t('account.welcome', {
                 name: data.nick

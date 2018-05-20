@@ -9,6 +9,7 @@ import Utils from '@/common/utils';
 import Bus from '@/common/bus';
 import EtComponents from '@/components';
 import index from '@/index';
+import '@/common/permission';
 
 if (window !== top) {
     top.location.href = window.location.href;

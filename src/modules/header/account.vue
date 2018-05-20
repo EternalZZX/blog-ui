@@ -45,13 +45,15 @@ export default {
     },
     methods: {
         ...mapMutations({
-            deleteIdentity: STORE_TYPES.DELETE_IDENTITY
+            deleteIdentity: STORE_TYPES.DELETE_IDENTITY,
+            deletePermission: STORE_TYPES.DELETE_PERMISSION
         }),
         signOut () {
             Common.notify(this.$t('account.adieu', {
                 name: this.identity.nick
             }), 'success');
             this.deleteIdentity();
+            this.deletePermission();
             Utils.deleteToken();
             Common.guestLogin();
         },
