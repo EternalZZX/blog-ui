@@ -13,5 +13,11 @@ export default {
     },
     [TYPES.DELETE_IDENTITY] (state) {
         state.identity = null;
+    },
+    [TYPES.SET_PERMISSION] (state, permission) {
+        state.permission = permission;
+    },
+    [TYPES.DELETE_PERMISSION] (state) {
+        state.permission = null;
     }
 };

@@ -123,6 +123,8 @@ export default {
                 this.dataList = this.dataList.concat(response.data.sections);
                 this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
                 this.params.page ++;
+            }).catch(err => {
+                Utils.errorLog(err, 'SECTION-LIST');
             });
         },
         getCover (section) {

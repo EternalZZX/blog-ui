@@ -22,11 +22,38 @@ class Common {
     }
 
     static guestLogin () {
-        AccountApi.signInGuest().then(response => {
-            Utils.setToken(response.data.token);
-        }).catch(err => {
-            Utils.errorLog(err, 'GUEST-SIGN-IN');
+        return new Promise((resolve, reject) => {
+            AccountApi.signInGuest().then(response => {
+                Utils.setToken(response.data.token);
+                resolve(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'GUEST-SIGN-IN');
+                reject(err);
+            });
         });
+    }
+
+    static auth () {
+        return new Promise((resolve, reject) => {
+            Common.isLogin().then(res => {
+                if (!res && !Utils.hasGuestToken()) {
+                    resolve(Common.guestLogin());
+                } else {
+                    resolve();
+                }
+            });
+        });
+    }
+
+    static async getPermission () {
+        try {
+            if (store.getters.hasPermission) {
+                return store.state.permission;
+            }
+            return await updatePermission();
+        } catch (err) {
+            return err;
+        }
     }
 
     static alert (parent, options = {}) {
@@ -50,6 +77,8 @@ class Common {
 }
 
 const updateIdentity = () => store.dispatch(STORE_TYPES.UPDATE_IDENTITY);
+
+const updatePermission = () => store.dispatch(STORE_TYPES.UPDATE_PERMISSION);
 
 const alertFactory = (options = {}) => {
     const AlertComponent = Vue.extend({
