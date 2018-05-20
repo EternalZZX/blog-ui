@@ -12,8 +12,12 @@
 </template>
 
 <script>
+import infiniteScroll from 'vue-infinite-scroll';
 export default {
     name: 'EtScroll',
+    directives: {
+        infiniteScroll
+    },
     model: {
         prop: 'loadStatus',
         event: 'more'

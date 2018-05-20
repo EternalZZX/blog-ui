@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Common from '@/common/common';
-// import Utils from '@/common/utils';
 import header from '@/modules/header/header';
 import footer from '@/modules/footer/footer';
 import rootRouter from './root';

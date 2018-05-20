@@ -15,13 +15,13 @@ export default {
             });
         });
     },
-    [TYPES.UPDATE_PERMISSION] ({commit}) {
+    [TYPES.UPDATE_PERMISSION] ({commit, state}) {
         return new Promise((resolve, reject) => {
-            RoleApi.list().then(response => {
-                commit(TYPES.SET_PERMISSION, response.data.roles);
+            RoleApi.get(state.identity.role).then(response => {
+                commit(TYPES.SET_PERMISSION, response.data);
                 resolve(response.data);
             }).catch(err => {
-                Utils.errorLog(err, 'ROLE-LIST');
+                Utils.errorLog(err, 'ROLE-GET');
                 reject(err);
             });
         });
