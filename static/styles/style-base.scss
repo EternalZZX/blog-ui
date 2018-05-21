@@ -435,6 +435,12 @@ $innerList: et-header, et-main;
         background-size: 100%;
         transition: .5s;
         cursor: pointer;
+
+        @include min-screen($padMinWidth) { 
+            & {
+                height: 8rem;
+            }
+        }
     
         @include min-screen($laptopMinWidth) { 
             & {

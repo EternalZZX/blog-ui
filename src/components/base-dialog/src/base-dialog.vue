@@ -75,6 +75,21 @@ export default {
 .et-dialog {
     /deep/ .el-dialog {
         border-radius: $radiusSmall;
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important;
+                overflow: auto;
+            }
+        }
+
+        @include max-screen($padMaxWidth) {
+            & {
+                width: 75%;
+            }
+        }
     }
 
     /deep/ .el-dialog__header {
@@ -100,6 +115,14 @@ export default {
         border-radius: 0 0 $radiusSmall $radiusSmall;
         padding: $spaceMiddle;
         border-top: $splitBorder;
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+        }
 
         .el-button {
             padding: $spaceMiddle;

@@ -11,17 +11,17 @@
                     </el-button>
                 </div>
                 <div class="et-nav__body">
-                    <el-menu>
-                        <el-menu-item index="1">
+                    <el-menu :default-active="loadType">
+                        <el-menu-item index="all">
                             <span slot="title">{{ $t("section.nav.all") }}</span>
                         </el-menu-item>
-                        <el-menu-item index="2">
+                        <el-menu-item index="hot">
                             <span slot="title">{{ $t("section.nav.hot") }}</span>
                         </el-menu-item>
-                        <el-menu-item index="3">
+                        <el-menu-item index="follow">
                             <span slot="title">{{ $t("section.nav.follow") }}</span>
                         </el-menu-item>
-                        <el-menu-item index="4">
+                        <el-menu-item index="manage">
                             <span slot="title">{{ $t("section.nav.manage") }}</span>
                         </el-menu-item>
                     </el-menu>
@@ -78,7 +78,7 @@
                                     </i>
                                 </el-popover>
                             </span>
-                            <span>{{ section.create_at | time }}</span>
+                            <span @click="sectionAddShow = true">{{ section.create_at | time }}</span>
                         </div>
                     </div>
                 </div>
@@ -112,6 +112,7 @@ export default {
     data () {
         return {
             dataList: [],
+            loadType: 'all',
             loadStatus: 'active',
             params: {
                 page: 1,
