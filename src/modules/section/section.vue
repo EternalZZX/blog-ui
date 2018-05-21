@@ -4,7 +4,9 @@
             <div class="et-nav__wrapper">
                 <div class="et-nav__header">
                     <span class="et-nav__title">{{ $t("section.nav.title") }}</span>
-                    <el-button v-perm:section-add class="et-nav__button" type="text">
+                    <el-button class="et-nav__button" type="text"
+                        v-perm:section-add
+                        @click="sectionAddShow = true">
                         {{ $t("section.nav.create") }}
                     </el-button>
                 </div>
@@ -86,10 +88,16 @@
                     <span class="et-toolbar__title">ToolBar</span>
                 </div>
                 <div class="et-toolbar__body">
-                    Content
+                    Advertise
                 </div>
             </div>
         </div>
+
+        <et-dialog v-perm:section-add
+            v-model="sectionAddShow"
+            :title="$t('section.create.title')">
+            <et-section-add></et-section-add>
+        </et-dialog>
     </div>
 </template>
 
@@ -97,8 +105,10 @@
 import SectionApi from '@/common/api/sections';
 import Utils from '@/common/utils';
 import { EVENT } from '@/common/bus';
+import EtSectionAdd from './section-add';
 export default {
     name: 'EtSection',
+    components: { EtSectionAdd },
     data () {
         return {
             dataList: [],
@@ -107,7 +117,8 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            hashCode: Utils.randString()
+            hashCode: Utils.randString(),
+            sectionAddShow: false
         };
     },
     mounted () {

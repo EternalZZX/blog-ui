@@ -30,20 +30,40 @@
     font-size: $descriptionFontSize;
     user-select: none;
 
-    &.el-button--primary {
+    &.el-button--default {
         &:focus {
-            background-color: $themeColor;
-            border-color: $themeColor;
+            color: #606266;
+            border-color: #dcdfe6;
+            background-color: #fff;
         }
 
         &:hover {
-            background: $themeHoverColor;
-            border-color: $themeHoverColor;
+            color: #606266;
+            border-color: #b3e8ff;
+            background-color: #e6f7ff;
         }
 
         &:active {
-            background: $themeActiveColor;
+            color: #00B1FF;
+            border-color: #00B1FF;
+            background-color: #e6f7ff;
+        }
+    }
+
+    &.el-button--primary {
+        &:focus {
+            border-color: $themeColor;
+            background-color: $themeColor;
+        }
+
+        &:hover {
+            border-color: $themeHoverColor;
+            background: $themeHoverColor;
+        }
+
+        &:active {
             border-color: $themeActiveColor;
+            background: $themeActiveColor;
         }
     }
 }
@@ -126,7 +146,7 @@
 
     .el-dropdown-menu__item {
         line-height: $elementHeight;
-        padding: 0 $spaceMiddle;
+        padding: 0 $spaceBig;
         font-size: $descriptionFontSize;
         color: $subThemeColor;
         background-color: $dropdownBackground;

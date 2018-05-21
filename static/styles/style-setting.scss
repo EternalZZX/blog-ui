@@ -1,5 +1,6 @@
 /* Font Size Setting */
 $titleFontSize: 1.125rem;
+$dialogTitleFontSize: 1rem;
 $contentFontSize: .9375rem;
 $subtitleFontSize: .875rem;
 $descriptionFontSize: .81rem;
@@ -27,10 +28,12 @@ $themeColor: #00b1ff;
 $themeHoverColor: #33c1ff;
 $themeActiveColor: #009fe6;
 $subThemeColor: #2b6dad;
+$submitColor: #3e78ad;
 
 /* Background Color Setting */
 $headerBackground: #fff;
 $headerHoverBackground: #f6f6f6;
+$dialogFooterBackground: #f6f6f6;
 $dropdownBackground: #f6f6f6;
 $dropdownHoverBackground: #dfeffa;
 $mainBackground: #fafafa;
@@ -52,7 +55,8 @@ $radiusTiny: .2rem;
 
 /* Margin Setting */
 $spaceLarge: 1rem;
-$spaceMiddle: .8rem;
+$spaceBig: .8rem;
+$spaceMiddle: .6rem;
 $spaceSmall: .5rem;
 $spaceTiny: .2rem;
 

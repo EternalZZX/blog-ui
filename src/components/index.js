@@ -1,7 +1,9 @@
+import BaseDialog from './base-dialog';
 import LoadScroll from './load-scroll';
 import UserCard from './user-card';
 
 const components = [
+    BaseDialog,
     LoadScroll,
     UserCard
 ];

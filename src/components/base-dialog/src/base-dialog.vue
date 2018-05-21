@@ -1,0 +1,118 @@
+<template>
+    <el-dialog ref="dialog"
+        class="et-dialog"
+        :visible.sync="visible"
+        @close="close">
+        <span slot="title" class="et-dialog__title">
+            {{ title }}
+        </span>
+        <slot></slot>
+        <div slot="footer">
+            <el-button @click="cancel">{{ $t("common.cancel") }}</el-button>
+            <el-button type="primary" @click="submit">{{ $t("common.submit") }}</el-button>
+        </div>
+    </el-dialog>
+</template>
+
+<script>
+export default {
+    name: 'EtDialog',
+    model: {
+        prop: 'show',
+        event: 'update:show'
+    },
+    props: {
+        show: {
+            type: Boolean,
+            default: false
+        },
+        title: {
+            type: String,
+            default: ''
+        }
+    },
+    data () {
+        return {
+            visible: this.show
+        };
+    },
+    computed: {
+        child () {
+            return this.$refs.dialog.$children.find(item => item.submit !== void 0);
+        }
+    },
+    watch: {
+        show () {
+            this.visible = this.show;
+        }
+    },
+    methods: {
+        submit () {
+            if (this.child && this.child.submit) {
+                this.child.submit();
+            }
+            this.close();
+        },
+        cancel () {
+            if (this.child && this.child.cancel) {
+                this.child.cancel();
+            }
+            this.close();
+        },
+        close () {
+            if (this.child && this.child.close) {
+                this.child.close();
+            }
+            this.$emit('update:show', false);
+        }
+    }
+};
+</script>
+
+<style lang="scss" scoped>
+@import '~static/styles/style-common';
+
+.et-dialog {
+    /deep/ .el-dialog {
+        border-radius: $radiusSmall;
+    }
+
+    /deep/ .el-dialog__header {
+        padding: $spaceLarge;
+
+        .et-dialog__title {
+            font-size: $dialogTitleFontSize;
+            font-weight: $navFontWeight;
+        }
+
+        .el-dialog__headerbtn {
+            top: $spaceLarge;
+            right: $spaceLarge;
+        }
+
+        .el-dialog__headerbtn .el-dialog__close {
+            font-size: $iconFontSizeLarge;
+        }
+    }
+
+    /deep/ .el-dialog__footer {
+        background: $dialogFooterBackground;
+        border-radius: 0 0 $radiusSmall $radiusSmall;
+        padding: $spaceMiddle;
+        border-top: $splitBorder;
+
+        .el-button {
+            padding: $spaceMiddle;
+        }
+
+        .el-button--primary {
+            border-color: $submitColor;
+            background: $submitColor;
+        }
+
+        .el-button--primary:hover {
+            border-color: #234462;
+        }
+    }
+}
+</style>

@@ -40,6 +40,9 @@ export default {
             owner: '发起人',
             moderator: '版主',
             assistant: '小版主'
+        },
+        create: {
+            title: '发起话题'
         }
     },
     request: {
@@ -56,6 +59,8 @@ export default {
         password: '密码长度至少6位!'
     },
     common: {
+        submit: '提 交',
+        cancel: '取 消',
         noMore: '没有更多了'
     },
     ...zhLocale

@@ -40,6 +40,9 @@ export default {
             owner: 'Initiator',
             moderator: 'Moderator',
             assistant: 'Assistants'
+        },
+        create: {
+            title: 'Add Topic'
         }
     },
     request: {
@@ -58,6 +61,8 @@ export default {
         password: 'Password contain at least 6 characters!'
     },
     common: {
+        submit: 'Submit',
+        cancel: 'Cancel',
         noMore: 'No more'
     },
     ...enLocale
