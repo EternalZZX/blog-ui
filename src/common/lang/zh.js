@@ -8,6 +8,7 @@ export default {
         search: '搜索新发现...',
         post: '发帖',
         profile: '我的主页',
+        album: '相册',
         setting: '设置',
         signOut: '退出'
     },

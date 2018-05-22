@@ -5,7 +5,7 @@
 
 <script>
 export default {
-    name: 'EtMark',
+    name: 'EtAlbumProfile',
     data () {
         return {
         };

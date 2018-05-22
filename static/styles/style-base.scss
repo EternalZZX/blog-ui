@@ -106,17 +106,23 @@ $innerList: et-header, et-main;
             height: $headerHeight;
             line-height: $headerHeight;
             font-size: $subtitleFontSize;
+            padding: 0;
+        }
+
+        .el-menu-item > a {
+            display: block;
+            padding: 0 1.3rem;
         }
 
         .el-menu-item .et-icon {
-            margin-right: 0.2rem;
+            margin-right: .2rem;
             font-size: $iconFontSizeLarge;
             transition: color .3s;
         }
 
         .el-menu-item.is-active {
             color: $themeColor;
-            border-bottom: 0.2rem solid $themeColor;
+            border-bottom: .2rem solid $themeColor;
         }
 
         .el-menu-item:not(.is-disabled):hover {

@@ -8,6 +8,7 @@ export default {
         search: 'Search for new discoveries...',
         post: 'Post',
         profile: 'Profile',
+        album: 'Album',
         setting: 'Settings',
         signOut: 'Sign Out'
     },

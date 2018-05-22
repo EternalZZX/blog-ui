@@ -5,7 +5,7 @@
 
 <script>
 export default {
-    name: 'EtMark',
+    name: 'EtSetting',
     data () {
         return {
         };

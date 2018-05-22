@@ -6,6 +6,7 @@ import footer from '@/modules/footer/footer';
 import rootRouter from './root';
 import sectionRouter from './section';
 import markRouter from './mark';
+import albumRouter from './album';
 
 Vue.use(VueRouter);
 
@@ -44,17 +45,25 @@ const router = new VueRouter({
         path: markRouter.base,
         component: frameCompontent,
         children: markRouter.routes
+    }, {
+        path: albumRouter.base,
+        component: frameCompontent,
+        children: albumRouter.routes
     }]
 });
 
 router.beforeEach((to, from, next) => {
-    Common.auth()
-        .then(data => Common.getPermission())
-        .then(data => {
-            next();
-        }).catch(reason => {
-            next(false);
-        });
+    if (to.meta.auth) {
+        Common.auth()
+            .then(data => Common.getPermission())
+            .then(data => {
+                next();
+            }).catch(reason => {
+                next(false);
+            });
+    } else {
+        next();
+    }
 });
 
 export default router;

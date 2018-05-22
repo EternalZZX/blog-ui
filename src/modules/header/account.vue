@@ -10,6 +10,9 @@
                 <el-dropdown-item command="profile">
                     <i class="et-icon ei-user"></i>{{ $t("header.profile") }}
                 </el-dropdown-item>
+                <el-dropdown-item command="albumProfile">
+                    <i class="et-icon ei-album"></i>{{ $t("header.album") }}
+                </el-dropdown-item>
                 <el-dropdown-item command="setting">
                     <i class="et-icon ei-setup"></i>{{ $t("header.setting") }}
                 </el-dropdown-item>
@@ -57,13 +60,22 @@ export default {
             Utils.deleteToken();
             Common.guestLogin();
         },
+        redirection (name) {
+            this.$router.push({
+                name,
+                params: {
+                    uuid: this.identity.uuid
+                }
+            });
+        },
         handleCommand (command) {
             const operate = {
-                'profile': null,
-                'setting': null,
+                'profile': this.redirection,
+                'albumProfile': this.redirection,
+                'setting': this.redirection,
                 'exit': this.signOut
             };
-            operate[command].call();
+            operate[command].call(this, command);
         }
     }
 };

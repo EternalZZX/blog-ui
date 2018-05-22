@@ -51,13 +51,13 @@ export default {
             if (this.child && this.child.submit) {
                 this.child.submit();
             }
-            this.close();
+            this.$emit('update:show', false);
         },
         cancel () {
             if (this.child && this.child.cancel) {
                 this.child.cancel();
             }
-            this.close();
+            this.$emit('update:show', false);
         },
         close () {
             if (this.child && this.child.close) {

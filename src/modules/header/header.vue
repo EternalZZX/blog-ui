@@ -4,16 +4,21 @@
             <a class="et-header__logo"></a>
             <el-menu class="et-header__menu"
                 mode="horizontal"
-                :default-active="$route.name"
-                :router="true">
+                :default-active="$route.name">
                 <el-menu-item index="home">
-                    <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
+                    <router-link :to="{ name: 'home' }">
+                        <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
+                    </router-link>
                 </el-menu-item>
                 <el-menu-item index="section">
-                    <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
+                    <router-link :to="{ name: 'section' }">
+                        <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
+                    </router-link>
                 </el-menu-item>
                 <el-menu-item index="mark">
-                    <i class="et-icon ei-like-fill"></i>{{ $t("header.mark") }}
+                    <router-link :to="{ name: 'mark' }">
+                        <i class="et-icon ei-like-fill"></i>{{ $t("header.mark") }}
+                    </router-link>
                 </el-menu-item>
             </el-menu>
             <et-search></et-search>
@@ -26,17 +31,17 @@
                 </div>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>
-                        <router-link to="home">
+                        <router-link :to="{ name: 'home' }">
                             <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
                         </router-link>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link to="section">
+                        <router-link :to="{ name: 'section' }">
                             <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
                         </router-link>
                     </el-dropdown-item>
                     <el-dropdown-item>
-                        <router-link to="mark">
+                        <router-link :to="{ name: 'mark' }">
                             <i class="et-icon ei-like-fill"></i>{{ $t("header.mark") }}
                         </router-link>
                     </el-dropdown-item>
