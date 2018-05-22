@@ -1,10 +1,12 @@
 import BaseDialog from './base-dialog';
 import LoadScroll from './load-scroll';
+import SideNav from './side-nav';
 import UserCard from './user-card';
 
 const components = [
     BaseDialog,
     LoadScroll,
+    SideNav,
     UserCard
 ];
 

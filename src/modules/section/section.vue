@@ -1,33 +1,15 @@
 <template>
     <div class="et-layout">
-        <nav class="et-nav">
-            <div class="et-nav__wrapper">
-                <div class="et-nav__header">
-                    <span class="et-nav__title">{{ $t("section.nav.title") }}</span>
-                    <el-button class="et-nav__button" type="text"
-                        v-perm:section-add
-                        @click="sectionAddShow = true">
-                        {{ $t("section.nav.create") }}
-                    </el-button>
-                </div>
-                <div class="et-nav__body">
-                    <el-menu :default-active="loadType">
-                        <el-menu-item index="all">
-                            <span slot="title">{{ $t("section.nav.all") }}</span>
-                        </el-menu-item>
-                        <el-menu-item index="hot">
-                            <span slot="title">{{ $t("section.nav.hot") }}</span>
-                        </el-menu-item>
-                        <el-menu-item index="follow">
-                            <span slot="title">{{ $t("section.nav.follow") }}</span>
-                        </el-menu-item>
-                        <el-menu-item index="manage">
-                            <span slot="title">{{ $t("section.nav.manage") }}</span>
-                        </el-menu-item>
-                    </el-menu>
-                </div>
-            </div>
-        </nav>
+        <et-nav :title="$t('section.nav.title')"
+            :index.sync="loadType"
+            :menu="nav">
+            <el-button slot="button" type="text"
+                class="et-nav__button"
+                v-perm:section-add
+                @click="sectionAddShow = true">
+                {{ $t("section.nav.create") }}
+            </el-button>
+        </et-nav>
         <div class="et-content">
             <et-scroll class="et-content__wrapper"
                 v-model="loadStatus"
@@ -94,7 +76,7 @@
         </div>
 
         <et-dialog v-perm:section-add
-            v-model="sectionAddShow"
+            :show.sync="sectionAddShow"
             :title="$t('section.create.title')">
             <et-section-add></et-section-add>
         </et-dialog>
@@ -112,12 +94,25 @@ export default {
     data () {
         return {
             dataList: [],
-            loadType: 'all',
-            loadStatus: 'active',
             params: {
                 page: 1,
                 page_size: 10
             },
+            nav: [{
+                value: 'all',
+                label: this.$t('section.nav.all')
+            }, {
+                value: 'hot',
+                label: this.$t('section.nav.hot')
+            }, {
+                value: 'follow',
+                label: this.$t('section.nav.follow')
+            }, {
+                value: 'manage',
+                label: this.$t('section.nav.manage')
+            }],
+            loadType: 'all',
+            loadStatus: 'active',
             hashCode: Utils.randString(),
             sectionAddShow: false
         };
@@ -129,6 +124,7 @@ export default {
         init () {
             this.dataList = [];
             this.params.page = 1;
+            this.loadType = 'all';
             this.hashCode = Utils.randString();
             this.loadMore();
         },
