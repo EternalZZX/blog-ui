@@ -46,6 +46,18 @@ export default {
             title: '发起话题'
         }
     },
+    album: {
+        nav: {
+            title: '相册',
+            create: '新增',
+            all: '全部相册',
+            public: '公开相册',
+            private: '私有相册'
+        },
+        create: {
+            title: '创建相册'
+        }
+    },
     request: {
         errorRequest: '请求错误!',
         errorConnection: '连接服务器失败!'

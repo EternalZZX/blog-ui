@@ -46,6 +46,18 @@ export default {
             title: 'Add Topic'
         }
     },
+    album: {
+        nav: {
+            title: 'Albums',
+            create: 'Add',
+            all: 'All Albums',
+            public: 'Public Albums',
+            private: 'Private Albums'
+        },
+        create: {
+            title: 'Add Album'
+        }
+    },
     request: {
         errorRequest: 'Request error!',
         errorConnection: 'Failed to connect to the server!'

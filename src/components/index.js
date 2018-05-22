@@ -1,13 +1,13 @@
-import BaseDialog from './base-dialog';
-import LoadScroll from './load-scroll';
-import SideNav from './side-nav';
-import UserCard from './user-card';
+import Dialog from './dialog';
+import Scroll from './scroll';
+import Nav from './nav';
+import User from './user';
 
 const components = [
-    BaseDialog,
-    LoadScroll,
-    SideNav,
-    UserCard
+    Dialog,
+    Nav,
+    Scroll,
+    User
 ];
 
 const install = (Vue, opts = {}) => {

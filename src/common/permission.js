@@ -82,6 +82,10 @@ const PERMISSION_DICT = {
     'section-add': {
         name: NAME.SECTION_CREATE,
         type: TYPE.STATUS
+    },
+    'album-add': {
+        name: NAME.ALBUM_CREATE,
+        type: TYPE.STATUS
     }
 };
 
