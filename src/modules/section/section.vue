@@ -65,14 +65,7 @@
                     </div>
                 </div>
             </et-scroll>
-            <div class="et-toolbar">
-                <div class="et-toolbar__header">
-                    <span class="et-toolbar__title">ToolBar</span>
-                </div>
-                <div class="et-toolbar__body">
-                    Advertise
-                </div>
-            </div>
+            <et-toolbar></et-toolbar>
         </div>
 
         <et-dialog v-perm:section-add
@@ -84,7 +77,7 @@
 </template>
 
 <script>
-import SectionApi from '@/common/api/sections';
+import Section from '@/common/api/sections';
 import Utils from '@/common/utils';
 import { EVENT } from '@/common/bus';
 import EtSectionAdd from './section-add';
@@ -129,7 +122,7 @@ export default {
             this.loadMore();
         },
         loadMore () {
-            SectionApi.list(this.params).then(response => {
+            Section.list(this.params).then(response => {
                 this.dataList = this.dataList.concat(response.data.sections);
                 this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
                 this.params.page ++;

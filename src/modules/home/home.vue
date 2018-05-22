@@ -19,8 +19,8 @@
 
 <script>
 import Utils from '@/common/utils';
-// import sectionApi from '@/common/api/sections';
-import photoApi from '@/common/api/photos';
+// import Section from '@/common/api/sections';
+import Photo from '@/common/api/photos';
 export default {
     name: 'EtHome',
     data () {
@@ -34,7 +34,7 @@ export default {
     mounted: () => {
         // Utils.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
         //                 'eU9HRXRZVFl4TVMwMVpXWmtMV0ZsTm1VdFlUVTFNR0UxWWprMU5EZzM');
-        // sectionApi.delete('', {
+        // Section.delete('', {
         //     id_list: 20,
         //     force: true
         // }).then(response => {
@@ -59,7 +59,7 @@ export default {
             this.$refs.upload.submit();
         },
         upload (content) {
-            photoApi.create(content.file, {
+            Photo.create(content.file, {
                 description: 'a'
             }).then(response => {
                 content.onSuccess(response.data);

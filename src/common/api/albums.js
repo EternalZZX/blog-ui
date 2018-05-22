@@ -1,17 +1,13 @@
 import BaseRequest from '@/common/request';
 
-class UserApi extends BaseRequest {
+class AlbumApi extends BaseRequest {
     constructor () {
         super();
-        this.url = '/account/users/';
+        this.url = '/content/albums/';
     }
 
     get (uuid, config = {}) {
         return super.get(`${this.url}${uuid}/`, config);
-    }
-
-    self (config = {}) {
-        return super.get(`${this.url}self/`, config);
     }
 
     list (params = {}, config = {}) {
@@ -38,16 +34,18 @@ class UserApi extends BaseRequest {
     }
 }
 
-UserApi.GENDER = {
-    FEMALE: 0,
-    MALE: 1
+AlbumApi.PRIVACY = {
+    PRIVATE: 0,
+    PUBLIC: 1
 };
 
-UserApi.STATUS = {
-    CANCEL: 0,
-    ACTIVE: 1
+AlbumApi.SYSTEM = {
+    AVATAR_ALBUM: 0,
+    ALBUM_COVER_ALBUM: 1,
+    SECTION_COVER_ALBUM: 2,
+    ARTICLE_COVER_ALBUM: 3
 };
 
-export { UserApi };
+export { AlbumApi };
 
-export default new UserApi();
+export default new AlbumApi();

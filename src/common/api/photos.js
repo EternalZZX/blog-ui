@@ -46,4 +46,19 @@ class PhotoApi extends BaseRequest {
     }
 }
 
+PhotoApi.STATUS = {
+    CANCEL: 0,
+    ACTIVE: 1,
+    AUDIT: 2,
+    FAILED: 3,
+    RECYCLED: 4
+};
+
+PhotoApi.PRIVACY = {
+    PRIVATE: 0,
+    PUBLIC: 1
+};
+
+export { PhotoApi };
+
 export default new PhotoApi();

@@ -3,7 +3,7 @@ import Utils from '@/common/utils';
 import store from '@/store';
 import STORE_TYPES from '@/store/types';
 import { Message } from 'element-ui';
-import AccountApi from '@/common/api/accounts';
+import Account from '@/common/api/accounts';
 
 class Common {
     static async isLogin () {
@@ -46,7 +46,7 @@ class Common {
 
     static guestLogin () {
         return new Promise((resolve, reject) => {
-            AccountApi.signInGuest().then(response => {
+            Account.signInGuest().then(response => {
                 Utils.setToken(response.data.token);
                 updatePermission();
                 resolve(response.data);

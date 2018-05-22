@@ -47,7 +47,7 @@ import Clickoutside from 'element-ui/src/utils/clickoutside';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
 import validate from '@/common/validate';
-import AccountApi from '@/common/api/accounts';
+import Account from '@/common/api/accounts';
 export default {
     name: 'EtLogin',
     directives: { Clickoutside },
@@ -78,7 +78,7 @@ export default {
                 this.alertMessage(validateResult.message);
                 return;
             }
-            AccountApi.signIn(this.data).then(response => {
+            Account.signIn(this.data).then(response => {
                 this.signInInit(response.data);
             }).catch(err => {
                 this.alertError(err, {
@@ -96,7 +96,7 @@ export default {
                 this.alertMessage(validateResult.message);
                 return;
             }
-            AccountApi.signUp(this.data).then(response => {
+            Account.signUp(this.data).then(response => {
                 this.signInInit(response.data);
             }).catch(err => {
                 this.alertError(err, {

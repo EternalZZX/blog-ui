@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         select (index) {
-            this.$emit('index:update', index);
+            this.$emit('update:index', index);
         }
     }
 };

@@ -317,6 +317,7 @@ $innerList: et-header, et-main;
 
         .et-nav {
             display: none;
+            position: relative;
             flex: none;
             margin-left: 0;
 
@@ -486,31 +487,6 @@ $innerList: et-header, et-main;
         &:hover {
             color: $subThemeColor;
         }
-    }
-}
-
-.et-toolbar {
-    width: $navWidth;
-    border: $splitBorder;
-    border-radius: $radiusTiny;
-    background-color: $blockBackground;
-
-    .et-toolbar__header {
-        height: $toolbarHeaderHeight;
-        padding: $spaceSmall;
-        line-height: $toolbarHeaderHeight;
-        background-color: $mainBackground;
-        border-bottom: $splitBorder;
-    }
-
-    .et-toolbar__title {
-        font-size: .938rem;
-        font-weight: $subtitleFontWeight;
-        color: $subtitleColor;
-    }
-
-    .et-toolbar__body {
-        padding: $spaceSmall;
     }
 }
 

@@ -1,12 +1,14 @@
 import Dialog from './dialog';
-import Scroll from './scroll';
 import Nav from './nav';
+import Scroll from './scroll';
+import Toolbar from './toolbar';
 import User from './user';
 
 const components = [
     Dialog,
     Nav,
     Scroll,
+    Toolbar,
     User
 ];
 

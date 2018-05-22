@@ -34,4 +34,12 @@ class SectionApi extends BaseRequest {
     }
 }
 
+SectionApi.STATUS = {
+    CANCEL: 0,
+    NORMAL: 1,
+    HIDE: 2
+};
+
+export { SectionApi };
+
 export default new SectionApi();
