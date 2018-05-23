@@ -568,14 +568,27 @@ $innerList: et-header, et-main;
     overflow: hidden;
     cursor: pointer;
 
+    @include filter-screen($padHorizontalMinWidth, $padMaxWidth) {
+        & {
+            height: 230px;
+        }
+    }
+
+    @include min-screen($pcMinWidth) {
+        & {
+            height: 230px;
+        }
+    }
+
     .et-album__body {
+        display: flex;
         position: absolute;
-        bottom: 0;
+        bottom: -30%;
         left: 0;
-        height: 40%;
+        height: 65%;
         width: 100%;
         box-sizing: border-box;
-        padding: .5rem;
+        padding: 0 0.5rem;
         padding-top: 20%;
         color: #fff;
         background: linear-gradient(
@@ -584,5 +597,30 @@ $innerList: et-header, et-main;
             rgba(51, 51, 51, 0.7), 
             rgba(51, 51, 51, 0.7)
         );
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                bottom: -25%;
+            }
+        }
+
+        .et-album__title {
+            flex: auto;
+            font-size: $subtitleFontSize;
+            font-weight: $subtitleFontWeight;
+            @extend %text-overview;
+        }
+
+        .et-album__info {
+            flex: none;
+            font-size: $subtitleFontSize;
+            font-weight: $subtitleFontWeight;
+            @extend %text-overview;
+        }
+
+        .et-album__info > .et-icon {
+            font-size: $iconFontSizeSmall;
+            margin-right: .1rem;
+        }
     }
 }

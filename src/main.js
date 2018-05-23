@@ -19,6 +19,7 @@ Vue.use(ElementUI);
 Vue.use(EtComponents);
 
 Vue.filter('none', value => Utils.formatNone(value));
+Vue.filter('count', value => Utils.formatCount(value));
 Vue.filter('time', value => Utils.formatTime(value));
 
 Vue.config.productionTip = false;

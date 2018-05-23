@@ -22,7 +22,10 @@
                         <div class="et-album" :style="getCover(album)">
                             <!-- <div class="et-album__cover" :style="getCover(album)"></div> -->
                             <div class="et-album__body">
-                                {{ album.name }}
+                                <span class="et-album__title">{{ album.name }}</span>
+                                <span class="et-album__info">
+                                    <i class="et-icon ei-like"></i>{{ album.metadata.like_count | count }}
+                                </span>
                             </div>
                         </div>
                     </div>

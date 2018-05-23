@@ -74,6 +74,11 @@ class Utils {
         return str;
     }
 
+    static formatCount (count) {
+        const number = parseInt(count);
+        return number > 999 ? 999 : number;
+    }
+
     static formatTime (str) {
         if (!str) {
             return '-';
