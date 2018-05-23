@@ -2,6 +2,7 @@ import TYPES from './types';
 import UserApi from '@/common/api/users';
 import RoleApi from '@/common/api/roles';
 import Utils from '@/common/utils';
+import Bus, { EVENT } from '@/common/bus';
 import SETTING from '@/setting';
 
 export default {
@@ -9,6 +10,7 @@ export default {
         return new Promise((resolve, reject) => {
             UserApi.self().then(response => {
                 commit(TYPES.SET_IDENTITY, response.data);
+                Bus.$emit(EVENT.IDENTITY_REFRESH);
                 resolve(response.data);
             }).catch(err => {
                 Utils.errorLog(err, 'USER-SELF');

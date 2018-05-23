@@ -52,7 +52,8 @@ export default {
             create: 'Add',
             all: 'All Albums',
             public: 'Public Albums',
-            private: 'Private Albums'
+            private: 'Private Albums',
+            other: 'Other Photos'
         },
         create: {
             title: 'Add Album'

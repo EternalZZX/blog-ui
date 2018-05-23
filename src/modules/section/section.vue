@@ -111,7 +111,7 @@ export default {
         };
     },
     mounted () {
-        this.$root.Bus.$on(EVENT.REFRESH, this.init);
+        this.$root.Bus.$on(EVENT.TOKEN_REFRESH, this.init);
     },
     methods: {
         init () {
@@ -130,9 +130,9 @@ export default {
                 Utils.errorLog(err, 'SECTION-LIST');
             });
         },
-        getCover (section) {
-            return section.cover ? {
-                backgroundImage: `url(${section.cover}?hash=${this.hashCode})`
+        getCover (data) {
+            return data.cover ? {
+                backgroundImage: `url(${data.cover}?hash=${this.hashCode})`
             } : null;
         }
     }

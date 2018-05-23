@@ -52,7 +52,8 @@ export default {
             create: '新增',
             all: '全部相册',
             public: '公开相册',
-            private: '私有相册'
+            private: '私有相册',
+            other: '其他图片'
         },
         create: {
             title: '创建相册'

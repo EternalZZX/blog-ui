@@ -40,6 +40,7 @@ export default {
     methods: {
         select (index) {
             this.$emit('update:index', index);
+            this.$emit('select', index);
         }
     }
 };

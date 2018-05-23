@@ -12,7 +12,7 @@ class Utils {
 
     static setToken (token) {
         Vue.cookie.set(SETTING.TOKEN_COOKIE_KEY, token, 7);
-        Bus.$emit(EVENT.REFRESH);
+        Bus.$emit(EVENT.TOKEN_REFRESH);
     }
 
     static deleteToken () {
