@@ -44,6 +44,7 @@ $footerBackground: #f1f1f1;
 /* Border Setting */
 $splitBorderColor: #e2e2e2;
 $splitBorder: 1px solid $splitBorderColor;
+$boldDashedBorder: 2px dashed $splitBorderColor;
 $deepenBorderColor: #ddd;
 $deepenBorder: 1px solid $deepenBorderColor;
 $darkBorderColor: #ccc;
@@ -89,3 +90,4 @@ $padMaxWidth: 1279px;
 $padHorizontalMinWidth: 1024px;
 $padMinWidth: 768px;
 $phoneMaxWidth: 767px;
+$phoneHorizontalMinWidth: 666px;

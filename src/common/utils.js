@@ -79,7 +79,7 @@ class Utils {
         return number > 999 ? 999 : number;
     }
 
-    static formatTime (str) {
+    static formatTime (str, type = 'time') {
         if (!str) {
             return '-';
         }
@@ -92,8 +92,13 @@ class Utils {
                 parseInt(dataArr[0]), parseInt(dataArr[1]) - 1, parseInt(dataArr[2]),
                 parseInt(timeArr[0]), parseInt(timeArr[1]), parseInt(timeArr[2]))
             );
-            return timeObj.toLocaleString('zh-Hans-CN', { hour12: false });
+            const typeDict = {
+                'time': timeObj.toLocaleString,
+                'date': timeObj.toLocaleDateString
+            };
+            return typeDict[type].call(timeObj, 'zh-Hans-CN', { hour12: false });
         } catch (e) {
+            console.warn(e);
             return '-';
         }
     }

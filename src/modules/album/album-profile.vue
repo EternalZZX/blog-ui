@@ -19,15 +19,25 @@
                 <div class="et-album__container">
                     <div class="et-album__wrapper"
                         v-for="album in dataList" :key="album.uuid">
-                        <div class="et-album" :style="getCover(album)">
-                            <!-- <div class="et-album__cover" :style="getCover(album)"></div> -->
-                            <div class="et-album__body">
-                                <span class="et-album__title">{{ album.name }}</span>
-                                <span class="et-album__info">
-                                    <i class="et-icon ei-like"></i>{{ album.metadata.like_count | count }}
-                                </span>
-                            </div>
+                        <div class="et-album" :style="getStyle(album)">
+                            <ul class="et-album__body">
+                                <li class="et-album__info">
+                                    <span>{{ album.name }}</span>
+                                    <span class="et-album__info_count">
+                                        <i class="et-icon ei-like"></i>{{ album.metadata.like_count | count }}
+                                    </span>
+                                </li>
+                                <li class="et-album__info">
+                                    <span>{{ album.create_at | date }}</span>
+                                    <span class="et-album__info_count">
+                                        <i class="et-icon ei-message"></i>{{ album.metadata.comment_count | count }}
+                                    </span>
+                                </li>
+                            </ul>
                         </div>
+                    </div>
+                    <div class="et-album__wrapper et-album__wrapper_add">
+                        <div class="et-album__add" :style="{ height: albumSize }"></div>
                     </div>
                 </div>
             </et-scroll>
@@ -71,7 +81,8 @@ export default {
             loadType: 'all',
             loadStatus: 'active',
             hashCode: Utils.randString(),
-            albumAddShow: false
+            albumAddShow: false,
+            albumSize: '160px'
         };
     },
     computed: {
@@ -93,6 +104,12 @@ export default {
     },
     mounted () {
         this.$root.Bus.$on(EVENT.IDENTITY_REFRESH, this.init);
+        window.onresize = () => {
+            this.albumSize = this.getAlbumSize();
+        };
+        this.$nextTick(() => {
+            this.albumSize = this.getAlbumSize();
+        });
     },
     methods: {
         init (loadType) {
@@ -120,10 +137,14 @@ export default {
                 Utils.errorLog(err, 'ALBUM-LIST');
             });
         },
-        getCover (data) {
-            return data.cover ? {
-                backgroundImage: `url(${data.cover}?hash=${this.hashCode})`
-            } : null;
+        getAlbumSize () {
+            const el = document.getElementsByClassName('et-album__add')[0];
+            return document.defaultView.getComputedStyle(el, null).width;
+        },
+        getStyle (data) {
+            const style = { height: this.albumSize };
+            data.cover && (style.backgroundImage = `url(${data.cover}?hash=${this.hashCode})`);
+            return style;
         }
     }
 };

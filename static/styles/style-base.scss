@@ -504,6 +504,20 @@ $innerList: et-header, et-main;
     }
 }
 
+%album-border {
+    content: '';
+    position: absolute;
+    top: $spaceMiddle;
+    left: $spaceMiddle;
+    z-index: -1;
+    background-color: #efefef;
+    border: $splitBorder;
+    border-radius: $radiusTiny;
+    width: calc(100% - 1.2rem);
+    height: calc(100% - 1.2rem);
+    box-shadow: $cardShadow;
+}
+
 .et-album__container {
     display: flex;
     flex-wrap: wrap; 
@@ -517,47 +531,44 @@ $innerList: et-header, et-main;
         padding: $spaceMiddle;
         box-sizing: border-box;
 
-        @include max-screen($phoneMaxWidth) {
+        @include max-screen($phoneHorizontalMinWidth) {
             & {
                 width: 50%;
             }
         }
 
         &:before {
-            content: '';
-            position: absolute;
-            top: $spaceMiddle;
-            left: $spaceMiddle;
-            z-index: -1;
-            background-color: #efefef;
-            border: $splitBorder;
-            border-radius: $radiusTiny;
             transform: rotate(4.2deg);
-            width: calc(100% - 1.2rem);
-            height: calc(100% - 1.2rem);
-            box-shadow: $cardShadow;
+            @extend %album-border;
         }
 
         &:after {
-            content: '';
-            position: absolute;
-            top: $spaceMiddle;
-            left: $spaceMiddle;
-            z-index: -1;
-            background-color: #efefef;
-            border: $splitBorder;
-            border-radius: $radiusTiny;
             transform: rotate(1.2deg);
-            width: calc(100% - 1.2rem);
-            height: calc(100% - 1.2rem);
-            box-shadow: $cardShadow;
+            @extend %album-border;
+        }
+    }
+
+    .et-album__wrapper_add {
+        .et-album__add {
+            width: 100%;
+            box-sizing: border-box;
+            border: $boldDashedBorder;
+            border-radius: $radiusTiny;
+            cursor: pointer;
+        }
+
+        &.et-album__wrapper {
+            &:before,
+            &:after {
+                content: none;
+            }
         }
     }
 }
 
 .et-album {
     position: relative;
-    height: 160px;
+    width: 100%;
     box-sizing: border-box;
     border: $spaceSmall solid $blockBackground;
     border-radius: .2rem;
@@ -568,59 +579,49 @@ $innerList: et-header, et-main;
     overflow: hidden;
     cursor: pointer;
 
-    @include filter-screen($padHorizontalMinWidth, $padMaxWidth) {
-        & {
-            height: 230px;
-        }
-    }
-
-    @include min-screen($pcMinWidth) {
-        & {
-            height: 230px;
-        }
-    }
-
     .et-album__body {
-        display: flex;
         position: absolute;
-        bottom: -30%;
+        bottom: -20%;
         left: 0;
-        height: 65%;
+        height: 60%;
         width: 100%;
         box-sizing: border-box;
         padding: 0 0.5rem;
         padding-top: 20%;
+        margin: 0;
         color: #fff;
         background: linear-gradient(
             rgba(51, 51, 51, 0),
-            rgba(51, 51, 51, 0.3), 
+            rgba(51, 51, 51, 0.5), 
             rgba(51, 51, 51, 0.7), 
             rgba(51, 51, 51, 0.7)
         );
+        transition: bottom .3s;
 
-        @include max-screen($phoneMaxWidth) {
-            & {
-                bottom: -25%;
-            }
+        @at-root .et-album:hover .et-album__body {
+            bottom: 0;
         }
 
-        .et-album__title {
+        .et-album__info {
+            display: flex;
+            height: 50%;
+        }
+
+        .et-album__info > span {
             flex: auto;
             font-size: $subtitleFontSize;
             font-weight: $subtitleFontWeight;
             @extend %text-overview;
         }
 
-        .et-album__info {
+        .et-album__info > span.et-album__info_count {
             flex: none;
-            font-size: $subtitleFontSize;
-            font-weight: $subtitleFontWeight;
-            @extend %text-overview;
         }
 
-        .et-album__info > .et-icon {
+        .et-album__info > span > .et-icon {
             font-size: $iconFontSizeSmall;
             margin-right: .1rem;
         }
     }
 }
+
