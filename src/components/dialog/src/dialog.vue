@@ -85,7 +85,7 @@ export default {
             }
         }
 
-        @include max-screen($padMaxWidth) {
+        @include filter-screen($padMinWidth, $padMaxWidth) {
             & {
                 width: 75%;
             }

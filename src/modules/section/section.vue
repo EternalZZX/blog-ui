@@ -119,6 +119,7 @@ export default {
             this.params.page = 1;
             this.loadType = 'all';
             this.hashCode = Utils.randString();
+            this.sectionAddShow = false;
             this.loadMore();
         },
         loadMore () {

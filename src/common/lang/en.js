@@ -59,6 +59,11 @@ export default {
             title: 'Add Album'
         }
     },
+    photo: {
+        create: {
+            title: 'Upload Photo'
+        }
+    },
     request: {
         errorRequest: 'Request error!',
         errorConnection: 'Failed to connect to the server!'

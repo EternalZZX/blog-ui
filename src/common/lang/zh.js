@@ -59,6 +59,11 @@ export default {
             title: '创建相册'
         }
     },
+    photo: {
+        create: {
+            title: '上传图片'
+        }
+    },
     request: {
         errorRequest: '请求错误!',
         errorConnection: '连接服务器失败!'
