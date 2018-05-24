@@ -551,10 +551,21 @@ $innerList: et-header, et-main;
     .et-album__wrapper_add {
         .et-album__add {
             width: 100%;
+            color: $splitBorderColor;
+            text-align: center;
             box-sizing: border-box;
             border: $boldDashedBorder;
             border-radius: $radiusTiny;
             cursor: pointer;
+        }
+
+        .et-album__add .et-icon {
+            font-size: 3rem;
+        }
+
+        .et-album__add:hover {
+            color: $dropdownHoverBackground;
+            border-color: $dropdownHoverBackground;
         }
 
         &.et-album__wrapper {

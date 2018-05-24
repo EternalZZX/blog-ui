@@ -22,14 +22,14 @@
                         <div class="et-album" :style="getStyle(album)">
                             <ul class="et-album__body">
                                 <li class="et-album__info">
-                                    <span>{{ album.name }}</span>
-                                    <span class="et-album__info_count">
+                                    <span :title="album.name">{{ album.name }}</span>
+                                    <span class="et-album__info_count" :title="album.metadata.like_count">
                                         <i class="et-icon ei-like"></i>{{ album.metadata.like_count | count }}
                                     </span>
                                 </li>
                                 <li class="et-album__info">
                                     <span>{{ album.create_at | date }}</span>
-                                    <span class="et-album__info_count">
+                                    <span class="et-album__info_count" :title="album.metadata.comment_count">
                                         <i class="et-icon ei-message"></i>{{ album.metadata.comment_count | count }}
                                     </span>
                                 </li>
@@ -37,7 +37,11 @@
                         </div>
                     </div>
                     <div class="et-album__wrapper et-album__wrapper_add">
-                        <div class="et-album__add" :style="{ height: albumSize }"></div>
+                        <div class="et-album__add"
+                            :style="{ height: albumSize, lineHeight: albumSize }"
+                            :title="$t('album.create.title')">
+                            <i class="et-icon ei-plus"></i>
+                        </div>
                     </div>
                 </div>
             </et-scroll>
