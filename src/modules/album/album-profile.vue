@@ -47,9 +47,9 @@
                 </div>
                 <div v-else class="et-photo__container">
                     <div class="et-photo__wrapper"
-                        v-for="photo in dataList" :key="photo.uuid">
+                        v-for="(photo, index) in dataList" :key="photo.uuid">
                         <div class="et-photo" :style="getStyle(photo.image_small)"
-                            @click="previewShow = true">
+                            @click="getPreview(index)">
                             <ul class="et-photo__body">
                                 <li class="et-photo__info">
                                     <span :title="photo.description">{{ photo.description }}</span>
@@ -90,7 +90,8 @@
         </et-dialog>
 
         <et-preview
-            :show.sync="previewShow"
+            :show.sync="preview.show"
+            :index.sync="preview.index"
             :data="dataList">
         </et-preview>
     </div>
@@ -124,13 +125,16 @@ export default {
                 value: 'other',
                 label: this.$t('album.nav.other')
             }],
-            loadType: 'all',
+            loadType: 'other',
             loadStatus: 'active',
             hashCode: Utils.randString(),
             albumAddShow: false,
             photoAddShow: false,
-            previewShow: false,
-            blockSize: '160px'
+            preview: {
+                show: false,
+                index: 0
+            },
+            blockSize: null
         };
     },
     computed: {
@@ -206,6 +210,10 @@ export default {
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
+        },
+        getPreview (index) {
+            this.preview.show = true;
+            this.preview.index = index;
         },
         getSize () {
             const el = document.getElementsByClassName('et-photo__add')[0];

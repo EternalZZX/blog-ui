@@ -6,7 +6,13 @@
             </span>
             <div class="et-preview">
                 <div class="et-preview__inner">
-                    <!-- <img :src="data[index].image_large"> -->
+                    <div class="et-preview__container"
+                        :style="{ height: containerHeight }">
+                        <img class="et-preview__image" :src="image">
+                    </div>
+                    <div class="et-preview__comment">
+                        123
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,16 +32,50 @@ export default {
             default () {
                 return [];
             }
+        },
+        index: {
+            type: Number,
+            default: 0
         }
     },
     data () {
         return {
-            index: 0
+            imagePrev: null,
+            imageNext: null,
+            containerHeight: null
         };
+    },
+    computed: {
+        image () {
+            if (this.index >= this.data.length) {
+                return null;
+            }
+            return this.data[this.index].image_large;
+        }
+    },
+    watch: {
+        show (val) {
+            if (val) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = null;
+            }
+        }
+    },
+    mounted () {
+        window.onresize = () => {
+            this.containerHeight = this.getContainerHeight();
+        };
+        this.$nextTick(() => {
+            this.containerHeight = this.getContainerHeight();
+        });
     },
     methods: {
         close () {
             this.$emit('update:show', false);
+        },
+        getContainerHeight () {
+            return `${document.body.clientHeight}px`;
         }
     }
 };
@@ -46,10 +86,10 @@ export default {
 
 .et-wrapper {
     position: fixed;
-    left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background: rgba(0, 0, 0, 0.5);
     z-index: $wrapperIndex;
 
@@ -76,7 +116,7 @@ export default {
         display: block;
         top: 0;
         right: 0;
-        margin: .5rem;
+        margin: $spaceSmall;
         color: #a6a6a6;
         cursor: pointer;
 
@@ -85,7 +125,7 @@ export default {
         }
 
         .et-icon {
-            font-size: 2rem;
+            font-size: $elementHeight;
             font-weight: bold;
         }
     }
@@ -94,10 +134,24 @@ export default {
 .et-preview {
     width: 100%;
     height: 100%;
+    overflow: auto;
 
     .et-preview__inner {
-        height: 100%;
         margin: auto;
+    }
+
+    .et-preview__container {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding: $headerHeight 0;
+
+        .et-preview__image {
+            display: block;
+            height: 100%;
+            margin: auto;
+            box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, .1);
+        }
     }
 }
 </style>
