@@ -48,7 +48,8 @@
                 <div v-else class="et-photo__container">
                     <div class="et-photo__wrapper"
                         v-for="photo in dataList" :key="photo.uuid">
-                        <div class="et-photo" :style="getStyle(photo.image_small)">
+                        <div class="et-photo" :style="getStyle(photo.image_small)"
+                            @click="previewShow = true">
                             <ul class="et-photo__body">
                                 <li class="et-photo__info">
                                     <span :title="photo.description">{{ photo.description }}</span>
@@ -68,7 +69,7 @@
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
                             :style="{ height: blockSize, lineHeight: blockSize }"
-                            :title="$t('album.create.title')"
+                            :title="$t('photo.create.title')"
                             @click="photoAddShow = true">
                             <i class="et-icon ei-plus"></i>
                         </div>
@@ -87,6 +88,11 @@
             :show.sync="photoAddShow"
             :title="$t('photo.create.title')">
         </et-dialog>
+
+        <et-preview
+            :show.sync="previewShow"
+            :data="dataList">
+        </et-preview>
     </div>
 </template>
 
@@ -123,6 +129,7 @@ export default {
             hashCode: Utils.randString(),
             albumAddShow: false,
             photoAddShow: false,
+            previewShow: false,
             blockSize: '160px'
         };
     },

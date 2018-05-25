@@ -5,10 +5,10 @@ import 'static/styles/animate.css';
 import router from '@/router';
 import store from '@/store';
 import i18n from '@/common/lang';
-import Utils from '@/common/utils';
 import Bus from '@/common/bus';
 import EtComponents from '@/components';
 import index from '@/index';
+import '@/common/filters';
 import '@/common/permission';
 
 if (window !== top) {
@@ -17,11 +17,6 @@ if (window !== top) {
 
 Vue.use(ElementUI);
 Vue.use(EtComponents);
-
-Vue.filter('none', value => Utils.formatNone(value));
-Vue.filter('count', value => Utils.formatCount(value));
-Vue.filter('time', value => Utils.formatTime(value, 'time'));
-Vue.filter('date', value => Utils.formatTime(value, 'date'));
 
 Vue.config.productionTip = false;
 

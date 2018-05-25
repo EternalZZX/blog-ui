@@ -1,5 +1,6 @@
 import Dialog from './dialog';
 import Nav from './nav';
+import Preview from './preview';
 import Scroll from './scroll';
 import Toolbar from './toolbar';
 import User from './user';
@@ -7,6 +8,7 @@ import User from './user';
 const components = [
     Dialog,
     Nav,
+    Preview,
     Scroll,
     Toolbar,
     User

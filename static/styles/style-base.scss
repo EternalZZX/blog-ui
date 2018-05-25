@@ -21,7 +21,7 @@ html {
     }
 }
 
-$innerList: et-header, et-main;
+$innerList: et-header, et-main, et-preview;
 
 %inner {
     display: flex;
