@@ -8,7 +8,13 @@
                 <div class="et-preview__inner">
                     <div class="et-preview__container"
                         :style="{ height: containerHeight }">
-                        <img class="et-preview__image" :src="image">
+                        <transition
+                            enter-active-class="animated zoomIn"
+                            leave-active-class="animated zoomOut">
+                            <img v-show="show"
+                                class="et-preview__image"
+                                :src="image">
+                        </transition>
                     </div>
                     <div class="et-preview__comment">
                         123
@@ -47,16 +53,16 @@ export default {
     },
     computed: {
         image () {
-            if (this.index >= this.data.length) {
-                return null;
-            }
-            return this.data[this.index].image_large;
+            return this.index < this.data.length ? this.data[this.index].image_large : null;
         }
     },
     watch: {
         show (val) {
             if (val) {
                 document.body.style.overflow = 'hidden';
+                this.$nextTick(() => {
+                    this.containerHeight = this.getContainerHeight();
+                });
             } else {
                 document.body.style.overflow = null;
             }
@@ -66,9 +72,6 @@ export default {
         window.onresize = () => {
             this.containerHeight = this.getContainerHeight();
         };
-        this.$nextTick(() => {
-            this.containerHeight = this.getContainerHeight();
-        });
     },
     methods: {
         close () {
@@ -148,8 +151,10 @@ export default {
 
         .et-preview__image {
             display: block;
-            height: 100%;
+            max-width: 100%;
+            max-height: 100%;
             margin: auto;
+            animation-duration: .3s;
             box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, .1);
         }
     }
