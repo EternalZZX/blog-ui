@@ -1,10 +1,20 @@
 <template>
     <transition name="wrapper">
-        <div v-show="show" class="et-wrapper">
-            <span class="et-wrapper__close" @click="close">
+        <div v-show="show" class="et-wrapper" @click="close">
+            <span class="et-wrapper__close"
+                :class="{ 'hide': imageZoom }"
+                @click="close">
                 <i class="et-icon ei-close"></i>
             </span>
-            <div class="et-preview">
+            <div class="et-preview"
+                @touchstart="start"
+                @mousedown="start"
+                @touchmove="move"
+                @mousemove="move"
+                @touchend="stop"
+                @mouseup="stop"
+                @mouseleave="stop"
+                @dragstart.prevent>
                 <div class="et-preview__inner">
                     <div class="et-preview__container"
                         :style="{ height: containerHeight }">
@@ -13,10 +23,14 @@
                             leave-active-class="animated zoomOut">
                             <img v-show="show"
                                 class="et-preview__image"
-                                :src="image">
+                                :class="{ 'zoom-in': imageZoom }"
+                                :src="image"
+                                :style="position.style"
+                                @click.stop="zoom">
                         </transition>
                     </div>
-                    <div class="et-preview__comment">
+                    <div class="et-preview__comment"
+                        :class="{ 'hide': imageZoom }">
                         123
                     </div>
                 </div>
@@ -48,7 +62,24 @@ export default {
         return {
             imagePrev: null,
             imageNext: null,
-            containerHeight: null
+            imageZoom: false,
+            position: {
+                drag: false,
+                start: {
+                    x: 0,
+                    y: 0
+                },
+                stop: {
+                    x: 0,
+                    y: 0
+                },
+                style: {
+                    top: 0,
+                    left: 0
+                }
+            },
+            containerHeight: null,
+            imageElement: null
         };
     },
     computed: {
@@ -65,6 +96,7 @@ export default {
                 });
             } else {
                 document.body.style.overflow = null;
+                this.imageZoom = false;
             }
         }
     },
@@ -74,8 +106,48 @@ export default {
         };
     },
     methods: {
+        zoom () {
+            this.imageZoom = !this.imageZoom;
+            if (this.imageZoom) {
+                this.imageElement = document.getElementsByClassName('et-preview__image')[0];
+                this.position.style = {
+                    left: `${(document.body.clientWidth - this.imageElement.naturalWidth) / 2}px`,
+                    top: `${(document.body.clientHeight - this.imageElement.naturalHeight) / 2}px`
+                };
+            }
+        },
+        start (event) {
+            if (this.imageZoom && (event.button === 0 || event.type === 'touchstart')) {
+                this.position.drag = true;
+                this.position.start = {
+                    x: event.clientX || event.targetTouches[0].clientX,
+                    y: event.clientY || event.targetTouches[0].clientY
+                };
+            }
+        },
+        stop (event) {
+            if (this.imageZoom) {
+                this.position.drag = false;
+            }
+        },
+        move (event) {
+            if (this.imageZoom && this.position.drag) {
+                this.position.stop = {
+                    x: event.clientX || event.targetTouches[0].clientX,
+                    y: event.clientY || event.targetTouches[0].clientY
+                };
+                const x = this.position.stop.x - this.position.start.x,
+                    y = this.position.stop.y - this.position.start.y;
+                this.position.style = {
+                    left: `${this.imageElement.offsetLeft + x}px`,
+                    top: `${this.imageElement.offsetTop + y}px`
+                };
+                this.position.start.x = this.position.stop.x;
+                this.position.start.y = this.position.stop.y;
+            }
+        },
         close () {
-            this.$emit('update:show', false);
+            !this.imageZoom && this.$emit('update:show', false);
         },
         getContainerHeight () {
             return `${document.body.clientHeight}px`;
@@ -127,6 +199,10 @@ export default {
             color: #c1c1c1;
         }
 
+        &.hide {
+            display: none;
+        }
+
         .et-icon {
             font-size: $elementHeight;
             font-weight: bold;
@@ -154,9 +230,26 @@ export default {
             max-width: 100%;
             max-height: 100%;
             margin: auto;
-            animation-duration: .3s;
+            animation-duration: .2s;
             box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, .1);
+            user-select: none;
+            cursor: zoom-in;
         }
+
+        .et-preview__image.zoom-in {
+            position: fixed;
+            transform: scale(1.5);
+            max-width: initial;
+            max-height: initial;
+            transition: transform .1s;
+            cursor: zoom-out;
+        }
+    }
+}
+
+.et-preview__comment {
+    &.hide {
+        display: none;
     }
 }
 </style>
