@@ -18,10 +18,20 @@
     }
 }
 
+%inner {
+    display: flex;
+    height: 100%;
+    margin: auto;
+}
+
 %text-overview {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.hide {
+    display: none !important;
 }
 
 .el-button {

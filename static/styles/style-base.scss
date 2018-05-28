@@ -21,13 +21,7 @@ html {
     }
 }
 
-$innerList: et-header, et-main, et-preview;
-
-%inner {
-    display: flex;
-    height: 100%;
-    margin: auto;
-}
+$innerList: et-header, et-main, et-preview, et-zoom-tools;
 
 @include max-screen($padMaxWidth) {
     @each $inner in $innerList {

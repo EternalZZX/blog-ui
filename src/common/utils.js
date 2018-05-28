@@ -74,9 +74,9 @@ class Utils {
         return str;
     }
 
-    static formatCount (count) {
+    static formatCount (count, max = 999) {
         const number = parseInt(count);
-        return number > 999 ? 999 : number;
+        return number > max ? max : number;
     }
 
     static formatTime (str, type = 'time') {

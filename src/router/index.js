@@ -24,6 +24,7 @@ const frameCompontent = {
         </main>
         <et-footer></et-footer>
     </div>`,
+    name: 'EtRouter',
     components: {
         'et-header': header,
         'et-footer': footer

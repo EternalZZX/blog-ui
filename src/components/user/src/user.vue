@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import Utils from '@/common/utils';
 export default {
     name: 'EtUser',
     props: {
@@ -28,9 +27,6 @@ export default {
             },
             required: true
         }
-    },
-    filters: {
-        'none': value => Utils.formatNone(value)
     },
     computed: {
         avatar () {
@@ -86,6 +82,20 @@ export default {
         color: $descriptionColor;
         font-size: $descriptionFontSize;
         @extend %text-overview;
+    }
+
+    &.light {
+        .et-user__nick {
+            color: #fff;
+        }
+
+        .et-user__nick:hover {
+            color: $subThemeColor;
+        }
+
+        .et-user__remark {
+            color: #e2e2e2;
+        }
     }
 }
 </style>

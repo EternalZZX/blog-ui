@@ -18,20 +18,74 @@
                 <div class="et-preview__inner">
                     <div class="et-preview__container"
                         :style="{ height: containerHeight }">
+                        <div class="et-preview__header"
+                            :class="{ 'hide': imageZoom }">
+                            <div class="et-preview__header-inner">
+                                <et-user class="light"
+                                    :user="imageData.author">
+                                </et-user>
+                            </div>
+                        </div>
                         <transition
                             enter-active-class="animated zoomIn"
                             leave-active-class="animated zoomOut">
                             <img v-show="show"
                                 class="et-preview__image"
                                 :class="{ 'zoom-in': imageZoom }"
-                                :src="image"
-                                :style="position.style"
-                                @click.stop="zoom">
+                                :src="image.image_large"
+                                :style="imageStyle"
+                                @click.stop="zoomTrigger">
                         </transition>
+                        <div class="et-preview__tools"
+                            :class="{ 'hide': imageZoom }">
+                            <div class="et-preview__tools-inner">
+                                <div class="et-preview__tools-inner_left">
+                                    <span class="et-preview__tools-info_title">
+                                        浏览
+                                    </span>
+                                    <span class="et-preview__tools-info">
+                                        {{ imageData.metadata.read_count | number }}
+                                    </span>
+                                </div>
+                                <div class="et-preview__tools-inner_right">
+                                    <span class="et-preview__tools-info"
+                                        @click.stop="likeImage">
+                                        <i class="et-icon ei-like"></i>
+                                        {{ imageData.metadata.like_count | count }}
+                                    </span>
+                                    <span class="et-preview__tools-info"
+                                        @click.stop="showComment">
+                                        <i class="et-icon ei-message"></i>
+                                        {{ imageData.metadata.comment_count | count }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="et-preview__comment"
+                    <div class="et-comment__container"
                         :class="{ 'hide': imageZoom }">
-                        123
+                        comment
+                    </div>
+                </div>
+                <div class="et-zoom-tools"
+                    :class="{ 'hide': !imageZoom }">
+                    <div class="et-zoom-tools__inner">
+                        <span class="et-zoom-tools__button"
+                            @click.stop="zoomTrigger">
+                            <i class="et-icon ei-exit"></i>
+                        </span>
+                        <span class="et-zoom-tools__button"
+                            @click="zoomIn">
+                            <i class="et-icon ei-zoom-in"></i>
+                        </span>
+                        <span class="et-zoom-tools__button"
+                            @click="zoomOut">
+                            <i class="et-icon ei-zoom-out"></i>
+                        </span>
+                        <span class="et-zoom-tools__button"
+                            @click="imageScale = 1">
+                            <i class="et-icon ei-narrow"></i>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -40,6 +94,8 @@
 </template>
 
 <script>
+import Photo from '@/common/api/photos';
+import Utils from '@/common/utils';
 export default {
     name: 'EtPreview',
     props: {
@@ -60,9 +116,17 @@ export default {
     },
     data () {
         return {
+            imageData: {
+                metadata: {
+                    like_count: 0,
+                    comment_count: 0
+                }
+            },
             imagePrev: null,
             imageNext: null,
             imageZoom: false,
+            imageScale: 1.3,
+            imageStyle: null,
             position: {
                 drag: false,
                 start: {
@@ -72,10 +136,6 @@ export default {
                 stop: {
                     x: 0,
                     y: 0
-                },
-                style: {
-                    top: 0,
-                    left: 0
                 }
             },
             containerHeight: null,
@@ -84,13 +144,16 @@ export default {
     },
     computed: {
         image () {
-            return this.index < this.data.length ? this.data[this.index].image_large : null;
+            return this.index < this.data.length ? this.data[this.index] : {
+                image_large: null
+            };
         }
     },
     watch: {
         show (val) {
             if (val) {
                 document.body.style.overflow = 'hidden';
+                this.loadImage(this.image.uuid);
                 this.$nextTick(() => {
                     this.containerHeight = this.getContainerHeight();
                 });
@@ -98,22 +161,49 @@ export default {
                 document.body.style.overflow = null;
                 this.imageZoom = false;
             }
+        },
+        imageScale (val) {
+            this.imageStyle && (this.imageStyle.transform = `scale(${val})`);
         }
     },
     mounted () {
         window.onresize = () => {
             this.containerHeight = this.getContainerHeight();
         };
+        this.$nextTick(() => {
+            this.containerHeight = this.getContainerHeight();
+        });
     },
     methods: {
-        zoom () {
+        loadImage (uuid) {
+            Photo.get(uuid).then(response => {
+                this.imageData = response.data;
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-GET');
+            });
+        },
+        zoomTrigger () {
             this.imageZoom = !this.imageZoom;
             if (this.imageZoom) {
                 this.imageElement = document.getElementsByClassName('et-preview__image')[0];
-                this.position.style = {
+                this.imageStyle = {
                     left: `${(document.body.clientWidth - this.imageElement.naturalWidth) / 2}px`,
-                    top: `${(document.body.clientHeight - this.imageElement.naturalHeight) / 2}px`
+                    top: `${(document.body.clientHeight - this.imageElement.naturalHeight) / 2}px`,
+                    transform: `scale(${this.imageScale})`
                 };
+            } else {
+                this.imageScale = 1.3;
+                this.imageStyle = null;
+            }
+        },
+        zoomIn () {
+            if (this.imageScale < 2) {
+                this.imageScale = this.imageScale === 1 ? 1.3 : this.imageScale * 1.5;
+            }
+        },
+        zoomOut () {
+            if (this.imageScale > 0.3) {
+                this.imageScale = this.imageScale === 1 ? 1.3 / 1.5 : this.imageScale / 1.5;
             }
         },
         start (event) {
@@ -138,9 +228,10 @@ export default {
                 };
                 const x = this.position.stop.x - this.position.start.x,
                     y = this.position.stop.y - this.position.start.y;
-                this.position.style = {
+                this.imageStyle = {
                     left: `${this.imageElement.offsetLeft + x}px`,
-                    top: `${this.imageElement.offsetTop + y}px`
+                    top: `${this.imageElement.offsetTop + y}px`,
+                    transform: `scale(${this.imageScale})`
                 };
                 this.position.start.x = this.position.stop.x;
                 this.position.start.y = this.position.stop.y;
@@ -151,6 +242,12 @@ export default {
         },
         getContainerHeight () {
             return `${document.body.clientHeight}px`;
+        },
+        likeImage () {
+            return 0;
+        },
+        showComment () {
+            return 0;
         }
     }
 };
@@ -165,7 +262,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.6);
     z-index: $wrapperIndex;
 
     &.wrapper-enter-active {
@@ -199,13 +296,34 @@ export default {
             color: #c1c1c1;
         }
 
-        &.hide {
-            display: none;
-        }
-
         .et-icon {
             font-size: $elementHeight;
             font-weight: bold;
+        }
+    }
+}
+
+%preview-toolbar {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: $headerHeight;
+    box-sizing: border-box;
+
+    @include min-screen($laptopMinWidth) {
+        & {
+            padding: 0 $navWidth;
+        }
+    }
+}
+
+%preview-toolbar-inner {
+    display: flex;
+    color: #fff;
+
+    @include min-screen($laptopMinWidth) {
+        & {
+            padding: 0 $spaceSmall;
         }
     }
 }
@@ -220,6 +338,7 @@ export default {
     }
 
     .et-preview__container {
+        position: relative;
         display: flex;
         align-items: center;
         box-sizing: border-box;
@@ -238,18 +357,91 @@ export default {
 
         .et-preview__image.zoom-in {
             position: fixed;
-            transform: scale(1.5);
             max-width: initial;
             max-height: initial;
             transition: transform .1s;
             cursor: zoom-out;
         }
+
+        .et-preview__header {
+            top: 0;
+            @extend %preview-toolbar;
+        }
+
+        .et-preview__header-inner {
+            @extend %preview-toolbar-inner;
+        }
+
+        .et-preview__header .et-user {
+            padding: $spaceSmall / 2 $spaceSmall;
+        }
+
+        .et-preview__tools {
+            bottom: 0;
+            @extend %preview-toolbar;
+        }
+
+        .et-preview__tools-inner {
+            @extend %preview-toolbar-inner;
+        }
+
+        .et-preview__tools-inner_left {
+            flex: auto;
+            display: flex;
+        }
+
+        .et-preview__tools-inner_right {
+            display: flex;
+        }
+
+        .et-preview__tools-info {
+            display: block;
+            margin: 0 $spaceSmall;
+            line-height: $headerHeight;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .et-preview__tools .et-icon {
+            font-size: $iconFontSizeMiddle;
+            line-height: $headerHeight;
+            margin-right: $spaceTiny;
+        }
     }
 }
 
-.et-preview__comment {
-    &.hide {
-        display: none;
+.et-zoom-tools {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: $headerHeight;
+    background: rgba(51, 51, 51, .3);
+    color: #fff;
+
+    .et-zoom-tools__inner {
+        flex-direction: row-reverse;
+        @extend %inner;
     }
+
+    .et-zoom-tools__button {
+        display: block;
+        width: $headerHeight;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+            background: rgba(51, 51, 51, 0.2);
+        }
+
+        .et-icon {
+            font-size: $iconFontSizeMiddle;
+            line-height: $headerHeight;
+        }
+    }
+}
+
+.et-comment__container {
+    color: #fff
 }
 </style>
