@@ -1,9 +1,9 @@
 import BaseRequest from '@/common/request';
 
-class AlbumApi extends BaseRequest {
+class CommentApi extends BaseRequest {
     constructor () {
         super();
-        this.url = '/content/albums/';
+        this.url = '/content/comments/';
     }
 
     get (uuid, config = {}) {
@@ -32,32 +32,22 @@ class AlbumApi extends BaseRequest {
             ...config
         });
     }
-
-    listSelfAlbums (uuid, privacy, params = {}, config = {}) {
-        const args = {
-            ...params,
-            author_uuid: uuid
-        };
-        privacy !== null && (args.privacy = privacy);
-        return super.get(this.url, {
-            params: args,
-            ...config
-        });
-    }
 }
 
-AlbumApi.PRIVACY = {
-    PRIVATE: 0,
-    PUBLIC: 1
+CommentApi.STATUS = {
+    CANCEL: 0,
+    ACTIVE: 1,
+    AUDIT: 2,
+    FAILED: 3,
+    RECYCLED: 4
 };
 
-AlbumApi.SYSTEM = {
-    AVATAR_ALBUM: 0,
-    ALBUM_COVER_ALBUM: 1,
-    SECTION_COVER_ALBUM: 2,
-    ARTICLE_COVER_ALBUM: 3
+CommentApi.RESOURCE_TYPE = {
+    ARTICLE: 0,
+    ALBUM: 1,
+    PHOTO: 2
 };
 
-export { AlbumApi };
+export { CommentApi };
 
-export default new AlbumApi();
+export default new CommentApi();

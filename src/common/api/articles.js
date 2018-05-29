@@ -1,9 +1,9 @@
 import BaseRequest from '@/common/request';
 
-class AlbumApi extends BaseRequest {
+class ArticleApi extends BaseRequest {
     constructor () {
         super();
-        this.url = '/content/albums/';
+        this.url = '/content/articles/';
     }
 
     get (uuid, config = {}) {
@@ -32,32 +32,22 @@ class AlbumApi extends BaseRequest {
             ...config
         });
     }
-
-    listSelfAlbums (uuid, privacy, params = {}, config = {}) {
-        const args = {
-            ...params,
-            author_uuid: uuid
-        };
-        privacy !== null && (args.privacy = privacy);
-        return super.get(this.url, {
-            params: args,
-            ...config
-        });
-    }
 }
 
-AlbumApi.PRIVACY = {
+ArticleApi.STATUS = {
+    CANCEL: 0,
+    ACTIVE: 1,
+    DRAFT: 2,
+    AUDIT: 3,
+    FAILED: 4,
+    RECYCLED: 5
+};
+
+ArticleApi.PRIVACY = {
     PRIVATE: 0,
     PUBLIC: 1
 };
 
-AlbumApi.SYSTEM = {
-    AVATAR_ALBUM: 0,
-    ALBUM_COVER_ALBUM: 1,
-    SECTION_COVER_ALBUM: 2,
-    ARTICLE_COVER_ALBUM: 3
-};
+export { ArticleApi };
 
-export { AlbumApi };
-
-export default new AlbumApi();
+export default new ArticleApi();

@@ -184,12 +184,7 @@ export default {
             }
         },
         loadAlbums () {
-            const params = {
-                ...this.params,
-                author_uuid: this.identity.uuid
-            };
-            this.privacy !== null && (params.privacy = this.privacy);
-            Album.list(params).then(response => {
+            Album.listSelfAlbums(this.identity.uuid, this.privacy, this.params).then(response => {
                 this.dataList = this.dataList.concat(response.data.albums);
                 this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
                 this.params.page ++;
@@ -198,12 +193,7 @@ export default {
             });
         },
         loadPhotos () {
-            const params = {
-                ...this.params,
-                author_uuid: this.identity.uuid,
-                album_uuid: ''
-            };
-            Photo.list(params).then(response => {
+            Photo.listSelfOtherPhotos(this.identity.uuid, this.params).then(response => {
                 this.dataList = this.dataList.concat(response.data.photos);
                 this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
                 this.params.page ++;

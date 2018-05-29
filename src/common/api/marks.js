@@ -1,9 +1,9 @@
 import BaseRequest from '@/common/request';
 
-class AlbumApi extends BaseRequest {
+class MarkApi extends BaseRequest {
     constructor () {
         super();
-        this.url = '/content/albums/';
+        this.url = '/content/marks/';
     }
 
     get (uuid, config = {}) {
@@ -32,32 +32,19 @@ class AlbumApi extends BaseRequest {
             ...config
         });
     }
-
-    listSelfAlbums (uuid, privacy, params = {}, config = {}) {
-        const args = {
-            ...params,
-            author_uuid: uuid
-        };
-        privacy !== null && (args.privacy = privacy);
-        return super.get(this.url, {
-            params: args,
-            ...config
-        });
-    }
 }
 
-AlbumApi.PRIVACY = {
+MarkApi.PRIVACY = {
     PRIVATE: 0,
     PUBLIC: 1
 };
 
-AlbumApi.SYSTEM = {
-    AVATAR_ALBUM: 0,
-    ALBUM_COVER_ALBUM: 1,
-    SECTION_COVER_ALBUM: 2,
-    ARTICLE_COVER_ALBUM: 3
+MarkApi.RESOURCE_TYPE = {
+    ARTICLE: 0,
+    ALBUM: 1,
+    PHOTO: 2
 };
 
-export { AlbumApi };
+export { MarkApi };
 
-export default new AlbumApi();
+export default new MarkApi();
