@@ -64,6 +64,12 @@ export default {
             title: 'Upload Photo'
         }
     },
+    preview: {
+        originSize: 'Origin Size',
+        zoomIn: 'Zoom In',
+        zoomOut: 'Zoom Out',
+        exitPreview: 'Exit Preview'
+    },
     request: {
         errorRequest: 'Request error!',
         errorConnection: 'Failed to connect to the server!'
@@ -82,7 +88,11 @@ export default {
     common: {
         submit: 'Submit',
         cancel: 'Cancel',
-        noMore: 'No more'
+        noMore: 'No more',
+        close: 'Close',
+        readCount: 'Read',
+        likeCount: 'Like',
+        commentCount: 'Comments'
     },
     ...enLocale
 };

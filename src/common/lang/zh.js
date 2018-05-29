@@ -64,6 +64,12 @@ export default {
             title: '上传图片'
         }
     },
+    preview: {
+        originSize: '原始大小',
+        zoomIn: '放大',
+        zoomOut: '缩小',
+        exitPreview: '退出预览'
+    },
     request: {
         errorRequest: '请求错误!',
         errorConnection: '连接服务器失败!'
@@ -80,7 +86,11 @@ export default {
     common: {
         submit: '提 交',
         cancel: '取 消',
-        noMore: '没有更多了'
+        noMore: '没有更多了',
+        close: '关闭',
+        readCount: '阅读',
+        likeCount: '点赞',
+        commentCount: '评论'
     },
     ...zhLocale
 };

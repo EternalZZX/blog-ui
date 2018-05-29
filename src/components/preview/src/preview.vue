@@ -2,11 +2,12 @@
     <transition name="wrapper">
         <div v-show="show" class="et-wrapper" @click="close">
             <span class="et-wrapper__close"
-                :class="{ 'hide': imageZoom }"
+                :class="{ 'hide': imageZoom, 'opacity': commentShow }"
+                :title="$t('common.close')"
                 @click="close">
                 <i class="et-icon ei-close"></i>
             </span>
-            <div class="et-preview"
+            <div ref="preview" class="et-preview"
                 @touchstart="start"
                 @mousedown="start"
                 @touchmove="move"
@@ -14,7 +15,7 @@
                 @touchend="stop"
                 @mouseup="stop"
                 @mouseleave="stop"
-                @dragstart.prevent>
+                @dragstart.prevent="void 0">
                 <div class="et-preview__inner">
                     <div class="et-preview__container"
                         :style="{ height: containerHeight }">
@@ -29,7 +30,7 @@
                         <transition
                             enter-active-class="animated zoomIn"
                             leave-active-class="animated zoomOut">
-                            <img v-show="show"
+                            <img v-show="show" ref="image"
                                 class="et-preview__image"
                                 :class="{ 'zoom-in': imageZoom }"
                                 :src="image.image_large"
@@ -40,20 +41,24 @@
                             :class="{ 'hide': imageZoom }">
                             <div class="et-preview__tools-inner">
                                 <div class="et-preview__tools-inner_left">
-                                    <span class="et-preview__tools-info_title">
-                                        浏览
+                                    <span class="et-preview__tools-info"
+                                        :title="`${$t('common.readCount')} ${imageData.metadata.read_count}`">
+                                        {{ $t("common.readCount") }}
                                     </span>
-                                    <span class="et-preview__tools-info">
+                                    <span class="et-preview__tools-info"
+                                        :title="`${$t('common.readCount')} ${imageData.metadata.read_count}`">
                                         {{ imageData.metadata.read_count | number }}
                                     </span>
                                 </div>
                                 <div class="et-preview__tools-inner_right">
-                                    <span class="et-preview__tools-info"
+                                    <span class="et-preview__tools-info button"
+                                        :title="`${$t('common.likeCount')} ${imageData.metadata.like_count}`"
                                         @click.stop="likeImage">
                                         <i class="et-icon ei-like"></i>
                                         {{ imageData.metadata.like_count | count }}
                                     </span>
-                                    <span class="et-preview__tools-info"
+                                    <span class="et-preview__tools-info button"
+                                        :title="`${$t('common.commentCount')} ${imageData.metadata.comment_count}`"
                                         @click.stop="showComment">
                                         <i class="et-icon ei-message"></i>
                                         {{ imageData.metadata.comment_count | count }}
@@ -62,7 +67,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="et-comment__container"
+                    <div v-show="commentShow"
+                        class="et-comment__container"
                         :class="{ 'hide': imageZoom }">
                         comment
                     </div>
@@ -71,18 +77,22 @@
                     :class="{ 'hide': !imageZoom }">
                     <div class="et-zoom-tools__inner">
                         <span class="et-zoom-tools__button"
+                            :title="$t('preview.exitPreview')"
                             @click.stop="zoomTrigger">
                             <i class="et-icon ei-exit"></i>
                         </span>
                         <span class="et-zoom-tools__button"
+                            :title="$t('preview.zoomIn')"
                             @click="zoomIn">
                             <i class="et-icon ei-zoom-in"></i>
                         </span>
                         <span class="et-zoom-tools__button"
+                            :title="$t('preview.zoomOut')"
                             @click="zoomOut">
                             <i class="et-icon ei-zoom-out"></i>
                         </span>
                         <span class="et-zoom-tools__button"
+                            :title="$t('preview.originSize')"
                             @click="imageScale = 1">
                             <i class="et-icon ei-narrow"></i>
                         </span>
@@ -122,8 +132,6 @@ export default {
                     comment_count: 0
                 }
             },
-            imagePrev: null,
-            imageNext: null,
             imageZoom: false,
             imageScale: 1.3,
             imageStyle: null,
@@ -139,12 +147,27 @@ export default {
                 }
             },
             containerHeight: null,
-            imageElement: null
+            imageElement: null,
+            commentShow: false
         };
     },
     computed: {
         image () {
             return this.index < this.data.length ? this.data[this.index] : {
+                image_large: null
+            };
+        },
+        imagePrev () {
+            const index = this.index - 1;
+            return index >= 0 && index < this.data.length ? this.data[index] : {
+                uuid: null,
+                image_large: null
+            };
+        },
+        imageNext () {
+            const index = this.index + 1;
+            return index < this.data.length ? this.data[index] : {
+                uuid: null,
                 image_large: null
             };
         }
@@ -171,11 +194,14 @@ export default {
             this.containerHeight = this.getContainerHeight();
         };
         this.$nextTick(() => {
-            this.containerHeight = this.getContainerHeight();
+            this.$refs.preview.addEventListener('scroll', this.previewScroll);
         });
     },
     methods: {
         loadImage (uuid) {
+            if (!uuid) {
+                return;
+            }
             Photo.get(uuid).then(response => {
                 this.imageData = response.data;
             }).catch(err => {
@@ -185,7 +211,7 @@ export default {
         zoomTrigger () {
             this.imageZoom = !this.imageZoom;
             if (this.imageZoom) {
-                this.imageElement = document.getElementsByClassName('et-preview__image')[0];
+                this.imageElement = this.$refs.image;
                 this.imageStyle = {
                     left: `${(document.body.clientWidth - this.imageElement.naturalWidth) / 2}px`,
                     top: `${(document.body.clientHeight - this.imageElement.naturalHeight) / 2}px`,
@@ -236,6 +262,9 @@ export default {
                 this.position.start.x = this.position.stop.x;
                 this.position.start.y = this.position.stop.y;
             }
+        },
+        previewScroll (event) {
+            this.commentShow = event.srcElement.scrollTop > 0;
         },
         close () {
             !this.imageZoom && this.$emit('update:show', false);
@@ -288,17 +317,24 @@ export default {
         display: block;
         top: 0;
         right: 0;
-        margin: $spaceSmall;
-        color: #a6a6a6;
+        margin: .9rem;
+        color: #ffffff;
+        transition: opacity .3s;
         cursor: pointer;
 
         &:hover {
-            color: #c1c1c1;
+            color: #f6f6f6;
         }
 
         .et-icon {
-            font-size: $elementHeight;
-            font-weight: bold;
+            font-size: $iconFontSizeMiddle;
+        }
+
+        @include max-screen($padMaxWidth) {
+            &.opacity {
+                opacity: 0;
+                transition: opacity .3s;
+            }
         }
     }
 }
@@ -396,16 +432,22 @@ export default {
 
         .et-preview__tools-info {
             display: block;
-            margin: 0 $spaceSmall;
+            margin-left: $spaceSmall;
+            font-size: $subtitleFontSize;
             line-height: $headerHeight;
             text-align: center;
+            cursor: default;
+        }
+
+        .et-preview__tools-info.button {
+            margin: 0 $spaceSmall;
             cursor: pointer;
         }
 
         .et-preview__tools .et-icon {
-            font-size: $iconFontSizeMiddle;
-            line-height: $headerHeight;
             margin-right: $spaceTiny;
+            font-size: $iconFontSizeMiddle;
+            vertical-align: middle;
         }
     }
 }
