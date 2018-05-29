@@ -1,11 +1,19 @@
 <template>
-    <div class="et-user">
+    <div class="et-user" :class="{ 'dark': theme === 'dark' }">
         <img class="et-user__avatar" :src="avatar" :title="user.nick">
         <div class="et-user__info">
             <span class="et-user__nick" :title="user.nick">
-                {{ user.nick }}
+                {{ user.nick | none }}
             </span>
-            <span class="et-user__remark" :title="user.remark">
+            <span v-if="subtitle"
+                class="et-user__remark"
+                :title="subtitle">
+                <template v-if="type === 'time'">{{ subtitle | time }}</template>
+                <template v-else-if="type === 'date'">{{ subtitle | date }}</template>
+                <template v-else>{{ subtitle | none }}</template>
+            </span>
+            <span v-else class="et-user__remark"
+                :title="user.remark">
                 {{ user.remark | none }}
             </span>
         </div>
@@ -21,11 +29,36 @@ export default {
             default () {
                 return {
                     avatar: null,
-                    nick: '-',
+                    nick: '',
                     remark: ''
                 };
             },
             required: true
+        },
+        subtitle: {
+            type: String,
+            default: null
+        },
+        type: {
+            type: String,
+            default: 'time',
+            validator (val) {
+                return [
+                    'time',
+                    'date',
+                    'string'
+                ].indexOf(val) !== -1;
+            }
+        },
+        theme: {
+            type: String,
+            default: 'light',
+            validator (val) {
+                return [
+                    'dark',
+                    'light'
+                ].indexOf(val) !== -1;
+            }
         }
     },
     computed: {
@@ -84,7 +117,7 @@ export default {
         @extend %text-overview;
     }
 
-    &.light {
+    &.dark {
         .et-user__nick {
             color: #fff;
         }
@@ -94,7 +127,7 @@ export default {
         }
 
         .et-user__remark {
-            color: #e2e2e2;
+            color: #b9b9b9;
         }
     }
 }

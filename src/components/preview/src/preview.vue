@@ -22,8 +22,9 @@
                         <div class="et-preview__header"
                             :class="{ 'hide': imageZoom }">
                             <div class="et-preview__header-inner">
-                                <et-user class="light"
-                                    :user="imageData.author">
+                                <et-user theme="dark"
+                                    :user="imageData.author"
+                                    :subtitle="imageData.create_at">
                                 </et-user>
                             </div>
                         </div>
@@ -70,7 +71,9 @@
                     <div v-show="commentShow"
                         class="et-comment__container"
                         :class="{ 'hide': imageZoom }">
-                        comment
+                        <div class="et-comment__inner">
+                            comment
+                        </div>
                     </div>
                 </div>
                 <div class="et-zoom-tools"
@@ -484,6 +487,21 @@ export default {
 }
 
 .et-comment__container {
-    color: #fff
+    box-sizing: border-box;
+    color: #fff;
+
+    @include min-screen($laptopMinWidth) {
+        & {
+            padding: 0 $navWidth;
+        }
+    }
+
+    .et-comment__inner {
+        @include min-screen($laptopMinWidth) {
+            & {
+                padding: 0 $spaceSmall;
+            }
+        }
+    }
 }
 </style>

@@ -92,7 +92,13 @@ export default {
         close: 'Close',
         readCount: 'Read',
         likeCount: 'Like',
-        commentCount: 'Comments'
+        commentCount: 'Comments',
+        just: 'Just now',
+        minuetsAgo: 'm ago',
+        hoursAgo: 'h ago',
+        yesterday: 'Yesterday',
+        twoDaysAgo: 'Two days ago',
+        daysAgo: 'd ago'
     },
     ...enLocale
 };

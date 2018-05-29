@@ -1,9 +1,46 @@
 import Vue from 'vue';
 import VueCookie from 'vue-cookie';
 import Bus, { EVENT } from '@/common/bus';
+import i18n from '@/common/lang';
 import SETTING from '@/setting';
 
 Vue.use(VueCookie);
+
+const ONE_MIN_MS = 60 * 1000,
+    ONE_HOUR_MS = 60 * 60 * 1000,
+    ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+const getDateString = date => {
+    let month = date.getMonth() + 1,
+        day = date.getDate();
+    month < 10 && (month = `0${month}`);
+    day < 10 && (day = `0${day}`);
+    return `${date.getFullYear()}-${month}-${day}`;
+};
+
+const getTimeString = date => {
+    const now = new Date(),
+        time = now.getTime() - date.getTime(),
+        minutes = Math.floor(time / ONE_MIN_MS);
+    if (minutes < 1) {
+        return i18n.t('common.just');
+    }
+    const hours = Math.floor(time / ONE_HOUR_MS);
+    if (hours < 1) {
+        return `${minutes}${i18n.t('common.minuetsAgo')}`;
+    }
+    const days = Math.floor(time / ONE_DAY_MS);
+    if (days < 1) {
+        return `${hours}${i18n.t('common.hoursAgo')}`;
+    } else if (days === 1) {
+        return i18n.t('common.yesterday');
+    } else if (days === 2) {
+        return i18n.t('common.twoDaysAgo');
+    } else if (days <= 30) {
+        return `${days}${i18n.t('common.daysAgo')}`;
+    }
+    return getDateString(date);
+};
 
 class Utils {
     static getToken () {
@@ -92,13 +129,13 @@ class Utils {
                 parseInt(dataArr[0]), parseInt(dataArr[1]) - 1, parseInt(dataArr[2]),
                 parseInt(timeArr[0]), parseInt(timeArr[1]), parseInt(timeArr[2]))
             );
-            const typeDict = {
-                'time': timeObj.toLocaleString,
-                'date': timeObj.toLocaleDateString
-            };
-            return typeDict[type].call(timeObj, 'zh-Hans-CN', { hour12: false });
+            if (type === 'time') {
+                return getTimeString(timeObj);
+            } else if (type === 'date') {
+                return getDateString(timeObj);
+            }
+            return timeObj.toLocaleString('zh-Hans-CN', { hour12: false });
         } catch (e) {
-            console.warn(e);
             return '-';
         }
     }

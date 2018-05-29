@@ -60,7 +60,7 @@
                                     </i>
                                 </el-popover>
                             </span>
-                            <span @click="sectionAddShow = true">{{ section.create_at | time }}</span>
+                            <span @click="sectionAddShow = true">{{ section.create_at | date }}</span>
                         </div>
                     </div>
                 </div>

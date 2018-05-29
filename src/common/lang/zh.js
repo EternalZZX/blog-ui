@@ -90,7 +90,13 @@ export default {
         close: '关闭',
         readCount: '阅读',
         likeCount: '点赞',
-        commentCount: '评论'
+        commentCount: '评论',
+        just: '刚刚',
+        minuetsAgo: '分钟前',
+        hoursAgo: '小时前',
+        yesterday: '昨天',
+        twoDaysAgo: '前天',
+        daysAgo: '天前'
     },
     ...zhLocale
 };
