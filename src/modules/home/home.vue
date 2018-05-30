@@ -1,5 +1,6 @@
 <template>
     <div class="et-layout">
+        <et-editor></et-editor>
         <!-- <el-upload
             ref="upload"
             action="upload"

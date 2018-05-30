@@ -72,6 +72,8 @@
                         class="et-comment__container"
                         :class="{ 'hide': imageZoom }">
                         <div class="et-comment__inner">
+                            <div>
+                            </div>
                             comment
                         </div>
                     </div>
