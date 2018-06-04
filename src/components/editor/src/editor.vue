@@ -12,7 +12,11 @@
                 <button type="button" class="ql-blockquote"></button>
                 <button type="button" class="ql-code-block"></button>
                 <button type="button" class="ql-header" value="2"></button>
-                <button @click="boldTrigger"><i class="et-icon ei-home"></i></button>
+                <button class="et-editor__button"
+                    :class="{ 'active': format.bold }"
+                    @click="boldTrigger">
+                    <i class="et-icon ei-home"></i>
+                </button>
             </span>
         </div>
     </quill-editor>
@@ -28,6 +32,7 @@ export default {
     data () {
         return {
             editor: null,
+            format: {},
             content: '',
             editorOption: {
                 formats: ['bold', 'italic', 'header', 'list', 'indent',
@@ -51,14 +56,12 @@ export default {
             }
         };
     },
-    // computed: {
-    //     editor () {
-    //         return this.$refs.editor.quill;
-    //     }
-    // },
     mounted () {
         this.editor = this.$refs.editor.quill;
         this.editor.getModule('toolbar').addHandler('image', this.imgHandler);
+        this.editor.on('editor-change', (range, oldRange, source) => {
+            this.format = this.editor.getFormat();
+        });
     },
     methods: {
         imgHandler (event) {
@@ -74,7 +77,8 @@ export default {
             // console.warn('editor ready!', editor);
         },
         boldTrigger () {
-            this.editor.format('bold', true);
+            this.editor.format('bold', !this.format.bold);
+            this.format = this.editor.getFormat();
         }
     }
 };
