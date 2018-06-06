@@ -1,25 +1,70 @@
 <template>
-    <quill-editor ref="editor"
-        v-model="content"
-        :options="editorOption"
-        @blur="onEditorBlur($event)"
-        @focus="onEditorFocus($event)"
-        @ready="onEditorReady($event)">
-        <div id="toolbar" slot="toolbar">
-            <span class="ql-formats">
-                <button type="button" class="ql-bold"></button>
-                <button type="button" class="ql-italic"></button>
-                <button type="button" class="ql-blockquote"></button>
-                <button type="button" class="ql-code-block"></button>
-                <button type="button" class="ql-header" value="2"></button>
-                <button class="et-editor__button"
-                    :class="{ 'active': format.bold }"
-                    @click="boldTrigger">
-                    <i class="et-icon ei-home"></i>
-                </button>
-            </span>
-        </div>
-    </quill-editor>
+    <div>
+        <quill-editor ref="editor"
+            v-model="content"
+            :options="editorOption"
+            @blur="onEditorBlur($event)"
+            @focus="onEditorFocus($event)"
+            @ready="onEditorReady($event)">
+            <div id="toolbar" slot="toolbar">
+                <span class="ql-formats">
+                    <button class="et-editor__button"
+                        :class="{ 'active': format.bold }"
+                        @click="updateFormat('bold')">
+                        <i class="et-icon ei-format-bold"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        :class="{ 'active': format.italic }"
+                        @click="updateFormat('italic')">
+                        <i class="et-icon ei-format-italic"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        :class="{ 'active': format.header }"
+                        @click="updateFormat('header', 2)">
+                        <i class="et-icon ei-format-title"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        :class="{ 'active': format.blockquote }"
+                        @click="updateFormat('blockquote')">
+                        <i class="et-icon ei-format-quote"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        :class="{ 'active': format['code-block'] }"
+                        @click="updateFormat('code-block')">
+                        <i class="et-icon ei-format-code"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        :class="{ 'active': format['list'] === 'ordered' }"
+                        @click="updateFormat('list', 'ordered')">
+                        <i class="et-icon ei-format-list-numbers"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        :class="{ 'active': format['list'] === 'bullet' }"
+                        @click="updateFormat('list', 'bullet')">
+                        <i class="et-icon ei-format-list-bulleted"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        @click="updateFormat('indent', -1)">
+                        <i class="et-icon ei-format-indent-decrease"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        @click="updateFormat('indent', 1)">
+                        <i class="et-icon ei-format-indent-increase"></i>
+                    </button>
+                    <button class="et-editor__button"
+                        @click="insertLinkShow = true">
+                        <i class="et-icon ei-link"></i>
+                    </button>
+                </span>
+            </div>
+        </quill-editor>
+
+        <et-dialog
+            :show.sync="insertLinkShow"
+            :title="$t('editor.insertLink')"
+            type="small">
+        </et-dialog>
+    </div>
 </template>
 
 <script>
@@ -53,14 +98,16 @@ export default {
                 //         ['link', 'image']
                 //     ]
                 // }
-            }
+            },
+            insertLinkShow: false
         };
     },
     mounted () {
         this.editor = this.$refs.editor.quill;
         this.editor.getModule('toolbar').addHandler('image', this.imgHandler);
         this.editor.on('editor-change', (range, oldRange, source) => {
-            this.format = this.editor.getFormat();
+            this.getFormat();
+            console.warn(this.format);
         });
     },
     methods: {
@@ -76,8 +123,22 @@ export default {
         onEditorReady (editor) {
             // console.warn('editor ready!', editor);
         },
-        boldTrigger () {
-            this.editor.format('bold', !this.format.bold);
+        insertLink () {
+
+        },
+        updateFormat (type, value = true) {
+            let formatValue;
+            if (type === 'indent') {
+                formatValue = this.format[type] ? this.format[type] : 0;
+                formatValue += value;
+            } else {
+                formatValue = !(this.format[type] === value);
+                formatValue && (formatValue = value);
+            }
+            this.editor.format(type, formatValue);
+            this.getFormat();
+        },
+        getFormat () {
             this.format = this.editor.getFormat();
         }
     }

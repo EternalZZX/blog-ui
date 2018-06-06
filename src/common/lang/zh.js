@@ -83,6 +83,9 @@ export default {
         phone: '请输入正确的手机号码!',
         password: '密码长度至少6位!'
     },
+    editor: {
+        insertLink: '插入连接'
+    },
     common: {
         submit: '提 交',
         cancel: '取 消',

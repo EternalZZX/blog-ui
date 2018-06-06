@@ -1,6 +1,7 @@
 <template>
     <el-dialog ref="dialog"
         class="et-dialog"
+        :class="{'et-dialog_small': type === 'small'}"
         :visible.sync="visible"
         @close="close">
         <span slot="title" class="et-dialog__title">
@@ -29,6 +30,16 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        type: {
+            type: String,
+            default: 'normal',
+            validator (val) {
+                return [
+                    'small',
+                    'normal'
+                ].indexOf(val) !== -1;
+            }
         }
     },
     data () {
@@ -82,12 +93,36 @@ export default {
                 height: 100%;
                 margin: 0 !important;
                 overflow: auto;
+                border-radius: 0;
+            }
+
+            .el-dialog__footer {
+                border-radius: 0;
             }
         }
 
         @include filter-screen($padMinWidth, $padMaxWidth) {
             & {
                 width: 75%;
+            }
+        }
+    }
+
+    &.et-dialog_small /deep/ .el-dialog {
+        width: 30%;
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        @include filter-screen($padMinWidth, $padMaxWidth) {
+            & {
+                width: 45%;
             }
         }
     }
@@ -110,6 +145,22 @@ export default {
         }
     }
 
+    /deep/ .el-dialog__body {
+        @include max-screen($phoneMaxWidth) {
+            & {
+                margin-bottom: 3.3rem;
+            }
+        }
+    }
+
+    &.et-dialog_small /deep/ .el-dialog__body {
+        @include max-screen($phoneMaxWidth) {
+            & {
+                margin-bottom: 0;
+            }
+        }
+    }
+
     /deep/ .el-dialog__footer {
         background: $dialogFooterBackground;
         border-radius: 0 0 $radiusSmall $radiusSmall;
@@ -118,7 +169,7 @@ export default {
 
         @include max-screen($phoneMaxWidth) {
             & {
-                position: fixed;
+                position: absolute;
                 bottom: 0;
                 width: 100%;
             }
@@ -134,7 +185,49 @@ export default {
         }
 
         .el-button--primary:hover {
-            border-color: #234462;
+            border-color: $submitHoverColor;
+        }
+    }
+
+    &.et-dialog_small /deep/ .el-dialog__footer {
+        @include max-screen($phoneMaxWidth) {
+            & {
+                position: static;
+            }
+        }
+    }
+
+    @include max-screen($phoneMaxWidth) {
+        &.et-dialog_small.dialog-fade-enter-active {
+            animation: dialog-fade-in-bottom .3s;
+        }
+
+        &.et-dialog_small.dialog-fade-leave-active {
+            animation: dialog-fade-out-bottom .3s;
+        }
+    }
+
+    @keyframes dialog-fade-in-bottom {
+        0% {
+            transform: translate3d(0, 20px, 0);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes dialog-fade-out-bottom {
+        0% {
+            transform: translate3d(0, 0, 0);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translate3d(0, 20px, 0);
+            opacity: 0;
         }
     }
 }

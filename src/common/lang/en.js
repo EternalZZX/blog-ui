@@ -85,6 +85,9 @@ export default {
         phone: 'Please enter the correct phone number!',
         password: 'Password contain at least 6 characters!'
     },
+    editor: {
+        insertLink: 'Insert link'
+    },
     common: {
         submit: 'Submit',
         cancel: 'Cancel',
