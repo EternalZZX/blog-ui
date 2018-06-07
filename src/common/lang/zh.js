@@ -84,7 +84,9 @@ export default {
         password: '密码长度至少6位!'
     },
     editor: {
-        insertLink: '插入连接'
+        insertLink: '插入链接',
+        linkText: '请输入链接文本',
+        linkUrl: '请输入链接地址'
     },
     common: {
         submit: '提 交',

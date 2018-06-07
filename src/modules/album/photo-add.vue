@@ -1,6 +1,6 @@
 <template>
     <el-dialog class="et-dialog"
-        :title="$t('section.create.title')"
+        :title="$t('photo.create.title')"
         :visible="show"
         @open="open"
         @close="close">
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    name: 'EtSectionAdd',
+    name: 'EtPhotoAdd',
     props: {
         show: {
             type: Boolean,

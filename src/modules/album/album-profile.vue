@@ -79,15 +79,13 @@
             <et-toolbar></et-toolbar>
         </div>
 
-        <et-dialog v-perm:album-add
-            :show.sync="albumAddShow"
-            :title="$t('album.create.title')">
-        </et-dialog>
+        <et-album-add v-perm:album-add
+            :show.sync="albumAddShow">
+        </et-album-add>
 
-        <et-dialog v-perm:photo-add
-            :show.sync="photoAddShow"
-            :title="$t('photo.create.title')">
-        </et-dialog>
+        <et-photo-add v-perm:photo-add
+            :show.sync="photoAddShow">
+        </et-photo-add>
 
         <et-preview
             :show.sync="preview.show"
@@ -103,8 +101,14 @@ import Photo from '@/common/api/photos';
 import Utils from '@/common/utils';
 import { EVENT } from '@/common/bus';
 import { mapState, mapGetters } from 'vuex';
+import EtAlbumAdd from './album-add';
+import EtPhotoAdd from './photo-add';
 export default {
     name: 'EtAlbumProfile',
+    components: {
+        EtAlbumAdd,
+        EtPhotoAdd
+    },
     data () {
         return {
             dataList: [],

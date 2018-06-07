@@ -3,6 +3,7 @@
         class="et-dialog"
         :class="{'et-dialog_small': type === 'small'}"
         :visible.sync="visible"
+        @open="open"
         @close="close">
         <span slot="title" class="et-dialog__title">
             {{ title }}
@@ -44,36 +45,39 @@ export default {
     },
     data () {
         return {
-            visible: this.show
+            visible: this.show,
+            child: null
         };
-    },
-    computed: {
-        child () {
-            return this.$refs.dialog.$children.find(item => item.submit !== void 0);
-        }
     },
     watch: {
         show () {
             this.visible = this.show;
         }
     },
+    mounted () {
+        this.$nextTick(() => {
+            this.child = this.$refs.dialog.$children.find(item => item.submit !== void 0);
+        });
+    },
+    updated () {
+        this.$nextTick(() => {
+            this.child = this.$refs.dialog.$children.find(item => item.submit !== void 0);
+        });
+    },
     methods: {
+        open () {
+            this.$emit('open');
+        },
         submit () {
-            if (this.child && this.child.submit) {
-                this.child.submit();
-            }
+            this.$emit('submit');
             this.$emit('update:show', false);
         },
         cancel () {
-            if (this.child && this.child.cancel) {
-                this.child.cancel();
-            }
+            this.$emit('cancel');
             this.$emit('update:show', false);
         },
         close () {
-            if (this.child && this.child.close) {
-                this.child.close();
-            }
+            this.$emit('close');
             this.$emit('update:show', false);
         }
     }
@@ -84,126 +88,25 @@ export default {
 @import '~static/styles/style-common';
 
 .et-dialog {
-    /deep/ .el-dialog {
-        border-radius: $radiusSmall;
-
-        @include max-screen($phoneMaxWidth) {
-            & {
-                width: 100%;
-                height: 100%;
-                margin: 0 !important;
-                overflow: auto;
-                border-radius: 0;
-            }
-
-            .el-dialog__footer {
-                border-radius: 0;
-            }
-        }
-
-        @include filter-screen($padMinWidth, $padMaxWidth) {
-            & {
-                width: 75%;
-            }
-        }
-    }
-
-    &.et-dialog_small /deep/ .el-dialog {
-        width: 30%;
-
-        @include max-screen($phoneMaxWidth) {
-            & {
-                position: fixed;
-                bottom: 0;
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        @include filter-screen($padMinWidth, $padMaxWidth) {
-            & {
-                width: 45%;
-            }
-        }
-    }
-
-    /deep/ .el-dialog__header {
-        padding: $spaceLarge;
-
-        .et-dialog__title {
-            font-size: $dialogTitleFontSize;
-            font-weight: $navFontWeight;
-        }
-
-        .el-dialog__headerbtn {
-            top: $spaceLarge;
-            right: $spaceLarge;
-        }
-
-        .el-dialog__headerbtn .el-dialog__close {
-            font-size: $iconFontSizeLarge;
-        }
-    }
-
-    /deep/ .el-dialog__body {
-        @include max-screen($phoneMaxWidth) {
-            & {
-                margin-bottom: 3.3rem;
-            }
-        }
-    }
-
-    &.et-dialog_small /deep/ .el-dialog__body {
-        @include max-screen($phoneMaxWidth) {
-            & {
-                margin-bottom: 0;
-            }
-        }
-    }
-
-    /deep/ .el-dialog__footer {
-        background: $dialogFooterBackground;
-        border-radius: 0 0 $radiusSmall $radiusSmall;
-        padding: $spaceMiddle;
-        border-top: $splitBorder;
-
-        @include max-screen($phoneMaxWidth) {
-            & {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-            }
-        }
-
-        .el-button {
-            padding: $spaceMiddle;
-        }
-
-        .el-button--primary {
-            border-color: $submitColor;
-            background: $submitColor;
-        }
-
-        .el-button--primary:hover {
-            border-color: $submitHoverColor;
-        }
-    }
-
-    &.et-dialog_small /deep/ .el-dialog__footer {
-        @include max-screen($phoneMaxWidth) {
-            & {
-                position: static;
-            }
-        }
-    }
+    border-radius: $radiusSmall;
 
     @include max-screen($phoneMaxWidth) {
-        &.et-dialog_small.dialog-fade-enter-active {
-            animation: dialog-fade-in-bottom .3s;
+        & {
+            width: 100%;
+            height: 100%;
+            margin: 0 !important;
+            overflow: auto;
+            border-radius: 0;
         }
 
-        &.et-dialog_small.dialog-fade-leave-active {
-            animation: dialog-fade-out-bottom .3s;
+        .el-dialog__footer {
+            border-radius: 0;
+        }
+    }
+
+    @include filter-screen($padMinWidth, $padMaxWidth) {
+        & {
+            width: 75%;
         }
     }
 
@@ -228,6 +131,99 @@ export default {
         100% {
             transform: translate3d(0, 20px, 0);
             opacity: 0;
+        }
+    }
+
+    &.et-dialog_small {
+        width: 30%;
+        max-width: 30rem;
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                height: auto;
+            }
+
+            &.dialog-fade-enter-active {
+                animation: dialog-fade-in-bottom .3s;
+            }
+
+            &.dialog-fade-leave-active {
+                animation: dialog-fade-out-bottom .3s;
+            }
+
+            .el-dialog__body {
+                margin-bottom: 0;
+            }
+
+            .el-dialog__footer {
+                position: static;
+            }
+        }
+
+        @include filter-screen($padMinWidth, $padMaxWidth) {
+            & {
+                width: 45%;
+            }
+        }
+    }
+
+    .el-dialog__header {
+        padding: $spaceLarge;
+
+        .el-dialog__title {
+            font-size: $dialogTitleFontSize;
+            font-weight: $navFontWeight;
+        }
+
+        .el-dialog__headerbtn {
+            top: $spaceLarge;
+            right: $spaceLarge;
+        }
+
+        .el-dialog__headerbtn .el-dialog__close {
+            font-size: $iconFontSizeLarge;
+        }
+    }
+
+    .el-dialog__body {
+        padding: $spaceLarge;
+        padding-top: 0;
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                margin-bottom: 3.3rem;
+            }
+        }
+    }
+
+    .el-dialog__footer {
+        background: $dialogFooterBackground;
+        border-radius: 0 0 $radiusSmall $radiusSmall;
+        padding: $spaceMiddle;
+        border-top: $splitBorder;
+
+        @include max-screen($phoneMaxWidth) {
+            & {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+        }
+
+        .el-button {
+            padding: $spaceMiddle;
+        }
+
+        .el-button--primary {
+            border-color: $submitColor;
+            background: $submitColor;
+        }
+
+        .el-button--primary:hover {
+            border-color: $submitHoverColor;
         }
     }
 }

@@ -68,11 +68,9 @@
             <et-toolbar></et-toolbar>
         </div>
 
-        <et-dialog v-perm:section-add
-            :show.sync="sectionAddShow"
-            :title="$t('section.create.title')">
-            <et-section-add></et-section-add>
-        </et-dialog>
+        <et-section-add v-perm:section-add
+            :show.sync="sectionAddShow">
+        </et-section-add>
     </div>
 </template>
 

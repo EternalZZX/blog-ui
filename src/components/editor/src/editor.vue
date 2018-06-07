@@ -59,11 +59,9 @@
             </div>
         </quill-editor>
 
-        <et-dialog
-            :show.sync="insertLinkShow"
-            :title="$t('editor.insertLink')"
-            type="small">
-        </et-dialog>
+        <et-editor-link
+            :show.sync="insertLinkShow">
+        </et-editor-link>
     </div>
 </template>
 
@@ -71,9 +69,13 @@
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import { quillEditor } from 'vue-quill-editor';
+import EtEditorLink from './link';
 export default {
     name: 'EtEditor',
-    components: { quillEditor },
+    components: {
+        quillEditor,
+        EtEditorLink
+    },
     data () {
         return {
             editor: null,
@@ -122,9 +124,6 @@ export default {
         },
         onEditorReady (editor) {
             // console.warn('editor ready!', editor);
-        },
-        insertLink () {
-
         },
         updateFormat (type, value = true) {
             let formatValue;

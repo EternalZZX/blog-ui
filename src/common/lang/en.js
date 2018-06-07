@@ -86,7 +86,9 @@ export default {
         password: 'Password contain at least 6 characters!'
     },
     editor: {
-        insertLink: 'Insert link'
+        insertLink: 'Insert link',
+        linkText: 'Please enter link text',
+        linkUrl: 'Please enter link url'
     },
     common: {
         submit: 'Submit',

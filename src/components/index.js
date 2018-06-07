@@ -1,4 +1,3 @@
-import Dialog from './dialog';
 import Editor from './editor';
 import Nav from './nav';
 import Preview from './preview';
@@ -7,7 +6,6 @@ import Toolbar from './toolbar';
 import User from './user';
 
 const components = [
-    Dialog,
     Editor,
     Nav,
     Preview,
