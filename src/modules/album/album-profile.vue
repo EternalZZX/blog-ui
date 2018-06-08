@@ -163,9 +163,9 @@ export default {
         window.onresize = () => {
             this.blockSize = this.getSize();
         };
-        this.$nextTick(() => {
-            this.blockSize = this.getSize();
-        });
+    },
+    activated () {
+        this.blockSize = this.getSize();
     },
     methods: {
         init (loadType) {
@@ -211,7 +211,7 @@ export default {
         },
         getSize () {
             const el = document.getElementsByClassName('et-photo__add')[0];
-            return document.defaultView.getComputedStyle(el, null).width;
+            return el ? document.defaultView.getComputedStyle(el, null).width : 0;
         },
         getStyle (url) {
             const style = { height: this.blockSize };

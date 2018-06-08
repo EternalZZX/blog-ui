@@ -81,7 +81,8 @@ export default {
         nick: '昵称仅支持字母、数字、中文、下划线与中划线, 且至少包含2个字符!',
         email: '请输入正确的邮箱地址!',
         phone: '请输入正确的手机号码!',
-        password: '密码长度至少6位!'
+        password: '密码长度至少6位!',
+        url: '请输入正确的链接地址!'
     },
     editor: {
         insertLink: '插入链接',

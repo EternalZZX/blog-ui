@@ -620,7 +620,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     .el-dialog__footer {
         background: $dialogFooterBackground;
         border-radius: 0 0 $radiusSmall $radiusSmall;
-        padding: $spaceMiddle;
+        padding: $spaceMiddle $spaceLarge;
         border-top: $splitBorder;
 
         @include max-screen($phoneMaxWidth) {

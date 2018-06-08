@@ -83,7 +83,8 @@ export default {
               'and separators, and contain at least 2 characters!',
         email: 'Please enter the correct email address!',
         phone: 'Please enter the correct phone number!',
-        password: 'Password contain at least 6 characters!'
+        password: 'Password contain at least 6 characters!',
+        url: 'Please enter the correct url address!'
     },
     editor: {
         insertLink: 'Insert link',

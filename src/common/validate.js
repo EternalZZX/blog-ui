@@ -6,7 +6,8 @@ export const validateReg = {
     nick: /^[\u4e00-\u9fa5\-_a-zA-Z0-9]{2,}$/,
     email: /^([a-zA-Z0-9_-])+@(([a-zA-Z0-9_-])+\.)+([a-zA-Z0-9]{2,4})+$/,
     phone: /^1[3|4|5|7|8]\d{9}$/,
-    password: /^.{6,}$/
+    password: /^.{6,}$/,
+    url: /^(f|ht){1}(tp|tps):\/\/([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?/
 };
 
 const validate = (data, rules) => {

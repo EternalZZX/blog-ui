@@ -60,7 +60,8 @@
         </quill-editor>
 
         <et-editor-link
-            :show.sync="insertLinkShow">
+            :show.sync="insertLinkShow"
+            :editor="editor">
         </et-editor-link>
     </div>
 </template>
@@ -68,8 +69,11 @@
 <script>
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
+import Quill from 'quill';
+import Link from '../blots/link';
 import { quillEditor } from 'vue-quill-editor';
 import EtEditorLink from './link';
+Quill.register('formats/link', Link);
 export default {
     name: 'EtEditor',
     components: {
@@ -85,8 +89,16 @@ export default {
                 formats: ['bold', 'italic', 'header', 'list', 'indent',
                     'align', 'blockquote', 'code-block', 'link', 'image'],
                 modules: {
-                    toolbar: '#toolbar'
+                    toolbar: {
+                        container: '#toolbar',
+                        handler: {
+                            link: value => {
+                                console.warn('handler: ', value);
+                            }
+                        }
+                    }
                 },
+                // theme: 'et-theme',
                 placeholder: '...'
                 // modules: {
                 //     toolbar: [
@@ -107,9 +119,16 @@ export default {
     mounted () {
         this.editor = this.$refs.editor.quill;
         this.editor.getModule('toolbar').addHandler('image', this.imgHandler);
-        this.editor.on('editor-change', (range, oldRange, source) => {
-            this.getFormat();
-            console.warn(this.format);
+        this.editor.on('editor-change', (eventName, ...args) => {
+            if (this.editor.hasFocus()) {
+                this.getFormat();
+                if (this.format.link) {
+                    const selection = this.editor.getSelection();
+                    console.warn(this.editor.getLeaf(selection.index)[0].text);
+                    // this.editor.theme.tooltip.edit('link', 'abc');
+                }
+            }
+            // console.warn(this.editor.root.innerHTML);
         });
     },
     methods: {

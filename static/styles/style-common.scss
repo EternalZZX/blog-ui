@@ -75,6 +75,11 @@
             border-color: $themeActiveColor;
             background: $themeActiveColor;
         }
+
+        &.is-disabled {
+            border-color: $disabledColor !important;
+            background: $disabledColor !important;
+        }
     }
 }
 
