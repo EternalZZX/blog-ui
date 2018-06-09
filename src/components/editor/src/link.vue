@@ -7,7 +7,7 @@
         @keyup.enter.native="submit">
         <el-form ref="form" :model="data">
             <el-form-item prop="text">
-                <el-input v-model="data.text"
+                <el-input ref="text" v-model="data.text"
                     :placeholder="$t('editor.linkText')"
                     :maxlength="1000"
                     :clearable="true">
@@ -15,7 +15,7 @@
                 </el-input>
             </el-form-item>
             <el-form-item prop="url">
-                <el-input v-model.trim="data.url"
+                <el-input ref="url" v-model.trim="data.url"
                     :placeholder="$t('editor.linkUrl')"
                     :maxlength="2000"
                     :clearable="true">
@@ -35,7 +35,10 @@
 </template>
 
 <script>
+import Quill from 'quill';
+import { Range } from '../themes/theme';
 import validate from '@/common/validate';
+const LinkBlot = Quill.import('formats/link');
 export default {
     name: 'EtEditorLink',
     props: {
@@ -50,6 +53,7 @@ export default {
     data () {
         return {
             selection: null,
+            linkRange: null,
             data: {
                 text: '',
                 url: ''
@@ -67,30 +71,56 @@ export default {
     methods: {
         open () {
             this.selection = this.editor.getSelection();
-            !this.selection && (this.selection = {
-                index: this.editor.getLength() - 1,
-                length: 0
+            const url = this.editor.getFormat().link,
+                [link, offset] = this.selection ?
+                    this.editor.scroll.descendant(LinkBlot, this.selection.index) :
+                    [null, null];
+            if (link && url) {
+                this.linkRange = new Range(this.selection.index - offset, link.length());
+                this.$set(this.data, 'text', link.children.head.text);
+                this.$set(this.data, 'url', url);
+            } else {
+                !this.selection && (this.selection = {
+                    index: this.editor.getLength() - 1,
+                    length: 0
+                });
+                this.selection.length && this.$set(
+                    this.data,
+                    'text',
+                    this.editor.getText(this.selection.index, this.selection.length)
+                );
+            }
+            this.$nextTick(() => {
+                this.data.text && !this.data.url ?
+                    this.$refs.url.focus() :
+                    this.$refs.text.focus();
             });
-            this.selection.length && this.$set(
-                this.data,
-                'text',
-                this.editor.getText(this.selection.index, this.selection.length)
-            );
         },
         close () {
+            delete this.linkRange;
             this.$refs.form.resetFields();
             this.closeDialog();
         },
         submit () {
             if (this.submitDisabled) return;
-            this.selection.length ?
-                this.editor.format('link', this.data.url) :
+            if (this.linkRange) {
+                this.editor.deleteText(this.linkRange);
                 this.editor.insertText(
-                    this.selection.index,
+                    this.linkRange.index,
                     this.data.text ? this.data.text : this.data.url,
                     'link',
                     this.data.url
                 );
+            } else {
+                this.selection.length ?
+                    this.editor.format('link', this.data.url) :
+                    this.editor.insertText(
+                        this.selection.index,
+                        this.data.text ? this.data.text : this.data.url,
+                        'link',
+                        this.data.url
+                    );
+            }
             this.closeDialog();
         },
         cancel () {

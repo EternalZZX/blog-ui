@@ -3,22 +3,20 @@ import Emitter from 'quill/core/emitter';
 import BaseTooltip from './tooltip';
 
 const SnowTheme = Quill.import('themes/snow'),
-    LinkBlot = Quill.import('formats/link'),
-    Icons = Quill.import('ui/icons');
+    LinkBlot = Quill.import('formats/link');
 
 class EtTheme extends SnowTheme {
     extendToolbar (toolbar) {
         toolbar.container.classList.add('ql-snow');
-        this.buildButtons([].slice.call(toolbar.container.querySelectorAll('button')), Icons);
-        this.buildPickers([].slice.call(toolbar.container.querySelectorAll('select')), Icons);
         this.tooltip = new EtTooltip(this.quill, this.options.bounds);
-        if (toolbar.container.querySelector('.ql-link')) {
+        if (toolbar.container.querySelector('.ei-link')) {
             this.quill.keyboard.addBinding({ key: 'K', shortKey: true }, (range, context) => {
                 toolbar.handlers.link.call(toolbar, !context.format.link);
             });
         }
     }
 }
+
 class EtTooltip extends BaseTooltip {
     constructor (quill, bounds) {
         super(quill, bounds);
@@ -78,7 +76,7 @@ EtTooltip.TEMPLATE = [
     '<a class="ql-remove"></a>'
 ].join('');
 
-class Range {
+export class Range {
     constructor (index, length = 0) {
         this.index = index;
         this.length = length;

@@ -91,7 +91,14 @@ export default {
                 formats: ['bold', 'italic', 'header', 'list', 'indent',
                     'align', 'blockquote', 'code-block', 'link', 'image'],
                 modules: {
-                    toolbar: '#toolbar'
+                    toolbar: {
+                        container: '#toolbar',
+                        handlers: {
+                            link: value => {
+                                this.insertLinkShow = true;
+                            }
+                        }
+                    }
                 },
                 theme: 'et-theme',
                 placeholder: '...'
