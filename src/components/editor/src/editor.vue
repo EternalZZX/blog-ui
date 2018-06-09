@@ -70,10 +70,12 @@
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import Quill from 'quill';
-import Link from '../blots/link';
+import EtTheme from '../themes/theme';
+// import Link from '../blots/link';
 import { quillEditor } from 'vue-quill-editor';
 import EtEditorLink from './link';
-Quill.register('formats/link', Link);
+// Quill.register('formats/link', Link);
+Quill.register('themes/et-theme', EtTheme);
 export default {
     name: 'EtEditor',
     components: {
@@ -89,16 +91,9 @@ export default {
                 formats: ['bold', 'italic', 'header', 'list', 'indent',
                     'align', 'blockquote', 'code-block', 'link', 'image'],
                 modules: {
-                    toolbar: {
-                        container: '#toolbar',
-                        handler: {
-                            link: value => {
-                                console.warn('handler: ', value);
-                            }
-                        }
-                    }
+                    toolbar: '#toolbar'
                 },
-                // theme: 'et-theme',
+                theme: 'et-theme',
                 placeholder: '...'
                 // modules: {
                 //     toolbar: [
