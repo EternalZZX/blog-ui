@@ -71,11 +71,9 @@ export default {
     methods: {
         open () {
             this.selection = this.editor.getSelection();
-            const url = this.editor.getFormat().link,
-                [link, offset] = this.selection ?
-                    this.editor.scroll.descendant(LinkBlot, this.selection.index) :
-                    [null, null];
-            if (link && url) {
+            const url = this.selection ? this.editor.getFormat(this.selection.index + 1).link : null;
+            if (url) {
+                const [link, offset] = this.editor.scroll.descendant(LinkBlot, this.selection.index);
                 this.linkRange = new Range(this.selection.index - offset, link.length());
                 this.$set(this.data, 'text', link.children.head.text);
                 this.$set(this.data, 'url', url);
@@ -90,38 +88,42 @@ export default {
                     this.editor.getText(this.selection.index, this.selection.length)
                 );
             }
-            this.$nextTick(() => {
-                this.data.text && !this.data.url ?
-                    this.$refs.url.focus() :
-                    this.$refs.text.focus();
-            });
+            this.initFocus();
         },
         close () {
             delete this.linkRange;
-            this.$refs.form.resetFields();
+            this.data = {
+                text: '',
+                url: ''
+            };
             this.closeDialog();
         },
         submit () {
             if (this.submitDisabled) return;
             if (this.linkRange) {
                 this.editor.deleteText(this.linkRange);
-                this.editor.insertText(
-                    this.linkRange.index,
-                    this.data.text ? this.data.text : this.data.url,
-                    'link',
-                    this.data.url
-                );
+                this.insertLink(this.data.text, this.data.url);
             } else {
                 this.selection.length ?
                     this.editor.format('link', this.data.url) :
-                    this.editor.insertText(
-                        this.selection.index,
-                        this.data.text ? this.data.text : this.data.url,
-                        'link',
-                        this.data.url
-                    );
+                    this.insertLink(this.data.text, this.data.url);
             }
             this.closeDialog();
+        },
+        initFocus () {
+            this.$nextTick(() => {
+                this.data.text && !this.data.url ?
+                    this.$refs.url.focus() :
+                    this.$refs.text.focus();
+            });
+        },
+        insertLink (text, url) {
+            this.editor.insertText(
+                this.selection.index,
+                text || url,
+                'link',
+                url
+            );
         },
         cancel () {
             this.closeDialog();
