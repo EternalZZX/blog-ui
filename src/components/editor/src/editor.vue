@@ -52,7 +52,7 @@
                         <i class="et-icon ei-format-indent-increase"></i>
                     </button>
                     <button class="et-editor__button"
-                        @click="insertLinkShow = true">
+                        @click="linkHandler">
                         <i class="et-icon ei-link"></i>
                     </button>
                 </span>
@@ -61,7 +61,8 @@
 
         <et-editor-link
             :show.sync="insertLinkShow"
-            :editor="editor">
+            :editor="editor"
+            :link="link">
         </et-editor-link>
     </div>
 </template>
@@ -70,12 +71,11 @@
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import Quill from 'quill';
-import EtTheme from '../themes/theme';
-// import Link from '../blots/link';
+import EtTheme, { Range } from '../themes/theme';
 import { quillEditor } from 'vue-quill-editor';
 import EtEditorLink from './link';
-// Quill.register('formats/link', Link);
 Quill.register('themes/et-theme', EtTheme);
+const LinkBlot = Quill.import('formats/link');
 export default {
     name: 'EtEditor',
     components: {
@@ -85,8 +85,8 @@ export default {
     data () {
         return {
             editor: null,
-            format: {},
             content: '',
+            format: {},
             editorOption: {
                 formats: ['bold', 'italic', 'header', 'list', 'indent',
                     'align', 'blockquote', 'code-block', 'link', 'image'],
@@ -94,9 +94,7 @@ export default {
                     toolbar: {
                         container: '#toolbar',
                         handlers: {
-                            link: value => {
-                                this.insertLinkShow = true;
-                            }
+                            link: this.linkHandler
                         }
                     }
                 },
@@ -115,6 +113,7 @@ export default {
                 //     ]
                 // }
             },
+            link: null,
             insertLinkShow: false
         };
     },
@@ -145,6 +144,24 @@ export default {
         },
         onEditorReady (editor) {
             // console.warn('editor ready!', editor);
+        },
+        linkHandler (value, linkBlot = null, linkRange = null) {
+            let blot = linkBlot,
+                range = linkRange;
+            if (!blot) {
+                let offset = null;
+                const selection = this.editor.getSelection();
+                [blot, offset] = selection ?
+                    this.editor.scroll.descendant(LinkBlot, selection.index) :
+                    [null, null];
+                blot && (range = new Range(selection.index - offset, blot.length()));
+            }
+            this.link = blot ? {
+                range,
+                text: blot.children.head.text,
+                url: LinkBlot.formats(blot.domNode)
+            } : null;
+            this.insertLinkShow = true;
         },
         updateFormat (type, value = true) {
             let formatValue;

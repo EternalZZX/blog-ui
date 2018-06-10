@@ -20,20 +20,15 @@ class EtTheme extends SnowTheme {
 class EtTooltip extends BaseTooltip {
     constructor (quill, bounds) {
         super(quill, bounds);
-        this.preview = this.root.querySelector('a.ql-preview');
+        this.preview = this.root.querySelector('a.et-editor__tooltip-preview');
     }
 
     listen () {
-        super.listen();
-        this.root.querySelector('a.ql-action').addEventListener('click', event => {
-            if (this.root.classList.contains('ql-editing')) {
-                this.save();
-            } else {
-                this.edit('link', this.preview.textContent);
-            }
+        this.root.querySelector('i.ei-brush-fill').addEventListener('click', event => {
+            this.edit();
             event.preventDefault();
         });
-        this.root.querySelector('a.ql-remove').addEventListener('click', event => {
+        this.root.querySelector('i.ei-trash-fill').addEventListener('click', event => {
             if (this.linkRange != null) {
                 const range = this.linkRange;
                 this.restoreFocus();
@@ -48,6 +43,7 @@ class EtTooltip extends BaseTooltip {
             if (range.length === 0 && source === Emitter.sources.USER) {
                 const [link, offset] = this.quill.scroll.descendant(LinkBlot, range.index);
                 if (link != null) {
+                    this.linkBlot = link;
                     this.linkRange = new Range(range.index - offset, link.length());
                     const preview = LinkBlot.formats(link.domNode);
                     this.preview.textContent = preview;
@@ -69,12 +65,10 @@ class EtTooltip extends BaseTooltip {
     }
 }
 
-EtTooltip.TEMPLATE = [
-    '<a class="ql-preview" target="_blank" href="about:blank"></a>',
-    '<input type="text" data-formula="e=mc^2" data-link="https://eternalzzx.com" data-video="Embed URL">',
-    '<a class="ql-action"></a>',
-    '<a class="ql-remove"></a>'
-].join('');
+EtTooltip.TEMPLATE = `
+<a class="et-editor__tooltip-preview" target="_blank" href="about:blank"></a>
+<i class="et-icon ei-brush-fill"></i>
+<i class="et-icon ei-trash-fill"></i>`;
 
 export class Range {
     constructor (index, length = 0) {

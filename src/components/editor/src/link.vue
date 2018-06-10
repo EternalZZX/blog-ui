@@ -35,10 +35,7 @@
 </template>
 
 <script>
-import Quill from 'quill';
-import { Range } from '../themes/theme';
 import validate from '@/common/validate';
-const LinkBlot = Quill.import('formats/link');
 export default {
     name: 'EtEditorLink',
     props: {
@@ -48,6 +45,12 @@ export default {
         },
         editor: {
             type: Object
+        },
+        link: {
+            type: Object,
+            default () {
+                return null;
+            }
         }
     },
     data () {
@@ -70,14 +73,12 @@ export default {
     },
     methods: {
         open () {
-            this.selection = this.editor.getSelection();
-            const url = this.selection ? this.editor.getFormat(this.selection.index + 1).link : null;
-            if (url) {
-                const [link, offset] = this.editor.scroll.descendant(LinkBlot, this.selection.index);
-                this.linkRange = new Range(this.selection.index - offset, link.length());
-                this.$set(this.data, 'text', link.children.head.text);
-                this.$set(this.data, 'url', url);
+            if (this.link) {
+                this.linkRange = this.link.range;
+                this.$set(this.data, 'text', this.link.text);
+                this.$set(this.data, 'url', this.link.url);
             } else {
+                this.selection = this.editor.getSelection();
                 !this.selection && (this.selection = {
                     index: this.editor.getLength() - 1,
                     length: 0
@@ -96,17 +97,18 @@ export default {
                 text: '',
                 url: ''
             };
+            this.restoreFocus();
             this.closeDialog();
         },
         submit () {
             if (this.submitDisabled) return;
             if (this.linkRange) {
                 this.editor.deleteText(this.linkRange);
-                this.insertLink(this.data.text, this.data.url);
+                this.insertLink(this.linkRange.index, this.data.text, this.data.url);
             } else {
                 this.selection.length ?
                     this.editor.format('link', this.data.url) :
-                    this.insertLink(this.data.text, this.data.url);
+                    this.insertLink(this.selection.index, this.data.text, this.data.url);
             }
             this.closeDialog();
         },
@@ -117,9 +119,14 @@ export default {
                     this.$refs.text.focus();
             });
         },
-        insertLink (text, url) {
+        restoreFocus () {
+            const scrollTop = this.editor.scrollingContainer.scrollTop;
+            this.editor.focus();
+            this.editor.scrollingContainer.scrollTop = scrollTop;
+        },
+        insertLink (index, text, url) {
             this.editor.insertText(
-                this.selection.index,
+                index,
                 text || url,
                 'link',
                 url

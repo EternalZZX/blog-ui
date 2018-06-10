@@ -19,7 +19,7 @@ html {
             text-decoration: none;
         }
 
-        button {
+        button, [role=button] {
             outline-style: none;
         }
     }
