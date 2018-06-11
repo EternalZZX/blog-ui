@@ -89,7 +89,8 @@ export default {
     editor: {
         insertLink: 'Insert link',
         linkText: 'Please enter link text',
-        linkUrl: 'Please enter link url'
+        linkUrl: 'Please enter link url',
+        insertImage: 'Insert Photo'
     },
     common: {
         submit: 'Submit',

@@ -87,7 +87,8 @@ export default {
     editor: {
         insertLink: '插入链接',
         linkText: '请输入链接文本',
-        linkUrl: '请输入链接地址'
+        linkUrl: '请输入链接地址',
+        insertImage: '插入图片'
     },
     common: {
         submit: '提 交',

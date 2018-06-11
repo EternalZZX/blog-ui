@@ -55,6 +55,10 @@
                         @click="linkHandler">
                         <i class="et-icon ei-link"></i>
                     </button>
+                    <button class="et-editor__button"
+                        @click="imageHandler">
+                        <i class="et-icon ei-picture"></i>
+                    </button>
                 </span>
             </div>
         </quill-editor>
@@ -64,6 +68,11 @@
             :editor="editor"
             :link="link">
         </et-editor-link>
+
+        <et-editor-image
+            :show.sync="insertImageShow"
+            :editor="editor">
+        </et-editor-image>
     </div>
 </template>
 
@@ -74,13 +83,15 @@ import Quill from 'quill';
 import EtTheme, { Range } from '../themes/theme';
 import { quillEditor } from 'vue-quill-editor';
 import EtEditorLink from './link';
+import EtEditorImage from './image';
 Quill.register('themes/et-theme', EtTheme);
 const LinkBlot = Quill.import('formats/link');
 export default {
     name: 'EtEditor',
     components: {
         quillEditor,
-        EtEditorLink
+        EtEditorLink,
+        EtEditorImage
     },
     data () {
         return {
@@ -94,7 +105,8 @@ export default {
                     toolbar: {
                         container: '#toolbar',
                         handlers: {
-                            link: this.linkHandler
+                            link: this.linkHandler,
+                            image: this.imageHandler
                         }
                     }
                 },
@@ -114,28 +126,17 @@ export default {
                 // }
             },
             link: null,
-            insertLinkShow: false
+            insertLinkShow: false,
+            insertImageShow: false
         };
     },
     mounted () {
         this.editor = this.$refs.editor.quill;
-        this.editor.getModule('toolbar').addHandler('image', this.imgHandler);
         this.editor.on('editor-change', (eventName, ...args) => {
-            if (this.editor.hasFocus()) {
-                this.getFormat();
-                if (this.format.link) {
-                    const selection = this.editor.getSelection();
-                    console.warn(this.editor.getLeaf(selection.index)[0].text);
-                    // this.editor.theme.tooltip.edit('link', 'abc');
-                }
-            }
-            // console.warn(this.editor.root.innerHTML);
+            this.editor.hasFocus() && this.getFormat();
         });
     },
     methods: {
-        imgHandler (event) {
-            console.warn('imgHandler!', event);
-        },
         onEditorBlur (editor) {
             // console.warn('editor blur!', editor);
         },
@@ -162,6 +163,9 @@ export default {
                 url: LinkBlot.formats(blot.domNode)
             } : null;
             this.insertLinkShow = true;
+        },
+        imageHandler (value) {
+            this.insertImageShow = true;
         },
         updateFormat (type, value = true) {
             let formatValue;
