@@ -5,32 +5,20 @@
         @open="open"
         @close="close"
         @keyup.enter.native="submit">
-        <et-scroll v-model="loadStatus"
-            @more="loadMore">
+        <et-scroll v-model="loadStatus" @more="loadMore">
             <div class="et-photo__container">
-                <div class="et-photo__wrapper et-photo__wrapper_albums"
-                    v-for="album in dataList" :key="album.uuid">
-                    <div class="et-photo" :style="getStyle(album.cover)">
-                        <ul class="et-photo__body">
-                            <li class="et-photo__info">
-                                <span :title="album.name">{{ album.name }}</span>
-                                <span class="et-photo__info_count" :title="album.metadata.like_count">
-                                    <i class="et-icon ei-like"></i>{{ album.metadata.like_count | count }}
-                                </span>
-                            </li>
-                            <li class="et-photo__info">
-                                <span>{{ album.create_at | date }}</span>
-                                <span class="et-photo__info_count" :title="album.metadata.comment_count">
-                                    <i class="et-icon ei-message"></i>{{ album.metadata.comment_count | count }}
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+                <et-photo v-for="album in albumList"
+                    :key="album.uuid"
+                    :data="album"
+                    type="album">
+                </et-photo>
+                <et-photo v-for="photo in photoList"
+                    :key="photo.uuid"
+                    :data="photo"
+                    type="photo">
+                </et-photo>
                 <div class="et-photo__wrapper et-photo__wrapper_add">
-                    <div class="et-photo__add"
-                        :style="{ height: blockSize, lineHeight: blockSize }"
-                        :title="$t('album.create.title')">
+                    <div class="et-photo__add" :title="$t('album.create.title')">
                         <i class="et-icon ei-plus"></i>
                     </div>
                 </div>
@@ -49,6 +37,7 @@
 
 <script>
 import Album, { AlbumApi } from '@/common/api/albums';
+import Photo from '@/common/api/photos';
 import { mapState, mapGetters } from 'vuex';
 import Utils from '@/common/utils';
 export default {
@@ -64,13 +53,14 @@ export default {
     },
     data () {
         return {
-            dataList: [],
+            albumList: [],
+            photoList: [],
             params: {
                 page: 1,
                 page_size: 10
             },
-            loadStatus: 'active',
-            blockSize: null
+            loadType: 'album',
+            loadStatus: 'active'
         };
     },
     computed: {
@@ -81,14 +71,8 @@ export default {
             hasIdentity: 'hasIdentity'
         })
     },
-    mounted () {
-        window.onresize = () => {
-            this.blockSize = this.getSize();
-        };
-    },
     methods: {
         open () {
-            this.blockSize = this.getSize();
             console.warn('image open');
         },
         close () {
@@ -99,7 +83,7 @@ export default {
             this.closeDialog();
         },
         init () {
-            this.dataList = [];
+            this.albumList = [];
             this.params.page = 1;
             this.loadMore();
         },
@@ -108,7 +92,9 @@ export default {
                 this.loadStatus = 'end';
                 return;
             }
-            this.loadAlbums();
+            this.loadType === 'album' ?
+                this.loadAlbums() :
+                this.loadPhotos();
         },
         loadAlbums () {
             Album.listSelfAlbums(
@@ -116,26 +102,33 @@ export default {
                 AlbumApi.PRIVACY.PUBLIC,
                 this.params
             ).then(response => {
-                this.dataList = this.dataList.concat(response.data.albums);
-                this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
+                this.albumList = this.albumList.concat(response.data.albums);
+                this.loadStatus = 'active';
                 this.params.page ++;
+                if (response.data.total === this.albumList.length) {
+                    this.loadType = 'photo';
+                    this.params.page = 1;
+                }
             }).catch(err => {
                 Utils.errorLog(err, 'ALBUM-LIST');
+            });
+        },
+        loadPhotos () {
+            Photo.listSelfOtherPhotos(
+                this.identity.uuid,
+                this.params
+            ).then(response => {
+                this.photoList = this.photoList.concat(response.data.photos);
+                this.loadStatus = response.data.total === this.photoList.length ? 'end' : 'active';
+                this.params.page ++;
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-LIST');
             });
         },
         restoreFocus () {
             const scrollTop = this.editor.scrollingContainer.scrollTop;
             this.editor.focus();
             this.editor.scrollingContainer.scrollTop = scrollTop;
-        },
-        getSize () {
-            const el = document.getElementsByClassName('et-photo__add')[0];
-            return el ? document.defaultView.getComputedStyle(el, null).width : 0;
-        },
-        getStyle (url) {
-            const style = { height: this.blockSize };
-            url && (style.backgroundImage = `url(${url})`);
-            return style;
         },
         cancel () {
             this.closeDialog();

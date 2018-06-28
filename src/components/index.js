@@ -1,5 +1,6 @@
 import Editor from './editor';
 import Nav from './nav';
+import Photo from './photo';
 import Preview from './preview';
 import Scroll from './scroll';
 import Toolbar from './toolbar';
@@ -8,6 +9,7 @@ import User from './user';
 const components = [
     Editor,
     Nav,
+    Photo,
     Preview,
     Scroll,
     Toolbar,

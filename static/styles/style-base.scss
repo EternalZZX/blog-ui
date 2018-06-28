@@ -607,13 +607,22 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 
     .el-dialog__body {
+        max-height: 350px;
         padding: $spaceLarge;
         padding-top: 0;
+        overflow: auto;
 
         @include max-screen($phoneMaxWidth) {
             & {
-                margin-bottom: 3.3rem;
+                position: absolute;
+                top: 3.2rem;
+                bottom: 3.3rem;
+                max-height: none;
             }
+        }
+
+        .et-load-scroll__line {
+            margin-bottom: 0;
         }
     }
 
@@ -670,12 +679,15 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         position: relative;
         z-index: 0;
         width: 25%;
+        height: 0;
         padding: $spaceMiddle;
+        padding-bottom: calc(25% - .6rem);
         box-sizing: border-box;
 
         @include max-screen($phoneHorizontalMinWidth) {
             & {
                 width: 50%;
+                padding-bottom: calc(50% - .6rem);
             }
         }
 
@@ -696,17 +708,26 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
     .et-photo__wrapper_add {
         .et-photo__add {
-            width: 100%;
+            position: absolute;
+            top: $spaceMiddle;
+            right: $spaceMiddle;
+            bottom: $spaceMiddle;
+            left: $spaceMiddle;
             color: $splitBorderColor;
             text-align: center;
-            box-sizing: border-box;
             border: $boldDashedBorder;
             border-radius: $radiusTiny;
             cursor: pointer;
         }
 
         .et-photo__add .et-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -1.5rem;
+            margin-left: -1.5rem;
             font-size: 3rem;
+            line-height: 3rem;
         }
 
         .et-photo__add:hover {
@@ -724,9 +745,11 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 }
 
 .et-photo {
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
+    position: absolute;
+    top: $spaceMiddle;
+    right: $spaceMiddle;
+    bottom: $spaceMiddle;
+    left: $spaceMiddle;
     border: $spaceSmall solid $blockBackground;
     border-radius: .2rem;
     background-repeat: no-repeat;

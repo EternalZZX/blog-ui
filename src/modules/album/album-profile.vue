@@ -38,7 +38,6 @@
                     </div>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
-                            :style="{ height: blockSize, lineHeight: blockSize }"
                             :title="$t('album.create.title')"
                             @click="albumAddShow = true">
                             <i class="et-icon ei-plus"></i>
@@ -68,7 +67,6 @@
                     </div>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
-                            :style="{ height: blockSize, lineHeight: blockSize }"
                             :title="$t('photo.create.title')"
                             @click="photoAddShow = true">
                             <i class="et-icon ei-plus"></i>
@@ -214,7 +212,7 @@ export default {
             return el ? document.defaultView.getComputedStyle(el, null).width : 0;
         },
         getStyle (url) {
-            const style = { height: this.blockSize };
+            const style = {};
             url && (style.backgroundImage = `url(${url}?hash=${this.hashCode})`);
             return style;
         }
