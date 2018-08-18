@@ -9,7 +9,7 @@ html {
             font-size: 20px;
         }
     }
-    
+
     body {
         height: 100%;
         padding: 0rem;
@@ -43,7 +43,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 }
 
-@include min-screen($pcMinWidth) { 
+@include min-screen($pcMinWidth) {
     @each $inner in $innerList {
         .#{$inner}__inner {
             width: 1280px;
@@ -160,7 +160,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         width: 100%;
         margin: $headerHeight / 6;
 
-        .el-input__inner {    
+        .el-input__inner {
             height: $headerHeight * 2 / 3;
             line-height: $headerHeight * 2 / 3;
         }
@@ -254,7 +254,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             &.dropdown-enter-active {
                 animation: dropdown-enter-mobile .2s ease-in-out;
             }
-    
+
             &.dropdown-leave-active {
                 animation: dropdown-enter-mobile .2s ease-in-out reverse;
             }
@@ -286,7 +286,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             margin-bottom: $spaceSmall;
         }
 
-        .et-header__sign-in .el-form-item .el-input__inner {    
+        .et-header__sign-in .el-form-item .el-input__inner {
             height: $headerHeight * 2 / 3;
             line-height: $headerHeight * 2 / 3;
         }
@@ -319,7 +319,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             flex: none;
             margin-left: 0;
 
-            @include min-screen($laptopMinWidth) { 
+            @include min-screen($laptopMinWidth) {
                 & {
                     display: block;
                 }
@@ -330,7 +330,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             position: fixed;
             width: $navWidth;
         }
-        
+
         .et-content {
             flex: auto;
             display: flex;
@@ -353,7 +353,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             flex: none;
             margin-left: $spaceLarge;
 
-            @include min-screen($laptopMinWidth) { 
+            @include min-screen($laptopMinWidth) {
                 & {
                     display: block;
                 }
@@ -379,7 +379,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     background-color: $blockBackground;
     box-shadow: $cardShadow;
 
-    @include min-screen($laptopMinWidth) { 
+    @include min-screen($laptopMinWidth) {
         & {
             border-radius: $radiusTiny;
         }
@@ -393,7 +393,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         transition: .5s;
         cursor: pointer;
 
-        @include min-screen($laptopMinWidth) { 
+        @include min-screen($laptopMinWidth) {
             & {
                 border-radius: $radiusTiny $radiusTiny 0 0;
             }
@@ -436,7 +436,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         }
 
         .et-card__body_right i {
-            font-size: $iconFontSizeSmall; 
+            font-size: $iconFontSizeSmall;
         }
     }
 
@@ -457,7 +457,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
         @at-root .et-card:not(.disabled) .et-card__title:hover {
             color: $subThemeColor;
-        }        
+        }
     }
 
     .et-card__description {
@@ -471,7 +471,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
     @at-root .et-card__popover {
         max-width: $userWidth * 3;
-    
+
         .el-form .el-form-item .el-form-item__label {
             font-size: $descriptionFontSize;
             line-height: $descriptionFontSize;
@@ -607,9 +607,11 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 
     .el-dialog__body {
+        width: 100%;
         max-height: 350px;
         padding: $spaceLarge;
         padding-top: 0;
+        box-sizing: border-box;
         overflow: auto;
 
         @include max-screen($phoneMaxWidth) {
@@ -655,54 +657,26 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 }
 
-%album-border {
-    content: '';
-    position: absolute;
-    top: $spaceMiddle;
-    left: $spaceMiddle;
-    z-index: -1;
-    background-color: #efefef;
-    border: $splitBorder;
-    border-radius: $radiusTiny;
-    width: calc(100% - 1.2rem);
-    height: calc(100% - 1.2rem);
-    box-shadow: $cardShadow;
-}
-
 .et-photo__container {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     margin-bottom: $spaceLarge;
 
     .et-photo__wrapper {
         flex: none;
         position: relative;
         z-index: 0;
-        width: 25%;
+        width: 25% !important;
         height: 0;
         padding: $spaceMiddle;
-        padding-bottom: calc(25% - .6rem);
+        padding-bottom: calc(25% - .6rem) !important;
         box-sizing: border-box;
 
         @include max-screen($phoneHorizontalMinWidth) {
             & {
-                width: 50%;
-                padding-bottom: calc(50% - .6rem);
+                width: 50% !important;
+                padding-bottom: calc(50% - .6rem) !important;
             }
-        }
-
-        &.et-photo__wrapper_albums:before {
-            transform: rotate(4.2deg);
-            @extend %album-border;
-        }
-
-        &.et-photo__wrapper_albums:after {
-            transform: rotate(1.2deg);
-            @extend %album-border;
-        }
-
-        &.et-photo__wrapper_albums .et-photo {
-            box-shadow: $cardShadow;
         }
     }
 
@@ -743,65 +717,3 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         }
     }
 }
-
-.et-photo {
-    position: absolute;
-    top: $spaceMiddle;
-    right: $spaceMiddle;
-    bottom: $spaceMiddle;
-    left: $spaceMiddle;
-    border: $spaceSmall solid $blockBackground;
-    border-radius: .2rem;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50%;
-    box-shadow: $deepenShadow;
-    overflow: hidden;
-    cursor: pointer;
-
-    .et-photo__body {
-        position: absolute;
-        bottom: -20%;
-        left: 0;
-        height: 60%;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 0 0.5rem;
-        padding-top: 20%;
-        margin: 0;
-        color: #fff;
-        background: linear-gradient(
-            rgba(51, 51, 51, 0),
-            rgba(51, 51, 51, 0.5), 
-            rgba(51, 51, 51, 0.7), 
-            rgba(51, 51, 51, 0.7)
-        );
-        transition: bottom .3s;
-
-        @at-root .et-photo:hover .et-photo__body {
-            bottom: 0;
-        }
-
-        .et-photo__info {
-            display: flex;
-            height: 50%;
-        }
-
-        .et-photo__info > span {
-            flex: auto;
-            font-size: $subtitleFontSize;
-            font-weight: $subtitleFontWeight;
-            @extend %text-overview;
-        }
-
-        .et-photo__info > span.et-photo__info_count {
-            flex: none;
-        }
-
-        .et-photo__info > span > .et-icon {
-            font-size: $iconFontSizeSmall;
-            margin-right: .1rem;
-        }
-    }
-}
-

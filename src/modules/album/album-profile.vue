@@ -17,25 +17,11 @@
                 v-model="loadStatus"
                 @more="loadMore">
                 <div v-if="loadType !== 'other'" class="et-photo__container">
-                    <div class="et-photo__wrapper et-photo__wrapper_albums"
-                        v-for="album in dataList" :key="album.uuid">
-                        <div class="et-photo" :style="getStyle(album.cover)">
-                            <ul class="et-photo__body">
-                                <li class="et-photo__info">
-                                    <span :title="album.name">{{ album.name }}</span>
-                                    <span class="et-photo__info_count" :title="album.metadata.like_count">
-                                        <i class="et-icon ei-like"></i>{{ album.metadata.like_count | count }}
-                                    </span>
-                                </li>
-                                <li class="et-photo__info">
-                                    <span>{{ album.create_at | date }}</span>
-                                    <span class="et-photo__info_count" :title="album.metadata.comment_count">
-                                        <i class="et-icon ei-message"></i>{{ album.metadata.comment_count | count }}
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <et-photo v-for="album in dataList"
+                        :key="album.uuid"
+                        :data="album"
+                        type="album">
+                    </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
                             :title="$t('album.create.title')"
@@ -45,26 +31,11 @@
                     </div>
                 </div>
                 <div v-else class="et-photo__container">
-                    <div class="et-photo__wrapper"
-                        v-for="(photo, index) in dataList" :key="photo.uuid">
-                        <div class="et-photo" :style="getStyle(photo.image_small)"
-                            @click="getPreview(index)">
-                            <ul class="et-photo__body">
-                                <li class="et-photo__info">
-                                    <span :title="photo.description">{{ photo.description }}</span>
-                                    <span class="et-photo__info_count" :title="photo.metadata.like_count">
-                                        <i class="et-icon ei-like"></i>{{ photo.metadata.like_count | count }}
-                                    </span>
-                                </li>
-                                <li class="et-photo__info">
-                                    <span>{{ photo.create_at | date }}</span>
-                                    <span class="et-photo__info_count" :title="photo.metadata.comment_count">
-                                        <i class="et-icon ei-message"></i>{{ photo.metadata.comment_count | count }}
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <et-photo v-for="(photo, index) in dataList"
+                        :key="photo.uuid"
+                        :data="photo"
+                        @click="getPreview(index)">
+                    </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
                             :title="$t('photo.create.title')"
@@ -127,7 +98,7 @@ export default {
                 value: 'other',
                 label: this.$t('album.nav.other')
             }],
-            loadType: 'other',
+            loadType: 'all',
             loadStatus: 'active',
             hashCode: Utils.randString(),
             albumAddShow: false,
@@ -135,8 +106,7 @@ export default {
             preview: {
                 show: false,
                 index: 0
-            },
-            blockSize: null
+            }
         };
     },
     computed: {
@@ -158,12 +128,6 @@ export default {
     },
     mounted () {
         this.$root.Bus.$on(EVENT.IDENTITY_REFRESH, this.init);
-        window.onresize = () => {
-            this.blockSize = this.getSize();
-        };
-    },
-    activated () {
-        this.blockSize = this.getSize();
     },
     methods: {
         init (loadType) {
@@ -206,15 +170,6 @@ export default {
         getPreview (index) {
             this.preview.show = true;
             this.preview.index = index;
-        },
-        getSize () {
-            const el = document.getElementsByClassName('et-photo__add')[0];
-            return el ? document.defaultView.getComputedStyle(el, null).width : 0;
-        },
-        getStyle (url) {
-            const style = {};
-            url && (style.backgroundImage = `url(${url}?hash=${this.hashCode})`);
-            return style;
         }
     }
 };

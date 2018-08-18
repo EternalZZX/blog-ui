@@ -14,8 +14,7 @@
                 </et-photo>
                 <et-photo v-for="photo in photoList"
                     :key="photo.uuid"
-                    :data="photo"
-                    type="photo">
+                    :data="photo">
                 </et-photo>
                 <div class="et-photo__wrapper et-photo__wrapper_add">
                     <div class="et-photo__add" :title="$t('album.create.title')">
