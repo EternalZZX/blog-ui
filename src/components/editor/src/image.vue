@@ -7,7 +7,8 @@
         @close="close"
         @keyup.enter.native="submit">
         <div class="et-dialog__panel">
-            <el-button disabled>
+            <el-button :disabled="!loadAlbumUuid"
+                @click="back">
                 <i class="et-icon ei-undo"></i>
             </el-button>
             <el-input :placeholder="$t('editor.image.search')">
@@ -23,12 +24,14 @@
                     :key="album.uuid"
                     :data="album"
                     :selectable="true"
-                    type="album">
+                    type="album"
+                    @click="selectAlbum(album)">
                 </et-photo>
                 <et-photo v-for="photo in photoList"
                     :key="photo.uuid"
                     :data="photo"
-                    :selectable="true">
+                    :selectable="true"
+                    @click="selectPhoto(photo)">
                 </et-photo>
                 <div class="et-photo__wrapper et-photo__wrapper_add">
                     <div class="et-photo__add" :title="$t('photo.create.title')">
@@ -66,6 +69,7 @@ export default {
     },
     data () {
         return {
+            selectPhotos: [],
             albumList: [],
             photoList: [],
             params: {
@@ -73,7 +77,8 @@ export default {
                 page_size: 10
             },
             loadType: 'album',
-            loadStatus: 'active'
+            loadStatus: 'end',
+            loadAlbumUuid: null
         };
     },
     computed: {
@@ -86,19 +91,26 @@ export default {
     },
     methods: {
         open () {
-            console.warn('image open');
+            this.init();
         },
         close () {
+            this.selectPhotos = [];
             this.restoreFocus();
             this.closeDialog();
         },
         submit () {
             this.closeDialog();
         },
-        init () {
+        init (albumUuid = null) {
+            this.loadStatus = 'end';
             this.albumList = [];
+            this.photoList = [];
             this.params.page = 1;
-            this.loadMore();
+            this.loadAlbumUuid = albumUuid;
+            this.loadType = albumUuid ? 'photo' : 'album';
+            this.$nextTick(() => {
+                this.loadStatus = 'active';
+            });
         },
         loadMore () {
             if (!this.hasIdentity) {
@@ -107,7 +119,7 @@ export default {
             }
             this.loadType === 'album' ?
                 this.loadAlbums() :
-                this.loadPhotos();
+                this.loadPhotos(this.loadAlbumUuid);
         },
         loadAlbums () {
             Album.listSelfAlbums(
@@ -126,17 +138,35 @@ export default {
                 Utils.errorLog(err, 'ALBUM-LIST');
             });
         },
-        loadPhotos () {
-            Photo.listSelfOtherPhotos(
-                this.identity.uuid,
-                this.params
-            ).then(response => {
-                this.photoList = this.photoList.concat(response.data.photos);
+        loadPhotos (albumUuid) {
+            const def = albumUuid ?
+                Photo.listAlbumPhotos(albumUuid, this.params) :
+                Photo.listSelfOtherPhotos(this.identity.uuid, this.params);
+            def.then(response => {
+                const photos = response.data.photos.map(item => {
+                    item.checked = this.selectPhotos.find(photo => photo.uuid === item.uuid);
+                    return item;
+                });
+                this.photoList = this.photoList.concat(photos);
                 this.loadStatus = response.data.total === this.photoList.length ? 'end' : 'active';
                 this.params.page ++;
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
+        },
+        back () {
+            this.init();
+        },
+        selectAlbum (album) {
+            this.init(album.uuid);
+        },
+        selectPhoto (photo) {
+            photo.checked = !photo.checked;
+            photo.checked ?
+                this.selectPhotos.push(photo) :
+                this.selectPhotos.splice(this.selectPhotos.findIndex(
+                    item => item.uuid === photo.uuid
+                ), 1);
         },
         restoreFocus () {
             const scrollTop = this.editor.scrollingContainer.scrollTop;

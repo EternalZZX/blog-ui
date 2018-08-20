@@ -45,6 +45,17 @@ class PhotoApi extends BaseRequest {
         });
     }
 
+    listAlbumPhotos (albumUuid, params = {}, config = {}) {
+        const args = {
+            ...params,
+            album_uuid: albumUuid
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
+
     listSelfOtherPhotos (uuid, params = {}, config = {}) {
         const args = {
             ...params,
