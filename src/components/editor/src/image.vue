@@ -2,22 +2,36 @@
     <el-dialog class="et-dialog"
         :title="$t('editor.insertImage')"
         :visible="show"
+        top="5%"
         @open="open"
         @close="close"
         @keyup.enter.native="submit">
+        <div class="et-dialog__panel">
+            <el-button disabled>
+                <i class="et-icon ei-undo"></i>
+            </el-button>
+            <el-input :placeholder="$t('editor.image.search')">
+                <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
+            </el-input>
+            <el-button>
+                {{ $t("editor.image.upload") }}
+            </el-button>
+        </div>
         <et-scroll v-model="loadStatus" @more="loadMore">
             <div class="et-photo__container">
                 <et-photo v-for="album in albumList"
                     :key="album.uuid"
                     :data="album"
+                    :selectable="true"
                     type="album">
                 </et-photo>
                 <et-photo v-for="photo in photoList"
                     :key="photo.uuid"
-                    :data="photo">
+                    :data="photo"
+                    :selectable="true">
                 </et-photo>
                 <div class="et-photo__wrapper et-photo__wrapper_add">
-                    <div class="et-photo__add" :title="$t('album.create.title')">
+                    <div class="et-photo__add" :title="$t('photo.create.title')">
                         <i class="et-icon ei-plus"></i>
                     </div>
                 </div>

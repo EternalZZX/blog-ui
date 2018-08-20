@@ -90,7 +90,11 @@ export default {
         insertLink: 'Insert link',
         linkText: 'Please enter link text',
         linkUrl: 'Please enter link url',
-        insertImage: 'Insert Photo'
+        insertImage: 'Insert Photo',
+        image: {
+            upload: 'Upload',
+            search: 'Search for a photo'
+        }
     },
     common: {
         submit: 'Submit',

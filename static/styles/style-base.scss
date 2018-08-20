@@ -608,7 +608,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
     .el-dialog__body {
         width: 100%;
-        max-height: 350px;
+        max-height: 400px;
         padding: $spaceLarge;
         padding-top: 0;
         box-sizing: border-box;
@@ -653,6 +653,21 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
         .el-button--primary:hover {
             border-color: $submitHoverColor;
+        }
+    }
+
+    .et-dialog__panel {
+        display: flex;
+        padding-bottom: $spaceSmall;
+        margin-bottom: $spaceSmall;
+        border-bottom: $splitBorder;
+
+        .el-input, .el-button {
+            margin-right: $spaceSmall;
+        }
+
+        .el-input:last-child, .el-button:last-child {
+            margin-right: 0;
         }
     }
 }

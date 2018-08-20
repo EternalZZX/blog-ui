@@ -88,7 +88,11 @@ export default {
         insertLink: '插入链接',
         linkText: '请输入链接文本',
         linkUrl: '请输入链接地址',
-        insertImage: '插入图片'
+        insertImage: '插入图片',
+        image: {
+            upload: '上传',
+            search: '搜索图片与相册'
+        }
     },
     common: {
         submit: '提 交',

@@ -1,20 +1,33 @@
 <template>
     <div class="et-photo__wrapper"
-        :class="{'et-photo__wrapper_albums': type === 'album'}">
-        <div class="et-photo" ref="photo"
+        :class="{
+            'et-photo__wrapper_albums': type === 'album',
+            'et-photo__wrapper_checked': type === 'photo' && data.checked
+        }">
+        <div ref="photo"
+            class="et-photo"
+            :class="{'et-photo_selectable': selectable}"
             :style="coverUrl"
             v-on="$listeners">
-            <ul class="et-photo__body">
+            <ul class="et-photo__body"
+                :class="{'et-photo__body_fixed': selectable}">
                 <li class="et-photo__info">
-                    <span :title="data[property[type].title]">{{ data[property[type].title] }}</span>
-                    <span class="et-photo__info_count" :title="data.metadata.like_count">
-                        <i class="et-icon ei-like"></i>{{ data.metadata.like_count | count }}
+                    <span :title="data[property[type].title]">
+                        {{ data[property[type].title] }}
+                    </span>
+                    <span v-if="!selectable"
+                        class="et-photo__info_count"
+                        :title="data.metadata.like_count">
+                        <i class="et-icon ei-like"></i>
+                        {{ data.metadata.like_count | count }}
                     </span>
                 </li>
-                <li class="et-photo__info">
+                <li v-if="!selectable" class="et-photo__info">
                     <span>{{ data.create_at | date }}</span>
-                    <span class="et-photo__info_count" :title="data.metadata.comment_count">
-                        <i class="et-icon ei-message"></i>{{ data.metadata.comment_count | count }}
+                    <span class="et-photo__info_count"
+                        :title="data.metadata.comment_count">
+                        <i class="et-icon ei-message"></i>
+                        {{ data.metadata.comment_count | count }}
                     </span>
                 </li>
             </ul>
@@ -114,6 +127,33 @@ export default {
     &.et-photo__wrapper_albums .et-photo {
         box-shadow: $cardShadow;
     }
+
+    &.et-photo__wrapper_checked {
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: .6rem;
+            right: .6rem;
+            z-index: 1;
+            width: 0;
+            height: 0;
+            border: 1rem solid $themeColor;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+        }
+
+        &:after {
+            content: '\e721';
+            position: absolute;
+            z-index: 1;
+            top: .6rem;
+            right: .8rem;
+            font-size: .9375rem;
+            font-family: 'et-icon';
+            color: #fff;
+        }
+    }
 }
 
 .et-photo {
@@ -129,6 +169,7 @@ export default {
     background-position: 50%;
     box-shadow: $deepenShadow;
     overflow: hidden;
+    transition: border-color .3s;
     cursor: pointer;
 
     .et-photo__body {
@@ -175,6 +216,15 @@ export default {
             font-size: $iconFontSizeSmall;
             margin-right: .1rem;
         }
+
+        &.et-photo__body_fixed {
+            bottom: -1.5rem;
+        }
+    }
+
+    &.et-photo_selectable:hover {
+        border-color: $dropdownHoverBackground;
+        transition: border-color .3s;
     }
 }
 </style>
