@@ -14,6 +14,8 @@
             </el-button>
             <el-input v-model="searchStr"
                 :placeholder="$t('editor.image.search')"
+                :clearable="true"
+                @change="debouncedSearch"
                 @keyup.native="debouncedSearch">
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
             </el-input>
@@ -116,7 +118,7 @@ export default {
             this.params.page = 1;
             this.loadAlbumUuid = albumUuid;
             this.searchStr = searchStr;
-            this.loadType = albumUuid ? 'photo' : 'album';
+            this.loadType = albumUuid || searchStr ? 'photo' : 'album';
             this.$nextTick(() => {
                 this.loadStatus = 'active';
             });
@@ -147,13 +149,20 @@ export default {
                 Utils.errorLog(err, 'ALBUM-LIST');
             });
         },
-        loadPhotos (albumUuid) {
-            const def = albumUuid ?
-                Photo.listAlbumPhotos(albumUuid, this.params) :
-                Photo.listSelfOtherPhotos(this.identity.uuid, this.params);
+        loadPhotos (albumUuid, searchStr) {
+            let def = null;
+            if (searchStr) {
+                def = Photo.listSelfPhotos(this.identity.uuid, searchStr, this.params);
+            } else if (albumUuid) {
+                def = Photo.listAlbumPhotos(albumUuid, this.params);
+            } else {
+                def = Photo.listSelfOtherPhotos(this.identity.uuid, this.params);
+            }
             def.then(response => {
                 const photos = response.data.photos.map(item => {
-                    item.checked = this.selectPhotos.find(photo => photo.uuid === item.uuid);
+                    item.checked = this.selectPhotos.find(
+                        photo => photo.uuid === item.uuid
+                    );
                     return item;
                 });
                 this.photoList = this.photoList.concat(photos);
@@ -167,7 +176,7 @@ export default {
             this.init();
         },
         search () {
-            console.warn('search');
+            this.init(null, this.searchStr);
         },
         selectAlbum (album) {
             this.init(album.uuid);

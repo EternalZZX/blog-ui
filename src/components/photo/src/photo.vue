@@ -1,38 +1,40 @@
 <template>
-    <div class="et-photo__wrapper"
-        :class="{
-            'et-photo__wrapper_albums': type === 'album',
-            'et-photo__wrapper_checked': type === 'photo' && data.checked
-        }">
-        <div ref="photo"
-            class="et-photo"
-            :class="{'et-photo_selectable': selectable}"
-            :style="coverUrl"
-            v-on="$listeners">
-            <ul class="et-photo__body"
-                :class="{'et-photo__body_fixed': selectable}">
-                <li class="et-photo__info">
-                    <span :title="data[property[type].title]">
-                        {{ data[property[type].title] }}
-                    </span>
-                    <span v-if="!selectable"
-                        class="et-photo__info_count"
-                        :title="data.metadata.like_count">
-                        <i class="et-icon ei-like"></i>
-                        {{ data.metadata.like_count | count }}
-                    </span>
-                </li>
-                <li v-if="!selectable" class="et-photo__info">
-                    <span>{{ data.create_at | date }}</span>
-                    <span class="et-photo__info_count"
-                        :title="data.metadata.comment_count">
-                        <i class="et-icon ei-message"></i>
-                        {{ data.metadata.comment_count | count }}
-                    </span>
-                </li>
-            </ul>
+    <transition enter-active-class="animated fadeIn fast">
+        <div class="et-photo__wrapper"
+            :class="{
+                'et-photo__wrapper_albums': type === 'album',
+                'et-photo__wrapper_checked': type === 'photo' && data.checked
+            }">
+            <div ref="photo"
+                class="et-photo"
+                :class="{'et-photo_selectable': selectable}"
+                :style="coverUrl"
+                v-on="$listeners">
+                <ul class="et-photo__body"
+                    :class="{'et-photo__body_fixed': selectable}">
+                    <li class="et-photo__info">
+                        <span :title="data[property[type].title]">
+                            {{ data[property[type].title] }}
+                        </span>
+                        <span v-if="!selectable"
+                            class="et-photo__info_count"
+                            :title="data.metadata.like_count">
+                            <i class="et-icon ei-like"></i>
+                            {{ data.metadata.like_count | count }}
+                        </span>
+                    </li>
+                    <li v-if="!selectable" class="et-photo__info">
+                        <span>{{ data.create_at | date }}</span>
+                        <span class="et-photo__info_count"
+                            :title="data.metadata.comment_count">
+                            <i class="et-icon ei-message"></i>
+                            {{ data.metadata.comment_count | count }}
+                        </span>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
