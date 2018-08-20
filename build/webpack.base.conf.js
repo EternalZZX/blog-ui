@@ -23,7 +23,7 @@ module.exports = {
     context: path.resolve(__dirname, '../'),
     entry: {
         bundle: './src/main.js',
-        vendors: ['vue', 'vue-router', 'vue-cookie', 'vuex', 'axios', 'element-ui', 'echarts', 'quill']
+        vendors: ['vue', 'vue-router', 'vue-cookie', 'vuex', 'axios', 'element-ui', 'highcharts', 'quill']
     },
     output: {
         path: config.build.assetsRoot,

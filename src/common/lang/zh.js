@@ -90,8 +90,9 @@ export default {
         linkUrl: '请输入链接地址',
         insertImage: '插入图片',
         image: {
+            back: '返回',
             upload: '上传',
-            search: '搜索图片与相册'
+            search: '搜索已上传的图片'
         }
     },
     common: {

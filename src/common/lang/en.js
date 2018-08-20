@@ -92,6 +92,7 @@ export default {
         linkUrl: 'Please enter link url',
         insertImage: 'Insert Photo',
         image: {
+            back: 'Back',
             upload: 'Upload',
             search: 'Search for a photo'
         }

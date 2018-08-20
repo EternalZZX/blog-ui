@@ -7,11 +7,14 @@
         @close="close"
         @keyup.enter.native="submit">
         <div class="et-dialog__panel">
-            <el-button :disabled="!loadAlbumUuid"
+            <el-button :title="$t('editor.image.back')"
+                :disabled="!loadAlbumUuid"
                 @click="back">
                 <i class="et-icon ei-undo"></i>
             </el-button>
-            <el-input :placeholder="$t('editor.image.search')">
+            <el-input v-model="searchStr"
+                :placeholder="$t('editor.image.search')"
+                @keyup.native="debouncedSearch">
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
             </el-input>
             <el-button>
@@ -52,6 +55,7 @@
 </template>
 
 <script>
+import { debounce } from 'throttle-debounce';
 import Album, { AlbumApi } from '@/common/api/albums';
 import Photo from '@/common/api/photos';
 import { mapState, mapGetters } from 'vuex';
@@ -78,7 +82,8 @@ export default {
             },
             loadType: 'album',
             loadStatus: 'end',
-            loadAlbumUuid: null
+            loadAlbumUuid: null,
+            searchStr: ''
         };
     },
     computed: {
@@ -88,6 +93,9 @@ export default {
         ...mapGetters({
             hasIdentity: 'hasIdentity'
         })
+    },
+    created () {
+        this.debouncedSearch = debounce(500, this.search);
     },
     methods: {
         open () {
@@ -101,12 +109,13 @@ export default {
         submit () {
             this.closeDialog();
         },
-        init (albumUuid = null) {
+        init (albumUuid = null, searchStr = '') {
             this.loadStatus = 'end';
             this.albumList = [];
             this.photoList = [];
             this.params.page = 1;
             this.loadAlbumUuid = albumUuid;
+            this.searchStr = searchStr;
             this.loadType = albumUuid ? 'photo' : 'album';
             this.$nextTick(() => {
                 this.loadStatus = 'active';
@@ -119,7 +128,7 @@ export default {
             }
             this.loadType === 'album' ?
                 this.loadAlbums() :
-                this.loadPhotos(this.loadAlbumUuid);
+                this.loadPhotos(this.loadAlbumUuid, this.searchStr);
         },
         loadAlbums () {
             Album.listSelfAlbums(
@@ -156,6 +165,9 @@ export default {
         },
         back () {
             this.init();
+        },
+        search () {
+            console.warn('search');
         },
         selectAlbum (album) {
             this.init(album.uuid);

@@ -2,7 +2,7 @@
     <div class="et-load-scroll"
         v-infinite-scroll="loadMore"
         infinite-scroll-disabled="loadBusy"
-        infinite-scroll-distance="100">
+        infinite-scroll-distance="500">
         <slot></slot>
         <div class="et-load-scroll__load" v-show="loadShow">
             <div v-loading="true"></div>
