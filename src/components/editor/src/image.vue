@@ -19,11 +19,17 @@
                 @keyup.native="debouncedSearch">
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
             </el-input>
-            <el-button>
-                {{ $t("editor.image.upload") }}
-            </el-button>
+            <el-upload action="upload"
+                :http-request="upload"
+                :show-file-list="false"
+                :multiple="false"
+                :on-success="handleSuccess">
+                <el-button type="file">
+                    {{ $t("editor.image.upload") }}
+                </el-button>
+            </el-upload>
         </div>
-        <et-scroll v-model="loadStatus" @more="loadMore">
+        <et-scroll ref="scroll" @more="loadMore">
             <div class="et-photo__container">
                 <et-photo v-for="album in albumList"
                     :key="album.uuid"
@@ -58,10 +64,11 @@
 
 <script>
 import { debounce } from 'throttle-debounce';
-import Album, { AlbumApi } from '@/common/api/albums';
-import Photo from '@/common/api/photos';
 import { mapState, mapGetters } from 'vuex';
+import Common from '@/common/common';
 import Utils from '@/common/utils';
+import Photo from '@/common/api/photos';
+import Album, { AlbumApi } from '@/common/api/albums';
 export default {
     name: 'EtEditorImage',
     props: {
@@ -83,7 +90,6 @@ export default {
                 page_size: 10
             },
             loadType: 'album',
-            loadStatus: 'end',
             loadAlbumUuid: null,
             searchStr: ''
         };
@@ -112,35 +118,32 @@ export default {
             this.closeDialog();
         },
         init (albumUuid = null, searchStr = '') {
-            this.loadStatus = 'end';
             this.albumList = [];
             this.photoList = [];
             this.params.page = 1;
             this.loadAlbumUuid = albumUuid;
             this.searchStr = searchStr;
             this.loadType = albumUuid || searchStr ? 'photo' : 'album';
-            this.$nextTick(() => {
-                this.loadStatus = 'active';
-            });
+            this.$refs.scroll && this.$refs.scroll.reset();
         },
-        loadMore () {
+        loadMore (state) {
             if (!this.hasIdentity) {
-                this.loadStatus = 'end';
+                state.complete();
                 return;
             }
             this.loadType === 'album' ?
-                this.loadAlbums() :
-                this.loadPhotos(this.loadAlbumUuid, this.searchStr);
+                this.loadAlbums(state) :
+                this.loadPhotos(state, this.loadAlbumUuid, this.searchStr);
         },
-        loadAlbums () {
+        loadAlbums (state) {
             Album.listSelfAlbums(
                 this.identity.uuid,
                 AlbumApi.PRIVACY.PUBLIC,
                 this.params
             ).then(response => {
                 this.albumList = this.albumList.concat(response.data.albums);
-                this.loadStatus = 'active';
                 this.params.page ++;
+                state.loaded();
                 if (response.data.total === this.albumList.length) {
                     this.loadType = 'photo';
                     this.params.page = 1;
@@ -149,7 +152,7 @@ export default {
                 Utils.errorLog(err, 'ALBUM-LIST');
             });
         },
-        loadPhotos (albumUuid, searchStr) {
+        loadPhotos (state, albumUuid, searchStr) {
             let def = null;
             if (searchStr) {
                 def = Photo.listSelfPhotos(this.identity.uuid, searchStr, this.params);
@@ -166,17 +169,13 @@ export default {
                     return item;
                 });
                 this.photoList = this.photoList.concat(photos);
-                this.loadStatus = response.data.total === this.photoList.length ? 'end' : 'active';
                 this.params.page ++;
+                response.data.total === this.photoList.length ?
+                    state.complete() :
+                    state.loaded();
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
-        },
-        back () {
-            this.init();
-        },
-        search () {
-            this.init(null, this.searchStr);
         },
         selectAlbum (album) {
             this.init(album.uuid);
@@ -188,6 +187,23 @@ export default {
                 this.selectPhotos.splice(this.selectPhotos.findIndex(
                     item => item.uuid === photo.uuid
                 ), 1);
+        },
+        back () {
+            this.init();
+        },
+        search () {
+            this.init(null, this.searchStr);
+        },
+        upload (content) {
+            Photo.create(content.file).then(response => {
+                content.onSuccess(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-CREATE');
+                Common.notify(this.$t('photo.create.error'), 'error', true);
+            });
+        },
+        handleSuccess (response) {
+            console.warn(response);
         },
         restoreFocus () {
             const scrollTop = this.editor.scrollingContainer.scrollTop;

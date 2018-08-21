@@ -1,4 +1,5 @@
 import FormData from 'form-data';
+import SETTING from '@/setting';
 import BaseRequest from '@/common/request';
 
 class PhotoApi extends BaseRequest {
@@ -26,6 +27,7 @@ class PhotoApi extends BaseRequest {
         }
         return super.post(this.url, formData, {
             headers: {
+                [SETTING.TOKEN_HEADER_KEY]: this.token,
                 'Content-Type': `multipart/form-data; boundary=${formData._boundary}`
             },
             transformRequest: [],

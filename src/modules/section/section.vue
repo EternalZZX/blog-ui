@@ -12,7 +12,7 @@
         </et-nav>
         <div class="et-content">
             <et-scroll class="et-content__wrapper"
-                v-model="loadStatus"
+                ref="scroll"
                 @more="loadMore">
                 <div class="et-card" :class="{ disabled: !section.read_permission }"
                     v-for="section in dataList" :key="section.id">
@@ -103,7 +103,6 @@ export default {
                 label: this.$t('section.nav.manage')
             }],
             loadType: 'all',
-            loadStatus: 'active',
             hashCode: Utils.randString(),
             sectionAddShow: false
         };
@@ -118,13 +117,15 @@ export default {
             this.loadType = 'all';
             this.hashCode = Utils.randString();
             this.sectionAddShow = false;
-            this.loadMore();
+            this.$refs.scroll.reset();
         },
-        loadMore () {
+        loadMore (state) {
             Section.list(this.params).then(response => {
                 this.dataList = this.dataList.concat(response.data.sections);
-                this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
                 this.params.page ++;
+                response.data.total === this.dataList.length ?
+                    state.complete() :
+                    state.loaded();
             }).catch(err => {
                 Utils.errorLog(err, 'SECTION-LIST');
             });

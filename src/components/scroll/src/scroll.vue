@@ -1,59 +1,35 @@
 <template>
-    <div class="et-load-scroll"
-        v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="loadBusy"
-        infinite-scroll-distance="500">
+    <div class="et-load-scroll">
         <slot></slot>
-        <div class="et-load-scroll__load" v-show="loadShow">
-            <div v-loading="true"></div>
-        </div>
-        <p class="et-load-scroll__line" v-show="loadBusy && !loadShow">{{ $t("common.noMore") }}</p>
+        <infinite-loading
+            ref="infiniteLoading"
+            spinner="waveDots"
+            @infinite="infiniteHandler">
+            <p slot="no-more" class="et-load-scroll__line">
+                {{ $t("common.noMore") }}
+            </p>
+            <p slot="no-results" class="et-load-scroll__line">
+                {{ $t("common.noMore") }}
+            </p>
+        </infinite-loading>
     </div>
 </template>
 
 <script>
-import infiniteScroll from 'vue-infinite-scroll';
+import InfiniteLoading from 'vue-infinite-loading';
 export default {
     name: 'EtScroll',
-    directives: {
-        infiniteScroll
-    },
-    model: {
-        prop: 'loadStatus',
-        event: 'more'
-    },
-    props: {
-        loadStatus: {
-            type: String,
-            required: true,
-            validator (val) {
-                return [
-                    'active',
-                    'pending',
-                    'end'
-                ].indexOf(val) !== -1;
-            }
-        }
-    },
-    data () {
-        return {
-            loadShow: false
-        };
-    },
-    computed: {
-        loadBusy () {
-            return this.loadStatus !== 'active';
-        }
-    },
-    watch: {
-        loadStatus (val) {
-            val === 'end' && (this.loadShow = false);
-        }
+    components: {
+        InfiniteLoading
     },
     methods: {
-        loadMore () {
-            this.loadShow = true;
-            this.$emit('more', 'pending');
+        infiniteHandler (state) {
+            this.$emit('more', state);
+        },
+        reset () {
+            setTimeout(() => {
+                this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+            }, 50);
         }
     }
 };

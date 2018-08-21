@@ -490,13 +490,17 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 }
 
 .et-notify {
-    z-index: $notifyIndex !important;
-    top: $headerHeight + .5rem;
+    top: .5rem;
     padding: $spaceSmall;
     padding-left: 1rem;
 
+    &.et-notify_layout {
+        z-index: $notifyIndex !important;
+        top: $headerHeight + .5rem;
+    }
+
     @include max-screen($phoneMaxWidth) {
-        & {
+        &, &.et-notify_layout {
             top: $headerHeight;
         }
     }
@@ -662,12 +666,24 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         margin-bottom: $spaceSmall;
         border-bottom: $splitBorder;
 
-        .el-input, .el-button {
+        & > .el-input,
+        & > .el-button,
+        & > .el-upload {
             margin-right: $spaceSmall;
         }
 
-        .el-input:last-child, .el-button:last-child {
+        & > .el-input:last-child,
+        & > .el-button:last-child,
+        & > .el-upload:last-child {
             margin-right: 0;
+        }
+
+        .el-upload {
+            height: 100%;
+        }
+
+        .el-upload .el-button {
+            height: 100%;
         }
     }
 }

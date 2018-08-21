@@ -61,7 +61,8 @@ export default {
     },
     photo: {
         create: {
-            title: '上传图片'
+            title: '上传图片',
+            error: '上传图片失败!'
         }
     },
     preview: {
@@ -99,6 +100,7 @@ export default {
         submit: '提 交',
         cancel: '取 消',
         noMore: '没有更多了',
+        noResults: '无检索结果',
         close: '关闭',
         readCount: '阅读',
         likeCount: '点赞',

@@ -66,12 +66,12 @@ class Common {
         return instance;
     }
 
-    static notify (message, type = 'info', duration = 3000) {
+    static notify (message, type = 'info', fullscreen = false, duration = 3000) {
         Message({
             message,
             type,
             duration,
-            customClass: 'et-notify',
+            customClass: fullscreen ? 'et-notify' : 'et-notify et-notify_layout',
             showClose: true
         });
     }

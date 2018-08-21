@@ -5,6 +5,7 @@ import SETTING from '@/setting';
 
 class BaseRequest {
     constructor () {
+        this.token = Utils.getToken();
         this.$http = axios.create({
             baseURL: SETTING.BASE_URL,
             headers: {
@@ -16,22 +17,22 @@ class BaseRequest {
         });
     }
 
-    static _getHeadersToken () {
-        const headers = {};
-        headers[SETTING.TOKEN_HEADER_KEY] = Utils.getToken();
-        return headers;
+    _getHeadersToken () {
+        return {
+            [SETTING.TOKEN_HEADER_KEY]: this.token
+        };
     }
 
     get (url, config = {}) {
         return this.$http.get(url, {
-            headers: BaseRequest._getHeadersToken(),
+            headers: this._getHeadersToken(),
             ...config
         });
     }
 
     post (url, data = null, config = {}) {
         return this.$http.post(url, data, {
-            headers: BaseRequest._getHeadersToken(),
+            headers: this._getHeadersToken(),
             transformRequest: [request => qs.stringify(request)],
             ...config
         });
@@ -39,7 +40,7 @@ class BaseRequest {
 
     put (url, data = null, config = {}) {
         return this.$http.put(url, data, {
-            headers: BaseRequest._getHeadersToken(),
+            headers: this._getHeadersToken(),
             transformRequest: [request => qs.stringify(request)],
             ...config
         });
@@ -47,7 +48,7 @@ class BaseRequest {
 
     delete (url, config = {}) {
         return this.$http.delete(url, {
-            headers: BaseRequest._getHeadersToken(),
+            headers: this._getHeadersToken(),
             transformRequest: [request => qs.stringify(request)],
             ...config
         });

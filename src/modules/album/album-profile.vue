@@ -14,7 +14,7 @@
 
         <div class="et-content">
             <et-scroll class="et-content__wrapper"
-                v-model="loadStatus"
+                ref="scroll"
                 @more="loadMore">
                 <div v-if="loadType !== 'other'" class="et-photo__container">
                     <et-photo v-for="album in dataList"
@@ -99,7 +99,6 @@ export default {
                 label: this.$t('album.nav.other')
             }],
             loadType: 'all',
-            loadStatus: 'active',
             hashCode: Utils.randString(),
             albumAddShow: false,
             photoAddShow: false,
@@ -136,36 +135,44 @@ export default {
             this.loadType = loadType || 'all';
             this.hashCode = Utils.randString();
             this.albumAddShow = false;
-            this.loadMore();
+            this.$refs.scroll.reset();
         },
-        loadMore () {
+        loadMore (state) {
             if (!this.hasIdentity) {
-                this.loadStatus = 'end';
+                state.complete();
                 return;
             }
-            if (this.loadType === 'other') {
-                this.loadPhotos();
-            } else {
-                this.loadAlbums();
-            }
+            this.loadType === 'other' ?
+                this.loadPhotos(state) :
+                this.loadAlbums(state);
         },
-        loadAlbums () {
-            Album.listSelfAlbums(this.identity.uuid, this.privacy, this.params).then(response => {
-                this.dataList = this.dataList.concat(response.data.albums);
-                this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
-                this.params.page ++;
+        loadAlbums (state) {
+            Album.listSelfAlbums(
+                this.identity.uuid,
+                this.privacy,
+                this.params
+            ).then(response => {
+                this.loadData(state, response.data.albums, response.data.total);
             }).catch(err => {
                 Utils.errorLog(err, 'ALBUM-LIST');
             });
         },
-        loadPhotos () {
-            Photo.listSelfOtherPhotos(this.identity.uuid, this.params).then(response => {
-                this.dataList = this.dataList.concat(response.data.photos);
-                this.loadStatus = response.data.total === this.dataList.length ? 'end' : 'active';
-                this.params.page ++;
+        loadPhotos (state) {
+            Photo.listSelfOtherPhotos(
+                this.identity.uuid,
+                this.params
+            ).then(response => {
+                this.loadData(state, response.data.photos, response.data.total);
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
+        },
+        loadData (state, data, total) {
+            this.dataList = this.dataList.concat(data);
+            this.params.page ++;
+            total === this.dataList.length ?
+                state.complete() :
+                state.loaded();
         },
         getPreview (index) {
             this.preview.show = true;

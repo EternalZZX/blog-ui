@@ -61,7 +61,8 @@ export default {
     },
     photo: {
         create: {
-            title: 'Upload Photo'
+            title: 'Upload Photo',
+            error: 'Upload photo failed!'
         }
     },
     preview: {
@@ -101,6 +102,7 @@ export default {
         submit: 'Submit',
         cancel: 'Cancel',
         noMore: 'No more',
+        noResults: 'No results',
         close: 'Close',
         readCount: 'Read',
         likeCount: 'Like',
