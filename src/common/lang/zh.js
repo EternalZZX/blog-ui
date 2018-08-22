@@ -62,6 +62,7 @@ export default {
     photo: {
         create: {
             title: '上传图片',
+            success: '上传图片完成!',
             error: '上传图片失败!'
         }
     },

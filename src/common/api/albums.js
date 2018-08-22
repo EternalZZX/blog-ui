@@ -36,7 +36,8 @@ class AlbumApi extends BaseRequest {
     listSelfAlbums (uuid, privacy, params = {}, config = {}) {
         const args = {
             ...params,
-            author_uuid: uuid
+            author_uuid: uuid,
+            order_field: 'create_at'
         };
         privacy !== null && (args.privacy = privacy);
         return super.get(this.url, {

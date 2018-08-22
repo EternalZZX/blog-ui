@@ -577,6 +577,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             }
 
             .el-dialog .el-dialog__body {
+                position: static;
                 margin-bottom: 0;
             }
 

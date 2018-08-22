@@ -22,8 +22,7 @@
             <el-upload action="upload"
                 :http-request="upload"
                 :show-file-list="false"
-                :multiple="false"
-                :on-success="handleSuccess">
+                :multiple="false">
                 <el-button type="file">
                     {{ $t("editor.image.upload") }}
                 </el-button>
@@ -196,14 +195,15 @@ export default {
         },
         upload (content) {
             Photo.create(content.file).then(response => {
-                content.onSuccess(response.data);
+                this.selectPhotos.push(response.data);
+                this.init();
+                Common.notify(this.$t('photo.create.success'), 'success', true);
+                content.onSuccess(response);
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-CREATE');
                 Common.notify(this.$t('photo.create.error'), 'error', true);
+                content.onError(err);
             });
-        },
-        handleSuccess (response) {
-            console.warn(response);
         },
         restoreFocus () {
             const scrollTop = this.editor.scrollingContainer.scrollTop;

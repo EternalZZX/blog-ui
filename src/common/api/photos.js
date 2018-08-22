@@ -49,8 +49,9 @@ class PhotoApi extends BaseRequest {
 
     listAlbumPhotos (albumUuid, params = {}, config = {}) {
         const args = {
-            ...params,
-            album_uuid: albumUuid
+            album_uuid: albumUuid,
+            order_field: 'create_at',
+            ...params
         };
         return super.get(this.url, {
             params: args,
@@ -60,9 +61,10 @@ class PhotoApi extends BaseRequest {
 
     listSelfPhotos (uuid, query = '', params = {}, config = {}) {
         const args = {
-            ...params,
+            author_uuid: uuid,
             query,
-            author_uuid: uuid
+            order_field: 'create_at',
+            ...params
         };
         return super.get(this.url, {
             params: args,
@@ -72,9 +74,10 @@ class PhotoApi extends BaseRequest {
 
     listSelfOtherPhotos (uuid, params = {}, config = {}) {
         const args = {
-            ...params,
             author_uuid: uuid,
-            album_uuid: ''
+            album_uuid: '',
+            order_field: 'create_at',
+            ...params
         };
         return super.get(this.url, {
             params: args,
