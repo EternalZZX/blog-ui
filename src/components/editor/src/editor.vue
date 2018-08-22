@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="et-editor">
         <quill-editor ref="editor"
             v-model="content"
             :options="editorOption"
@@ -7,59 +7,89 @@
             @focus="onEditorFocus($event)"
             @ready="onEditorReady($event)">
             <div id="toolbar" slot="toolbar">
-                <span class="ql-formats">
-                    <button class="et-editor__button"
-                        :class="{ 'active': format.bold }"
-                        @click="updateFormat('bold')">
-                        <i class="et-icon ei-format-bold"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        :class="{ 'active': format.italic }"
-                        @click="updateFormat('italic')">
-                        <i class="et-icon ei-format-italic"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        :class="{ 'active': format.header }"
-                        @click="updateFormat('header', 2)">
-                        <i class="et-icon ei-format-title"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        :class="{ 'active': format.blockquote }"
-                        @click="updateFormat('blockquote')">
-                        <i class="et-icon ei-format-quote"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        :class="{ 'active': format['code-block'] }"
-                        @click="updateFormat('code-block')">
-                        <i class="et-icon ei-format-code"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        :class="{ 'active': format['list'] === 'ordered' }"
-                        @click="updateFormat('list', 'ordered')">
-                        <i class="et-icon ei-format-list-numbers"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        :class="{ 'active': format['list'] === 'bullet' }"
-                        @click="updateFormat('list', 'bullet')">
-                        <i class="et-icon ei-format-list-bulleted"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        @click="updateFormat('indent', -1)">
-                        <i class="et-icon ei-format-indent-decrease"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        @click="updateFormat('indent', 1)">
-                        <i class="et-icon ei-format-indent-increase"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        @click="linkHandler">
-                        <i class="et-icon ei-link"></i>
-                    </button>
-                    <button class="et-editor__button"
-                        @click="imageHandler">
-                        <i class="et-icon ei-picture"></i>
-                    </button>
-                </span>
+                <transition enter-active-class="animated flipInX">
+                    <div class="et-editor__toolbar" v-show="toolbarMainShow">
+                        <div class="et-editor__button-group">
+                            <button class="et-editor__button"
+                                :class="{ 'active': format.bold }"
+                                @click="updateFormat('bold')">
+                                <i class="et-icon ei-format-bold"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                :class="{ 'active': format.italic }"
+                                @click="updateFormat('italic')">
+                                <i class="et-icon ei-format-italic"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                :class="{ 'active': format.header }"
+                                @click="updateFormat('header', 2)">
+                                <i class="et-icon ei-format-title"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                :class="{ 'active': format['list'] === 'ordered' }"
+                                @click="updateFormat('list', 'ordered')">
+                                <i class="et-icon ei-format-list-numbers"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                :class="{ 'active': format['list'] === 'bullet' }"
+                                @click="updateFormat('list', 'bullet')">
+                                <i class="et-icon ei-format-list-bulleted"></i>
+                            </button>
+                        </div>
+                        <div class="et-editor__button-group">
+                            <button class="et-editor__button"
+                                @click="linkHandler">
+                                <i class="et-icon ei-link"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                @click="imageHandler">
+                                <i class="et-icon ei-picture"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                @click="triggerToolbar('addition')">
+                                <i class="et-icon ei-more"></i>
+                            </button>
+                        </div>
+                    </div>
+                </transition>
+                <transition enter-active-class="animated flipInX">
+                    <div class="et-editor__toolbar" v-show="toolbarAdditionShow">
+                        <div class="et-editor__button-group">
+                            <button class="et-editor__button"
+                                @click="updateFormat('indent', -1)">
+                                <i class="et-icon ei-format-indent-decrease"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                @click="updateFormat('indent', 1)">
+                                <i class="et-icon ei-format-indent-increase"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                :class="{ 'active': format.blockquote }"
+                                @click="updateFormat('blockquote')">
+                                <i class="et-icon ei-format-quote"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                :class="{ 'active': format['code-block'] }"
+                                @click="updateFormat('code-block')">
+                                <i class="et-icon ei-format-code"></i>
+                            </button>
+                        </div>
+                        <div class="et-editor__button-group">
+                            <button class="et-editor__button"
+                                @click="linkHandler">
+                                <i class="et-icon ei-link"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                @click="imageHandler">
+                                <i class="et-icon ei-picture"></i>
+                            </button>
+                            <button class="et-editor__button"
+                                @click="triggerToolbar('main')">
+                                <i class="et-icon ei-close"></i>
+                            </button>
+                        </div>
+                    </div>
+                </transition>
             </div>
         </quill-editor>
 
@@ -125,6 +155,8 @@ export default {
                 //     ]
                 // }
             },
+            toolbarMainShow: true,
+            toolbarAdditionShow: false,
             link: null,
             insertLinkShow: false,
             insertImageShow: false
@@ -179,7 +211,72 @@ export default {
         },
         getFormat () {
             this.format = this.editor.getFormat();
+        },
+        triggerToolbar (type) {
+            const val = type === 'addition';
+            if (val) {
+                this.toolbarMainShow = !val;
+                setTimeout(() => {
+                    this.toolbarAdditionShow = val;
+                }, 50);
+            } else {
+                this.toolbarAdditionShow = val;
+                setTimeout(() => {
+                    this.toolbarMainShow = !val;
+                }, 50);
+            }
         }
     }
 };
 </script>
+
+<style lang="scss" scoped>
+@import '~static/styles/style-common';
+
+.et-editor {
+    width: 100%;
+    height: 10rem;
+    margin: $spaceLarge 0;
+
+    /deep/ .quill-editor {
+        height: calc(100% - 2.3rem);
+    }
+
+    /deep/ .ql-toolbar {
+        height: 2.3rem;
+        padding: 0 $spaceSmall;
+        border: none;
+        border-top: $splitBorder;
+        border-bottom: $splitBorder;
+
+        .et-editor__toolbar {
+            display: flex;
+            height: 100%;
+        }
+
+        .et-editor__toolbar .et-editor__button-group:first-child {
+            flex: auto;
+        }
+
+        .et-editor__button {
+            width: 1.5rem;
+            height: 100%;
+            padding: 0;
+            color: $editorColor;
+            cursor: pointer;
+        }
+    }
+
+    /deep/ .ql-container {
+        border: none;
+        border-bottom: $splitBorder;
+    }
+
+    /deep/ .ql-editor {
+        p {
+            font-size: $contentFontSize;
+            text-align: justify;
+        }
+    }
+}
+</style>
