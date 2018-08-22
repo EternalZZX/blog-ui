@@ -151,10 +151,8 @@ export default {
                 range = linkRange;
             if (!blot) {
                 let offset = null;
-                const selection = this.editor.getSelection();
-                [blot, offset] = selection ?
-                    this.editor.scroll.descendant(LinkBlot, selection.index) :
-                    [null, null];
+                const selection = this.editor.getSelection(true);
+                [blot, offset] = this.editor.scroll.descendant(LinkBlot, selection.index);
                 blot && (range = new Range(selection.index - offset, blot.length()));
             }
             this.link = blot ? {

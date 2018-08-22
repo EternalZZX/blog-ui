@@ -27,7 +27,9 @@
             <el-button @click="cancel">
                 {{ $t("common.cancel") }}
             </el-button>
-            <el-button type="primary" @click="submit" :disabled="submitDisabled">
+            <el-button type="primary"
+                :disabled="submitDisabled"
+                @click="submit">
                 {{ $t("common.submit") }}
             </el-button>
         </div>
@@ -35,6 +37,7 @@
 </template>
 
 <script>
+import Quill from 'quill';
 import validate from '@/common/validate';
 export default {
     name: 'EtEditorLink',
@@ -78,11 +81,7 @@ export default {
                 this.$set(this.data, 'text', this.link.text);
                 this.$set(this.data, 'url', this.link.url);
             } else {
-                this.selection = this.editor.getSelection();
-                !this.selection && (this.selection = {
-                    index: this.editor.getLength() - 1,
-                    length: 0
-                });
+                this.selection = this.editor.getSelection(true);
                 this.selection.length && this.$set(
                     this.data,
                     'text',
@@ -105,10 +104,18 @@ export default {
             if (this.linkRange) {
                 this.editor.deleteText(this.linkRange);
                 this.insertLink(this.linkRange.index, this.data.text, this.data.url);
+                this.editor.setSelection(
+                    this.linkRange.index + this.data.text.length,
+                    Quill.sources.SILENT
+                );
             } else {
                 this.selection.length ?
                     this.editor.format('link', this.data.url) :
                     this.insertLink(this.selection.index, this.data.text, this.data.url);
+                this.editor.setSelection(
+                    this.selection.index + this.data.text.length,
+                    Quill.sources.SILENT
+                );
             }
             this.closeDialog();
         },
@@ -129,7 +136,8 @@ export default {
                 index,
                 text || url,
                 'link',
-                url
+                url,
+                Quill.sources.USER
             );
         },
         cancel () {

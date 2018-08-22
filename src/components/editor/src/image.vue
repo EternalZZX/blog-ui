@@ -54,7 +54,9 @@
             <el-button @click="cancel">
                 {{ $t("common.cancel") }}
             </el-button>
-            <el-button type="primary" @click="submit">
+            <el-button type="primary"
+                :disabled="!selectPhotos.length"
+                @click="submit">
                 {{ $t("common.submit") }}
             </el-button>
         </div>
@@ -64,6 +66,7 @@
 <script>
 import { debounce } from 'throttle-debounce';
 import { mapState, mapGetters } from 'vuex';
+import Quill from 'quill';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Photo from '@/common/api/photos';
@@ -114,6 +117,9 @@ export default {
             this.closeDialog();
         },
         submit () {
+            for (const photo of this.selectPhotos) {
+                this.insertImage(photo.image_middle);
+            }
             this.closeDialog();
         },
         init (albumUuid = null, searchStr = '') {
@@ -209,6 +215,17 @@ export default {
             const scrollTop = this.editor.scrollingContainer.scrollTop;
             this.editor.focus();
             this.editor.scrollingContainer.scrollTop = scrollTop;
+        },
+        insertImage (url) {
+            const selection = this.editor.getSelection(true);
+            this.editor.insertText(selection.index, '\n', Quill.sources.USER);
+            this.editor.insertEmbed(
+                selection.index + 1,
+                'image',
+                url,
+                Quill.sources.USER
+            );
+            this.editor.setSelection(selection.index + 2, Quill.sources.SILENT);
         },
         cancel () {
             this.closeDialog();
