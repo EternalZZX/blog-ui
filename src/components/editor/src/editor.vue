@@ -332,22 +332,24 @@ export default {
     }
 
     /deep/ .ql-editor {
-        padding: $spaceSmall $spaceBig;
+        padding: $spaceSmall $spaceLarge;
 
         &.ql-blank:before {
-            top: $spaceSmall;
-            left: $spaceBig + .1rem;
+            top: $spaceSmall + $spaceSmall;
+            left: $spaceLarge + .1rem;
             color: $placeholderColor;
             font-size: $contentFontSize;
             font-style: normal;
         }
 
-        p, li {
+        p {
+            padding: $contentPadding 0;
             font-size: $contentFontSize;
             text-align: justify;
         }
 
         h2 {
+            padding: $contentPadding 0;
             font-size: $titleFontSize;
         }
 
@@ -367,8 +369,34 @@ export default {
             padding: $spaceSmall;
         }
 
+        blockquote {
+            margin: 0;
+            padding: .3rem 0;
+            padding-left: $spaceSmall;
+            font-size: $contentFontSize;
+            color: $quoteColor;
+            border-left: 5px solid $splitBorderColor;
+        }
+
+        pre {
+            margin: 0;
+            padding: $spaceSmall $spaceBig;
+            font-size: $contentFontSize;
+            line-height: 1.5rem;
+            color: $quoteColor;
+            background-color: $codeBackground;
+            border-radius: $radiusTiny;
+        }
+
         ol, ul {
+            padding: $contentPadding 0;
             padding-left: 0;
+        }
+
+        li {
+            padding: .3rem 0;
+            font-size: $contentFontSize;
+            text-align: justify;
         }
 
         li:not(.ql-direction-rtl) {
