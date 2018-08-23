@@ -87,6 +87,7 @@ export default {
         url: '请输入正确的链接地址!'
     },
     editor: {
+        placeholder: '请输入内容...',
         insertLink: '插入链接',
         linkText: '请输入链接文本',
         linkUrl: '请输入链接地址',

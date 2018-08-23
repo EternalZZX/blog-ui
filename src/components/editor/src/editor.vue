@@ -123,6 +123,11 @@ export default {
         EtEditorLink,
         EtEditorImage
     },
+    props: {
+        placeholder: {
+            type: String
+        }
+    },
     data () {
         return {
             editor: null,
@@ -141,7 +146,7 @@ export default {
                     }
                 },
                 theme: 'et-theme',
-                placeholder: '...'
+                placeholder: this.placeholder || this.$t('editor.placeholder')
                 // modules: {
                 //     toolbar: [
                 //         ['bold', 'italic'],
@@ -290,10 +295,116 @@ export default {
         border-bottom: $splitBorder;
     }
 
+    /deep/ .ql-tooltip {
+        padding: $spaceSmall;
+        font-size: $contentFontSize;
+        color: $editorColor;
+        border: none;
+        border-radius: $radiusSmall;
+        background-color: $blockBackground;
+        box-shadow: $cardShadow;
+
+        &:before {
+            content: 'URL';
+            margin: 0;
+        }
+
+        .et-editor__tooltip-preview {
+            height: 100%;
+            font-size: $iconFontSizeSmall;
+            line-height: $iconFontSizeSmall;
+            color: $themeColor;
+            margin-right: $spaceSmall;
+        }
+
+        .et-editor__tooltip-preview:hover {
+            color: $themeHoverColor;
+        }
+
+        .et-icon {
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .et-icon:hover {
+            color: $themeHoverColor;
+        }
+    }
+
     /deep/ .ql-editor {
-        p {
+        padding: $spaceSmall $spaceBig;
+
+        &.ql-blank:before {
+            top: $spaceSmall;
+            left: $spaceBig + .1rem;
+            color: $placeholderColor;
+            font-size: $contentFontSize;
+            font-style: normal;
+        }
+
+        p, li {
             font-size: $contentFontSize;
             text-align: justify;
+        }
+
+        h2 {
+            font-size: $titleFontSize;
+        }
+
+        a {
+            color: $themeColor;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        a:hover {
+            color: $themeHoverColor;
+        }
+
+        img {
+            display: block;
+            margin: auto;
+            padding: $spaceSmall;
+        }
+
+        ol, ul {
+            padding-left: 0;
+        }
+
+        li:not(.ql-direction-rtl) {
+            padding-left: 1.04rem;
+        }
+
+        .ql-indent-1:not(.ql-direction-rtl) {
+            padding-left: 3.125rem;;
+        }
+
+        .ql-indent-2:not(.ql-direction-rtl) {
+            padding-left: 5.21rem;
+        }
+
+        .ql-indent-3:not(.ql-direction-rtl) {
+            padding-left: 7.29rem;
+        }
+
+        .ql-indent-4:not(.ql-direction-rtl) {
+            padding-left: 9.37rem;
+        }
+
+        .ql-indent-5:not(.ql-direction-rtl) {
+            padding-left: 11.46rem;
+        }
+
+        .ql-indent-6:not(.ql-direction-rtl) {
+            padding-left: 13.54rem;
+        }
+
+        .ql-indent-7:not(.ql-direction-rtl) {
+            padding-left: 15.63rem;
+        }
+
+        .ql-indent-8:not(.ql-direction-rtl) {
+            padding-left: 17.71rem;
         }
     }
 }
