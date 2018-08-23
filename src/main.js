@@ -10,6 +10,7 @@ import EtComponents from '@/components';
 import index from '@/index';
 import '@/common/filters';
 import '@/common/permission';
+import '@/common/highlight';
 
 if (window !== top) {
     top.location.href = window.location.href;

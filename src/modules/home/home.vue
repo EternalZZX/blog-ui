@@ -32,7 +32,7 @@ export default {
             imageUrl: ''
         };
     },
-    mounted: () => {
+    mounted () {
         // Utils.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
         //                 'eU9HRXRZVFl4TVMwMVpXWmtMV0ZsTm1VdFlUVTFNR0UxWWprMU5EZzM');
         // Section.delete('', {
