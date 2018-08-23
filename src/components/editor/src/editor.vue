@@ -2,11 +2,8 @@
     <div class="et-editor">
         <quill-editor ref="editor"
             v-model="content"
-            :options="editorOption"
-            @blur="onEditorBlur($event)"
-            @focus="onEditorFocus($event)"
-            @ready="onEditorReady($event)">
-            <div id="toolbar" slot="toolbar">
+            :options="editorOption">
+            <div id="toolbar" slot="toolbar" v-if="type === 'normal'">
                 <transition enter-active-class="animated flipInX">
                     <div class="et-editor__toolbar" v-show="toolbarMainShow">
                         <div class="et-editor__button-group">
@@ -91,6 +88,7 @@
                     </div>
                 </transition>
             </div>
+            <div slot="toolbar" id="toolbar" class="hide" v-else></div>
         </quill-editor>
 
         <et-editor-link
@@ -124,6 +122,16 @@ export default {
         EtEditorImage
     },
     props: {
+        type: {
+            type: String,
+            default: 'normal',
+            validator (val) {
+                return [
+                    'normal',
+                    'simple'
+                ].indexOf(val) !== -1;
+            }
+        },
         placeholder: {
             type: String
         }
@@ -134,8 +142,9 @@ export default {
             content: '',
             format: {},
             editorOption: {
-                formats: ['bold', 'italic', 'header', 'list', 'indent',
-                    'align', 'blockquote', 'code-block', 'link', 'image'],
+                formats: this.type === 'simple' ? [] : ['bold',
+                    'italic', 'header', 'list', 'indent', 'align',
+                    'blockquote', 'code-block', 'link', 'image'],
                 modules: {
                     toolbar: {
                         container: '#toolbar',
@@ -147,18 +156,6 @@ export default {
                 },
                 theme: 'et-theme',
                 placeholder: this.placeholder || this.$t('editor.placeholder')
-                // modules: {
-                //     toolbar: [
-                //         ['bold', 'italic'],
-                //         ['blockquote', 'code-block'],
-                //         [{ 'header': 2 }],
-                //         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                //         [{ 'indent': '-1' }, { 'indent': '+1' }],
-                //         [{ 'align': [] }],
-                //         ['clean'],
-                //         ['link', 'image']
-                //     ]
-                // }
             },
             toolbarMainShow: true,
             toolbarAdditionShow: false,
@@ -174,15 +171,6 @@ export default {
         });
     },
     methods: {
-        onEditorBlur (editor) {
-            // console.warn('editor blur!', editor);
-        },
-        onEditorFocus (editor) {
-            // console.warn('editor focus!', editor);
-        },
-        onEditorReady (editor) {
-            // console.warn('editor ready!', editor);
-        },
         getFormat () {
             this.format = this.editor.getFormat();
         },
@@ -258,7 +246,6 @@ export default {
         padding: 0 $spaceSmall;
         border: none;
         border-top: $splitBorder;
-        border-bottom: $splitBorder;
 
         .et-editor__toolbar {
             display: flex;
@@ -290,8 +277,9 @@ export default {
         }
     }
 
-    /deep/ .ql-container {
+    /deep/ .ql-container.ql-snow {
         border: none;
+        border-top: $splitBorder;
         border-bottom: $splitBorder;
     }
 

@@ -44,9 +44,14 @@
                     @click="selectPhoto(photo)">
                 </et-photo>
                 <div class="et-photo__wrapper et-photo__wrapper_add">
-                    <div class="et-photo__add" :title="$t('photo.create.title')">
-                        <i class="et-icon ei-plus"></i>
-                    </div>
+                    <el-upload action="upload"
+                        :http-request="upload"
+                        :show-file-list="false"
+                        :multiple="false">
+                        <div class="et-photo__add" :title="$t('photo.create.title')">
+                            <i class="et-icon ei-plus"></i>
+                        </div>
+                    </el-upload>
                 </div>
             </div>
         </et-scroll>
