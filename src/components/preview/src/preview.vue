@@ -391,7 +391,6 @@ export default {
             max-height: 100%;
             margin: auto;
             animation-duration: .2s;
-            box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, .1);
             user-select: none;
             cursor: zoom-in;
         }
