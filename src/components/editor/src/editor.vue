@@ -121,7 +121,15 @@ export default {
         EtEditorLink,
         EtEditorImage
     },
+    model: {
+        prop: 'value',
+        event: 'change'
+    },
     props: {
+        value: {
+            type: String,
+            default: ''
+        },
         type: {
             type: String,
             default: 'normal',
@@ -163,6 +171,14 @@ export default {
             insertLinkShow: false,
             insertImageShow: false
         };
+    },
+    watch: {
+        value (val) {
+            this.content = val;
+        },
+        content (val) {
+            this.$emit('change', val);
+        }
     },
     mounted () {
         this.editor = this.$refs.editor.quill;

@@ -1,6 +1,6 @@
 <template>
     <div class="et-layout">
-        <et-editor></et-editor>
+        <et-editor v-model="content"></et-editor>
         <!-- <el-upload
             ref="upload"
             action="upload"
@@ -29,7 +29,8 @@ export default {
             header: {
                 'Auth-Token': Utils.getToken()
             },
-            imageUrl: ''
+            imageUrl: '',
+            content: ''
         };
     },
     mounted () {
