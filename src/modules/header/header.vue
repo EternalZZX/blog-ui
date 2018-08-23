@@ -30,17 +30,17 @@
                     <i class="et-icon ei-menu"></i>
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>
+                    <el-dropdown-item class="et-dropdown__item_router">
                         <router-link :to="{ name: 'home' }">
                             <i class="et-icon ei-home-fill"></i>{{ $t("header.home") }}
                         </router-link>
                     </el-dropdown-item>
-                    <el-dropdown-item>
+                    <el-dropdown-item class="et-dropdown__item_router">
                         <router-link :to="{ name: 'section' }">
                             <i class="et-icon ei-manage-fill"></i>{{ $t("header.section") }}
                         </router-link>
                     </el-dropdown-item>
-                    <el-dropdown-item>
+                    <el-dropdown-item class="et-dropdown__item_router">
                         <router-link :to="{ name: 'mark' }">
                             <i class="et-icon ei-like-fill"></i>{{ $t("header.mark") }}
                         </router-link>

@@ -76,12 +76,12 @@
                         </div>
                         <div class="et-editor__button-group">
                             <button class="et-editor__button"
-                                @click="linkHandler">
-                                <i class="et-icon ei-link"></i>
+                                @click="undoHandler">
+                                <i class="et-icon ei-undo"></i>
                             </button>
                             <button class="et-editor__button"
-                                @click="imageHandler">
-                                <i class="et-icon ei-picture"></i>
+                                @click="redoHandler">
+                                <i class="et-icon ei-redo"></i>
                             </button>
                             <button class="et-editor__button"
                                 @click="triggerToolbar('main')">
@@ -178,6 +178,21 @@ export default {
         onEditorReady (editor) {
             // console.warn('editor ready!', editor);
         },
+        getFormat () {
+            this.format = this.editor.getFormat();
+        },
+        updateFormat (type, value = true) {
+            let formatValue;
+            if (type === 'indent') {
+                formatValue = this.format[type] ? this.format[type] : 0;
+                formatValue += value;
+            } else {
+                formatValue = !(this.format[type] === value);
+                formatValue && (formatValue = value);
+            }
+            this.editor.format(type, formatValue);
+            this.getFormat();
+        },
         linkHandler (value, linkBlot = null, linkRange = null) {
             let blot = linkBlot,
                 range = linkRange;
@@ -197,20 +212,11 @@ export default {
         imageHandler (value) {
             this.insertImageShow = true;
         },
-        updateFormat (type, value = true) {
-            let formatValue;
-            if (type === 'indent') {
-                formatValue = this.format[type] ? this.format[type] : 0;
-                formatValue += value;
-            } else {
-                formatValue = !(this.format[type] === value);
-                formatValue && (formatValue = value);
-            }
-            this.editor.format(type, formatValue);
-            this.getFormat();
+        undoHandler () {
+            this.editor.history.undo();
         },
-        getFormat () {
-            this.format = this.editor.getFormat();
+        redoHandler () {
+            this.editor.history.redo();
         },
         triggerToolbar (type) {
             const val = type === 'addition';
@@ -264,6 +270,18 @@ export default {
             padding: 0;
             color: $editorColor;
             cursor: pointer;
+        }
+
+        .et-editor__button:hover {
+            color: $themeHoverColor;
+        }
+
+        .et-editor__button .et-icon {
+            font-size: $iconFontSizeSmall;
+        }
+
+        .et-editor__button.active {
+            color: $themeColor !important;
         }
     }
 

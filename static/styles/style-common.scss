@@ -177,7 +177,13 @@
             color: $subThemeColor;
         }
 
+        &.et-dropdown__item_router {
+            padding: 0;
+        }
+
         a {
+            display: block;
+            padding: 0 $spaceBig;
             color: $subThemeColor;
         }
 
