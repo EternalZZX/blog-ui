@@ -1,6 +1,6 @@
 import Photo from './src/photo';
 
-Photo.install = function (Vue) {
+Photo.install = Vue => {
     Vue.component(Photo.name, Photo);
 };
 

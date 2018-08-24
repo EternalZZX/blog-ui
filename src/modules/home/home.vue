@@ -1,54 +1,54 @@
 <template>
     <div class="et-layout">
-        <et-editor v-model="content"></et-editor>
-        <!-- <el-upload
-            ref="upload"
-            action="upload"
-            class="avatar-uploader"
-            :http-request="upload"
-            :show-file-list="false"
-            :multiple="false"
-            :auto-upload="false"
-            :on-change="handleChange"
-            :on-success="handleSuccess">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-        <el-button size="small" type="primary" @click="submit">点击上传</el-button> -->
+        <et-nav :title="$t('section.nav.title')"
+            :index.sync="loadType"
+            :menu="nav">
+        </et-nav>
+        <div class="et-content">
+            <div class="et-content__wrapper">
+                <et-comment-scroll></et-comment-scroll>
+                <!-- <el-upload
+                    ref="upload"
+                    action="upload"
+                    class="avatar-uploader"
+                    :http-request="upload"
+                    :show-file-list="false"
+                    :multiple="false"
+                    :auto-upload="false"
+                    :on-change="handleChange"
+                    :on-success="handleSuccess">
+                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+                <el-button size="small" type="primary" @click="submit">点击上传</el-button> -->
+            </div>
+            <et-toolbar></et-toolbar>
+        </div>
     </div>
 </template>
 
 <script>
-import Utils from '@/common/utils';
-// import Section from '@/common/api/sections';
 import Photo from '@/common/api/photos';
 export default {
     name: 'EtHome',
     data () {
         return {
-            header: {
-                'Auth-Token': Utils.getToken()
-            },
-            imageUrl: '',
-            content: ''
+            nav: [{
+                value: 'all',
+                label: this.$t('section.nav.all')
+            }, {
+                value: 'hot',
+                label: this.$t('section.nav.hot')
+            }, {
+                value: 'follow',
+                label: this.$t('section.nav.follow')
+            }, {
+                value: 'manage',
+                label: this.$t('section.nav.manage')
+            }],
+            loadType: 'all',
+            imageUrl: ''
         };
-    },
-    mounted () {
-        // Utils.setToken('RVRFNDIyYjg2MDA2MjI0N2EwZDc3OTJhNzEwMGVjNWY2YmNOek0xTjJR' +
-        //                 'eU9HRXRZVFl4TVMwMVpXWmtMV0ZsTm1VdFlUVTFNR0UxWWprMU5EZzM');
-        // Section.delete('', {
-        //     id_list: 20,
-        //     force: true
-        // }).then(response => {
-        //     console.warn(response.data);
-        // }).catch(err => {
-        //     if (err.response) {
-        //         console.warn(err.response.data);
-        //         console.warn(err.response.status);
-        //     } else {
-        //         console.error(err.message);
-        //     }
-        // });
     },
     methods: {
         handleChange (file) {

@@ -100,7 +100,7 @@ export default {
         display: inline-block;
         max-width: 100%;
         font-size: $subtitleFontSize;
-        color: $subtitleColor;
+        color: $contentColor;
         cursor: pointer;
         @extend %text-overview;
 

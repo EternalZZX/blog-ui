@@ -1,6 +1,6 @@
 import Toolbar from './src/toolbar';
 
-Toolbar.install = function (Vue) {
+Toolbar.install = Vue => {
     Vue.component(Toolbar.name, Toolbar);
 };
 

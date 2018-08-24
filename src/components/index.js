@@ -1,3 +1,4 @@
+import CommentScroll from './comment-scroll';
 import Editor from './editor';
 import Nav from './nav';
 import Photo from './photo';
@@ -7,6 +8,7 @@ import Toolbar from './toolbar';
 import User from './user';
 
 const components = [
+    CommentScroll,
     Editor,
     Nav,
     Photo,

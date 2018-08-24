@@ -251,7 +251,7 @@ export default {
 .et-editor {
     width: 100%;
     height: 10rem;
-    margin: $spaceLarge 0;
+    margin-bottom: $spaceLarge;
 
     /deep/ .quill-editor {
         height: calc(100% - 2.3rem);
@@ -337,6 +337,7 @@ export default {
 
     /deep/ .ql-editor {
         padding: $spaceSmall $spaceLarge;
+        color: $contentColor;
 
         &.ql-blank:before {
             top: $spaceSmall + $spaceSmall;

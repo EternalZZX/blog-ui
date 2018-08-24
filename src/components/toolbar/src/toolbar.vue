@@ -35,7 +35,7 @@ export default {
     .et-toolbar__title {
         font-size: .938rem;
         font-weight: $subtitleFontWeight;
-        color: $subtitleColor;
+        color: $contentColor;
     }
 
     .et-toolbar__body {

@@ -66,7 +66,7 @@ export default {
         font-size: .938rem;
         font-weight: $subtitleFontWeight;
         line-height: 2rem;
-        color: $subtitleColor;
+        color: $contentColor;
     }
 
     .et-nav__button {

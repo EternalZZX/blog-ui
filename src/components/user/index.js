@@ -1,6 +1,6 @@
 import User from './src/user';
 
-User.install = function (Vue) {
+User.install = Vue => {
     Vue.component(User.name, User);
 };
 

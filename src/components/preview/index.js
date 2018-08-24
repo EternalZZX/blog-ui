@@ -1,6 +1,6 @@
 import Preview from './src/preview';
 
-Preview.install = function (Vue) {
+Preview.install = Vue => {
     Vue.component(Preview.name, Preview);
 };
 

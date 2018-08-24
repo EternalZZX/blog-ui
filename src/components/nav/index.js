@@ -1,6 +1,6 @@
 import Nav from './src/nav';
 
-Nav.install = function (Vue) {
+Nav.install = Vue => {
     Vue.component(Nav.name, Nav);
 };
 
