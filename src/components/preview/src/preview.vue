@@ -48,7 +48,7 @@
                                     </span>
                                     <span class="et-preview__tools-info"
                                         :title="`${$t('common.readCount')} ${imageData.metadata.read_count}`">
-                                        {{ imageData.metadata.read_count | number }}
+                                        {{ imageData.metadata.read_count | count }}
                                     </span>
                                 </div>
                                 <div class="et-preview__tools-inner_right">

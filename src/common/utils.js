@@ -111,9 +111,20 @@ class Utils {
         return str;
     }
 
-    static formatCount (count, max = 999) {
+    static formatCount (count) {
         const number = parseInt(count);
-        return number > max ? max : number;
+        if (number < 1000) {
+            return number;
+        } else if (number < 1000000) {
+            const val = number / 1000;
+            return `${val >= 100 ? Math.round(val) : Math.round(val * 10) / 10}k`;
+        } else {
+            const val = number / 1000000;
+            if (val >= 1000) {
+                return '999m';
+            }
+            return `${val >= 100 ? Math.round(val) : Math.round(val * 10) / 10}m`;
+        }
     }
 
     static formatTime (str, type = 'time') {
