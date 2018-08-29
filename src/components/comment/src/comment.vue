@@ -7,10 +7,12 @@
             </et-user>
         </div>
         <div class="et-comment__body">
-            <p class="et-comment__content">{{ data.content }}</p>
+            <div class="et-comment__content et-writing ql-editor"
+                v-html="data.content">
+            </div>
             <div class="et-comment__panel">
-                <i class="et-icon ei-appreciate"></i>{{ data.metadata.like_count }}
-                <i class="et-icon ei-talk"></i>{{ data.metadata.comment_count }}
+                <i class="et-icon ei-appreciate"></i>{{ data.metadata.like_count | count }}
+                <i class="et-icon ei-talk"></i>{{ data.metadata.comment_count | count }}
                 <i class="et-icon ei-oppose"></i>
             </div>
         </div>
@@ -40,19 +42,23 @@ export default {
 @import "~static/styles/style-common";
 
 .et-comment {
+    width: 100%;
     margin-bottom: $spaceLarge;
+
+    // .et-comment__header {
+    //
+    // }
 
     .et-comment__body {
         padding-left: $userHeight + $spaceSmall;
 
         .et-comment__content {
-            margin: 0;
-            padding: $spaceSmall 0;
+            padding: 0;
         }
-    }
 
-    .et-comment__panel {
-        color: $descriptionColor;
+        .et-comment__panel {
+            color: $descriptionColor;
+        }
     }
 }
 </style>

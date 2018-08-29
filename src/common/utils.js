@@ -112,15 +112,17 @@ class Utils {
     }
 
     static formatCount (count) {
-        const number = parseInt(count);
-        if (number < 1000) {
+        const number = parseInt(count),
+            kilo = 1000,
+            mil = 1000000;
+        if (number < kilo) {
             return number;
-        } else if (number < 1000000) {
-            const val = number / 1000;
+        } else if (number < mil) {
+            const val = number / kilo;
             return `${val >= 100 ? Math.round(val) : Math.round(val * 10) / 10}k`;
         } else {
-            const val = number / 1000000;
-            if (val >= 1000) {
+            const val = number / mil;
+            if (val >= kilo) {
                 return '999m';
             }
             return `${val >= 100 ? Math.round(val) : Math.round(val * 10) / 10}m`;
