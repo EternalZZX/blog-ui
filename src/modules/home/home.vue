@@ -6,7 +6,10 @@
         </et-nav>
         <div class="et-content">
             <div class="et-content__wrapper">
-                <et-comment-scroll></et-comment-scroll>
+                <et-comment-scroll
+                    :resource-type="2"
+                    resource-uuid="e541cd39-3de9-5bef-ad9f-b80df3b82327">
+                </et-comment-scroll>
                 <!-- <el-upload
                     ref="upload"
                     action="upload"

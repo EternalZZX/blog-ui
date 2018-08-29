@@ -32,6 +32,19 @@ class CommentApi extends BaseRequest {
             ...config
         });
     }
+
+    listResourceComments (resourceType, resourceUuid, params = {}, config = {}) {
+        const args = {
+            resource_type: resourceType,
+            resource_uuid: resourceUuid,
+            order_field: 'create_at',
+            ...params
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
 }
 
 CommentApi.STATUS = {
