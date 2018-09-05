@@ -8,7 +8,7 @@
         </div>
         <div class="et-comment__body">
             <div class="et-comment__content et-writing ql-editor"
-                v-html="data.content">
+                v-html="content">
             </div>
             <div class="et-comment__panel">
                 <i class="et-icon ei-appreciate"></i>{{ data.metadata.like_count | count }}
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import sanitizeHtml from 'sanitize-html';
 export default {
     name: 'EtComment',
     props: {
@@ -33,6 +34,32 @@ export default {
                 };
             },
             required: true
+        }
+    },
+    computed: {
+        content () {
+            const indentArr = [
+                'ql-indent-1', 'ql-indent-2', 'ql-indent-3', 'ql-indent-4',
+                'ql-indent-5', 'ql-indent-6', 'ql-indent-7', 'ql-indent-8'
+            ];
+            return sanitizeHtml(this.data.content, {
+                allowedTags: [
+                    'p', 'h2', 'em', 'strong', 'ol', 'ul', 'li',
+                    'pre', 'blockquote', 'br', 'a', 'img'
+                ],
+                allowedClasses: {
+                    'p': indentArr,
+                    'h2': indentArr,
+                    'li': indentArr,
+                    'pre': ['ql-syntax', ...indentArr],
+                    'blockquote': indentArr
+                },
+                allowedAttributes: {
+                    'pre': ['spellcheck'],
+                    'a': ['href', 'target'],
+                    'img': ['src']
+                }
+            });
         }
     }
 };
@@ -53,7 +80,7 @@ export default {
         padding-left: $userHeight + $spaceSmall;
 
         .et-comment__content {
-            padding: 0;
+            padding: $spaceLarge 0;
         }
 
         .et-comment__panel {

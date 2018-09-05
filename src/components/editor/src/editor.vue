@@ -336,10 +336,10 @@ export default {
     }
 
     /deep/ .ql-editor {
-        padding: $spaceSmall $spaceLarge;
+        padding: $spaceLarge;
 
         &.ql-blank:before {
-            top: $spaceSmall + $spaceSmall;
+            top: $spaceLarge;
             left: $spaceLarge + .1rem;
             color: $placeholderColor;
             font-size: $contentFontSize;

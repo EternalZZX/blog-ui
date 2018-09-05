@@ -754,6 +754,14 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 .et-editor .ql-snow .ql-editor {
     color: $contentColor;
 
+    :first-child {
+        padding-top: 0;
+    }
+
+    :last-child {
+        padding-bottom: 0;
+    }
+
     p {
         padding: $contentPadding 0;
         font-size: $contentFontSize;
