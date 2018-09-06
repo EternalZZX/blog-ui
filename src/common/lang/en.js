@@ -71,7 +71,8 @@ export default {
         dislike: 'Downvote',
         reply: 'Reply',
         dialog: 'Dialog',
-        viewDialog: 'View conversation'
+        viewDialog: 'View conversation',
+        menu: 'Menu'
     },
     preview: {
         originSize: 'Origin Size',
@@ -117,6 +118,8 @@ export default {
         likeCount: 'Like',
         commentCount: 'Comments',
         reply: 'reply',
+        edit: 'Edit',
+        delete: 'Delete',
         just: 'Just now',
         minuetsAgo: 'm ago',
         hoursAgo: 'h ago',

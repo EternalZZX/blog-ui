@@ -22,6 +22,12 @@ html {
         a, input, button, [role=button] {
             outline-style: none;
         }
+
+        button {
+            padding: 0;
+            border: none;
+            background-color: initial;
+        }
     }
 }
 

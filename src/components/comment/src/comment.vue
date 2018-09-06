@@ -5,45 +5,63 @@
                 :subtitle="data.create_at"
                 :reply="data.reply_user">
             </et-user>
+            <el-dropdown v-if="isAuthor"
+                trigger="click"
+                @command="handleCommand">
+                <button class="et-comment__button"
+                    :title="$t('comment.menu')">
+                    <i class="et-icon ei-edit"></i>
+                </button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="edit">
+                        <i class="et-icon ei-editor"></i>{{ $t("common.edit") }}
+                    </el-dropdown-item>
+                    <el-dropdown-item command="delete">
+                        <i class="et-icon ei-trash"></i>{{ $t("common.delete") }}
+                    </el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </div>
         <div class="et-comment__body">
             <div class="et-comment__content et-writing ql-editor"
                 v-html="content">
             </div>
             <div class="et-comment__panel">
-                <div class="et-comment__button"
+                <button class="et-comment__button"
                     :title="$t('comment.like')">
                     <i class="et-icon"
                         :class="data.is_like_user === LIKE_TYPE.LIKE ?
                             'ei-appreciate-fill' : 'ei-appreciate'">
                     </i>
                     {{ data.metadata.like_count | count }}
-                </div>
-                <div v-if="data.metadata.comment_count"
+                </button>
+                <button v-if="data.metadata.comment_count"
                     class="et-comment__button"
                     :title="$t('comment.viewDialog')">
                     <i class="et-icon ei-talk"></i>
                     {{ $t("comment.dialog") }}
-                </div>
-                <div class="et-comment__button et-comment__button_hide"
-                    :title="$t('comment.reply')">
+                </button>
+                <button class="et-comment__button et-comment__button_hide"
+                    :title="$t('comment.reply')"
+                    v-if="!isAuthor">
                     <i class="et-icon ei-reply"></i>
                     <span>{{ $t("comment.reply") }}</span>
-                </div>
-                <div class="et-comment__button et-comment__button_hide"
+                </button>
+                <button class="et-comment__button et-comment__button_hide"
                     :title="$t('comment.dislike')">
                     <i class="et-icon"
                         :class="data.is_like_user === LIKE_TYPE.DISLIKE ?
                             'ei-oppose-fill' : 'ei-oppose'">
                     </i>
                     <span>{{ $t("comment.dislike") }}</span>
-                </div>
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import sanitizeHtml from 'sanitize-html';
 import { CommentApi } from '@/common/api/comments';
 export default {
@@ -62,6 +80,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            userUuid: 'userUuid'
+        }),
         content () {
             const indentArr = [
                 'ql-indent-1', 'ql-indent-2', 'ql-indent-3', 'ql-indent-4',
@@ -86,8 +107,26 @@ export default {
                 }
             });
         },
+        isAuthor () {
+            return this.data.author.uuid === this.userUuid;
+        },
         LIKE_TYPE () {
             return CommentApi.LIKE_TYPE;
+        }
+    },
+    methods: {
+        updateComment () {
+            // Todo
+        },
+        deleteComment () {
+            // Todo
+        },
+        handleCommand (command) {
+            const operate = {
+                edit: this.updateComment,
+                delete: this.deleteComment
+            };
+            operate[command].call(this, command);
         }
     }
 };
@@ -101,8 +140,18 @@ export default {
     margin-bottom: $spaceLarge;
 
     .et-comment__header {
-        display: flex;
         height: $userHeight;
+
+        .el-dropdown {
+            float: right;
+            height: 100%;
+            line-height: $userHeight;
+        }
+
+        .el-dropdown .et-comment__button {
+            height: 100%;
+            padding: 0 $spaceSmall;
+        }
     }
 
     .et-comment__body {
@@ -125,36 +174,43 @@ export default {
 
         .et-comment__panel .et-comment__button {
             margin-right: $spaceLarge;
-            font-size: $descriptionFontSize;
-            color: $descriptionColor;
-            line-height: $descriptionFontSize;
-            cursor: pointer;
-            user-select: none;
         }
 
-        .et-comment__panel .et-comment__button.et-comment__button_hide {
+        @include max-screen($phoneMaxWidth) {
+            & {
+                padding: 0 $spaceSmall;
+            }
+
+            .et-comment__panel .et-comment__button > span {
+                display: none;
+            }
+        }
+    }
+
+    .et-comment__button {
+        font-size: $descriptionFontSize;
+        color: $descriptionColor;
+        line-height: $descriptionFontSize;
+        cursor: pointer;
+        user-select: none;
+
+        &.et-comment__button_hide {
             opacity: 0;
             transition: opacity .2s;
         }
 
-        @at-root .et-comment:hover .et-comment__body .et-comment__panel .et-comment__button.et-comment__button_hide {
+        @at-root .et-comment:hover .et-comment__button.et-comment__button_hide {
             opacity: 1;
             transition: opacity .2s;
         }
 
-        .et-comment__panel .et-comment__button:hover {
+        &:hover {
             color: $subThemeColor;
         }
 
-        .et-comment__panel .et-comment__button .et-icon {
+        .et-icon {
             font-size: $iconFontSizeSmall;
             vertical-align: middle;
-        }
-
-        @include max-screen($phoneMaxWidth) {
-            .et-comment__panel .et-comment__button > span {
-                display: none;
-            }
         }
     }
 }

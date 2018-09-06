@@ -71,7 +71,8 @@ export default {
         dislike: '踩',
         reply: '回复',
         dialog: '查看对话',
-        viewDialog: '查看对话'
+        viewDialog: '查看对话',
+        menu: '菜单'
     },
     preview: {
         originSize: '原始大小',
@@ -115,6 +116,8 @@ export default {
         likeCount: '点赞',
         commentCount: '评论',
         reply: '回复',
+        edit: '编辑',
+        delete: '删除',
         just: '刚刚',
         minuetsAgo: '分钟前',
         hoursAgo: '小时前',

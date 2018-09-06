@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import Comments, { CommentApi } from '@/common/api/comments';
 import Utils from '@/common/utils';
 export default {
@@ -38,9 +38,6 @@ export default {
         };
     },
     computed: {
-        ...mapState({
-            identity: 'identity'
-        }),
         ...mapGetters({
             hasIdentity: 'hasIdentity'
         })

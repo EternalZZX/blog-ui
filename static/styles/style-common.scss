@@ -144,11 +144,29 @@
 }
 
 .el-popper {
+    border-radius: $radiusTiny;
+
+    &[x-placement^=top],
     &[x-placement^=bottom] {
-        margin-top: .5rem;
         padding: 0;
         box-shadow: none;
         border: $darkBorder;
+    }
+
+    &[x-placement^=top] {
+        margin-bottom: .5rem;
+
+        .popper__arrow {
+            border-top-color: $darkBorderColor;
+        }
+
+        .popper__arrow::after {
+            border-top-color: $dropdownBackground;
+        }
+    }
+
+    &[x-placement^=bottom] {
+        margin-top: .5rem;
 
         .popper__arrow {
             border-bottom-color: $darkBorderColor;
@@ -168,8 +186,13 @@
         border-bottom: $splitBorder;
         user-select: none;
 
+        &:first-of-type {
+            border-radius: .1rem .1rem 0 0;
+        }
+
         &:last-of-type {
             border-bottom: none;
+            border-radius: 0 0 .1rem .1rem;
         }
 
         &:focus, &:not(.is-disabled):hover {
