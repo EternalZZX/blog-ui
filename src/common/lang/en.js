@@ -116,6 +116,7 @@ export default {
         readCount: 'Read',
         likeCount: 'Like',
         commentCount: 'Comments',
+        reply: 'reply',
         just: 'Just now',
         minuetsAgo: 'm ago',
         hoursAgo: 'h ago',

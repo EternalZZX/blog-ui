@@ -1,10 +1,23 @@
 <template>
-    <div class="et-user" :class="{ 'dark': theme === 'dark' }">
+    <div class="et-user" :class="{
+            'et-user_reply': reply,
+            'et-user_dark': theme === 'dark'
+        }">
         <img class="et-user__avatar" :src="avatar" :title="user.nick">
         <div class="et-user__info">
-            <span class="et-user__nick" :title="user.nick">
-                {{ user.nick | none }}
-            </span>
+            <div class="et-user__nick-wrapper">
+                <span class="et-user__nick" :title="user.nick">
+                    {{ user.nick | none }}
+                </span>
+                <template v-if="reply">
+                    <span class="et-user__reply">
+                        {{ $t("common.reply") }}
+                    </span>
+                    <span class="et-user__nick" :title="reply.nick">
+                        {{ reply.nick | none }}
+                    </span>
+                </template>
+            </div>
             <span v-if="subtitle"
                 class="et-user__remark"
                 :title="subtitle">
@@ -34,6 +47,12 @@ export default {
                 };
             },
             required: true
+        },
+        reply: {
+            type: Object,
+            default () {
+                return null;
+            }
         },
         subtitle: {
             type: String,
@@ -96,18 +115,31 @@ export default {
         padding: 0 $spaceSmall;
     }
 
-    .et-user__nick {
-        display: block;
-        max-width: 100%;
-        font-size: $subtitleFontSize;
-        font-weight: $titleFontWeight;
-        line-height: $userHeight / 2;
-        color: $contentColor;
-        cursor: pointer;
-        @extend %text-overview;
+    .et-user__nick-wrapper {
+        display: flex;
+        height: $userHeight / 2;
 
-        &:hover {
+        .et-user__nick {
+            display: inline-block;
+            max-width: 100%;
+            font-size: $subtitleFontSize;
+            font-weight: $titleFontWeight;
+            line-height: $userHeight / 2;
+            color: $contentColor;
+            cursor: pointer;
+            @extend %text-overview;
+        }
+
+        .et-user__nick:hover {
             color: $subThemeColor;
+        }
+
+        .et-user__reply {
+            display: inline-block;
+            padding: 0 $spaceSmall;
+            font-size: $subtitleFontSize;
+            line-height: $userHeight / 2;
+            color: $descriptionColor;
         }
     }
 
@@ -120,7 +152,15 @@ export default {
         @extend %text-overview;
     }
 
-    &.dark {
+    &.et-user_reply {
+        width: auto;
+
+        .et-user__info {
+            width: auto;
+        }
+    }
+
+    &.et-user_dark {
         .et-user__nick {
             color: #fff;
         }

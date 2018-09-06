@@ -114,6 +114,7 @@ export default {
         readCount: '阅读',
         likeCount: '点赞',
         commentCount: '评论',
+        reply: '回复',
         just: '刚刚',
         minuetsAgo: '分钟前',
         hoursAgo: '小时前',

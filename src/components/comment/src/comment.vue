@@ -2,7 +2,8 @@
     <div class="et-comment">
         <div class="et-comment__header">
             <et-user :user="data.author"
-                :subtitle="data.create_at">
+                :subtitle="data.create_at"
+                :reply="data.reply_user">
             </et-user>
         </div>
         <div class="et-comment__body">
@@ -27,7 +28,7 @@
                 <div class="et-comment__button et-comment__button_hide"
                     :title="$t('comment.reply')">
                     <i class="et-icon ei-reply"></i>
-                    {{ $t("comment.reply") }}
+                    <span>{{ $t("comment.reply") }}</span>
                 </div>
                 <div class="et-comment__button et-comment__button_hide"
                     :title="$t('comment.dislike')">
@@ -35,7 +36,7 @@
                         :class="data.is_like_user === LIKE_TYPE.DISLIKE ?
                             'ei-oppose-fill' : 'ei-oppose'">
                     </i>
-                    {{ $t("comment.dislike") }}
+                    <span>{{ $t("comment.dislike") }}</span>
                 </div>
             </div>
         </div>
@@ -100,6 +101,7 @@ export default {
     margin-bottom: $spaceLarge;
 
     .et-comment__header {
+        display: flex;
         height: $userHeight;
     }
 
@@ -147,6 +149,12 @@ export default {
         .et-comment__panel .et-comment__button .et-icon {
             font-size: $iconFontSizeSmall;
             vertical-align: middle;
+        }
+
+        @include max-screen($phoneMaxWidth) {
+            .et-comment__panel .et-comment__button > span {
+                display: none;
+            }
         }
     }
 }

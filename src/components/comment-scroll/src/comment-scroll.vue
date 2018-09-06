@@ -12,9 +12,9 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
 import Comments, { CommentApi } from '@/common/api/comments';
 import Utils from '@/common/utils';
-import { mapState, mapGetters } from 'vuex';
 export default {
     name: 'EtCommentScroll',
     props: {
