@@ -66,6 +66,13 @@ export default {
             error: 'Upload photo failed!'
         }
     },
+    comment: {
+        like: 'Upvote',
+        dislike: 'Downvote',
+        reply: 'Reply',
+        dialog: 'Dialog',
+        viewDialog: 'View conversation'
+    },
     preview: {
         originSize: 'Origin Size',
         zoomIn: 'Zoom In',

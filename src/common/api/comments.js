@@ -37,7 +37,6 @@ class CommentApi extends BaseRequest {
         const args = {
             resource_type: resourceType,
             resource_uuid: resourceUuid,
-            order_field: 'create_at',
             ...params
         };
         return super.get(this.url, {
@@ -59,6 +58,12 @@ CommentApi.RESOURCE_TYPE = {
     ARTICLE: 0,
     ALBUM: 1,
     PHOTO: 2
+};
+
+CommentApi.LIKE_TYPE = {
+    NONE: 0,
+    LIKE: 1,
+    DISLIKE: 2
 };
 
 export { CommentApi };

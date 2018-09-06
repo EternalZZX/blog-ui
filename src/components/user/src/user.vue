@@ -97,10 +97,11 @@ export default {
     }
 
     .et-user__nick {
-        display: inline-block;
+        display: block;
         max-width: 100%;
         font-size: $subtitleFontSize;
         font-weight: $titleFontWeight;
+        line-height: $userHeight / 2;
         color: $contentColor;
         cursor: pointer;
         @extend %text-overview;
@@ -115,6 +116,7 @@ export default {
         width: 100%;
         color: $descriptionColor;
         font-size: $descriptionFontSize;
+        line-height: $userHeight / 2;
         @extend %text-overview;
     }
 

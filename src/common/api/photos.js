@@ -100,6 +100,12 @@ PhotoApi.PRIVACY = {
     PUBLIC: 1
 };
 
+PhotoApi.LIKE_TYPE = {
+    NONE: 0,
+    LIKE: 1,
+    DISLIKE: 2
+};
+
 export { PhotoApi };
 
 export default new PhotoApi();

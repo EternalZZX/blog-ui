@@ -66,6 +66,13 @@ export default {
             error: '上传图片失败!'
         }
     },
+    comment: {
+        like: '赞',
+        dislike: '踩',
+        reply: '回复',
+        dialog: '查看对话',
+        viewDialog: '查看对话'
+    },
     preview: {
         originSize: '原始大小',
         zoomIn: '放大',

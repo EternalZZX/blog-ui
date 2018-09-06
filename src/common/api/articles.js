@@ -48,6 +48,12 @@ ArticleApi.PRIVACY = {
     PUBLIC: 1
 };
 
+ArticleApi.LIKE_TYPE = {
+    NONE: 0,
+    LIKE: 1,
+    DISLIKE: 2
+};
+
 export { ArticleApi };
 
 export default new ArticleApi();

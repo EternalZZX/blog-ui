@@ -59,6 +59,12 @@ AlbumApi.SYSTEM = {
     ARTICLE_COVER_ALBUM: 3
 };
 
+AlbumApi.LIKE_TYPE = {
+    NONE: 0,
+    LIKE: 1,
+    DISLIKE: 2
+};
+
 export { AlbumApi };
 
 export default new AlbumApi();
