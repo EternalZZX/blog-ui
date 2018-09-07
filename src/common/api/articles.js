@@ -54,6 +54,11 @@ ArticleApi.LIKE_TYPE = {
     DISLIKE: 2
 };
 
+ArticleApi.LIKE_OPERATE = {
+    LIKE: 1,
+    DISLIKE: 0
+};
+
 export { ArticleApi };
 
 export default new ArticleApi();

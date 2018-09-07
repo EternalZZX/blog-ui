@@ -28,7 +28,8 @@
             </div>
             <div class="et-comment__panel">
                 <button class="et-comment__button"
-                    :title="$t('comment.like')">
+                    :title="$t('comment.like')"
+                    @click="upvoteComment">
                     <i class="et-icon"
                         :class="data.is_like_user === LIKE_TYPE.LIKE ?
                             'ei-appreciate-fill' : 'ei-appreciate'">
@@ -48,7 +49,8 @@
                     <span>{{ $t("comment.reply") }}</span>
                 </button>
                 <button class="et-comment__button et-comment__button_hide"
-                    :title="$t('comment.dislike')">
+                    :title="$t('comment.dislike')"
+                    @click="downvoteComment">
                     <i class="et-icon"
                         :class="data.is_like_user === LIKE_TYPE.DISLIKE ?
                             'ei-oppose-fill' : 'ei-oppose'">
@@ -63,7 +65,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import sanitizeHtml from 'sanitize-html';
-import { CommentApi } from '@/common/api/comments';
+import Common from '@/common/common';
+import Utils from '@/common/utils';
+import Comments, { CommentApi } from '@/common/api/comments';
 export default {
     name: 'EtComment',
     props: {
@@ -77,6 +81,9 @@ export default {
                 };
             },
             required: true
+        },
+        index: {
+            type: Number
         }
     },
     computed: {
@@ -120,6 +127,28 @@ export default {
         },
         deleteComment () {
             // Todo
+        },
+        upvoteComment () {
+            Comments.upvote(this.data.uuid).then(response => {
+                this.updateView(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'COMMENT-UPDATE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
+        downvoteComment () {
+            Comments.downvote(this.data.uuid).then(response => {
+                this.updateView(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'COMMENT-UPDATE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
+        updateView (data) {
+            this.$emit('update', {
+                comment: data,
+                index: this.index
+            });
         },
         handleCommand (command) {
             const operate = {

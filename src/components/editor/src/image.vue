@@ -212,7 +212,9 @@ export default {
                 content.onSuccess(response);
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-CREATE');
-                Common.notify(this.$t('photo.create.error'), 'error', true);
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('photo.create.error')
+                ), 'error', true);
                 content.onError(err);
             });
         },

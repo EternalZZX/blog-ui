@@ -3,9 +3,11 @@
         <et-editor v-model="content"></et-editor>
         <et-scroll ref="scroll"
             @more="loadMore">
-            <et-comment v-for="comment in dataList"
+            <et-comment v-for="(comment, index) in dataList"
                 :key="comment.uuid"
-                :data="comment">
+                :index="index"
+                :data="comment"
+                @update="updateComment">
             </et-comment>
         </et-scroll>
     </div>
@@ -64,6 +66,9 @@ export default {
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-LIST');
             });
+        },
+        updateComment (data) {
+            this.dataList.splice(data.index, 1, data.comment);
         }
     }
 };

@@ -65,6 +65,11 @@ AlbumApi.LIKE_TYPE = {
     DISLIKE: 2
 };
 
+AlbumApi.LIKE_OPERATE = {
+    LIKE: 1,
+    DISLIKE: 0
+};
+
 export { AlbumApi };
 
 export default new AlbumApi();

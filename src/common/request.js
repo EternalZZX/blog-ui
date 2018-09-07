@@ -1,6 +1,7 @@
 import axios from 'axios';
 import qs from 'query-string';
 import Utils from '@/common/utils';
+import Bus, { EVENT } from '@/common/bus';
 import SETTING from '@/setting';
 
 class BaseRequest {
@@ -11,6 +12,10 @@ class BaseRequest {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
             transformResponse: [response => response.data],
+            validateStatus (status) {
+                [401, 418, 419].indexOf(status) !== -1 && Bus.$emit(EVENT.TOKEN_TIMEOUT);
+                return status >= 200 && status < 300;
+            },
             maxContentLength: 300000,
             responseType: 'json'
         });

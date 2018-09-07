@@ -82,6 +82,11 @@ export default {
     },
     request: {
         errorRequest: 'Request error!',
+        errorPermission: 'You do not have permission to perform this operation!',
+        errorNotFound: 'The resource does not exist!',
+        errorDuplicate: 'The resource for this name already exists!',
+        errorServer: 'Server error!',
+        errorToken: 'Authentication information has expired!',
         errorConnection: 'Failed to connect to the server!'
     },
     validate: {

@@ -103,6 +103,22 @@ class Utils {
         console.log(message);
     }
 
+    static errorMessage (err, defaultMessage = i18n.t('request.errorRequest')) {
+        const dict = {
+            400: defaultMessage,
+            401: i18n.t('request.errorToken'),
+            403: i18n.t('request.errorPermission'),
+            404: i18n.t('request.errorNotFound'),
+            405: i18n.t('request.errorRequest'),
+            409: i18n.t('request.errorDuplicate'),
+            418: i18n.t('request.errorToken'),
+            419: i18n.t('request.errorToken'),
+            500: i18n.t('request.errorServer'),
+            503: i18n.t('request.errorServer')
+        };
+        return dict[err.response.status] || defaultMessage;
+    }
+
     static formatNone (str) {
         const items = ['', null, undefined];
         if (items.indexOf(str) !== -1) {

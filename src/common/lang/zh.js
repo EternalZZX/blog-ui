@@ -81,7 +81,12 @@ export default {
         exitPreview: '退出预览'
     },
     request: {
-        errorRequest: '请求错误!',
+        errorRequest: '操作请求发生错误!',
+        errorPermission: '您没有进行该操作的权限!',
+        errorNotFound: '该资源已不存在!',
+        errorDuplicate: '该名称的资源已存在!',
+        errorServer: '服务器发生错误!',
+        errorToken: '认证信息已失效!',
         errorConnection: '连接服务器失败!'
     },
     validate: {

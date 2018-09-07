@@ -44,6 +44,20 @@ class CommentApi extends BaseRequest {
             ...config
         });
     }
+
+    upvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: CommentApi.LIKE_OPERATE.LIKE,
+            ...data
+        }, config);
+    }
+
+    downvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: CommentApi.LIKE_OPERATE.DISLIKE,
+            ...data
+        }, config);
+    }
 }
 
 CommentApi.STATUS = {
@@ -64,6 +78,11 @@ CommentApi.LIKE_TYPE = {
     NONE: 0,
     LIKE: 1,
     DISLIKE: 2
+};
+
+CommentApi.LIKE_OPERATE = {
+    LIKE: 1,
+    DISLIKE: 0
 };
 
 export { CommentApi };

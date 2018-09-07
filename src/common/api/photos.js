@@ -106,6 +106,11 @@ PhotoApi.LIKE_TYPE = {
     DISLIKE: 2
 };
 
+PhotoApi.LIKE_OPERATE = {
+    LIKE: 1,
+    DISLIKE: 0
+};
+
 export { PhotoApi };
 
 export default new PhotoApi();
