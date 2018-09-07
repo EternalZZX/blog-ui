@@ -54,7 +54,7 @@ export default {
 
     .et-load-scroll__line {
         position: relative;
-        margin-top: -.3rem;
+        margin: 0;
         text-align: center;
         font-size: $descriptionFontSize;
         color: $loadingColor;

@@ -26,7 +26,7 @@
             <div class="et-comment__content et-writing ql-editor"
                 v-html="content">
             </div>
-            <div class="et-comment__panel">
+            <div v-if="!replyShow" class="et-comment__panel">
                 <button class="et-comment__button"
                     :title="$t('comment.like')"
                     @click="upvoteComment">
@@ -44,6 +44,7 @@
                 </button>
                 <button class="et-comment__button et-comment__button_hide"
                     :title="$t('comment.reply')"
+                    @click="replyShow = true"
                     v-if="!isAuthor">
                     <i class="et-icon ei-reply"></i>
                     <span>{{ $t("comment.reply") }}</span>
@@ -57,6 +58,23 @@
                     </i>
                     <span>{{ $t("comment.dislike") }}</span>
                 </button>
+            </div>
+            <div v-else class="et-comment__reply">
+                <et-editor v-model="replyContent"
+                    :placeholder="$t('comment.replyUser', {
+                        name: data.author.nick
+                    })"
+                    type="simple">
+                </et-editor>
+                <div class="et-comment__reply-panel">
+                    <el-button @click="replyShow = false">
+                        {{ $t("common.cancel") }}
+                    </el-button>
+                    <el-button type="primary"
+                        @click="replyComment">
+                        {{ $t("comment.reply") }}
+                    </el-button>
+                </div>
             </div>
         </div>
     </div>
@@ -85,6 +103,12 @@ export default {
         index: {
             type: Number
         }
+    },
+    data () {
+        return {
+            replyContent: '',
+            replyShow: false
+        };
     },
     computed: {
         ...mapGetters({
@@ -128,11 +152,14 @@ export default {
         deleteComment () {
             // Todo
         },
+        replyComment () {
+            this.replyShow = true;
+        },
         upvoteComment () {
             Comments.upvote(this.data.uuid).then(response => {
                 this.updateView(response.data);
             }).catch(err => {
-                Utils.errorLog(err, 'COMMENT-UPDATE');
+                Utils.errorLog(err, 'COMMENT-UPVOTE');
                 Common.notify(Utils.errorMessage(err), 'error');
             });
         },
@@ -140,7 +167,7 @@ export default {
             Comments.downvote(this.data.uuid).then(response => {
                 this.updateView(response.data);
             }).catch(err => {
-                Utils.errorLog(err, 'COMMENT-UPDATE');
+                Utils.errorLog(err, 'COMMENT-DOWNVOTE');
                 Common.notify(Utils.errorMessage(err), 'error');
             });
         },
@@ -192,7 +219,10 @@ export default {
         }
 
         /deep/ .et-comment__content.et-writing.ql-editor,
-        /deep/ .et-comment__content.et-writing.ql-editor * {
+        /deep/ .et-comment__content.et-writing.ql-editor *,
+        /deep/ .et-comment__reply .ql-editor,
+        /deep/ .et-comment__reply .ql-editor *,
+        /deep/ .et-comment__reply .ql-editor.ql-blank:before {
             font-size: $subtitleFontSize;
         }
 
@@ -213,6 +243,18 @@ export default {
             .et-comment__panel .et-comment__button > span {
                 display: none;
             }
+        }
+    }
+
+    .et-comment__reply {
+        .et-comment__reply-panel {
+            display: flex;
+            justify-content: flex-end;
+            padding: $spaceSmall 0;
+        }
+
+        .et-comment__reply-panel .el-button {
+            width: 4rem;
         }
     }
 

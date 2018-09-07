@@ -70,6 +70,7 @@ export default {
         like: 'Upvote',
         dislike: 'Downvote',
         reply: 'Reply',
+        replyUser: 'Reply {name}...',
         dialog: 'Dialog',
         viewDialog: 'View conversation',
         menu: 'Menu'

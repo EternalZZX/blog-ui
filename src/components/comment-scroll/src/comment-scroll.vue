@@ -1,6 +1,8 @@
 <template>
     <div class="et-comment-scroll">
-        <et-editor v-model="content"></et-editor>
+        <et-editor v-model="content"
+            class="et-comment-scroll__editor">
+        </et-editor>
         <et-scroll ref="scroll"
             @more="loadMore">
             <et-comment v-for="(comment, index) in dataList"
@@ -81,5 +83,13 @@ export default {
     padding: $spaceLarge;
     border-radius: $radiusSmall;
     background-color: $commentBackground;
+
+    .et-comment-scroll__editor {
+        margin-bottom: $spaceLarge;
+    }
+
+    /deep/ .et-load-scroll > .et-comment:nth-last-child(2) {
+        margin-bottom: 0;
+    }
 }
 </style>

@@ -70,6 +70,7 @@ export default {
         like: '赞',
         dislike: '踩',
         reply: '回复',
+        replyUser: '回复{name}...',
         dialog: '查看对话',
         viewDialog: '查看对话',
         menu: '菜单'

@@ -1,9 +1,10 @@
 <template>
-    <div class="et-editor">
+    <div class="et-editor"
+        :class="{'et-editor_simple': type === 'simple'}">
         <quill-editor ref="editor"
             v-model="content"
             :options="editorOption">
-            <div id="toolbar" slot="toolbar" v-if="type === 'normal'">
+            <div :id="toolbarId" slot="toolbar" v-if="type === 'normal'">
                 <transition enter-active-class="animated flipInX">
                     <div class="et-editor__toolbar" v-show="toolbarMainShow">
                         <div class="et-editor__button-group">
@@ -88,7 +89,7 @@
                     </div>
                 </transition>
             </div>
-            <div slot="toolbar" id="toolbar" class="hide" v-else></div>
+            <div :id="toolbarId" slot="toolbar" class="hide" v-else></div>
         </quill-editor>
 
         <et-editor-link
@@ -112,6 +113,7 @@ import EtTheme, { Range } from '../themes/theme';
 import { quillEditor } from 'vue-quill-editor';
 import EtEditorLink from './link';
 import EtEditorImage from './image';
+import Utils from '@/common/utils';
 Quill.register('themes/et-theme', EtTheme);
 const LinkBlot = Quill.import('formats/link');
 export default {
@@ -147,24 +149,10 @@ export default {
     data () {
         return {
             editor: null,
+            toolbarId: '',
             content: '',
             format: {},
-            editorOption: {
-                formats: this.type === 'simple' ? [] : ['bold',
-                    'italic', 'header', 'list', 'indent', 'align',
-                    'blockquote', 'code-block', 'link', 'image'],
-                modules: {
-                    toolbar: {
-                        container: '#toolbar',
-                        handlers: {
-                            link: this.linkHandler,
-                            image: this.imageHandler
-                        }
-                    }
-                },
-                theme: 'et-theme',
-                placeholder: this.placeholder || this.$t('editor.placeholder')
-            },
+            editorOption: {},
             toolbarMainShow: true,
             toolbarAdditionShow: false,
             link: null,
@@ -179,6 +167,25 @@ export default {
         content (val) {
             this.$emit('change', val);
         }
+    },
+    beforeMount () {
+        this.toolbarId = `toolbar-${Utils.randString()}`;
+        this.editorOption = {
+            formats: this.type === 'simple' ? [] : ['bold',
+                'italic', 'header', 'list', 'indent', 'align',
+                'blockquote', 'code-block', 'link', 'image'],
+            modules: {
+                toolbar: {
+                    container: `#${this.toolbarId}`,
+                    handlers: {
+                        link: this.linkHandler,
+                        image: this.imageHandler
+                    }
+                }
+            },
+            theme: 'et-theme',
+            placeholder: this.placeholder || this.$t('editor.placeholder')
+        };
     },
     mounted () {
         this.editor = this.$refs.editor.quill;
@@ -250,8 +257,6 @@ export default {
 
 .et-editor {
     width: 100%;
-    height: 10rem;
-    margin-bottom: $spaceLarge;
 
     /deep/ .quill-editor {
         height: calc(100% - 2.3rem);
@@ -344,6 +349,24 @@ export default {
             color: $placeholderColor;
             font-size: $contentFontSize;
             font-style: normal;
+        }
+    }
+
+    &.et-editor_simple {
+        /deep/ .ql-editor {
+            padding: $spaceSmall;
+        }
+
+        /deep/ .ql-editor.ql-blank:before {
+            top: $spaceSmall;
+            left: $spaceSmall + .1rem;
+        }
+
+        /deep/ .ql-container.ql-snow {
+            border-right: $splitBorder;
+            border-left: $splitBorder;
+            border-radius: $radiusTiny;
+            background-color: #fff;
         }
     }
 }
