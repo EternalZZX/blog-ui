@@ -305,8 +305,8 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
 .et-main {
     width: 100%;
-    padding-top: $headerHeight;
-    padding-bottom: $footerHeight;
+    margin-top: $headerHeight;
+    margin-bottom: $footerHeight;
     background: $mainBackground;
 
     .et-main__inner {

@@ -73,7 +73,10 @@ export default {
         replyUser: '回复{name}...',
         dialog: '查看对话',
         viewDialog: '查看对话',
-        menu: '菜单'
+        menu: '菜单',
+        create: {
+            success: '发布评论成功!'
+        }
     },
     preview: {
         originSize: '原始大小',

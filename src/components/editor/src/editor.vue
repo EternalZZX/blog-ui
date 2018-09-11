@@ -164,10 +164,10 @@ export default {
     },
     watch: {
         value: {
-          handler (val) {
-            this.content = val;
-          },
-          immediate: true
+            handler (val) {
+                this.content = val;
+            },
+            immediate: true
         },
         content (val) {
             this.$emit('change', val);

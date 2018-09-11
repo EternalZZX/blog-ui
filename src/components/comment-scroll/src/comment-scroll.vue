@@ -9,6 +9,7 @@
                 :key="comment.uuid"
                 :index="index"
                 :data="comment"
+                @create="init"
                 @update="updateComment">
             </et-comment>
         </et-scroll>
@@ -47,6 +48,11 @@ export default {
         })
     },
     methods: {
+        init () {
+            this.dataList = [];
+            this.params.page = 1;
+            this.$refs.scroll.reset();
+        },
         loadMore (state) {
             if (!this.hasIdentity) {
                 state.complete();

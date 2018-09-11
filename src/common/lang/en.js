@@ -73,7 +73,10 @@ export default {
         replyUser: 'Reply {name}...',
         dialog: 'Dialog',
         viewDialog: 'View conversation',
-        menu: 'Menu'
+        menu: 'Menu',
+        create: {
+            success: 'Comment post successfully!'
+        }
     },
     preview: {
         originSize: 'Origin Size',

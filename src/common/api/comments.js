@@ -45,6 +45,17 @@ class CommentApi extends BaseRequest {
         });
     }
 
+    reply (content, resourceUuid, resourceType, replyUuid = null, data = {}, config = {}) {
+        const args = {
+            content,
+            resource_uuid: resourceUuid,
+            resource_type: resourceType,
+            ...data
+        };
+        replyUuid && (args.reply_uuid = replyUuid);
+        return super.post(this.url, args, config);
+    }
+
     upvote (uuid, data = {}, config = {}) {
         return super.put(`${this.url}${uuid}/`, {
             like_operate: CommentApi.LIKE_OPERATE.LIKE,

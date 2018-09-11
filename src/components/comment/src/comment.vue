@@ -36,7 +36,7 @@
                     </i>
                     {{ data.metadata.like_count | count }}
                 </button>
-                <button v-if="data.metadata.comment_count"
+                <button v-if="data.dialog_uuid"
                     class="et-comment__button"
                     :title="$t('comment.viewDialog')">
                     <i class="et-icon ei-talk"></i>
@@ -154,7 +154,19 @@ export default {
             // Todo
         },
         replyComment () {
-            this.replyShow = false;
+            Comments.reply(
+                this.replyContent,
+                this.data.resource_uuid,
+                this.data.resource_type,
+                this.data.uuid
+            ).then(response => {
+                this.replyShow = false;
+                this.$emit('create', response.data);
+                Common.notify(this.$t('comment.create.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'COMMENT-REPLY');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
         },
         upvoteComment () {
             Comments.upvote(this.data.uuid).then(response => {
