@@ -118,7 +118,7 @@ export default {
         },
         close () {
             this.selectPhotos = [];
-            this.restoreFocus();
+            this.$emit('restore-focus');
             this.closeDialog();
         },
         submit () {
@@ -217,11 +217,6 @@ export default {
                 ), 'error', true);
                 content.onError(err);
             });
-        },
-        restoreFocus () {
-            const scrollTop = this.editor.scrollingContainer.scrollTop;
-            this.editor.focus();
-            this.editor.scrollingContainer.scrollTop = scrollTop;
         },
         insertImage (url) {
             const selection = this.editor.getSelection(true);

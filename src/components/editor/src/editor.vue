@@ -95,12 +95,14 @@
         <et-editor-link
             :show.sync="insertLinkShow"
             :editor="editor"
-            :link="link">
+            :link="link"
+            @restore-focus="restoreFocus">
         </et-editor-link>
 
         <et-editor-image
             :show.sync="insertImageShow"
-            :editor="editor">
+            :editor="editor"
+            @restore-focus="restoreFocus">
         </et-editor-image>
     </div>
 </template>
@@ -233,6 +235,11 @@ export default {
         },
         redoHandler () {
             this.editor.history.redo();
+        },
+        restoreFocus () {
+            const scrollTop = this.editor.scrollingContainer.scrollTop;
+            this.editor.focus();
+            this.editor.scrollingContainer.scrollTop = scrollTop;
         },
         triggerToolbar (type) {
             const val = type === 'addition';

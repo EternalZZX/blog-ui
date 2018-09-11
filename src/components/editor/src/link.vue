@@ -96,7 +96,7 @@ export default {
                 text: '',
                 url: ''
             };
-            this.restoreFocus();
+            this.$emit('restore-focus');
             this.closeDialog();
         },
         submit () {
@@ -125,11 +125,6 @@ export default {
                     this.$refs.url.focus() :
                     this.$refs.text.focus();
             });
-        },
-        restoreFocus () {
-            const scrollTop = this.editor.scrollingContainer.scrollTop;
-            this.editor.focus();
-            this.editor.scrollingContainer.scrollTop = scrollTop;
         },
         insertLink (index, text, url) {
             this.editor.insertText(

@@ -44,7 +44,7 @@
                 </button>
                 <button class="et-comment__button et-comment__button_hide"
                     :title="$t('comment.reply')"
-                    @click="replyShow = true"
+                    @click="reply"
                     v-if="!isAuthor">
                     <i class="et-icon ei-reply"></i>
                     <span>{{ $t("comment.reply") }}</span>
@@ -60,7 +60,8 @@
                 </button>
             </div>
             <div v-else class="et-comment__reply">
-                <et-editor v-model="replyContent"
+                <et-editor ref="editor"
+                    v-model="replyContent"
                     :placeholder="$t('comment.replyUser', {
                         name: data.author.nick
                     })"
@@ -153,7 +154,7 @@ export default {
             // Todo
         },
         replyComment () {
-            this.replyShow = true;
+            this.replyShow = false;
         },
         upvoteComment () {
             Comments.upvote(this.data.uuid).then(response => {
@@ -169,6 +170,12 @@ export default {
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-DOWNVOTE');
                 Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
+        reply () {
+            this.replyShow = true;
+            this.$nextTick(() => {
+                this.$refs.editor.restoreFocus();
             });
         },
         updateView (data) {
