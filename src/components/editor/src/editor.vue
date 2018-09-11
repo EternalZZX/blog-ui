@@ -163,8 +163,11 @@ export default {
         };
     },
     watch: {
-        value (val) {
+        value: {
+          handler (val) {
             this.content = val;
+          },
+          immediate: true
         },
         content (val) {
             this.$emit('change', val);
