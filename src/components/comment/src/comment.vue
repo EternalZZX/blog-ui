@@ -161,6 +161,7 @@ export default {
                 this.data.uuid
             ).then(response => {
                 this.replyShow = false;
+                this.replyContent = '';
                 this.$emit('create', response.data);
                 Common.notify(this.$t('comment.create.success'), 'success');
             }).catch(err => {
