@@ -137,7 +137,7 @@ export default {
             this.$refs.scroll && this.$refs.scroll.reset();
         },
         loadMore (state) {
-            if (!this.hasIdentity) {
+            if (!this.show || !this.hasIdentity) {
                 state.complete();
                 return;
             }

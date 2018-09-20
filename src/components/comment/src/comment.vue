@@ -5,7 +5,7 @@
                 :subtitle="data.create_at"
                 :reply="data.reply_user">
             </et-user>
-            <el-dropdown v-if="isAuthor"
+            <el-dropdown v-if="type === 'normal' && isAuthor"
                 trigger="click"
                 @command="handleCommand">
                 <button class="et-comment__button"
@@ -36,16 +36,18 @@
                     </i>
                     {{ data.metadata.like_count | count }}
                 </button>
-                <button v-if="data.dialog_uuid"
-                    class="et-comment__button"
-                    :title="$t('comment.viewDialog')">
+                <button class="et-comment__button"
+                    :title="$t('comment.viewDialog')"
+                    @click="viewDialog"
+                    v-if="type === 'normal' &&
+                        (data.metadata.comment_count || data.dialog_uuid)">
                     <i class="et-icon ei-talk"></i>
                     {{ $t("comment.dialog") }}
                 </button>
                 <button class="et-comment__button et-comment__button_hide"
                     :title="$t('comment.reply')"
                     @click="reply"
-                    v-if="!isAuthor">
+                    v-if="type === 'normal' && !isAuthor">
                     <i class="et-icon ei-reply"></i>
                     <span>{{ $t("comment.reply") }}</span>
                 </button>
@@ -101,6 +103,16 @@ export default {
                 };
             },
             required: true
+        },
+        type: {
+            type: String,
+            default: 'normal',
+            validator (val) {
+                return [
+                    'normal',
+                    'simple'
+                ].indexOf(val) !== -1;
+            }
         },
         index: {
             type: Number
@@ -190,6 +202,9 @@ export default {
                 Utils.errorLog(err, 'COMMENT-DOWNVOTE');
                 Common.notify(Utils.errorMessage(err), 'error');
             });
+        },
+        viewDialog () {
+            this.$emit('view-dialog', this.data);
         },
         reply () {
             Bus.$emit(EVENT.REPLY_TRIGGER);

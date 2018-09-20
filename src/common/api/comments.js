@@ -45,6 +45,32 @@ class CommentApi extends BaseRequest {
         });
     }
 
+    listReplyComments (resourceType, resourceUuid, replyUuid, params = {}, config = {}) {
+        const args = {
+            resource_type: resourceType,
+            resource_uuid: resourceUuid,
+            reply_uuid: replyUuid,
+            ...params
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
+
+    listDialogComments (resourceType, resourceUuid, dialogUuid, params = {}, config = {}) {
+        const args = {
+            resource_type: resourceType,
+            resource_uuid: resourceUuid,
+            dialog_uuid: dialogUuid,
+            ...params
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
+
     reply (content, resourceUuid, resourceType, replyUuid = null, data = {}, config = {}) {
         const args = {
             content,

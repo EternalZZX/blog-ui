@@ -10,9 +10,16 @@
                 :index="index"
                 :data="comment"
                 @create="init"
-                @update="updateComment">
+                @update="updateComment"
+                @view-dialog="viewDialog">
             </et-comment>
         </et-scroll>
+
+        <et-comment-dialog
+            :show.sync="dialogShow"
+            :dialog-comment="dialogComment"
+            @update="updateComment">
+        </et-comment-dialog>
     </div>
 </template>
 
@@ -20,8 +27,12 @@
 import { mapGetters } from 'vuex';
 import Comments, { CommentApi } from '@/common/api/comments';
 import Utils from '@/common/utils';
+import EtCommentDialog from './comment-dialog';
 export default {
     name: 'EtCommentScroll',
+    components: {
+        EtCommentDialog
+    },
     props: {
         resourceType: {
             type: Number,
@@ -39,7 +50,9 @@ export default {
             params: {
                 page: 1,
                 page_size: 10
-            }
+            },
+            dialogComment: null,
+            dialogShow: false
         };
     },
     computed: {
@@ -76,7 +89,16 @@ export default {
             });
         },
         updateComment (data) {
-            this.dataList.splice(data.index, 1, data.comment);
+            if (data.index) {
+                this.dataList.splice(data.index, 1, data.comment);
+            } else {
+                const index = this.dataList.findIndex(item => item.uuid === data.uuid);
+                index !== -1 && this.dataList.splice(index, 1, data);
+            }
+        },
+        viewDialog (data) {
+            this.dialogComment = data;
+            this.dialogShow = true;
         }
     }
 };
