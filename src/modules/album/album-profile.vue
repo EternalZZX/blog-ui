@@ -126,7 +126,9 @@ export default {
         }
     },
     mounted () {
-        this.$root.Bus.$on(EVENT.IDENTITY_REFRESH, this.init);
+        this.$root.Bus.$on(EVENT.IDENTITY_REFRESH, () => {
+            !this._inacitve && this.init();
+        });
     },
     methods: {
         init (loadType) {

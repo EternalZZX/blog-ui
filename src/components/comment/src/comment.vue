@@ -68,7 +68,7 @@
                     type="simple">
                 </et-editor>
                 <div class="et-comment__reply-panel">
-                    <el-button @click="replyShow = false">
+                    <el-button @click="replyCancel">
                         {{ $t("common.cancel") }}
                     </el-button>
                     <el-button type="primary"
@@ -86,6 +86,7 @@ import { mapGetters } from 'vuex';
 import sanitizeHtml from 'sanitize-html';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
+import Bus, { EVENT } from '@/common/bus';
 import Comments, { CommentApi } from '@/common/api/comments';
 export default {
     name: 'EtComment',
@@ -146,6 +147,11 @@ export default {
             return CommentApi.LIKE_TYPE;
         }
     },
+    mounted () {
+        this.$root.Bus.$on(EVENT.REPLY_TRIGGER, () => {
+            !this._inacitve && this.replyCancel();
+        });
+    },
     methods: {
         updateComment () {
             // Todo
@@ -186,10 +192,14 @@ export default {
             });
         },
         reply () {
+            Bus.$emit(EVENT.REPLY_TRIGGER);
             this.replyShow = true;
             this.$nextTick(() => {
                 this.$refs.editor.restoreFocus();
             });
+        },
+        replyCancel () {
+            this.replyShow = false;
         },
         updateView (data) {
             this.$emit('update', {

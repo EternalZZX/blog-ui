@@ -108,7 +108,9 @@ export default {
         };
     },
     mounted () {
-        this.$root.Bus.$on(EVENT.TOKEN_REFRESH, this.init);
+        this.$root.Bus.$on(EVENT.TOKEN_REFRESH, () => {
+            !this._inacitve && this.init();
+        });
     },
     methods: {
         init () {
