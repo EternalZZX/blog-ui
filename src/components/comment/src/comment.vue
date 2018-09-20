@@ -22,7 +22,24 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
-        <div class="et-comment__body">
+        <div class="et-comment__body" v-if="editShow">
+            <div class="et-comment__edit">
+                <et-editor ref="editor"
+                    v-model="editContent"
+                    type="simple">
+                </et-editor>
+                <div class="et-comment__edit-panel">
+                    <el-button @click="editCancel">
+                        {{ $t("common.cancel") }}
+                    </el-button>
+                    <el-button type="primary"
+                        @click="updateComment">
+                        {{ $t("common.save") }}
+                    </el-button>
+                </div>
+            </div>
+        </div>
+        <div class="et-comment__body" v-else>
             <div class="et-comment__content et-writing ql-editor"
                 v-html="content">
             </div>
@@ -62,7 +79,7 @@
                 </button>
             </div>
             <div v-else class="et-comment__reply">
-                <et-editor ref="editor"
+                <et-editor ref="reply-editor"
                     v-model="replyContent"
                     :placeholder="$t('comment.replyUser', {
                         name: data.author.nick
@@ -121,7 +138,9 @@ export default {
     data () {
         return {
             replyContent: '',
-            replyShow: false
+            replyShow: false,
+            editContent: '',
+            editShow: false
         };
     },
     computed: {
@@ -165,12 +184,6 @@ export default {
         });
     },
     methods: {
-        updateComment () {
-            // Todo
-        },
-        deleteComment () {
-            // Todo
-        },
         replyComment () {
             Comments.reply(
                 this.replyContent,
@@ -186,6 +199,23 @@ export default {
                 Utils.errorLog(err, 'COMMENT-REPLY');
                 Common.notify(Utils.errorMessage(err), 'error');
             });
+        },
+        updateComment () {
+            Comments.edit(
+                this.data.uuid,
+                this.editContent
+            ).then(response => {
+                this.editShow = false;
+                this.editContent = '';
+                this.updateView(response.data);
+                Common.notify(this.$t('comment.edit.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'COMMENT-EDIT');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
+        deleteComment () {
+            // Todo
         },
         upvoteComment () {
             Comments.upvote(this.data.uuid).then(response => {
@@ -210,11 +240,21 @@ export default {
             Bus.$emit(EVENT.REPLY_TRIGGER);
             this.replyShow = true;
             this.$nextTick(() => {
-                this.$refs.editor.restoreFocus();
+                this.$refs['reply-editor'].restoreFocus();
             });
         },
         replyCancel () {
             this.replyShow = false;
+        },
+        edit () {
+            this.editContent = this.data.content;
+            this.editShow = true;
+            this.$nextTick(() => {
+                this.$refs.editor.restoreFocus();
+            });
+        },
+        editCancel () {
+            this.editShow = false;
         },
         updateView (data) {
             this.$emit('update', {
@@ -224,7 +264,7 @@ export default {
         },
         handleCommand (command) {
             const operate = {
-                edit: this.updateComment,
+                edit: this.edit,
                 delete: this.deleteComment
             };
             operate[command].call(this, command);
@@ -291,6 +331,20 @@ export default {
         }
     }
 
+    .et-comment__edit {
+        margin-top: $spaceLarge;
+
+        .et-comment__edit-panel {
+            display: flex;
+            justify-content: flex-end;
+            padding: $spaceSmall 0;
+        }
+
+        .et-comment__edit-panel .el-button {
+            min-width: 4rem;
+        }
+    }
+
     .et-comment__reply {
         .et-comment__reply-panel {
             display: flex;
@@ -299,7 +353,7 @@ export default {
         }
 
         .et-comment__reply-panel .el-button {
-            width: 4rem;
+            min-width: 4rem;
         }
     }
 

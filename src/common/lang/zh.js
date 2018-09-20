@@ -76,6 +76,9 @@ export default {
         menu: '菜单',
         create: {
             success: '发布评论成功!'
+        },
+        edit: {
+            success: '编辑评论成功!'
         }
     },
     preview: {
@@ -121,6 +124,7 @@ export default {
         noMore: '没有更多了',
         noResults: '无检索结果',
         close: '关闭',
+        save: '保存',
         readCount: '阅读',
         likeCount: '点赞',
         commentCount: '评论',

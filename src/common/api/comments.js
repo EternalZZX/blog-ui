@@ -71,6 +71,12 @@ class CommentApi extends BaseRequest {
         });
     }
 
+    edit (uuid, content, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            content
+        }, config);
+    }
+
     reply (content, resourceUuid, resourceType, replyUuid = null, data = {}, config = {}) {
         const args = {
             content,

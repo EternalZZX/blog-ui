@@ -89,7 +89,7 @@ export default {
             });
         },
         updateComment (data) {
-            if (data.index) {
+            if (data.index !== void 0) {
                 this.dataList.splice(data.index, 1, data.comment);
             } else {
                 const index = this.dataList.findIndex(item => item.uuid === data.uuid);

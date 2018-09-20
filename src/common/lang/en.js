@@ -76,6 +76,9 @@ export default {
         menu: 'Menu',
         create: {
             success: 'Comment post successfully!'
+        },
+        edit: {
+            success: 'Comment edit successfully!'
         }
     },
     preview: {
@@ -123,6 +126,7 @@ export default {
         noMore: 'No more',
         noResults: 'No results',
         close: 'Close',
+        save: 'Save',
         readCount: 'Read',
         likeCount: 'Like',
         commentCount: 'Comments',
