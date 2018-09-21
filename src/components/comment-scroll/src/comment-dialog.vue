@@ -18,7 +18,7 @@
         </et-scroll>
         <div slot="footer">
             <el-button @click="cancel">
-                {{ $t("common.close") }}
+                {{ $t("common.closeButton") }}
             </el-button>
         </div>
     </el-dialog>

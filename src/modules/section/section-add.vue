@@ -6,8 +6,8 @@
         @close="close">
         test
         <div slot="footer">
-            <el-button @click="cancel">{{ $t("common.cancel") }}</el-button>
-            <el-button type="primary" @click="submit">{{ $t("common.submit") }}</el-button>
+            <el-button @click="cancel">{{ $t("common.cancelButton") }}</el-button>
+            <el-button type="primary" @click="submit">{{ $t("common.submitButton") }}</el-button>
         </div>
     </el-dialog>
 </template>

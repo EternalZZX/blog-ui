@@ -25,12 +25,12 @@
         </el-form>
         <div slot="footer">
             <el-button @click="cancel">
-                {{ $t("common.cancel") }}
+                {{ $t("common.cancelButton") }}
             </el-button>
             <el-button type="primary"
                 :disabled="submitDisabled"
                 @click="submit">
-                {{ $t("common.submit") }}
+                {{ $t("common.submitButton") }}
             </el-button>
         </div>
     </el-dialog>

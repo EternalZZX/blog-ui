@@ -11,7 +11,7 @@
                 </span>
                 <template v-if="reply">
                     <span class="et-user__reply">
-                        {{ $t("common.reply") }}
+                        {{ $t("comment.reply") }}
                     </span>
                     <span class="et-user__nick" :title="reply.nick">
                         {{ reply.nick | none }}

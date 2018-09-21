@@ -9,7 +9,7 @@
                 trigger="click"
                 @command="handleCommand">
                 <button class="et-comment__button"
-                    :title="$t('comment.menu')">
+                    :title="$t('common.menu')">
                     <i class="et-icon ei-edit"></i>
                 </button>
                 <el-dropdown-menu slot="dropdown">
@@ -30,11 +30,11 @@
                 </et-editor>
                 <div class="et-comment__edit-panel">
                     <el-button @click="editCancel">
-                        {{ $t("common.cancel") }}
+                        {{ $t("common.cancelButton") }}
                     </el-button>
                     <el-button type="primary"
                         @click="updateComment">
-                        {{ $t("common.save") }}
+                        {{ $t("common.saveButton") }}
                     </el-button>
                 </div>
             </div>
@@ -62,11 +62,11 @@
                     {{ $t("comment.dialog") }}
                 </button>
                 <button class="et-comment__button et-comment__button_hide"
-                    :title="$t('comment.reply')"
+                    :title="$t('common.reply')"
                     @click="reply"
                     v-if="type === 'normal' && !isAuthor">
                     <i class="et-icon ei-reply"></i>
-                    <span>{{ $t("comment.reply") }}</span>
+                    <span>{{ $t("common.reply") }}</span>
                 </button>
                 <button class="et-comment__button et-comment__button_hide"
                     :title="$t('comment.dislike')"
@@ -92,7 +92,7 @@
                     </el-button>
                     <el-button type="primary"
                         @click="replyComment">
-                        {{ $t("comment.reply") }}
+                        {{ $t("common.reply") }}
                     </el-button>
                 </div>
             </div>
