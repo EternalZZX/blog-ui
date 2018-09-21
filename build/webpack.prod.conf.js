@@ -9,9 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
-const env = require('../config/prod.env');
+const safeParser = require('postcss-safe-parser');
 
 const webpackConfig = merge(baseWebpackConfig, {
     mode: 'production',
@@ -61,12 +59,12 @@ const webpackConfig = merge(baseWebpackConfig, {
         // duplicated CSS from different components can be deduped.
         new OptimizeCSSPlugin({
             cssProcessorOptions: config.build.productionSourceMap ? {
-                safe: true,
+                parser: safeParser,
                 map: {
                     inline: false
                 }
             } : {
-                safe: true
+                parser: safeParser
             }
         }),
         // generate dist index.html with correct asset hash for caching.
@@ -105,7 +103,7 @@ if (config.build.productionGzip) {
 
     webpackConfig.plugins.push(
         new CompressionWebpackPlugin({
-            asset: '[path].gz[query]',
+            filename: '[path].gz[query]',
             algorithm: 'gzip',
             test: new RegExp(
                 '\\.(' +
