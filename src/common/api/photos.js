@@ -51,6 +51,7 @@ class PhotoApi extends BaseRequest {
     listAlbumPhotos (albumUuid, params = {}, config = {}) {
         const args = {
             album_uuid: albumUuid,
+            status: `${PhotoApi.STATUS.ACTIVE}${PhotoApi.STATUS.AUDIT}`,
             order_field: 'create_at',
             ...params
         };
@@ -64,6 +65,7 @@ class PhotoApi extends BaseRequest {
         const args = {
             author_uuid: uuid,
             query,
+            status: `${PhotoApi.STATUS.ACTIVE}${PhotoApi.STATUS.AUDIT}`,
             order_field: 'create_at',
             ...params
         };
@@ -77,6 +79,7 @@ class PhotoApi extends BaseRequest {
         const args = {
             author_uuid: uuid,
             album_uuid: '',
+            status: `${PhotoApi.STATUS.ACTIVE}${PhotoApi.STATUS.AUDIT}`,
             order_field: 'create_at',
             ...params
         };

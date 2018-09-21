@@ -79,6 +79,9 @@ export default {
         },
         edit: {
             success: '编辑评论成功!'
+        },
+        delete: {
+            success: '删除评论成功!'
         }
     },
     preview: {

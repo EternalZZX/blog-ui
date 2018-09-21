@@ -215,7 +215,13 @@ export default {
             });
         },
         deleteComment () {
-            // Todo
+            Comments.delete(this.data.uuid).then(response => {
+                this.$emit('delete', this.index);
+                Common.notify(this.$t('comment.delete.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'COMMENT-DELETE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
         },
         upvoteComment () {
             Comments.upvote(this.data.uuid).then(response => {

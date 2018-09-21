@@ -79,6 +79,9 @@ export default {
         },
         edit: {
             success: 'Comment edit successfully!'
+        },
+        delete: {
+            success: 'Comment delete successfully!'
         }
     },
     preview: {

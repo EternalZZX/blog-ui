@@ -37,6 +37,7 @@ class CommentApi extends BaseRequest {
         const args = {
             resource_type: resourceType,
             resource_uuid: resourceUuid,
+            status: `${CommentApi.STATUS.ACTIVE}${CommentApi.STATUS.AUDIT}`,
             ...params
         };
         return super.get(this.url, {
@@ -50,6 +51,7 @@ class CommentApi extends BaseRequest {
             resource_type: resourceType,
             resource_uuid: resourceUuid,
             reply_uuid: replyUuid,
+            status: `${CommentApi.STATUS.ACTIVE}${CommentApi.STATUS.AUDIT}`,
             ...params
         };
         return super.get(this.url, {
@@ -63,6 +65,7 @@ class CommentApi extends BaseRequest {
             resource_type: resourceType,
             resource_uuid: resourceUuid,
             dialog_uuid: dialogUuid,
+            status: `${CommentApi.STATUS.ACTIVE}${CommentApi.STATUS.AUDIT}`,
             ...params
         };
         return super.get(this.url, {

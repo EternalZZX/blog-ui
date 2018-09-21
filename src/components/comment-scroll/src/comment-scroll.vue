@@ -10,6 +10,7 @@
                 :index="index"
                 :data="comment"
                 @create="init"
+                @delete="init"
                 @update="updateComment"
                 @view-dialog="viewDialog">
             </et-comment>
