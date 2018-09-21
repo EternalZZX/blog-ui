@@ -26,9 +26,14 @@
             <div class="et-comment__editor et-comment__editor_edit">
                 <et-editor ref="editor"
                     v-model="editContent"
+                    :length.sync="editContentLength"
+                    :max-length="contentMaxLength"
                     type="simple">
                 </et-editor>
                 <div class="et-comment__editor-panel">
+                    <span class="et-comment__editor-info">
+                        {{ editContentLength }} / {{ contentMaxLength }}
+                    </span>
                     <el-button @click="editCancel">
                         {{ $t("common.cancelButton") }}
                     </el-button>
@@ -81,12 +86,17 @@
             <div v-else class="et-comment__editor">
                 <et-editor ref="reply-editor"
                     v-model="replyContent"
+                    :length.sync="replyContentLength"
+                    :max-length="contentMaxLength"
                     :placeholder="$t('comment.replyUser', {
                         name: data.author.nick
                     })"
                     type="simple">
                 </et-editor>
                 <div class="et-comment__editor-panel">
+                    <span class="et-comment__editor-info">
+                        {{ replyContentLength }} / {{ contentMaxLength }}
+                    </span>
                     <el-button @click="replyCancel">
                         {{ $t("common.cancel") }}
                     </el-button>
@@ -138,8 +148,11 @@ export default {
     data () {
         return {
             replyContent: '',
+            replyContentLength: 0,
             replyShow: false,
             editContent: '',
+            editContentLength: 0,
+            contentMaxLength: 500,
             editShow: false,
             confirmShow: false
         };
@@ -336,8 +349,16 @@ export default {
     .et-comment__editor {
         .et-comment__editor-panel {
             display: flex;
-            justify-content: flex-end;
             padding: $spaceSmall 0;
+        }
+
+        .et-comment__editor-info {
+            flex: auto;
+            display: block;
+            padding: 0 $spaceTiny;
+            line-height: $buttonHeight;
+            font-size: $descriptionFontSize;
+            color: $descriptionColor;
         }
 
         .et-comment__editor-panel .el-button {
