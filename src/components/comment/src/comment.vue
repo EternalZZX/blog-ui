@@ -23,12 +23,12 @@
             </el-dropdown>
         </div>
         <div class="et-comment__body" v-if="editShow">
-            <div class="et-comment__edit">
+            <div class="et-comment__editor et-comment__editor_edit">
                 <et-editor ref="editor"
                     v-model="editContent"
                     type="simple">
                 </et-editor>
-                <div class="et-comment__edit-panel">
+                <div class="et-comment__editor-panel">
                     <el-button @click="editCancel">
                         {{ $t("common.cancelButton") }}
                     </el-button>
@@ -78,7 +78,7 @@
                     <span>{{ $t("comment.dislike") }}</span>
                 </button>
             </div>
-            <div v-else class="et-comment__reply">
+            <div v-else class="et-comment__editor">
                 <et-editor ref="reply-editor"
                     v-model="replyContent"
                     :placeholder="$t('comment.replyUser', {
@@ -86,7 +86,7 @@
                     })"
                     type="simple">
                 </et-editor>
-                <div class="et-comment__reply-panel">
+                <div class="et-comment__editor-panel">
                     <el-button @click="replyCancel">
                         {{ $t("common.cancel") }}
                     </el-button>
@@ -333,29 +333,19 @@ export default {
         }
     }
 
-    .et-comment__edit {
-        margin-top: $spaceLarge;
-
-        .et-comment__edit-panel {
+    .et-comment__editor {
+        .et-comment__editor-panel {
             display: flex;
             justify-content: flex-end;
             padding: $spaceSmall 0;
         }
 
-        .et-comment__edit-panel .el-button {
+        .et-comment__editor-panel .el-button {
             min-width: 4.5rem;
         }
-    }
 
-    .et-comment__reply {
-        .et-comment__reply-panel {
-            display: flex;
-            justify-content: flex-end;
-            padding: $spaceSmall 0;
-        }
-
-        .et-comment__reply-panel .el-button {
-            min-width: 4.5rem;
+        &.et-comment__editor_edit {
+            margin-top: $spaceLarge;
         }
     }
 

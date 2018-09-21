@@ -67,6 +67,7 @@ export default {
         }
     },
     comment: {
+        comment: 'Comment',
         like: 'Upvote',
         dislike: 'Downvote',
         dialog: 'Dialog',

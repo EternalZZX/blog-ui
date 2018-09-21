@@ -127,12 +127,20 @@ export default {
     },
     model: {
         prop: 'value',
-        event: 'change'
+        event: 'update:value'
     },
     props: {
         value: {
             type: String,
             default: ''
+        },
+        length: {
+            type: Number,
+            default: 0
+        },
+        maxLength: {
+            type: Number,
+            default: -1
         },
         type: {
             type: String,
@@ -166,11 +174,19 @@ export default {
         value: {
             handler (val) {
                 this.content = val;
+                this.editor && this.$emit(
+                    'update:length',
+                    this.editor.getLength() - 1
+                );
             },
             immediate: true
         },
         content (val) {
-            this.$emit('change', val);
+            this.$emit('update:value', val);
+            this.editor && this.$emit(
+                'update:length',
+                this.editor.getLength() - 1
+            );
         }
     },
     beforeMount () {
@@ -196,6 +212,9 @@ export default {
         this.editor = this.$refs.editor.quill;
         this.editor.on('editor-change', (eventName, ...args) => {
             this.editor.hasFocus() && this.getFormat();
+            if (this.maxLength !== -1 && this.length + 1 > this.maxLength) {
+                this.editor.deleteText(this.maxLength, this.length + 1);
+            }
         });
     },
     methods: {

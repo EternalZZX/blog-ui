@@ -67,6 +67,7 @@ export default {
         }
     },
     comment: {
+        comment: '评论',
         like: '赞',
         dislike: '踩',
         dialog: '查看对话',

@@ -1,8 +1,22 @@
 <template>
     <div class="et-comment-scroll">
-        <et-editor v-model="content"
-            class="et-comment-scroll__editor">
-        </et-editor>
+        <div class="et-comment-scroll__editor">
+            <et-editor v-model="content"
+                :length.sync="contentLength"
+                :max-length="contentMaxLength"
+                type="simple">
+            </et-editor>
+            <div class="et-comment-scroll__editor-panel">
+                <span class="et-comment-scroll__editor-info">
+                    {{ contentLength }} / {{ contentMaxLength }}
+                </span>
+                <el-button type="primary"
+                    @click="updateComment">
+                    {{ $t("comment.comment") }}
+                </el-button>
+            </div>
+        </div>
+
         <et-scroll ref="scroll"
             @more="loadMore">
             <et-comment v-for="(comment, index) in dataList"
@@ -55,6 +69,8 @@ export default {
     data () {
         return {
             content: '',
+            contentLength: 0,
+            contentMaxLength: 500,
             dataList: [],
             params: {
                 page: 1,
@@ -137,6 +153,24 @@ export default {
 
     .et-comment-scroll__editor {
         margin-bottom: $spaceLarge;
+
+        .et-comment-scroll__editor-panel {
+            display: flex;
+            padding: $spaceSmall 0;
+        }
+
+        .et-comment-scroll__editor-info {
+            flex: auto;
+            display: block;
+            padding: 0 $spaceTiny;
+            line-height: $buttonHeight;
+            font-size: $descriptionFontSize;
+            color: $descriptionColor;
+        }
+
+        .et-comment-scroll__editor-panel .el-button {
+            min-width: 4.5rem;
+        }
     }
 
     /deep/ .et-load-scroll > .et-comment:nth-last-child(2) {
