@@ -80,7 +80,8 @@ export default {
             success: '编辑评论成功!'
         },
         delete: {
-            success: '删除评论成功!'
+            success: '删除评论成功!',
+            confirm: '您确定要删除该评论吗?'
         }
     },
     preview: {
@@ -123,10 +124,12 @@ export default {
     common: {
         submit: '提交',
         save: '保存',
+        confirm: '确定',
         cancel: '取消',
         close: '关闭',
         submitButton: '提 交',
         saveButton: '保 存',
+        confirmButton: '确 定',
         cancelButton: '取 消',
         closeButton: '关 闭',
         noMore: '没有更多了',
@@ -138,6 +141,8 @@ export default {
         menu: '菜单',
         edit: '编辑',
         delete: '删除',
+        notice: '用户通知',
+        confirmMessage: '您确定进行该操作吗?',
         just: '刚刚',
         minuetsAgo: '分钟前',
         hoursAgo: '小时前',

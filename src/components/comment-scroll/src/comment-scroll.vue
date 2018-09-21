@@ -10,23 +10,31 @@
                 :index="index"
                 :data="comment"
                 @create="init"
-                @delete="init"
                 @update="updateComment"
+                @delete="deleteConfirm"
                 @view-dialog="viewDialog">
             </et-comment>
         </et-scroll>
 
         <et-comment-dialog
             :show.sync="dialogShow"
-            :dialog-comment="dialogComment"
+            :dialog-comment="comment"
             @update="updateComment">
         </et-comment-dialog>
+
+        <et-confirm
+            :show.sync="confirmShow"
+            :data="comment"
+            :message="$t('comment.delete.confirm')"
+            @confirm="deleteComment">
+        </et-confirm>
     </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Comments, { CommentApi } from '@/common/api/comments';
+import Common from '@/common/common';
 import Utils from '@/common/utils';
 import EtCommentDialog from './comment-dialog';
 export default {
@@ -52,8 +60,9 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            dialogComment: null,
-            dialogShow: false
+            comment: null,
+            dialogShow: false,
+            confirmShow: false
         };
     },
     computed: {
@@ -97,8 +106,21 @@ export default {
                 index !== -1 && this.dataList.splice(index, 1, data);
             }
         },
+        deleteComment (data) {
+            Comments.delete(data.uuid).then(response => {
+                Common.notify(this.$t('comment.delete.success'), 'success');
+                this.init();
+            }).catch(err => {
+                Utils.errorLog(err, 'COMMENT-DELETE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
+        deleteConfirm (data) {
+            this.comment = data;
+            this.confirmShow = true;
+        },
         viewDialog (data) {
-            this.dialogComment = data;
+            this.comment = data;
             this.dialogShow = true;
         }
     }

@@ -80,7 +80,8 @@ export default {
             success: 'Comment edit successfully!'
         },
         delete: {
-            success: 'Comment delete successfully!'
+            success: 'Comment delete successfully!',
+            confirm: 'Are you sure to delete this comment?'
         }
     },
     preview: {
@@ -125,10 +126,12 @@ export default {
     common: {
         submit: 'Submit',
         save: 'Save',
+        confirm: 'Confirm',
         cancel: 'Cancel',
         close: 'Close',
         submitButton: 'Submit',
         saveButton: 'Save',
+        confirmButton: 'Confirm',
         cancelButton: 'Cancel',
         closeButton: 'Close',
         noMore: 'No more',
@@ -140,6 +143,8 @@ export default {
         menu: 'Menu',
         edit: 'Edit',
         delete: 'Delete',
+        notice: 'Notice',
+        confirmMessage: 'Determine this operation?',
         just: 'Just now',
         minuetsAgo: 'm ago',
         hoursAgo: 'h ago',

@@ -140,7 +140,8 @@ export default {
             replyContent: '',
             replyShow: false,
             editContent: '',
-            editShow: false
+            editShow: false,
+            confirmShow: false
         };
     },
     computed: {
@@ -214,15 +215,6 @@ export default {
                 Common.notify(Utils.errorMessage(err), 'error');
             });
         },
-        deleteComment () {
-            Comments.delete(this.data.uuid).then(response => {
-                this.$emit('delete', this.index);
-                Common.notify(this.$t('comment.delete.success'), 'success');
-            }).catch(err => {
-                Utils.errorLog(err, 'COMMENT-DELETE');
-                Common.notify(Utils.errorMessage(err), 'error');
-            });
-        },
         upvoteComment () {
             Comments.upvote(this.data.uuid).then(response => {
                 this.updateView(response.data);
@@ -239,6 +231,9 @@ export default {
                 Common.notify(Utils.errorMessage(err), 'error');
             });
         },
+        deleteComment () {
+            this.$emit('delete', this.data);
+        },
         viewDialog () {
             this.$emit('view-dialog', this.data);
         },
@@ -253,6 +248,7 @@ export default {
             this.replyShow = false;
         },
         edit () {
+            Bus.$emit(EVENT.REPLY_TRIGGER);
             this.editContent = this.data.content;
             this.editShow = true;
             this.$nextTick(() => {
@@ -347,7 +343,7 @@ export default {
         }
 
         .et-comment__edit-panel .el-button {
-            min-width: 4rem;
+            min-width: 4.5rem;
         }
     }
 
@@ -359,7 +355,7 @@ export default {
         }
 
         .et-comment__reply-panel .el-button {
-            min-width: 4rem;
+            min-width: 4.5rem;
         }
     }
 

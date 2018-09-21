@@ -1,5 +1,6 @@
 import Comments from './comment';
 import CommentScroll from './comment-scroll';
+import Confirm from './confirm';
 import Editor from './editor';
 import Nav from './nav';
 import Photo from './photo';
@@ -11,6 +12,7 @@ import User from './user';
 const components = [
     Comments,
     CommentScroll,
+    Confirm,
     Editor,
     Nav,
     Photo,
