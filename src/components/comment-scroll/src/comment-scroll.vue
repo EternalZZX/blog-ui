@@ -4,6 +4,7 @@
             <et-editor v-model="content"
                 :length.sync="contentLength"
                 :max-length="contentMaxLength"
+                :placeholder="$t('comment.placeholder')"
                 type="simple">
             </et-editor>
             <div class="et-comment-scroll__editor-panel">

@@ -28,6 +28,7 @@
                     v-model="editContent"
                     :length.sync="editContentLength"
                     :max-length="contentMaxLength"
+                    :placeholder="$t('comment.placeholder')"
                     type="simple">
                 </et-editor>
                 <div class="et-comment__editor-panel">

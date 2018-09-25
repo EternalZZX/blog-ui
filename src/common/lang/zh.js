@@ -72,8 +72,9 @@ export default {
         dislike: '踩',
         dialog: '查看对话',
         viewDialog: '查看对话',
-        replyUser: '回复{name}...',
         reply: '回复',
+        replyUser: '回复{name}...',
+        placeholder: '请输入您的评论内容...',
         create: {
             success: '发布评论成功!'
         },

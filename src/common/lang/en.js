@@ -72,8 +72,9 @@ export default {
         dislike: 'Downvote',
         dialog: 'Dialog',
         viewDialog: 'View conversation',
-        replyUser: 'Reply {name}...',
         reply: 'reply',
+        replyUser: 'Reply {name}...',
+        placeholder: 'Please enter comment...',
         create: {
             success: 'Comment post successfully!'
         },
