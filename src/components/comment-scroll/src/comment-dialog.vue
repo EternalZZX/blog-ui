@@ -1,6 +1,7 @@
 <template>
     <el-dialog class="et-dialog"
         :title="$t('comment.viewDialog')"
+        :append-to-body="true"
         :visible="show"
         top="5%"
         @open="open"

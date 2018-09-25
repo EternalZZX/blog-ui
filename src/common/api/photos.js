@@ -88,6 +88,20 @@ class PhotoApi extends BaseRequest {
             ...config
         });
     }
+
+    upvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: PhotoApi.LIKE_OPERATE.LIKE,
+            ...data
+        }, config);
+    }
+
+    downvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: PhotoApi.LIKE_OPERATE.DISLIKE,
+            ...data
+        }, config);
+    }
 }
 
 PhotoApi.STATUS = {

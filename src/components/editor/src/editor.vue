@@ -121,7 +121,7 @@ const LinkBlot = Quill.import('formats/link');
 export default {
     name: 'EtEditor',
     components: {
-        quillEditor,
+        'quill-editor': quillEditor,
         EtEditorLink,
         EtEditorImage
     },

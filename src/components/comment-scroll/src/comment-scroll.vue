@@ -3,7 +3,8 @@
         :class="{'et-comment-scroll_dark': theme === 'dark'}"
         v-on="$listeners">
         <div class="et-comment-scroll__editor">
-            <et-editor v-model="content"
+            <et-editor ref="editor"
+                v-model="content"
                 :length.sync="contentLength"
                 :max-length="contentMaxLength"
                 :placeholder="$t('comment.placeholder')"
@@ -146,8 +147,7 @@ export default {
                 this.resourceUuid,
                 this.resourceType
             ).then(response => {
-                this.content = '';
-                this.init();
+                this.reset();
                 Common.notify(this.$t('comment.create.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-CREATE');
@@ -178,6 +178,11 @@ export default {
         viewDialog (data) {
             this.comment = data;
             this.dialogShow = true;
+        },
+        focus () {
+            this.$nextTick(() => {
+                this.$refs.editor.restoreFocus();
+            });
         }
     }
 };
@@ -219,6 +224,12 @@ export default {
 
     /deep/ .et-load-scroll > .et-comment:nth-last-child(2) {
         margin-bottom: 0;
+    }
+
+    @include max-screen($phoneMaxWidth) {
+        & {
+            padding-right: $spaceSmall;
+        }
     }
 
     &.et-comment-scroll_dark {

@@ -57,6 +57,19 @@ class Common {
         });
     }
 
+    static scrollAnimation (el, target) {
+        const current = el.scrollTop;
+        const needScrollTop = target - current;
+        setTimeout(() => {
+            el.scrollTo(0, current + Math.ceil(needScrollTop / 10));
+            if (el.scrollTop !== current) {
+                needScrollTop > 10 || needScrollTop < -10 ?
+                    Common.scrollAnimation(el, target) :
+                    el.scrollTo(0, target);
+            }
+        }, 10);
+    }
+
     static alert (parent, options = {}) {
         if (options.instance && !options.instance._isDestroyed) {
             options.instance.remove();

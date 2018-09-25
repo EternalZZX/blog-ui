@@ -23,8 +23,8 @@
                             :class="{ 'hide': imageZoom }">
                             <div class="et-preview__header-inner">
                                 <et-user theme="dark"
-                                    :user="imageData.author"
-                                    :subtitle="imageData.create_at">
+                                    :user="image.author"
+                                    :subtitle="image.create_at">
                                 </et-user>
                             </div>
                         </div>
@@ -43,26 +43,29 @@
                             <div class="et-preview__tools-inner">
                                 <div class="et-preview__tools-inner_left">
                                     <span class="et-preview__tools-info"
-                                        :title="`${$t('common.readCount')} ${imageData.metadata.read_count}`">
+                                        :title="`${$t('common.readCount')} ${image.metadata.read_count}`">
                                         {{ $t("common.readCount") }}
                                     </span>
                                     <span class="et-preview__tools-info"
-                                        :title="`${$t('common.readCount')} ${imageData.metadata.read_count}`">
-                                        {{ imageData.metadata.read_count | count }}
+                                        :title="`${$t('common.readCount')} ${image.metadata.read_count}`">
+                                        {{ image.metadata.read_count | count }}
                                     </span>
                                 </div>
                                 <div class="et-preview__tools-inner_right">
                                     <span class="et-preview__tools-info button"
-                                        :title="`${$t('common.likeCount')} ${imageData.metadata.like_count}`"
+                                        :title="`${$t('common.likeCount')} ${image.metadata.like_count}`"
                                         @click.stop="likeImage">
-                                        <i class="et-icon ei-like"></i>
-                                        {{ imageData.metadata.like_count | count }}
+                                        <i class="et-icon"
+                                            :class="image.is_like_user === LIKE_TYPE.LIKE ?
+                                                'ei-like-fill' : 'ei-like'">
+                                        </i>
+                                        {{ image.metadata.like_count | count }}
                                     </span>
                                     <span class="et-preview__tools-info button"
-                                        :title="`${$t('common.commentCount')} ${imageData.metadata.comment_count}`"
+                                        :title="`${$t('common.commentCount')} ${image.metadata.comment_count}`"
                                         @click.stop="showComment">
                                         <i class="et-icon ei-message"></i>
-                                        {{ imageData.metadata.comment_count | count }}
+                                        {{ image.metadata.comment_count | count }}
                                     </span>
                                 </div>
                             </div>
@@ -111,8 +114,9 @@
 </template>
 
 <script>
+import Common from '@/common/common';
 import Utils from '@/common/utils';
-import Photo from '@/common/api/photos';
+import Photo, { PhotoApi } from '@/common/api/photos';
 import { CommentApi } from '@/common/api/comments';
 export default {
     name: 'EtPreview',
@@ -134,12 +138,6 @@ export default {
     },
     data () {
         return {
-            imageData: {
-                metadata: {
-                    like_count: 0,
-                    comment_count: 0
-                }
-            },
             imageZoom: false,
             imageScale: 1.3,
             imageStyle: null,
@@ -162,22 +160,29 @@ export default {
     computed: {
         image () {
             return this.index < this.data.length ? this.data[this.index] : {
-                image_large: null
+                uuid: null,
+                image_large: null,
+                metadata: {}
             };
         },
         imagePrev () {
             const index = this.index - 1;
             return index >= 0 && index < this.data.length ? this.data[index] : {
                 uuid: null,
-                image_large: null
+                image_large: null,
+                metadata: {}
             };
         },
         imageNext () {
             const index = this.index + 1;
             return index < this.data.length ? this.data[index] : {
                 uuid: null,
-                image_large: null
+                image_large: null,
+                metadata: {}
             };
+        },
+        LIKE_TYPE () {
+            return PhotoApi.LIKE_TYPE;
         },
         RESOURCE_TYPE () {
             return CommentApi.RESOURCE_TYPE;
@@ -190,6 +195,7 @@ export default {
                 this.loadImage(this.image.uuid);
                 this.$nextTick(() => {
                     this.containerHeight = this.getContainerHeight();
+                    this.$refs.preview.scrollTo(0, 0);
                     this.$refs.comments.reset();
                 });
             } else {
@@ -211,14 +217,7 @@ export default {
     },
     methods: {
         loadImage (uuid) {
-            if (!uuid) {
-                return;
-            }
-            Photo.get(uuid).then(response => {
-                this.imageData = response.data;
-            }).catch(err => {
-                Utils.errorLog(err, 'PHOTO-GET');
-            });
+            uuid && Photo.get(uuid);
         },
         zoomTrigger () {
             this.imageZoom = !this.imageZoom;
@@ -285,10 +284,20 @@ export default {
             return `${document.body.clientHeight}px`;
         },
         likeImage () {
-            return 0;
+            Photo.upvote(this.image.uuid).then(response => {
+                this.$emit('update', {
+                    photo: response.data,
+                    index: this.index
+                });
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-UPVOTE');
+                Common.notify(Utils.errorMessage(err), 'error', 'fullscreen');
+            });
         },
         showComment () {
-            return 0;
+            this.commentShow = true;
+            this.$refs.comments.focus();
+            Common.scrollAnimation(this.$refs.preview, document.body.clientHeight);
         }
     }
 };
@@ -453,6 +462,10 @@ export default {
         .et-preview__tools-info.button {
             margin: 0 $spaceSmall;
             cursor: pointer;
+        }
+
+        .et-preview__tools-info.button:hover {
+            color: $darkHoverColor;
         }
 
         .et-preview__tools .et-icon {

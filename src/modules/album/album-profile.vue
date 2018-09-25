@@ -59,7 +59,8 @@
         <et-preview
             :show.sync="preview.show"
             :index.sync="preview.index"
-            :data="dataList">
+            :data="dataList"
+            @update="updatePhoto">
         </et-preview>
     </div>
 </template>
@@ -175,6 +176,9 @@ export default {
             total === this.dataList.length ?
                 state.complete() :
                 state.loaded();
+        },
+        updatePhoto (data) {
+            this.dataList.splice(data.index, 1, data.photo);
         },
         getPreview (index) {
             this.preview.show = true;
