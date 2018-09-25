@@ -499,15 +499,21 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     top: .5rem;
     padding: $spaceSmall;
     padding-left: 1rem;
+    z-index: $fullscreenNotifyIndex !important;
 
-    &.et-notify_layout {
+    &.et-notify_normal {
         z-index: $notifyIndex !important;
         top: $headerHeight + .5rem;
     }
 
     @include max-screen($phoneMaxWidth) {
-        &, &.et-notify_layout {
+        &.et-notify_normal,
+        &.et-notify_dialog {
             top: $headerHeight;
+        }
+
+        &.et-notify_fullscreen {
+            top: 0;
         }
     }
 }

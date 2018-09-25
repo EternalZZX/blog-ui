@@ -100,7 +100,10 @@ export default {
     computed: {
         ...mapGetters({
             hasIdentity: 'hasIdentity'
-        })
+        }),
+        notifyStyle () {
+            return this.theme === 'dark' ? 'fullscreen' : 'normal';
+        }
     },
     methods: {
         init () {
@@ -145,10 +148,10 @@ export default {
             ).then(response => {
                 this.content = '';
                 this.init();
-                Common.notify(this.$t('comment.create.success'), 'success');
+                Common.notify(this.$t('comment.create.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-CREATE');
-                Common.notify(Utils.errorMessage(err), 'error');
+                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
             });
         },
         updateComment (data) {
@@ -161,11 +164,11 @@ export default {
         },
         deleteComment (data) {
             Comments.delete(data.uuid).then(response => {
-                Common.notify(this.$t('comment.delete.success'), 'success');
+                Common.notify(this.$t('comment.delete.success'), 'success', this.notifyStyle);
                 this.init();
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-DELETE');
-                Common.notify(Utils.errorMessage(err), 'error');
+                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
             });
         },
         deleteConfirm (data) {
@@ -189,7 +192,7 @@ export default {
     background-color: $commentBackground;
 
     .et-comment-scroll__editor {
-        margin-bottom: $spaceLarge;
+        padding: 0 $spaceSmall;
 
         .et-comment-scroll__editor-panel {
             display: flex;
@@ -208,6 +211,10 @@ export default {
         .et-comment-scroll__editor-panel .el-button {
             min-width: 4.5rem;
         }
+    }
+
+    /deep/ .et-load-scroll {
+        margin-top: $spaceLarge;
     }
 
     /deep/ .et-load-scroll > .et-comment:nth-last-child(2) {

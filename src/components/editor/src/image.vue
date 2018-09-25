@@ -208,13 +208,13 @@ export default {
             Photo.create(content.file).then(response => {
                 this.selectPhotos.push(response.data);
                 this.init();
-                Common.notify(this.$t('photo.create.success'), 'success', true);
+                Common.notify(this.$t('photo.create.success'), 'success', 'dialog');
                 content.onSuccess(response);
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-CREATE');
                 Common.notify(Utils.errorMessage(err,
                     this.$t('photo.create.error')
-                ), 'error', true);
+                ), 'error', 'dialog');
                 content.onError(err);
             });
         },

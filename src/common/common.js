@@ -66,12 +66,17 @@ class Common {
         return instance;
     }
 
-    static notify (message, type = 'info', fullscreen = false, duration = 3000) {
+    static notify (message, type = 'info', style = 'normal', duration = 3000) {
+        const classDict = {
+            normal: 'et-notify et-notify_normal',
+            fullscreen: 'et-notify et-notify_fullscreen',
+            dialog: 'et-notify et-notify_dialog'
+        };
         Message({
             message,
             type,
             duration,
-            customClass: fullscreen ? 'et-notify' : 'et-notify et-notify_layout',
+            customClass: classDict[style] || 'et-notify et-notify_normal',
             showClose: true
         });
     }

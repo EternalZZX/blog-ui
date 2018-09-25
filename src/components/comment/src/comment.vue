@@ -201,6 +201,9 @@ export default {
         isAuthor () {
             return this.data.author.uuid === this.userUuid;
         },
+        notifyStyle () {
+            return this.theme === 'dark' ? 'fullscreen' : 'normal';
+        },
         LIKE_TYPE () {
             return CommentApi.LIKE_TYPE;
         }
@@ -221,10 +224,10 @@ export default {
                 this.replyShow = false;
                 this.replyContent = '';
                 this.$emit('create', response.data);
-                Common.notify(this.$t('comment.create.success'), 'success');
+                Common.notify(this.$t('comment.create.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-REPLY');
-                Common.notify(Utils.errorMessage(err), 'error');
+                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
             });
         },
         updateComment () {
@@ -235,10 +238,10 @@ export default {
                 this.editShow = false;
                 this.editContent = '';
                 this.updateView(response.data);
-                Common.notify(this.$t('comment.edit.success'), 'success');
+                Common.notify(this.$t('comment.edit.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-EDIT');
-                Common.notify(Utils.errorMessage(err), 'error');
+                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
             });
         },
         upvoteComment () {
@@ -246,7 +249,7 @@ export default {
                 this.updateView(response.data);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-UPVOTE');
-                Common.notify(Utils.errorMessage(err), 'error');
+                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
             });
         },
         downvoteComment () {
@@ -254,7 +257,7 @@ export default {
                 this.updateView(response.data);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-DOWNVOTE');
-                Common.notify(Utils.errorMessage(err), 'error');
+                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
             });
         },
         deleteComment () {
@@ -415,6 +418,16 @@ export default {
             color: $darkContentColor;
         }
 
+        .et-comment__editor .et-editor .ql-container.ql-snow {
+            border-color: $darkContentColor;
+            background-color: transparent;
+        }
+
+        .et-comment__editor .et-editor .ql-snow .ql-editor {
+            color: $darkContentColor;
+        }
+
+        .et-comment__editor .et-editor .ql-editor.ql-blank:before,
         .et-comment__editor .et-comment-scroll__editor-info,
         .et-comment__button {
             color: $darkDescriptionColor;

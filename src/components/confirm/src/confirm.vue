@@ -1,6 +1,7 @@
 <template>
     <el-dialog class="et-dialog et-dialog_small"
         :title="$t('common.notice')"
+        :append-to-body="true"
         :visible="show"
         @close="close">
         <span class="et-dialog__message">

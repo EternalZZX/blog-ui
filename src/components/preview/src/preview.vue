@@ -504,11 +504,7 @@ export default {
     }
 
     .et-comment__inner {
-        @include max-screen($phoneMaxWidth) {
-            & {
-                padding: $spaceSmall;
-            }
-        }
+        padding: $spaceSmall;
     }
 }
 </style>
