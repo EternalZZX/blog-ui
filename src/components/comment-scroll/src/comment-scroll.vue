@@ -1,5 +1,7 @@
 <template>
-    <div class="et-comment-scroll">
+    <div class="et-comment-scroll"
+        :class="{'et-comment-scroll_dark': theme === 'dark'}"
+        v-on="$listeners">
         <div class="et-comment-scroll__editor">
             <et-editor v-model="content"
                 :length.sync="contentLength"
@@ -19,11 +21,13 @@
         </div>
 
         <et-scroll ref="scroll"
+            v-show="commentScrollShow"
             @more="loadMore">
             <et-comment v-for="(comment, index) in dataList"
                 :key="comment.uuid"
                 :index="index"
                 :data="comment"
+                :theme="theme"
                 @create="init"
                 @update="updateComment"
                 @delete="deleteConfirm"
@@ -65,6 +69,16 @@ export default {
         resourceUuid: {
             type: String,
             default: ''
+        },
+        theme: {
+            type: String,
+            default: 'light',
+            validator (val) {
+                return [
+                    'dark',
+                    'light'
+                ].indexOf(val) !== -1;
+            }
         }
     },
     data () {
@@ -79,7 +93,8 @@ export default {
             },
             comment: null,
             dialogShow: false,
-            confirmShow: false
+            confirmShow: false,
+            commentScrollShow: true
         };
     },
     computed: {
@@ -91,7 +106,13 @@ export default {
         init () {
             this.dataList = [];
             this.params.page = 1;
+            this.commentScrollShow = true;
             this.$refs.scroll.reset();
+        },
+        reset () {
+            this.content = '';
+            this.contentLength = 0;
+            this.init();
         },
         loadMore (state) {
             if (!this.hasIdentity) {
@@ -111,6 +132,7 @@ export default {
                 response.data.total === this.dataList.length ?
                     state.complete() :
                     state.loaded();
+                this.commentScrollShow = response.data.total !== 0;
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-LIST');
             });
@@ -190,6 +212,24 @@ export default {
 
     /deep/ .et-load-scroll > .et-comment:nth-last-child(2) {
         margin-bottom: 0;
+    }
+
+    &.et-comment-scroll_dark {
+        background-color: transparent;
+
+        .et-comment-scroll__editor /deep/ .et-editor .ql-container.ql-snow {
+            border-color: $darkContentColor;
+            background-color: transparent;
+        }
+
+        .et-comment-scroll__editor /deep/ .et-editor .ql-editor.ql-blank:before,
+        .et-comment-scroll__editor .et-comment-scroll__editor-info, {
+            color: $darkDescriptionColor;
+        }
+
+        .et-comment-scroll__editor /deep/ .et-editor .ql-snow .ql-editor {
+            color: $darkContentColor;
+        }
     }
 }
 </style>

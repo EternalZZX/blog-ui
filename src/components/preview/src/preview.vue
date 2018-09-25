@@ -71,11 +71,13 @@
                     <div v-show="commentShow"
                         class="et-comment__container"
                         :class="{ 'hide': imageZoom }">
-                        <div class="et-comment__inner">
-                            <div>
-                            </div>
-                            comment
-                        </div>
+                        <et-comment-scroll ref="comments"
+                            class="et-comment__inner"
+                            :resource-type="RESOURCE_TYPE.PHOTO"
+                            :resource-uuid="image.uuid"
+                            theme="dark"
+                            @click.stop>
+                        </et-comment-scroll>
                     </div>
                 </div>
                 <div class="et-zoom-tools"
@@ -109,8 +111,9 @@
 </template>
 
 <script>
-import Photo from '@/common/api/photos';
 import Utils from '@/common/utils';
+import Photo from '@/common/api/photos';
+import { CommentApi } from '@/common/api/comments';
 export default {
     name: 'EtPreview',
     props: {
@@ -175,6 +178,9 @@ export default {
                 uuid: null,
                 image_large: null
             };
+        },
+        RESOURCE_TYPE () {
+            return CommentApi.RESOURCE_TYPE;
         }
     },
     watch: {
@@ -184,6 +190,7 @@ export default {
                 this.loadImage(this.image.uuid);
                 this.$nextTick(() => {
                     this.containerHeight = this.getContainerHeight();
+                    this.$refs.comments.reset();
                 });
             } else {
                 document.body.style.overflow = null;
@@ -323,12 +330,12 @@ export default {
         top: 0;
         right: 0;
         margin: .9rem;
-        color: #ffffff;
+        color: $darkContentColor;
         transition: opacity .3s;
         cursor: pointer;
 
         &:hover {
-            color: #f6f6f6;
+            color: $darkHoverColor;
         }
 
         .et-icon {
@@ -360,7 +367,7 @@ export default {
 
 %preview-toolbar-inner {
     display: flex;
-    color: #fff;
+    color: $darkContentColor;
 
     @include min-screen($laptopMinWidth) {
         & {
@@ -463,7 +470,7 @@ export default {
     width: 100%;
     height: $headerHeight;
     background: rgba(51, 51, 51, .3);
-    color: #fff;
+    color: $darkContentColor;
 
     .et-zoom-tools__inner {
         flex-direction: row-reverse;
@@ -489,7 +496,6 @@ export default {
 
 .et-comment__container {
     box-sizing: border-box;
-    color: #fff;
 
     @include min-screen($laptopMinWidth) {
         & {
@@ -498,9 +504,9 @@ export default {
     }
 
     .et-comment__inner {
-        @include min-screen($laptopMinWidth) {
+        @include max-screen($phoneMaxWidth) {
             & {
-                padding: 0 $spaceSmall;
+                padding: $spaceSmall;
             }
         }
     }

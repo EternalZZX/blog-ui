@@ -1,9 +1,11 @@
 <template>
-    <div class="et-comment">
+    <div class="et-comment"
+        :class="{'et-comment_dark': theme === 'dark'}">
         <div class="et-comment__header">
             <et-user :user="data.author"
                 :subtitle="data.create_at"
-                :reply="data.reply_user">
+                :reply="data.reply_user"
+                :theme="theme">
             </et-user>
             <el-dropdown v-if="type === 'normal' && isAuthor"
                 trigger="click"
@@ -132,6 +134,9 @@ export default {
             },
             required: true
         },
+        index: {
+            type: Number
+        },
         type: {
             type: String,
             default: 'normal',
@@ -142,8 +147,15 @@ export default {
                 ].indexOf(val) !== -1;
             }
         },
-        index: {
-            type: Number
+        theme: {
+            type: String,
+            default: 'light',
+            validator (val) {
+                return [
+                    'dark',
+                    'light'
+                ].indexOf(val) !== -1;
+            }
         }
     },
     data () {
@@ -395,6 +407,21 @@ export default {
         .et-icon {
             font-size: $iconFontSizeSmall;
             vertical-align: middle;
+        }
+    }
+
+    &.et-comment_dark /deep/ {
+        .et-comment__content.et-writing.ql-editor {
+            color: $darkContentColor;
+        }
+
+        .et-comment__editor .et-comment-scroll__editor-info,
+        .et-comment__button {
+            color: $darkDescriptionColor;
+        }
+
+        .et-comment__button:hover {
+            color: $darkHoverColor;
         }
     }
 }

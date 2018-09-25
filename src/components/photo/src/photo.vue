@@ -153,7 +153,7 @@ export default {
             right: .8rem;
             font-size: .9375rem;
             font-family: 'et-icon';
-            color: #fff;
+            color: $darkContentColor;
         }
     }
 }

@@ -162,15 +162,15 @@ export default {
 
     &.et-user_dark {
         .et-user__nick {
-            color: #fff;
+            color: $darkContentColor;
         }
 
         .et-user__nick:hover {
-            color: $subThemeColor;
+            color: $darkHoverColor;
         }
 
         .et-user__remark {
-            color: #b9b9b9;
+            color: $darkDescriptionColor;
         }
     }
 }
