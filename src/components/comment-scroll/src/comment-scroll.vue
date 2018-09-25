@@ -11,7 +11,7 @@
                     {{ contentLength }} / {{ contentMaxLength }}
                 </span>
                 <el-button type="primary"
-                    @click="updateComment">
+                    @click="createComment">
                     {{ $t("comment.comment") }}
                 </el-button>
             </div>
@@ -112,6 +112,20 @@ export default {
                     state.loaded();
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-LIST');
+            });
+        },
+        createComment () {
+            Comments.reply(
+                this.content,
+                this.resourceUuid,
+                this.resourceType
+            ).then(response => {
+                this.content = '';
+                this.init();
+                Common.notify(this.$t('comment.create.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'COMMENT-CREATE');
+                Common.notify(Utils.errorMessage(err), 'error');
             });
         },
         updateComment (data) {

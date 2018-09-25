@@ -183,10 +183,7 @@ export default {
         },
         content (val) {
             this.$emit('update:value', val);
-            this.editor && this.$emit(
-                'update:length',
-                this.editor.getLength() - 1
-            );
+            this.$emit('update:length', this.editor.getLength() - 1);
         }
     },
     beforeMount () {
@@ -210,6 +207,7 @@ export default {
     },
     mounted () {
         this.editor = this.$refs.editor.quill;
+        this.$emit('update:length', this.editor.getLength() - 1);
         this.editor.on('editor-change', (eventName, ...args) => {
             this.editor.hasFocus() && this.getFormat();
             if (this.maxLength !== -1 && this.length + 1 > this.maxLength) {
