@@ -4,7 +4,7 @@
         <infinite-loading
             ref="infiniteLoading"
             spinner="waveDots"
-            @infinite="infiniteHandler">
+            @infinite="debouncedInfiniteHandler">
             <p slot="no-more" class="et-load-scroll__line">
                 {{ $t("common.noMore") }}
             </p>
@@ -17,19 +17,23 @@
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading';
+import { debounce } from 'throttle-debounce';
 export default {
     name: 'EtScroll',
     components: {
         InfiniteLoading
+    },
+    created () {
+        this.debouncedInfiniteHandler = debounce(300, this.infiniteHandler);
     },
     methods: {
         infiniteHandler (state) {
             this.$emit('more', state);
         },
         reset () {
-            setTimeout(() => {
+            this.$nextTick(() => {
                 this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-            }, 100);
+            });
         }
     }
 };
