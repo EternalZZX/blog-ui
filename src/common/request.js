@@ -1,6 +1,8 @@
 import axios from 'axios';
 import qs from 'query-string';
 import Utils from '@/common/utils';
+import validate from '@/common/validate';
+import { ValidationError } from '@/common/error';
 import Bus, { EVENT } from '@/common/bus';
 import SETTING from '@/setting';
 
@@ -25,6 +27,16 @@ class BaseRequest {
         return {
             [SETTING.TOKEN_HEADER_KEY]: Utils.getToken()
         };
+    }
+
+    static validateParams (data, rules) {
+        const validateResult = validate(data, rules);
+        if (!validateResult.result) {
+            return new Promise((resolve, reject) => {
+                reject(new ValidationError(validateResult.message));
+            });
+        }
+        return null;
     }
 
     get (url, config = {}) {

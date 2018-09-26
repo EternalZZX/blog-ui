@@ -215,6 +215,10 @@ export default {
     },
     methods: {
         replyComment () {
+            if (!this.replyContentLength) {
+                Common.notify(this.$t('validate.none'), 'error', this.notifyStyle);
+                return;
+            }
             Comments.reply(
                 this.replyContent,
                 this.data.resource_uuid,
@@ -227,10 +231,18 @@ export default {
                 Common.notify(this.$t('comment.create.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-REPLY');
-                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
+                Common.notify(
+                    Utils.errorMessage(err),
+                    err.type || 'error',
+                    this.notifyStyle
+                );
             });
         },
         updateComment () {
+            if (!this.editContentLength) {
+                Common.notify(this.$t('validate.none'), 'error', this.notifyStyle);
+                return;
+            }
             Comments.edit(
                 this.data.uuid,
                 this.editContent
@@ -241,7 +253,11 @@ export default {
                 Common.notify(this.$t('comment.edit.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-EDIT');
-                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
+                Common.notify(
+                    Utils.errorMessage(err),
+                    err.type || 'error',
+                    this.notifyStyle
+                );
             });
         },
         upvoteComment () {

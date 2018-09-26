@@ -29,7 +29,7 @@
                 :index="index"
                 :data="comment"
                 :theme="theme"
-                @create="init"
+                @create="replyComment"
                 @update="updateComment"
                 @delete="deleteConfirm"
                 @view-dialog="viewDialog">
@@ -142,17 +142,30 @@ export default {
             });
         },
         createComment () {
+            if (!this.contentLength) {
+                Common.notify(this.$t('validate.none'), 'info', this.notifyStyle);
+                return;
+            }
             Comments.reply(
                 this.content,
                 this.resourceUuid,
                 this.resourceType
             ).then(response => {
                 this.reset();
+                this.$emit('comment-create', response.data);
                 Common.notify(this.$t('comment.create.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-CREATE');
-                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
+                Common.notify(
+                    Utils.errorMessage(err),
+                    err.type || 'error',
+                    this.notifyStyle
+                );
             });
+        },
+        replyComment (data) {
+            this.init();
+            this.$emit('comment-create', data);
         },
         updateComment (data) {
             if (data.index !== void 0) {
@@ -164,8 +177,9 @@ export default {
         },
         deleteComment (data) {
             Comments.delete(data.uuid).then(response => {
-                Common.notify(this.$t('comment.delete.success'), 'success', this.notifyStyle);
                 this.init();
+                this.$emit('comment-delete', data.uuid);
+                Common.notify(this.$t('comment.delete.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-DELETE');
                 Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);

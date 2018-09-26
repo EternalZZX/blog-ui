@@ -74,13 +74,11 @@ class CommentApi extends BaseRequest {
         });
     }
 
-    edit (uuid, content, config = {}) {
-        return super.put(`${this.url}${uuid}/`, {
-            content
-        }, config);
-    }
-
     reply (content, resourceUuid, resourceType, replyUuid = null, data = {}, config = {}) {
+        const err = CommentApi.validateParams({ content }, {
+            content: [{ required: true }]
+        });
+        if (err) { return err; }
         const args = {
             content,
             resource_uuid: resourceUuid,
@@ -89,6 +87,16 @@ class CommentApi extends BaseRequest {
         };
         replyUuid && (args.reply_uuid = replyUuid);
         return super.post(this.url, args, config);
+    }
+
+    edit (uuid, content, config = {}) {
+        const err = CommentApi.validateParams({ content }, {
+            content: [{ required: true }]
+        });
+        if (err) { return err; }
+        return super.put(`${this.url}${uuid}/`, {
+            content
+        }, config);
     }
 
     upvote (uuid, data = {}, config = {}) {

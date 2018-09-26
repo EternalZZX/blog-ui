@@ -104,6 +104,9 @@ class Utils {
     }
 
     static errorMessage (err, defaultMessage = i18n.t('request.errorRequest')) {
+        if (err.message) {
+            return err.message;
+        }
         const dict = {
             400: defaultMessage,
             401: i18n.t('request.errorToken'),
@@ -116,7 +119,9 @@ class Utils {
             500: i18n.t('request.errorServer'),
             503: i18n.t('request.errorServer')
         };
-        return dict[err.response.status] || defaultMessage;
+        return err.response ?
+            dict[err.response.status] || defaultMessage :
+            defaultMessage;
     }
 
     static formatNone (str) {
