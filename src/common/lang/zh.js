@@ -60,6 +60,13 @@ export default {
         }
     },
     photo: {
+        nav: {
+            title: '图片',
+            create: '新增',
+            all: '全部图片',
+            public: '公开图片',
+            private: '私有图片'
+        },
         create: {
             title: '上传图片',
             success: '上传图片完成!',

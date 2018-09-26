@@ -33,7 +33,7 @@ class AlbumApi extends BaseRequest {
         });
     }
 
-    listSelfAlbums (uuid, privacy, params = {}, config = {}) {
+    listSelfAlbums (uuid, privacy = null, params = {}, config = {}) {
         const args = {
             ...params,
             author_uuid: uuid,

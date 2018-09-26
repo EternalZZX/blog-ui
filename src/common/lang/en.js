@@ -60,6 +60,13 @@ export default {
         }
     },
     photo: {
+        nav: {
+            title: 'Photos',
+            create: 'Add',
+            all: 'All Photos',
+            public: 'Public Photos',
+            private: 'Private Photos'
+        },
         create: {
             title: 'Upload Photo',
             success: 'Upload photo succeed!',

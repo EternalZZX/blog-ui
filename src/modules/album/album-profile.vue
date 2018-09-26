@@ -20,7 +20,8 @@
                     <et-photo v-for="album in dataList"
                         :key="album.uuid"
                         :data="album"
-                        type="album">
+                        type="album"
+                        @click="getAlbum(album.uuid)">
                     </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
@@ -70,7 +71,7 @@ import Album, { AlbumApi } from '@/common/api/albums';
 import Photo from '@/common/api/photos';
 import Utils from '@/common/utils';
 import { EVENT } from '@/common/bus';
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 import EtAlbumAdd from './album-add';
 import EtPhotoAdd from './photo-add';
 export default {
@@ -100,7 +101,6 @@ export default {
                 label: this.$t('album.nav.other')
             }],
             loadType: 'all',
-            hashCode: Utils.randString(),
             albumAddShow: false,
             photoAddShow: false,
             preview: {
@@ -110,9 +110,6 @@ export default {
         };
     },
     computed: {
-        ...mapState({
-            identity: 'identity'
-        }),
         ...mapGetters({
             hasIdentity: 'hasIdentity'
         }),
@@ -124,6 +121,9 @@ export default {
                 'other': null
             };
             return privacyDict[this.loadType];
+        },
+        identityUuid () {
+            return this.$route.params.uuid;
         }
     },
     mounted () {
@@ -131,13 +131,14 @@ export default {
             !this._inacitve && this.init();
         });
     },
+    activated () {
+        this.init();
+    },
     methods: {
         init (loadType) {
             this.dataList = [];
             this.params.page = 1;
             this.loadType = loadType || 'all';
-            this.hashCode = Utils.randString();
-            this.albumAddShow = false;
             this.$refs.scroll.reset();
         },
         loadMore (state) {
@@ -151,7 +152,7 @@ export default {
         },
         loadAlbums (state) {
             Album.listSelfAlbums(
-                this.identity.uuid,
+                this.identityUuid,
                 this.privacy,
                 this.params
             ).then(response => {
@@ -162,7 +163,7 @@ export default {
         },
         loadPhotos (state) {
             Photo.listSelfOtherPhotos(
-                this.identity.uuid,
+                this.identityUuid,
                 this.params
             ).then(response => {
                 this.loadData(state, response.data.photos, response.data.total);
@@ -179,6 +180,14 @@ export default {
         },
         updatePhoto (data) {
             this.dataList.splice(data.index, 1, data.photo);
+        },
+        getAlbum (uuid) {
+            this.$router.push({
+                name: 'album',
+                params: {
+                    uuid
+                }
+            });
         },
         getPreview (index) {
             this.preview.show = true;
