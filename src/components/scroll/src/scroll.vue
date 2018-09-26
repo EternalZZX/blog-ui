@@ -31,9 +31,9 @@ export default {
             this.$emit('more', state);
         },
         reset () {
-            this.$nextTick(() => {
+            setTimeout(() => {
                 this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-            });
+            }, 100);
         }
     }
 };
