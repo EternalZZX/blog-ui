@@ -83,6 +83,16 @@
                         </et-comment-scroll>
                     </div>
                 </div>
+                <div class="et-preview__arrow et-preview__arrow_left"
+                    :class="{'et-preview__arrow_disabled': index <= 0}"
+                    @click.stop="prev">
+                    <i class="et-icon ei-angle-left"></i>
+                </div>
+                <div class="et-preview__arrow et-preview__arrow_right"
+                    :class="{'et-preview__arrow_disabled': index >= data.length - 1}"
+                    @click.stop="next">
+                    <i class="et-icon ei-angle-right"></i>
+                </div>
                 <div class="et-zoom-tools"
                     :class="{ 'hide': !imageZoom }">
                     <div class="et-zoom-tools__inner">
@@ -192,11 +202,9 @@ export default {
         show (val) {
             if (val) {
                 document.body.style.overflow = 'hidden';
-                this.loadImage(this.image.uuid);
+                this.init();
                 this.$nextTick(() => {
                     this.containerHeight = this.getContainerHeight();
-                    this.$refs.preview.scrollTo(0, 0);
-                    this.$refs.comments.reset();
                 });
             } else {
                 document.body.style.overflow = null;
@@ -216,8 +224,54 @@ export default {
         });
     },
     methods: {
+        init () {
+            this.loadImage(this.image.uuid);
+            this.$nextTick(() => {
+                this.$refs.preview.scrollTo(0, 0);
+                this.$refs.comments.reset();
+            });
+        },
+        close () {
+            !this.imageZoom && this.$emit('update:show', false);
+        },
+        prev () {
+            if (this.index <= 0) {
+                return;
+            }
+            this.$emit('update:index', this.index - 1);
+            this.init();
+        },
+        next () {
+            if (this.index >= this.data.length - 1) {
+                return;
+            }
+            this.$emit('update:index', this.index + 1);
+            this.init();
+        },
         loadImage (uuid) {
             uuid && Photo.get(uuid);
+        },
+        likeImage () {
+            Photo.upvote(this.image.uuid).then(response => {
+                this.$emit('update', {
+                    photo: response.data,
+                    index: this.index
+                });
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-UPVOTE');
+                Common.notify(Utils.errorMessage(err), 'error', 'fullscreen');
+            });
+        },
+        showComment () {
+            this.commentShow = true;
+            this.$refs.comments.focus();
+            Common.scrollAnimation(this.$refs.preview, document.body.clientHeight);
+        },
+        previewScroll (event) {
+            this.commentShow = event.srcElement.scrollTop > 0;
+        },
+        getContainerHeight () {
+            return `${document.body.clientHeight}px`;
         },
         zoomTrigger () {
             this.imageZoom = !this.imageZoom;
@@ -273,31 +327,6 @@ export default {
                 this.position.start.x = this.position.stop.x;
                 this.position.start.y = this.position.stop.y;
             }
-        },
-        previewScroll (event) {
-            this.commentShow = event.srcElement.scrollTop > 0;
-        },
-        close () {
-            !this.imageZoom && this.$emit('update:show', false);
-        },
-        getContainerHeight () {
-            return `${document.body.clientHeight}px`;
-        },
-        likeImage () {
-            Photo.upvote(this.image.uuid).then(response => {
-                this.$emit('update', {
-                    photo: response.data,
-                    index: this.index
-                });
-            }).catch(err => {
-                Utils.errorLog(err, 'PHOTO-UPVOTE');
-                Common.notify(Utils.errorMessage(err), 'error', 'fullscreen');
-            });
-        },
-        showComment () {
-            this.commentShow = true;
-            this.$refs.comments.focus();
-            Common.scrollAnimation(this.$refs.preview, document.body.clientHeight);
         }
     }
 };
@@ -339,7 +368,7 @@ export default {
         top: 0;
         right: 0;
         margin: .9rem;
-        color: $darkContentColor;
+        color: $darkDescriptionColor;
         transition: opacity .3s;
         cursor: pointer;
 
@@ -472,6 +501,50 @@ export default {
             margin-right: $spaceTiny;
             font-size: $iconFontSizeMiddle;
             vertical-align: middle;
+        }
+    }
+}
+
+.et-preview__arrow {
+    position: fixed;
+    display: table;
+    top: 0;
+    bottom: 0;
+    width: 3rem;
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+
+    &.et-preview__arrow_left {
+        left: 0;
+    }
+
+    &.et-preview__arrow_right {
+        right: 0;
+    }
+
+    .et-icon {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: $iconFontSizeMiddle;
+        color: $darkDescriptionColor;
+    }
+
+    &:hover .et-icon {
+        color: $darkHoverColor;
+    }
+
+    &.et-preview__arrow_disabled {
+        cursor: not-allowed;
+
+        &:hover .et-icon {
+            color: $darkDescriptionColor;
+        }
+    }
+
+    @include max-screen($phoneMaxWidth) {
+        & {
+            display: none;
         }
     }
 }
