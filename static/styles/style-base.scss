@@ -518,6 +518,26 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 }
 
+.et-form {
+    .el-form-item {
+        .el-form-item__label {
+            width: $formLabelWidth;
+            padding-right: $spaceMiddle;
+            line-height: $elementHeight;
+            font-size: $descriptionFontSize;
+            color: $descriptionColor;
+        }
+
+        .el-input, .el-textarea {
+            width: $elementWidth;
+        }
+
+        .el-switch {
+            height: $elementHeight;
+        }
+    }
+}
+
 .et-dialog {
     .el-dialog {
         border-radius: $radiusSmall;
@@ -671,6 +691,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
         .el-button--primary:hover {
             border-color: $submitHoverColor;
+            background: $submitColor;
         }
     }
 

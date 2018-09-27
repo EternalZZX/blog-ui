@@ -84,12 +84,18 @@
                     </div>
                 </div>
                 <div class="et-preview__arrow et-preview__arrow_left"
-                    :class="{'et-preview__arrow_disabled': index <= 0}"
+                    :class="{
+                        'et-preview__arrow_disabled': index <= 0,
+                        'hide': imageZoom
+                    }"
                     @click.stop="prev">
                     <i class="et-icon ei-angle-left"></i>
                 </div>
                 <div class="et-preview__arrow et-preview__arrow_right"
-                    :class="{'et-preview__arrow_disabled': index >= data.length - 1}"
+                    :class="{
+                        'et-preview__arrow_disabled': index >= data.length - 1,
+                        'hide': imageZoom
+                    }"
                     @click.stop="next">
                     <i class="et-icon ei-angle-right"></i>
                 </div>
@@ -170,22 +176,6 @@ export default {
     computed: {
         image () {
             return this.index < this.data.length ? this.data[this.index] : {
-                uuid: null,
-                image_large: null,
-                metadata: {}
-            };
-        },
-        imagePrev () {
-            const index = this.index - 1;
-            return index >= 0 && index < this.data.length ? this.data[index] : {
-                uuid: null,
-                image_large: null,
-                metadata: {}
-            };
-        },
-        imageNext () {
-            const index = this.index + 1;
-            return index < this.data.length ? this.data[index] : {
                 uuid: null,
                 image_large: null,
                 metadata: {}

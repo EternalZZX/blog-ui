@@ -7,7 +7,7 @@
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 v-perm:album-add
-                @click="albumAddShow = true">
+                @click="add">
                 {{ $t("album.nav.create") }}
             </el-button>
         </et-nav>
@@ -180,6 +180,13 @@ export default {
         },
         updatePhoto (data) {
             this.dataList.splice(data.index, 1, data.photo);
+        },
+        add () {
+            if (this.loadType === 'other') {
+                this.photoAddShow = true;
+            } else {
+                this.albumAddShow = true;
+            }
         },
         getAlbum (uuid) {
             this.$router.push({
