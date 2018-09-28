@@ -518,8 +518,18 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 }
 
+.et-icon {
+    transition: transform .3s;
+
+    &.et-icon_reverse {
+        transform: rotate(180deg);
+    }
+}
+
 .et-form {
     .el-form-item {
+        margin-bottom: $spaceLarge;
+
         .el-form-item__label {
             width: $formLabelWidth;
             padding-right: $spaceMiddle;

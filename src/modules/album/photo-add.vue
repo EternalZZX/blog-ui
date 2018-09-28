@@ -33,29 +33,26 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-
-            <div @click="collapse = !collapse">show</div>
-            <el-collapse-transition>
-                <div class="et-collapse" v-show="collapse">
-                    <el-form-item label="审核状态">
-                        <el-select v-model="data.status">
-                            <el-option
-                                label="无所属"
-                                :value="null">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="私有图片">
-                        <el-switch v-model="data.privacy"></el-switch>
-                    </el-form-item>
-                    <el-form-item label="保留原图尺寸">
-                        <el-switch v-model="data.origin"></el-switch>
-                    </el-form-item>
-                    <el-form-item label="禁用压缩">
-                        <el-switch v-model="data.untreated"></el-switch>
-                    </el-form-item>
-                </div>
-            </el-collapse-transition>
+            <et-collapse title="高级设置"
+                :show.sync="collapseShow">
+                <el-form-item label="审核状态">
+                    <el-select v-model="data.status">
+                        <el-option
+                            label="无所属"
+                            :value="null">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="私有图片">
+                    <el-switch v-model="data.privacy"></el-switch>
+                </el-form-item>
+                <el-form-item label="保留原图尺寸">
+                    <el-switch v-model="data.origin"></el-switch>
+                </el-form-item>
+                <el-form-item label="禁用图片压缩">
+                    <el-switch v-model="data.untreated"></el-switch>
+                </el-form-item>
+            </et-collapse>
         </el-form>
         <div slot="footer">
             <el-button @click="cancel">{{ $t("common.cancelButton") }}</el-button>
@@ -84,7 +81,7 @@ export default {
                 untreated: false
             },
             imageUrl: '',
-            collapse: false
+            collapseShow: false
         };
     },
     methods: {

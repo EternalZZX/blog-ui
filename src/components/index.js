@@ -1,3 +1,4 @@
+import Collapse from './collapse';
 import Comments from './comment';
 import CommentScroll from './comment-scroll';
 import Confirm from './confirm';
@@ -10,6 +11,7 @@ import Toolbar from './toolbar';
 import User from './user';
 
 const components = [
+    Collapse,
     Comments,
     CommentScroll,
     Confirm,
