@@ -33,23 +33,29 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="审核状态">
-                <el-select v-model="data.status">
-                    <el-option
-                        label="无所属"
-                        :value="null">
-                    </el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="私有图片">
-                <el-switch v-model="data.privacy"></el-switch>
-            </el-form-item>
-            <el-form-item label="保留原图尺寸">
-                <el-switch v-model="data.origin"></el-switch>
-            </el-form-item>
-            <el-form-item label="禁用压缩">
-                <el-switch v-model="data.untreated"></el-switch>
-            </el-form-item>
+
+            <div @click="collapse = !collapse">show</div>
+            <el-collapse-transition>
+                <div class="et-collapse" v-show="collapse">
+                    <el-form-item label="审核状态">
+                        <el-select v-model="data.status">
+                            <el-option
+                                label="无所属"
+                                :value="null">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="私有图片">
+                        <el-switch v-model="data.privacy"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="保留原图尺寸">
+                        <el-switch v-model="data.origin"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="禁用压缩">
+                        <el-switch v-model="data.untreated"></el-switch>
+                    </el-form-item>
+                </div>
+            </el-collapse-transition>
         </el-form>
         <div slot="footer">
             <el-button @click="cancel">{{ $t("common.cancelButton") }}</el-button>
@@ -77,7 +83,8 @@ export default {
                 origin: false,
                 untreated: false
             },
-            imageUrl: ''
+            imageUrl: '',
+            collapse: false
         };
     },
     methods: {

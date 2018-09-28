@@ -1,5 +1,5 @@
 <template>
-<transition enter-active-class="animated fadeIn fast">
+<transition enter-active-class="animated jackInTheBox fast">
     <div class="et-photo__wrapper"
         :class="{
             'et-photo__wrapper_albums': type === 'album',
