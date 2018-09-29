@@ -86,6 +86,7 @@
 .el-input {
     .el-input__inner {
         height: $elementHeight;
+        padding: $spaceTiny $spaceSmall;
         font-size: $descriptionFontSize;
         line-height: $elementHeight;
 
@@ -104,6 +105,12 @@
         }
     }
 
+    &.el-input--suffix {
+        .el-input__inner {
+            padding-right: 1.8rem;
+        }
+    }
+
     .el-input__suffix {
         right: .2rem;
     }
@@ -116,6 +123,47 @@
 
     .el-input__clear {
         font-size: .9rem;
+    }
+}
+
+.el-select-dropdown {
+    &.el-popper[x-placement^=top] {
+        margin-bottom: 0;
+    }
+
+    &.el-popper[x-placement^=bottom] {
+        margin-top: 0;
+    }
+
+    .popper__arrow {
+        border: none;
+
+        &::after {
+            content: none;
+        }
+    }
+
+    .el-select-dropdown__list {
+        padding: 0;
+
+        .el-select-dropdown__item {
+            padding: 0 $spaceSmall;
+            font-size: $descriptionFontSize;
+            color: $subThemeColor;
+        }
+
+        .el-select-dropdown__item.selected {
+            color: $subThemeColor;
+            font-weight: normal;
+        }
+
+        .el-select-dropdown__item:hover {
+            background-color: $dropdownHoverBackground;
+        }
+
+        .el-select-dropdown__item span {
+            line-height: $elementHeight !important;
+        }
     }
 }
 

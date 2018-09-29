@@ -31,6 +31,14 @@
                         label="无所属"
                         :value="null">
                     </el-option>
+                    <el-option
+                        label="test1"
+                        :value="1">
+                    </el-option>
+                    <el-option
+                        label="test2"
+                        :value="2">
+                    </el-option>
                 </el-select>
             </el-form-item>
             <et-collapse title="高级设置"
