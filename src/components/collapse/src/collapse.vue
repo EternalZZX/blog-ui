@@ -54,7 +54,7 @@ export default {
             top: 50%;
             left: $formLabelWidth;
             right: $elementHeight;
-            border-bottom: 1px dashed $splitBorderColor;
+            border-bottom: 1px dashed $elementColor;
         }
 
         .et-collapse__title {
@@ -63,7 +63,7 @@ export default {
             padding-right: $spaceMiddle;
             font-size: $descriptionFontSize;
             line-height: $elementHeight;
-            color: $descriptionColor;
+            color: $navColor;
             text-align: right;
             box-sizing: border-box;
         }

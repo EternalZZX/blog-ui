@@ -31,11 +31,9 @@
                 </el-input>
             </el-form-item>
             <el-form-item :label="$t('photo.create.album')">
-                <el-select v-model="data.album_uuid">
-                    <el-option
-                        label="无所属"
-                        :value="null">
-                    </el-option>
+                <el-select v-model="data.album_uuid"
+                    clearable
+                    filterable>
                     <el-option
                         label="test1"
                         :value="1">
