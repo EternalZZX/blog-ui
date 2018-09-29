@@ -126,6 +126,14 @@
     }
 }
 
+.el-textarea {
+    .el-textarea__inner {
+        padding-right: $spaceSmall;
+        padding-left: $spaceSmall;
+        font-size: $descriptionFontSize;
+    }
+}
+
 .el-select-dropdown {
     &.el-popper[x-placement^=top] {
         margin-bottom: 0;

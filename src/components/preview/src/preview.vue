@@ -1,12 +1,6 @@
 <template>
     <transition name="wrapper">
         <div v-show="show" class="et-wrapper" @click="close">
-            <span class="et-wrapper__close"
-                :class="{ 'hide': imageZoom, 'opacity': commentShow }"
-                :title="$t('common.close')"
-                @click="close">
-                <i class="et-icon ei-close"></i>
-            </span>
             <div ref="preview" class="et-preview"
                 @touchstart="start"
                 @mousedown="start"
@@ -125,6 +119,12 @@
                     </div>
                 </div>
             </div>
+            <span class="et-wrapper__close"
+                :class="{ 'hide': imageZoom, 'opacity': commentShow }"
+                :title="$t('common.close')"
+                @click="close">
+                <i class="et-icon ei-close"></i>
+            </span>
         </div>
     </transition>
 </template>

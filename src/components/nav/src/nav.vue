@@ -124,13 +124,13 @@ export default {
     }
 
     .et-nav__panel {
-        margin: 0;
+        margin: 0 $spaceTiny;
         padding: $spaceSmall 0;
         border-top: $splitBorder;
 
         .et-nav__button {
             margin-bottom: $spaceTiny;
-            padding: $spaceTiny !important;
+            padding: $spaceTiny 0 !important;
             line-height: $navHeight;
             font-size: $descriptionFontSize;
             font-weight: $navFontWeight;

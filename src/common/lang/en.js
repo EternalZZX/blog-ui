@@ -72,6 +72,14 @@ export default {
         },
         create: {
             title: 'Upload Photo',
+            file: 'Upload File',
+            description: 'Description',
+            descriptionPlaceholder: 'Please enter photo description',
+            album: 'Photo Album',
+            audit: 'Audit Status',
+            privacy: 'Privacy Photo',
+            origin: 'Original Size',
+            untreated: 'Uncompressed',
             success: 'Upload photo succeed!',
             error: 'Upload photo failed!'
         }
@@ -148,6 +156,7 @@ export default {
         closeButton: 'Close',
         noMore: 'No more',
         noResults: 'No results',
+        advanced: 'Advanced',
         readCount: 'Read',
         likeCount: 'Like',
         commentCount: 'Comments',

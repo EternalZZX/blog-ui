@@ -72,6 +72,14 @@ export default {
         },
         create: {
             title: '上传图片',
+            file: '上传文件',
+            description: '图片描述',
+            descriptionPlaceholder: '请输入图片描述信息',
+            album: '所属相册',
+            audit: '审核状态',
+            privacy: '私有图片',
+            origin: '保留原图尺寸',
+            untreated: '禁用图片压缩',
             success: '上传图片完成!',
             error: '上传图片失败!'
         }
@@ -146,6 +154,7 @@ export default {
         closeButton: '关 闭',
         noMore: '没有更多了',
         noResults: '无检索结果',
+        advanced: '更多设置',
         readCount: '阅读',
         likeCount: '点赞',
         commentCount: '评论',

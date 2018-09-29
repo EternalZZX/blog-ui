@@ -6,9 +6,9 @@
         @open="open"
         @close="close">
         <el-form class="et-form" ref="form" :model="data">
-            <el-form-item label="上传图片">
-                <el-upload ref="upload"
-                    class="avatar-uploader"
+            <el-form-item :label="$t('photo.create.file')">
+                <el-upload class="et-upload"
+                    ref="upload"
                     action="upload"
                     :http-request="upload"
                     :show-file-list="false"
@@ -16,16 +16,21 @@
                     :auto-upload="false"
                     :on-change="handleChange"
                     :on-success="handleSuccess">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    <img class="et-upload__image"
+                        :src="imageUrl"
+                        v-if="imageUrl">
+                    <i class="et-icon ei-plus" v-else></i>
                 </el-upload>
             </el-form-item>
-            <el-form-item label="图片描述">
+            <el-form-item :label="$t('photo.create.description')">
                 <el-input type="textarea"
-                    v-model="data.description">
+                    v-model="data.description"
+                    :placeholder="$t('photo.create.descriptionPlaceholder')"
+                    :rows="2"
+                    resize="none">
                 </el-input>
             </el-form-item>
-            <el-form-item label="所属相册">
+            <el-form-item :label="$t('photo.create.album')">
                 <el-select v-model="data.album_uuid">
                     <el-option
                         label="无所属"
@@ -41,9 +46,9 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <et-collapse title="高级设置"
+            <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
-                <el-form-item label="审核状态">
+                <el-form-item :label="$t('photo.create.audit')">
                     <el-select v-model="data.status">
                         <el-option
                             label="无所属"
@@ -51,13 +56,13 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="私有图片">
+                <el-form-item :label="$t('photo.create.privacy')">
                     <el-switch v-model="data.privacy"></el-switch>
                 </el-form-item>
-                <el-form-item label="保留原图尺寸">
+                <el-form-item :label="$t('photo.create.origin')">
                     <el-switch v-model="data.origin"></el-switch>
                 </el-form-item>
-                <el-form-item label="禁用图片压缩">
+                <el-form-item :label="$t('photo.create.untreated')">
                     <el-switch v-model="data.untreated"></el-switch>
                 </el-form-item>
             </et-collapse>
@@ -132,29 +137,3 @@ export default {
     }
 };
 </script>
-
-<style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
-</style>

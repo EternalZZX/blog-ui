@@ -53,7 +53,7 @@ export default {
             display: block;
             top: 50%;
             left: $formLabelWidth;
-            width: $elementWidth - $elementHeight;
+            right: $elementHeight;
             border-bottom: 1px dashed $splitBorderColor;
         }
 
@@ -70,8 +70,11 @@ export default {
 
         .et-icon {
             position: absolute;
+            display: block;
             top: 0;
-            left: $formLabelWidth + $elementWidth - $elementHeight + $spaceMiddle;
+            right: 0;
+            width: $elementHeight;
+            text-align: center;
             line-height: $elementHeight;
             font-size: $iconFontSizeTiny;
             color: $splitBorderColor;
