@@ -62,10 +62,13 @@ export default {
     photo: {
         nav: {
             title: 'Photos',
-            create: 'Add',
+            back: 'Back',
             all: 'All Photos',
             public: 'Public Photos',
-            private: 'Private Photos'
+            private: 'Private Photos',
+            create: 'Upload Photo',
+            edit: 'Edit Mode',
+            browse: 'Browse Mode'
         },
         create: {
             title: 'Upload Photo',

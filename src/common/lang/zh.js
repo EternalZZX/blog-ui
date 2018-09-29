@@ -62,10 +62,13 @@ export default {
     photo: {
         nav: {
             title: '图片',
-            create: '新增',
+            back: '返回',
             all: '全部图片',
             public: '公开图片',
-            private: '私有图片'
+            private: '私有图片',
+            create: '上传图片',
+            edit: '编辑模式',
+            browse: '浏览模式'
         },
         create: {
             title: '上传图片',

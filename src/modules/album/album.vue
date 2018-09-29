@@ -3,12 +3,13 @@
         <et-nav :title="$t('photo.nav.title')"
             :index.sync="loadType"
             :menu="nav"
+            :panel="panel"
             @select="init">
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 v-perm:photo-add
-                @click="photoAddShow = true">
-                {{ $t("photo.nav.create") }}
+                @click="back">
+                {{ $t("photo.nav.back") }}
             </el-button>
         </et-nav>
 
@@ -75,6 +76,15 @@ export default {
                 value: 'private',
                 label: this.$t('photo.nav.private')
             }],
+            panel: [{
+                icon: 'ei-round-plus',
+                label: this.$t('photo.nav.create'),
+                event: this.addPhoto
+            }, {
+                icon: 'ei-edit',
+                label: this.$t('photo.nav.edit'),
+                event: this.addPhoto
+            }],
             loadType: 'all',
             photoAddShow: false,
             preview: {
@@ -133,6 +143,12 @@ export default {
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
+        },
+        back () {
+            this.$router.go(-1);
+        },
+        addPhoto () {
+            this.photoAddShow = true;
         },
         updatePhoto (data) {
             this.dataList.splice(data.index, 1, data.photo);

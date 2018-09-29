@@ -13,6 +13,19 @@
                         <span slot="title">{{ item.label }}</span>
                     </el-menu-item>
                 </el-menu>
+                <ul class="et-nav__panel"
+                    v-if="panel.length">
+                    <li class="et-nav__button"
+                        v-for="item in panel"
+                        :key="item.label"
+                        @click="item.event">
+                        <i v-if="item.icon"
+                            class="et-icon"
+                            :class="item.icon">
+                        </i>
+                        <span>{{ item.label }}</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -31,6 +44,12 @@ export default {
             default: ''
         },
         menu: {
+            type: Array,
+            default () {
+                return [];
+            }
+        },
+        panel: {
             type: Array,
             default () {
                 return [];
@@ -85,13 +104,13 @@ export default {
 
         .el-menu-item {
             height: auto;
+            margin-bottom: $spaceTiny;
+            padding: $spaceTiny !important;
             line-height: $navHeight;
             font-size: $descriptionFontSize;
-            color: $navColor;
-            padding: $spaceTiny !important;
-            border-radius: $radiusTiny;
-            margin-bottom: $spaceTiny;
             font-weight: $navFontWeight;
+            color: $navColor;
+            border-radius: $radiusTiny;
         }
 
         .el-menu-item:hover {
@@ -101,6 +120,32 @@ export default {
 
         .el-menu-item.is-active {
             background: $navActiveBackground;
+        }
+    }
+
+    .et-nav__panel {
+        margin: 0;
+        padding: $spaceSmall 0;
+        border-top: $splitBorder;
+
+        .et-nav__button {
+            margin-bottom: $spaceTiny;
+            padding: $spaceTiny !important;
+            line-height: $navHeight;
+            font-size: $descriptionFontSize;
+            font-weight: $navFontWeight;
+            color: $navColor;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        .et-nav__button:hover {
+            color: $subThemeColor;
+        }
+
+        .et-nav__button .et-icon {
+            font-size: $iconFontSizeTiny;
+            vertical-align: middle;
         }
     }
 }
