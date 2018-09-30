@@ -33,14 +33,15 @@
             <el-form-item :label="$t('photo.create.album')">
                 <el-select v-model="data.album_uuid"
                     clearable
-                    filterable>
-                    <el-option
-                        label="test1"
-                        :value="1">
-                    </el-option>
-                    <el-option
-                        label="test2"
-                        :value="2">
+                    filterable
+                    remote
+                    :remote-method="getSelfAlbums"
+                    :loading="albumLoading"
+                    :default-first-option="true">
+                    <el-option v-for="album in albums"
+                        :key="album.uuid"
+                        :label="album.name"
+                        :value="album.uuid">
                     </el-option>
                 </el-select>
             </el-form-item>
@@ -87,7 +88,9 @@
 </template>
 
 <script>
+import Utils from '@/common/utils';
 import Permission from '@/common/permission';
+import Album from '@/common/api/albums';
 import Photo from '@/common/api/photos';
 export default {
     name: 'EtPhotoAdd',
@@ -109,6 +112,8 @@ export default {
                 untreated: false
             },
             imageUrl: '',
+            albums: [],
+            albumLoading: false,
             collapseShow: false
         };
     },
@@ -131,6 +136,20 @@ export default {
         submit () {
             this.$refs.upload.submit();
             this.closeDialog();
+        },
+        getSelfAlbums (query) {
+            if (query !== '') {
+                this.albumLoading = true;
+                Album.QuerySelfAlbums(this.identityUuid, query).then(response => {
+                    this.albumLoading = false;
+                    this.albums = response.data.albums;
+                }).catch(err => {
+                    this.albumLoading = false;
+                    Utils.errorLog(err, 'ALBUM-QUERY');
+                });
+            } else {
+                this.albums = [];
+            }
         },
         upload (content) {
             Photo.create(

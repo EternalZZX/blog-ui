@@ -45,6 +45,20 @@ class AlbumApi extends BaseRequest {
             ...config
         });
     }
+
+    QuerySelfAlbums (uuid, query, params = {}, config = {}) {
+        const args = {
+            ...params,
+            author_uuid: uuid,
+            query_field: 'name',
+            query,
+            order_field: 'create_at'
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
 }
 
 AlbumApi.PRIVACY = {

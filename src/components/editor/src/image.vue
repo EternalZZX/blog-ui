@@ -75,7 +75,7 @@ import Quill from 'quill';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Photo from '@/common/api/photos';
-import Album, { AlbumApi } from '@/common/api/albums';
+import Album from '@/common/api/albums';
 export default {
     name: 'EtEditorImage',
     props: {
@@ -148,7 +148,7 @@ export default {
         loadAlbums (state) {
             Album.listSelfAlbums(
                 this.identity.uuid,
-                AlbumApi.PRIVACY.PUBLIC,
+                null,
                 this.params
             ).then(response => {
                 this.albumList = this.albumList.concat(response.data.albums);
