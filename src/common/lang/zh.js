@@ -76,6 +76,7 @@ export default {
             description: '图片描述',
             descriptionPlaceholder: '请输入图片描述信息',
             album: '所属相册',
+            albumPlaceholder: '请输入相册名称',
             audit: '审核状态',
             privacy: '私有图片',
             readLevel: '阅读等级',
@@ -119,6 +120,14 @@ export default {
         errorServer: '服务器发生错误!',
         errorToken: '认证信息已失效!',
         errorConnection: '连接服务器失败!'
+    },
+    status: {
+        draft: '草稿箱',
+        audit: '审核中',
+        active: '审核通过',
+        failed: '审核拒绝',
+        recycled: '回收站',
+        cancel: '已注销'
     },
     validate: {
         none: '内容不能为空!',

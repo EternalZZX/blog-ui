@@ -20,7 +20,7 @@
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
             </el-input>
             <el-upload action="upload"
-                :http-request="upload"
+                :http-request="uploadPhoto"
                 :show-file-list="false"
                 :multiple="false">
                 <el-button type="file">
@@ -45,7 +45,7 @@
                 </et-photo>
                 <div class="et-photo__wrapper et-photo__wrapper_add">
                     <el-upload action="upload"
-                        :http-request="upload"
+                        :http-request="uploadPhoto"
                         :show-file-list="false"
                         :multiple="false">
                         <div class="et-photo__add" :title="$t('photo.create.title')">
@@ -204,7 +204,7 @@ export default {
         search () {
             this.init(null, this.searchStr);
         },
-        upload (content) {
+        uploadPhoto (content) {
             Photo.create(content.file).then(response => {
                 this.selectPhotos.push(response.data);
                 this.init();

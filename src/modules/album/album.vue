@@ -35,7 +35,9 @@
         </div>
 
         <et-photo-add v-perm:photo-add
-            :show.sync="photoAddShow">
+            :show.sync="photoAddShow"
+            :album="album"
+            @create="init(loadType)">
         </et-photo-add>
 
         <et-preview
@@ -52,6 +54,7 @@ import { mapGetters } from 'vuex';
 import { EVENT } from '@/common/bus';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
+import Album from '@/common/api/albums';
 import Photo, { PhotoApi } from '@/common/api/photos';
 import EtPhotoAdd from './photo-add';
 export default {
@@ -89,6 +92,7 @@ export default {
                 }]
             },
             loadType: 'all',
+            album: null,
             photoAddShow: false,
             preview: {
                 show: false,
@@ -118,6 +122,7 @@ export default {
         });
     },
     activated () {
+        this.getAlbum();
         this.init();
     },
     methods: {
@@ -145,6 +150,13 @@ export default {
                     state.loaded();
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-LIST');
+            });
+        },
+        getAlbum () {
+            Album.get(this.albumUuid).then(response => {
+                this.album = response.data;
+            }).catch(err => {
+                Utils.errorLog(err, 'ALBUM-GET');
             });
         },
         back () {

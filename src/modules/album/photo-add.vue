@@ -10,12 +10,11 @@
                 <el-upload class="et-upload"
                     ref="upload"
                     action="upload"
-                    :http-request="upload"
+                    :http-request="uploadPhoto"
                     :show-file-list="false"
                     :multiple="false"
                     :auto-upload="false"
-                    :on-change="handleChange"
-                    :on-success="handleSuccess">
+                    :on-change="handleChange">
                     <img class="et-upload__image"
                         :src="imageUrl"
                         v-if="imageUrl">
@@ -37,11 +36,12 @@
                     remote
                     :remote-method="getSelfAlbums"
                     :loading="albumLoading"
-                    :default-first-option="true">
-                    <el-option v-for="album in albums"
-                        :key="album.uuid"
-                        :label="album.name"
-                        :value="album.uuid">
+                    :default-first-option="true"
+                    :placeholder="$t('photo.create.albumPlaceholder')">
+                    <el-option v-for="item in albums"
+                        :key="item.uuid"
+                        :label="item.name"
+                        :value="item.uuid">
                     </el-option>
                 </el-select>
             </el-form-item>
@@ -49,8 +49,8 @@
                 :show.sync="collapseShow">
                 <el-form-item :label="$t('photo.create.privacy')">
                     <el-switch v-model="data.privacy"
-                        :active-value="0"
-                        :inactive-value="1"
+                        :active-value="PRIVACY.PRIVATE"
+                        :inactive-value="PRIVACY.PUBLIC"
                         :disabled="privateDisabled">
                     </el-switch>
                 </el-form-item>
@@ -64,9 +64,10 @@
                 <el-form-item :label="$t('photo.create.audit')"
                     v-perm:photo-audit-set>
                     <el-select v-model="data.status">
-                        <el-option
-                            label="无所属"
-                            :value="null">
+                        <el-option v-for="item in status"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -88,16 +89,23 @@
 </template>
 
 <script>
+import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
 import Album from '@/common/api/albums';
-import Photo from '@/common/api/photos';
+import Photo, { PhotoApi } from '@/common/api/photos';
 export default {
     name: 'EtPhotoAdd',
     props: {
         show: {
             type: Boolean,
             default: false
+        },
+        album: {
+            type: Object,
+            default () {
+                return null;
+            }
         }
     },
     data () {
@@ -105,16 +113,26 @@ export default {
             data: {
                 description: '',
                 album_uuid: null,
-                privacy: 1,
+                privacy: PhotoApi.PRIVACY.PUBLIC,
                 read_level: 100,
-                status: '',
+                status: PhotoApi.STATUS.AUDIT,
                 origin: false,
                 untreated: false
             },
-            imageUrl: '',
+            imageUrl: null,
             albums: [],
             albumLoading: false,
-            collapseShow: false
+            collapseShow: false,
+            status: [{
+                label: this.$t('status.audit'),
+                value: PhotoApi.STATUS.AUDIT
+            }, {
+                label: this.$t('status.active'),
+                value: PhotoApi.STATUS.ACTIVE
+            }, {
+                label: this.$t('status.failed'),
+                value: PhotoApi.STATUS.FAILED
+            }]
         };
     },
     computed: {
@@ -124,18 +142,33 @@ export default {
         maxReadLevel () {
             return Permission.hasPermission('photo-read-set-unlimit') ?
                 1000 : Permission.getReadLevel();
+        },
+        PRIVACY () {
+            return PhotoApi.PRIVACY;
         }
     },
     methods: {
         open () {
-            // console.warn('open');
+            this.albums = [this.album];
+            this.data.album_uuid = this.album.uuid;
         },
         close () {
+            this.data = {
+                description: '',
+                album_uuid: null,
+                privacy: PhotoApi.PRIVACY.PUBLIC,
+                read_level: 100,
+                status: PhotoApi.STATUS.AUDIT,
+                origin: false,
+                untreated: false
+            };
+            this.imageUrl = null;
+            this.collapseShow = false;
+            this.$refs.form.resetFields();
             this.closeDialog();
         },
         submit () {
             this.$refs.upload.submit();
-            this.closeDialog();
         },
         getSelfAlbums (query) {
             if (query !== '') {
@@ -151,25 +184,22 @@ export default {
                 this.albums = [];
             }
         },
-        upload (content) {
-            Photo.create(
-                content.file,
-                this.data
-            ).then(response => {
-                content.onSuccess(response.data);
+        uploadPhoto (content) {
+            Photo.create(content.file, this.data).then(response => {
+                this.closeDialog();
+                this.$emit('create', response.data);
+                Common.notify(this.$t('photo.create.success'), 'success');
+                content.onSuccess(response);
             }).catch(err => {
-                if (err.response) {
-                    content.onError(err.response.data);
-                } else {
-                    content.onError(err.message);
-                }
+                Utils.errorLog(err, 'PHOTO-CREATE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('photo.create.error')
+                ), 'error', 'dialog');
+                content.onError(err);
             });
         },
         handleChange (file) {
             this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        handleSuccess (response) {
-            console.warn(response);
         },
         cancel () {
             this.closeDialog();

@@ -76,8 +76,9 @@ export default {
             description: 'Description',
             descriptionPlaceholder: 'Please enter photo description',
             album: 'Photo Album',
+            albumPlaceholder: 'Please enter album name',
             audit: 'Audit Status',
-            privacy: 'Privacy Photo',
+            privacy: 'Private Photo',
             readLevel: 'Read Level',
             origin: 'Original Size',
             untreated: 'Uncompressed',
@@ -119,6 +120,14 @@ export default {
         errorServer: 'Server error!',
         errorToken: 'Authentication information has expired!',
         errorConnection: 'Failed to connect to the server!'
+    },
+    status: {
+        draft: 'Draft',
+        audit: 'Review',
+        active: 'Pass',
+        failed: 'Reject',
+        recycled: 'Recycle',
+        cancel: 'Cnacel'
     },
     validate: {
         none: 'The field can not empty!',
