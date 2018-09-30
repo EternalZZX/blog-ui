@@ -112,7 +112,7 @@ export default {
         return {
             data: {
                 description: '',
-                album_uuid: null,
+                album_uuid: '',
                 privacy: PhotoApi.PRIVACY.PUBLIC,
                 read_level: 100,
                 status: PhotoApi.STATUS.AUDIT,
@@ -149,13 +149,15 @@ export default {
     },
     methods: {
         open () {
-            this.albums = [this.album];
-            this.data.album_uuid = this.album.uuid;
+            if (this.album) {
+                this.albums = [this.album];
+                this.data.album_uuid = this.album.uuid;
+            }
         },
         close () {
             this.data = {
                 description: '',
-                album_uuid: null,
+                album_uuid: '',
                 privacy: PhotoApi.PRIVACY.PUBLIC,
                 read_level: 100,
                 status: PhotoApi.STATUS.AUDIT,
@@ -185,6 +187,7 @@ export default {
             }
         },
         uploadPhoto (content) {
+
             Photo.create(content.file, this.data).then(response => {
                 this.closeDialog();
                 this.$emit('create', response.data);

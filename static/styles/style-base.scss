@@ -751,7 +751,8 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             padding: $spaceMiddle;
         }
 
-        .el-button--primary {
+        .el-button--primary,
+        .el-button--primary:focus {
             border-color: $submitColor;
             background: $submitColor;
         }
@@ -759,6 +760,11 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         .el-button--primary:hover {
             border-color: $submitHoverColor;
             background: $submitColor;
+        }
+
+        .el-button--primary:active {
+            border-color: $submitHoverColor;
+            background: $submitActiveColor;
         }
     }
 

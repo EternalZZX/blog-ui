@@ -54,7 +54,8 @@
         </et-album-add>
 
         <et-photo-add v-perm:photo-add
-            :show.sync="photoAddShow">
+            :show.sync="photoAddShow"
+            @create="init(loadType)">
         </et-photo-add>
 
         <et-preview
