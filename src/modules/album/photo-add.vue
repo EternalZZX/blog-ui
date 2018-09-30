@@ -187,13 +187,13 @@ export default {
             }
         },
         uploadPhoto (content) {
-
             Photo.create(content.file, this.data).then(response => {
                 this.closeDialog();
                 this.$emit('create', response.data);
                 Common.notify(this.$t('photo.create.success'), 'success');
                 content.onSuccess(response);
             }).catch(err => {
+                this.imageUrl = null;
                 Utils.errorLog(err, 'PHOTO-CREATE');
                 Common.notify(Utils.errorMessage(err,
                     this.$t('photo.create.error')
