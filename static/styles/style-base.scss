@@ -627,6 +627,12 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
                 width: 75%;
             }
         }
+
+        @include min-screen($pcMinWidth) {
+            & {
+                width: 35%;
+            }
+        }
     }
 
     @keyframes dialog-fade-in-bottom {
@@ -724,6 +730,12 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
                 top: 3.2rem;
                 bottom: 3.3rem;
                 max-height: none;
+            }
+        }
+
+        @include min-screen-height($pcMinHeight) {
+            & {
+                max-height: 600px;
             }
         }
 

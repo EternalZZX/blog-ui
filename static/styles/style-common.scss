@@ -18,6 +18,24 @@
     }
 }
 
+@mixin max-screen-height($height) {
+    @media screen and (max-height: $height) {
+        @content;
+    }
+}
+
+@mixin min-screen-height($height) {
+    @media screen and (min-height: $height) {
+        @content;
+    }
+}
+
+@mixin filter-screen-height($minHeight, $maxHeight) {
+    @media screen and (min-height: $minHeight) and (max-height: $maxHeight) {
+        @content;
+    }
+}
+
 %inner {
     display: flex;
     height: 100%;
