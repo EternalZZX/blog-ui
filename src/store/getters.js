@@ -6,7 +6,7 @@ export default {
         if (!state.permission) {
             return false;
         }
-        const permission = state.permission.permissions.find(item => item.name === name);
+        const permission = state.permission.permissions[name];
         if (!permission || !permission.status) {
             return false;
         }
@@ -16,5 +16,17 @@ export default {
             minor: permission.minor_level >= level
         };
         return result[condition];
+    },
+    roleLevel: state => () => {
+        if (!state.permission) {
+            return 0;
+        }
+        return state.permission.role_level;
+    },
+    readLevel: state => () => {
+        if (!state.permission) {
+            return 0;
+        }
+        return state.permission.permissions.read_level.value;
     }
 };

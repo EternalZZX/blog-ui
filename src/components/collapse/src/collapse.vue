@@ -88,5 +88,24 @@ export default {
             color: $elementHoverColor;
         }
     }
+
+    @include max-screen($phoneMaxWidth) {
+        .et-collapse__header {
+            &::before {
+                left: 4.5rem;
+                right: 1.5rem;
+            }
+
+            .et-collapse__title {
+                width: auto;
+                text-align: left;
+            }
+
+            .et-icon {
+                width: 1.5rem;
+                font-size: .8125rem;
+            }
+        }
+    }
 }
 </style>

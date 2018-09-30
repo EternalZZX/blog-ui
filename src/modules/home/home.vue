@@ -2,7 +2,7 @@
     <div class="et-layout">
         <et-nav :title="$t('section.nav.title')"
             :index.sync="loadType"
-            :menu="nav">
+            :options="navOptions">
         </et-nav>
         <div class="et-content">
             <div class="et-content__wrapper">
@@ -36,19 +36,21 @@ export default {
     name: 'EtHome',
     data () {
         return {
-            nav: [{
-                value: 'all',
-                label: this.$t('section.nav.all')
-            }, {
-                value: 'hot',
-                label: this.$t('section.nav.hot')
-            }, {
-                value: 'follow',
-                label: this.$t('section.nav.follow')
-            }, {
-                value: 'manage',
-                label: this.$t('section.nav.manage')
-            }],
+            navOptions: {
+                nav: [{
+                    value: 'all',
+                    label: this.$t('section.nav.all')
+                }, {
+                    value: 'hot',
+                    label: this.$t('section.nav.hot')
+                }, {
+                    value: 'follow',
+                    label: this.$t('section.nav.follow')
+                }, {
+                    value: 'manage',
+                    label: this.$t('section.nav.manage')
+                }]
+            },
             loadType: 'all',
             imageUrl: ''
         };

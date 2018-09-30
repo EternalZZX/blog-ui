@@ -2,7 +2,7 @@
     <div class="et-layout">
         <et-nav :title="$t('section.nav.title')"
             :index.sync="loadType"
-            :menu="nav">
+            :options="navOptions">
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 v-perm:section-add
@@ -89,19 +89,21 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            nav: [{
-                value: 'all',
-                label: this.$t('section.nav.all')
-            }, {
-                value: 'hot',
-                label: this.$t('section.nav.hot')
-            }, {
-                value: 'follow',
-                label: this.$t('section.nav.follow')
-            }, {
-                value: 'manage',
-                label: this.$t('section.nav.manage')
-            }],
+            navOptions: {
+                nav: [{
+                    value: 'all',
+                    label: this.$t('section.nav.all')
+                }, {
+                    value: 'hot',
+                    label: this.$t('section.nav.hot')
+                }, {
+                    value: 'follow',
+                    label: this.$t('section.nav.follow')
+                }, {
+                    value: 'manage',
+                    label: this.$t('section.nav.manage')
+                }]
+            },
             loadType: 'all',
             hashCode: Utils.randString(),
             sectionAddShow: false

@@ -7,18 +7,19 @@
             </div>
             <div class="et-nav__body">
                 <el-menu :default-active="index" @select="select">
-                    <el-menu-item v-for="item in menu"
+                    <el-menu-item v-for="item in options.nav"
                         :key="item.value"
                         :index="item.value">
                         <span slot="title">{{ item.label }}</span>
                     </el-menu-item>
                 </el-menu>
                 <ul class="et-nav__panel"
-                    v-if="panel.length">
-                    <li class="et-nav__button"
-                        v-for="item in panel"
+                    v-if="menu.length">
+                    <li v-for="item in menu"
                         :key="item.label"
-                        @click="item.event">
+                        class="et-nav__button"
+                        :class="{'et-nav__button_disabled': item.disabled}"
+                        @click="panelHandle(item)">
                         <i v-if="item.icon"
                             class="et-icon"
                             :class="item.icon">
@@ -43,23 +44,29 @@ export default {
             type: String,
             default: ''
         },
-        menu: {
-            type: Array,
+        options: {
+            type: Object,
             default () {
-                return [];
+                return {
+                    nav: [],
+                    menu: []
+                };
             }
-        },
-        panel: {
-            type: Array,
-            default () {
-                return [];
-            }
+        }
+    },
+    computed: {
+        menu () {
+            return this.options.menu ?
+                this.options.menu.filter(item => item.show !== false) : [];
         }
     },
     methods: {
         select (index) {
             this.$emit('update:index', index);
             this.$emit('select', index);
+        },
+        panelHandle (item) {
+            !item.disabled && item.event();
         }
     }
 };
@@ -141,6 +148,11 @@ export default {
 
         .et-nav__button:hover {
             color: $subThemeColor;
+        }
+
+        .et-nav__button.et-nav__button_disabled {
+            color: $disabledColor;
+            cursor: not-allowed;
         }
 
         .et-nav__button .et-icon {

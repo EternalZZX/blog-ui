@@ -78,6 +78,7 @@ export default {
             album: 'Photo Album',
             audit: 'Audit Status',
             privacy: 'Privacy Photo',
+            readLevel: 'Read Level',
             origin: 'Original Size',
             untreated: 'Uncompressed',
             success: 'Upload photo succeed!',

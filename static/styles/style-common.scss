@@ -155,6 +155,7 @@
         padding: 0;
 
         .el-select-dropdown__item {
+            height: $elementHeight;
             padding: 0 $spaceSmall;
             font-size: $descriptionFontSize;
             color: $subThemeColor;

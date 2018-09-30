@@ -1,7 +1,25 @@
 import Vue from 'vue';
 import store from '@/store';
 
-const NAME = {
+class Permission {
+    static hasPermission (key) {
+        const relate = Permission.PERMISSION_DICT[key];
+        if (!relate) {
+            return false;
+        }
+        return store.getters.permission(relate.name, relate.type, relate.level);
+    }
+
+    static getRoleLevel () {
+        return store.getters.roleLevel();
+    }
+
+    static getReadLevel () {
+        return store.getters.readLevel();
+    }
+}
+
+Permission.NAME = {
     LOGIN: 'login',
     READ_LEVEL: 'read_level',
 
@@ -72,26 +90,59 @@ const NAME = {
     MARK_PRIVACY: 'mark_privacy'
 };
 
-const TYPE = {
+Permission.TYPE = {
     STATUS: 'status',
     MAJOR: 'major',
     MINOR: 'minor'
 };
 
-const PERMISSION_DICT = {
+Permission.PERMISSION_DICT = {
     'section-add': {
-        name: NAME.SECTION_CREATE,
-        type: TYPE.STATUS
+        name: Permission.NAME.SECTION_CREATE,
+        type: Permission.TYPE.STATUS
     },
     'album-add': {
-        name: NAME.ALBUM_CREATE,
-        type: TYPE.STATUS
+        name: Permission.NAME.ALBUM_CREATE,
+        type: Permission.TYPE.STATUS
+    },
+    'photo-add': {
+        name: Permission.NAME.PHOTO_CREATE,
+        type: Permission.TYPE.STATUS
+    },
+    'photo-private-set': {
+        name: Permission.NAME.PHOTO_PRIVACY,
+        type: Permission.TYPE.MINOR,
+        level: 200
+    },
+    'photo-read-set': {
+        name: Permission.NAME.PHOTO_READ,
+        type: Permission.TYPE.MINOR,
+        level: 100
+    },
+    'photo-read-set-unlimit': {
+        name: Permission.NAME.PHOTO_READ,
+        type: Permission.TYPE.MINOR,
+        level: 1000
+    },
+    'photo-audit-set': {
+        name: Permission.NAME.PHOTO_AUDIT,
+        type: Permission.TYPE.MINOR,
+        level: 1000
+    },
+    'photo-origin': {
+        name: Permission.NAME.PHOTO_LIMIT,
+        type: Permission.TYPE.MAJOR,
+        level: 1000
+    },
+    'photo-untreated': {
+        name: Permission.NAME.PHOTO_LIMIT,
+        type: Permission.TYPE.MINOR,
+        level: 1000
     }
 };
 
 Vue.directive('perm', (el, binding, vnode) => {
-    const relate = PERMISSION_DICT[binding.arg];
-    if (relate && !store.getters.permission(relate.name, relate.type, relate.level)) {
+    if (!Permission.hasPermission(binding.arg)) {
         const comment = document.createComment('');
         Object.defineProperty(comment, 'setAttribute', {
             value: () => undefined
@@ -110,3 +161,5 @@ Vue.directive('perm', (el, binding, vnode) => {
         }
     }
 });
+
+export default Permission;

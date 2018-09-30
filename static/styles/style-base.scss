@@ -573,8 +573,34 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             width: $elementWidth;
         }
 
+        .el-slider {
+            display: inline-block;
+            width: $elementWidth;
+            padding: 0 8px;
+            box-sizing: border-box;
+
+            .el-slider__runway {
+                margin: .8125rem 0;
+            }
+        }
+
         .el-switch {
             height: $elementHeight;
+        }
+
+        @include max-screen($phoneMaxWidth) {
+            .el-form-item__label {
+                width: 50%;
+                text-align: left;
+            }
+            .el-input, .el-textarea,
+            .el-select, .el-slider {
+                width: 100%;
+            }
+
+            .el-switch {
+                float: right;
+            }
         }
     }
 }

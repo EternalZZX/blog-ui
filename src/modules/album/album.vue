@@ -2,8 +2,7 @@
     <div class="et-layout">
         <et-nav :title="$t('photo.nav.title')"
             :index.sync="loadType"
-            :menu="nav"
-            :panel="panel"
+            :options="navOptions"
             @select="init">
             <el-button slot="button" type="text"
                 class="et-nav__button"
@@ -52,6 +51,7 @@
 import { mapGetters } from 'vuex';
 import { EVENT } from '@/common/bus';
 import Utils from '@/common/utils';
+import Permission from '@/common/permission';
 import Photo, { PhotoApi } from '@/common/api/photos';
 import EtPhotoAdd from './photo-add';
 export default {
@@ -66,25 +66,28 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            nav: [{
-                value: 'all',
-                label: this.$t('photo.nav.all')
-            }, {
-                value: 'public',
-                label: this.$t('photo.nav.public')
-            }, {
-                value: 'private',
-                label: this.$t('photo.nav.private')
-            }],
-            panel: [{
-                icon: 'ei-round-plus',
-                label: this.$t('photo.nav.create'),
-                event: this.addPhoto
-            }, {
-                icon: 'ei-edit',
-                label: this.$t('photo.nav.edit'),
-                event: this.addPhoto
-            }],
+            navOptions: {
+                nav: [{
+                    value: 'all',
+                    label: this.$t('photo.nav.all')
+                }, {
+                    value: 'public',
+                    label: this.$t('photo.nav.public')
+                }, {
+                    value: 'private',
+                    label: this.$t('photo.nav.private')
+                }],
+                menu: [{
+                    icon: 'ei-round-plus',
+                    label: this.$t('photo.nav.create'),
+                    event: this.addPhoto,
+                    disabled: !Permission.hasPermission('photo-add')
+                }, {
+                    icon: 'ei-edit',
+                    label: this.$t('photo.nav.edit'),
+                    event: this.addPhoto
+                }]
+            },
             loadType: 'all',
             photoAddShow: false,
             preview: {

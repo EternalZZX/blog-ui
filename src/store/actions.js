@@ -22,8 +22,14 @@ export default {
         return new Promise((resolve, reject) => {
             const role = state.identity ? state.identity.role : SETTING.GUEST_ROLE;
             RoleApi.get(role).then(response => {
-                commit(TYPES.SET_PERMISSION, response.data);
-                resolve(response.data);
+                const data = response.data,
+                    permissionDict = {};
+                for (const item of data.permissions) {
+                    permissionDict[item.name] = item;
+                }
+                data.permissions = permissionDict;
+                commit(TYPES.SET_PERMISSION, data);
+                resolve(data);
             }).catch(err => {
                 Utils.errorLog(err, 'ROLE-GET');
                 reject(err);

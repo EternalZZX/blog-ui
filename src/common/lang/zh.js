@@ -78,6 +78,7 @@ export default {
             album: '所属相册',
             audit: '审核状态',
             privacy: '私有图片',
+            readLevel: '阅读等级',
             origin: '保留原图尺寸',
             untreated: '禁用图片压缩',
             success: '上传图片完成!',

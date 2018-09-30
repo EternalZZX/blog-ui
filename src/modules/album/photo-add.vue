@@ -46,7 +46,22 @@
             </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
-                <el-form-item :label="$t('photo.create.audit')">
+                <el-form-item :label="$t('photo.create.privacy')">
+                    <el-switch v-model="data.privacy"
+                        :active-value="0"
+                        :inactive-value="1"
+                        :disabled="privateDisabled">
+                    </el-switch>
+                </el-form-item>
+                <el-form-item :label="$t('photo.create.readLevel')"
+                    v-perm:photo-read-set>
+                    <el-slider v-model="data.read_level"
+                        :max="maxReadLevel"
+                        :step="10">
+                    </el-slider>
+                </el-form-item>
+                <el-form-item :label="$t('photo.create.audit')"
+                    v-perm:photo-audit-set>
                     <el-select v-model="data.status">
                         <el-option
                             label="无所属"
@@ -54,13 +69,12 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('photo.create.privacy')">
-                    <el-switch v-model="data.privacy"></el-switch>
-                </el-form-item>
-                <el-form-item :label="$t('photo.create.origin')">
+                <el-form-item :label="$t('photo.create.origin')"
+                    v-perm:photo-origin>
                     <el-switch v-model="data.origin"></el-switch>
                 </el-form-item>
-                <el-form-item :label="$t('photo.create.untreated')">
+                <el-form-item :label="$t('photo.create.untreated')"
+                    v-perm:photo-untreated>
                     <el-switch v-model="data.untreated"></el-switch>
                 </el-form-item>
             </et-collapse>
@@ -73,6 +87,7 @@
 </template>
 
 <script>
+import Permission from '@/common/permission';
 import Photo from '@/common/api/photos';
 export default {
     name: 'EtPhotoAdd',
@@ -87,6 +102,8 @@ export default {
             data: {
                 description: '',
                 album_uuid: null,
+                privacy: 1,
+                read_level: 100,
                 status: '',
                 origin: false,
                 untreated: false
@@ -94,6 +111,15 @@ export default {
             imageUrl: '',
             collapseShow: false
         };
+    },
+    computed: {
+        privateDisabled () {
+            return !Permission.hasPermission('photo-private-set');
+        },
+        maxReadLevel () {
+            return Permission.hasPermission('photo-read-set-unlimit') ?
+                1000 : Permission.getReadLevel();
+        }
     },
     methods: {
         open () {

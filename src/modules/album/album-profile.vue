@@ -2,7 +2,7 @@
     <div class="et-layout">
         <et-nav :title="$t('album.nav.title')"
             :index.sync="loadType"
-            :menu="nav"
+            :options="navOptions"
             @select="init">
             <el-button slot="button" type="text"
                 class="et-nav__button"
@@ -87,19 +87,21 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            nav: [{
-                value: 'all',
-                label: this.$t('album.nav.all')
-            }, {
-                value: 'public',
-                label: this.$t('album.nav.public')
-            }, {
-                value: 'private',
-                label: this.$t('album.nav.private')
-            }, {
-                value: 'other',
-                label: this.$t('album.nav.other')
-            }],
+            navOptions: {
+                nav: [{
+                    value: 'all',
+                    label: this.$t('album.nav.all')
+                }, {
+                    value: 'public',
+                    label: this.$t('album.nav.public')
+                }, {
+                    value: 'private',
+                    label: this.$t('album.nav.private')
+                }, {
+                    value: 'other',
+                    label: this.$t('album.nav.other')
+                }]
+            },
             loadType: 'all',
             albumAddShow: false,
             photoAddShow: false,
