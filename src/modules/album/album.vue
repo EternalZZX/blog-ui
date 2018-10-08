@@ -28,7 +28,7 @@
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
                             :title="$t('photo.create.title')"
-                            @click="photoAddShow = true">
+                            @click="addPhoto">
                             <i class="et-icon ei-plus"></i>
                         </div>
                     </div>

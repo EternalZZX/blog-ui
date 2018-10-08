@@ -12,28 +12,31 @@
             :style="coverUrl"
             v-on="$listeners">
             <ul class="et-photo__body"
-                :class="{'et-photo__body_fixed': selectable}">
+                :class="{'et-photo__body_fixed': selectable}"
+                @click.stop>
                 <li class="et-photo__info">
                     <span :title="data[property[type].title]">
                         {{ data[property[type].title] }}
                     </span>
                     <span v-if="!selectable"
-                        class="et-photo__info_count"
-                        :title="data.metadata.like_count">
+                        class="et-photo__info_button"
+                        :title="data.metadata.like_count"
+                        @click="eventHandle('upvote')">
                         <i class="et-icon ei-like"></i>
                         {{ data.metadata.like_count | count }}
                     </span>
                     <span v-if="editable"
-                        class="et-photo__info_count"
+                        class="et-photo__info_button"
                         :title="$t('common.edit')"
-                        @click.stop="edit">
+                        @click="eventHandle('edit')">
                         <i class="et-icon ei-edit"></i>
                     </span>
                 </li>
                 <li v-if="!selectable" class="et-photo__info">
                     <span>{{ data.create_at | date }}</span>
-                    <span class="et-photo__info_count"
-                        :title="data.metadata.comment_count">
+                    <span class="et-photo__info_button"
+                        :title="data.metadata.comment_count"
+                        @click="eventHandle('comment')">
                         <i class="et-icon ei-message"></i>
                         {{ data.metadata.comment_count | count }}
                     </span>
@@ -42,7 +45,7 @@
         </div>
         <i v-if="deletable"
             class="et-photo__delete et-icon ei-round-close-fill"
-            @click="remove">
+            @click="eventHandle('remove')">
         </i>
     </div>
 </transition>
@@ -107,11 +110,8 @@ export default {
         }
     },
     methods: {
-        edit () {
-            this.$emit('edit', this.data);
-        },
-        remove () {
-            this.$emit('delete', this.data);
+        eventHandle (command) {
+            this.$emit(command, this.data);
         }
     }
 };
@@ -228,7 +228,7 @@ export default {
         padding: 0 .5rem;
         padding-top: .5rem;
         margin: 0;
-        color: #fff;
+        color: $darkContentColor;
         background: linear-gradient(
             rgba(51, 51, 51, 0),
             rgba(51, 51, 51, 0.5),
@@ -236,6 +236,7 @@ export default {
             rgba(51, 51, 51, 0.7)
         );
         transition: bottom .3s;
+        cursor: default;
 
         @at-root .et-photo:hover .et-photo__body {
             bottom: 0;
@@ -254,7 +255,7 @@ export default {
             @extend %text-overview;
         }
 
-        .et-photo__info > span.et-photo__info_count {
+        .et-photo__info > span.et-photo__info_button {
             flex: none;
         }
 
@@ -263,6 +264,11 @@ export default {
             height: 1.5rem;
             line-height: 1.5rem;
             font-size: $iconFontSizeSmall;
+            cursor: pointer;
+        }
+
+        .et-photo__info > span.et-photo__info_button:hover > .et-icon {
+            color: $darkHoverColor;
         }
 
         &.et-photo__body_fixed {
@@ -271,7 +277,7 @@ export default {
     }
 
     &.et-photo_selectable:hover {
-        border-color: $dropdownHoverBackground;
+        border-color: $headerHoverBackground;
         transition: border-color .3s;
     }
 }
