@@ -20,7 +20,10 @@
                     <et-photo v-for="(photo, index) in dataList"
                         :key="photo.uuid"
                         :data="photo"
-                        @click="getPreview(index)">
+                        :selectable="editMode"
+                        :deletable="editMode"
+                        :editable="editMode"
+                        @click="editMode ? selectPhoto(photo) : getPreview(index)">
                     </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
@@ -69,7 +72,23 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            navOptions: {
+            loadType: 'all',
+            album: null,
+            photoAddShow: false,
+            editMode: false,
+            selectPhotos: [],
+            preview: {
+                show: false,
+                index: 0
+            }
+        };
+    },
+    computed: {
+        ...mapGetters({
+            hasIdentity: 'hasIdentity'
+        }),
+        navOptions () {
+            return {
                 nav: [{
                     value: 'all',
                     label: this.$t('photo.nav.all')
@@ -86,24 +105,14 @@ export default {
                     event: this.addPhoto,
                     disabled: !Permission.hasPermission('photo-add')
                 }, {
-                    icon: 'ei-edit',
-                    label: this.$t('photo.nav.edit'),
-                    event: this.addPhoto
+                    icon: this.editMode ? 'ei-exit' : 'ei-edit',
+                    label: this.editMode ?
+                        this.$t('photo.nav.editFinish') :
+                        this.$t('photo.nav.edit'),
+                    event: this.editModeTrigger
                 }]
-            },
-            loadType: 'all',
-            album: null,
-            photoAddShow: false,
-            preview: {
-                show: false,
-                index: 0
-            }
-        };
-    },
-    computed: {
-        ...mapGetters({
-            hasIdentity: 'hasIdentity'
-        }),
+            };
+        },
         privacy () {
             const privacyDict = {
                 'all': null,
@@ -114,6 +123,16 @@ export default {
         },
         albumUuid () {
             return this.$route.params.uuid;
+        }
+    },
+    watch: {
+        editMode (val) {
+            if (!val) {
+                for (const item of this.dataList) {
+                    item.checked = false;
+                }
+                this.selectPhotos = [];
+            }
         }
     },
     mounted () {
@@ -129,6 +148,7 @@ export default {
         init (loadType) {
             this.dataList = [];
             this.params.page = 1;
+            this.editMode = false;
             this.loadType = loadType || 'all';
             this.$refs.scroll.reset();
         },
@@ -143,7 +163,11 @@ export default {
             const args = { ...this.params };
             this.privacy !== null && (args.privacy = this.privacy);
             Photo.listAlbumPhotos(this.albumUuid, args).then(response => {
-                this.dataList = this.dataList.concat(response.data.photos);
+                const photos = response.data.photos.map(item => {
+                    item.checked = false;
+                    return item;
+                });
+                this.dataList = this.dataList.concat(photos);
                 this.params.page ++;
                 response.data.total === this.dataList.length ?
                     state.complete() :
@@ -159,18 +183,30 @@ export default {
                 Utils.errorLog(err, 'ALBUM-GET');
             });
         },
+        getPreview (index) {
+            this.preview.show = true;
+            this.preview.index = index;
+        },
         back () {
             this.$router.go(-1);
         },
         addPhoto () {
+            this.editMode = false;
             this.photoAddShow = true;
+        },
+        editModeTrigger () {
+            this.editMode = !this.editMode;
+        },
+        selectPhoto (photo) {
+            photo.checked = !photo.checked;
+            photo.checked ?
+                this.selectPhotos.push(photo) :
+                this.selectPhotos.splice(this.selectPhotos.findIndex(
+                    item => item.uuid === photo.uuid
+                ), 1);
         },
         updatePhoto (data) {
             this.dataList.splice(data.index, 1, data.photo);
-        },
-        getPreview (index) {
-            this.preview.show = true;
-            this.preview.index = index;
         }
     }
 };

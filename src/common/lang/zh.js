@@ -68,6 +68,7 @@ export default {
             private: '私有图片',
             create: '上传图片',
             edit: '编辑模式',
+            editFinish: '编辑完成',
             browse: '浏览模式'
         },
         create: {

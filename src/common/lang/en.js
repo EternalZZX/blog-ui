@@ -68,6 +68,7 @@ export default {
             private: 'Private Photos',
             create: 'Upload Photo',
             edit: 'Edit Mode',
+            editFinish: 'Edit Finish',
             browse: 'Browse Mode'
         },
         create: {

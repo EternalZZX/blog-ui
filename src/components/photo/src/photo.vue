@@ -3,7 +3,8 @@
     <div class="et-photo__wrapper"
         :class="{
             'et-photo__wrapper_albums': type === 'album',
-            'et-photo__wrapper_checked': type === 'photo' && data.checked
+            'et-photo__wrapper_checked': selectable && type === 'photo' && data.checked,
+            'et-photo_deletable': deletable
         }">
         <div ref="photo"
             class="et-photo"
@@ -22,6 +23,12 @@
                         <i class="et-icon ei-like"></i>
                         {{ data.metadata.like_count | count }}
                     </span>
+                    <span v-if="editable"
+                        class="et-photo__info_count"
+                        :title="$t('common.edit')"
+                        @click.stop="edit">
+                        <i class="et-icon ei-edit"></i>
+                    </span>
                 </li>
                 <li v-if="!selectable" class="et-photo__info">
                     <span>{{ data.create_at | date }}</span>
@@ -33,6 +40,10 @@
                 </li>
             </ul>
         </div>
+        <i v-if="deletable"
+            class="et-photo__delete et-icon ei-round-close-fill"
+            @click="remove">
+        </i>
     </div>
 </transition>
 </template>
@@ -56,6 +67,14 @@ export default {
             }
         },
         selectable: {
+            type: Boolean,
+            default: false
+        },
+        deletable: {
+            type: Boolean,
+            default: false
+        },
+        editable: {
             type: Boolean,
             default: false
         },
@@ -85,6 +104,14 @@ export default {
                     `url(${url}?hash=${this.hash})` :
                     `url(${url})`;
             return url ? { backgroundImage } : null;
+        }
+    },
+    methods: {
+        edit () {
+            this.$emit('edit', this.data);
+        },
+        remove () {
+            this.$emit('delete', this.data);
         }
     }
 };
@@ -149,12 +176,29 @@ export default {
             content: '\e721';
             position: absolute;
             z-index: 1;
-            top: .6rem;
+            top: .8rem;
             right: .8rem;
             font-size: .9375rem;
             font-family: 'et-icon';
             color: $darkContentColor;
         }
+    }
+
+    .et-photo__delete {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: $iconFontSizeMiddle;
+        color: $descriptionColor;
+        cursor: pointer;
+
+        &:hover {
+            color: $darkHoverColor;
+        }
+    }
+
+    &.et-photo_deletable {
+        animation: swing .25s infinite;
     }
 }
 
@@ -215,8 +259,10 @@ export default {
         }
 
         .et-photo__info > span > .et-icon {
+            display: inline-block;
+            height: 1.5rem;
+            line-height: 1.5rem;
             font-size: $iconFontSizeSmall;
-            margin-right: .1rem;
         }
 
         &.et-photo__body_fixed {
@@ -227,6 +273,20 @@ export default {
     &.et-photo_selectable:hover {
         border-color: $dropdownHoverBackground;
         transition: border-color .3s;
+    }
+}
+
+@keyframes swing {
+    from {
+        transform: rotate3d(0, 0, 1, -1deg);
+    }
+
+    50% {
+        transform: rotate3d(0, 0, 1, 1deg);
+    }
+
+    to {
+        transform: rotate3d(0, 0, 1, -1deg);
     }
 }
 </style>
