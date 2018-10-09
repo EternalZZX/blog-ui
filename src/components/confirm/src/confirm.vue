@@ -8,11 +8,16 @@
             {{ message || $t('common.confirmMessage') }}
         </span>
         <div slot="footer">
-            <el-button @click="cancel">
-                {{ $t("common.cancelButton") }}
-            </el-button>
-            <el-button type="primary"
-                @click="confirm">
+            <template v-if="type === 'confirm'">
+                <el-button @click="cancel">
+                    {{ $t("common.cancelButton") }}
+                </el-button>
+                <el-button type="primary"
+                    @click="confirm">
+                    {{ $t("common.confirmButton") }}
+                </el-button>
+            </template>
+            <el-button v-else @click="cancel">
                 {{ $t("common.confirmButton") }}
             </el-button>
         </div>
@@ -34,6 +39,16 @@ export default {
         data: {
             default () {
                 return {};
+            }
+        },
+        type: {
+            type: String,
+            default: 'confirm',
+            validator (val) {
+                return [
+                    'confirm',
+                    'alert'
+                ].indexOf(val) !== -1;
             }
         }
     },

@@ -67,6 +67,7 @@ export default {
             public: '公开图片',
             private: '私有图片',
             create: '上传图片',
+            delete: '删除图片',
             edit: '编辑模式',
             editFinish: '编辑完成',
             browse: '浏览模式'
@@ -89,7 +90,9 @@ export default {
         delete: {
             success: '删除图片成功!',
             error: '删除图片失败!',
-            confirm: '您确定要删除该图片吗?'
+            confirm: '您确定要删除该图片吗?',
+            confirmPhotos: '您确定要删除这些图片吗?',
+            confirmSelect: '请至少选择一张要删除的图片!'
         }
     },
     comment: {

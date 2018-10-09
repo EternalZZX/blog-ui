@@ -67,6 +67,7 @@ export default {
             public: 'Public Photos',
             private: 'Private Photos',
             create: 'Upload Photo',
+            delete: 'Delete Photo',
             edit: 'Edit Mode',
             editFinish: 'Edit Finish',
             browse: 'Browse Mode'
@@ -89,7 +90,9 @@ export default {
         delete: {
             success: 'Photo delete successfully!',
             error: 'Photo delete failed!',
-            confirm: 'Are you sure to delete this photo?'
+            confirm: 'Are you sure to delete this photo?',
+            confirmPhotos: 'Are you sure to delete these photos?',
+            confirmSelect: 'Please select at least one photo to delete!'
         }
     },
     comment: {

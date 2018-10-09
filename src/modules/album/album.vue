@@ -48,6 +48,7 @@
             :show.sync="confirm.show"
             :data="confirm.data"
             :message="confirm.message"
+            :type="confirm.type"
             @confirm="deletePhotos">
         </et-confirm>
 
@@ -88,8 +89,9 @@ export default {
             selectPhotos: [],
             confirm: {
                 show: false,
+                message: '',
                 data: null,
-                message: ''
+                type: 'confirm'
             },
             preview: {
                 show: false,
@@ -118,6 +120,11 @@ export default {
                     label: this.$t('photo.nav.create'),
                     event: this.addPhoto,
                     disabled: !Permission.hasPermission('photo-add')
+                }, {
+                    icon: 'ei-trash',
+                    label: this.$t('photo.nav.delete'),
+                    event: this.removePhoto,
+                    show: this.editMode
                 }, {
                     icon: this.editMode ? 'ei-exit' : 'ei-edit',
                     label: this.editMode ?
@@ -221,11 +228,25 @@ export default {
             this.photoAddShow = true;
         },
         removePhoto (data) {
-            this.confirm = {
-                show: true,
-                data: [data],
-                message: this.$t('photo.delete.confirm')
-            };
+            if (data) {
+                this.confirm = {
+                    show: true,
+                    message: this.$t('photo.delete.confirm'),
+                    data: [data],
+                    type: 'confirm'
+                };
+            } else {
+                this.confirm = this.selectPhotos.length ? {
+                    show: true,
+                    message: this.$t('photo.delete.confirmPhotos'),
+                    data: this.selectPhotos,
+                    type: 'confirm'
+                } : {
+                    show: true,
+                    message: this.$t('photo.delete.confirmSelect'),
+                    type: 'alert'
+                };
+            }
         },
         editModeTrigger () {
             this.editMode = !this.editMode;
