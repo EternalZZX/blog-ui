@@ -24,6 +24,7 @@
                         :deletable="editMode"
                         :editable="editMode"
                         @upvote="upvotePhoto(photo, index)"
+                        @comment="getPreview(index)"
                         @edit="editPhoto(photo, index)"
                         @delete="removePhoto"
                         @click="editMode ? selectPhoto(photo) : getPreview(index)">
