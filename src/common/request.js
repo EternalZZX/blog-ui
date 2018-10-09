@@ -40,33 +40,57 @@ class BaseRequest {
     }
 
     get (url, config = {}) {
-        return this.$http.get(url, {
-            headers: BaseRequest._getHeadersToken(),
-            ...config
+        return new Promise((resolve, reject) => {
+            this.$http.get(url, {
+                headers: BaseRequest._getHeadersToken(),
+                ...config
+            }).then(response => {
+                resolve(response);
+            }).catch(err => {
+                reject(err);
+            });
         });
     }
 
     post (url, data = null, config = {}) {
-        return this.$http.post(url, data, {
-            headers: BaseRequest._getHeadersToken(),
-            transformRequest: [request => qs.stringify(request)],
-            ...config
+        return new Promise((resolve, reject) => {
+            this.$http.post(url, data, {
+                headers: BaseRequest._getHeadersToken(),
+                transformRequest: [request => qs.stringify(request)],
+                ...config
+            }).then(response => {
+                resolve(response);
+            }).catch(err => {
+                reject(err);
+            });
         });
     }
 
     put (url, data = null, config = {}) {
-        return this.$http.put(url, data, {
-            headers: BaseRequest._getHeadersToken(),
-            transformRequest: [request => qs.stringify(request)],
-            ...config
+        return new Promise((resolve, reject) => {
+            this.$http.put(url, data, {
+                headers: BaseRequest._getHeadersToken(),
+                transformRequest: [request => qs.stringify(request)],
+                ...config
+            }).then(response => {
+                resolve(response);
+            }).catch(err => {
+                reject(err);
+            });
         });
     }
 
     delete (url, config = {}) {
-        return this.$http.delete(url, {
-            headers: BaseRequest._getHeadersToken(),
-            transformRequest: [request => qs.stringify(request)],
-            ...config
+        return new Promise((resolve, reject) => {
+            this.$http.delete(url, {
+                headers: BaseRequest._getHeadersToken(),
+                transformRequest: [request => qs.stringify(request)],
+                ...config
+            }).then(response => {
+                resolve(response);
+            }).catch(err => {
+                reject(err);
+            });
         });
     }
 }

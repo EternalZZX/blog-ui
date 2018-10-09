@@ -138,6 +138,16 @@ Permission.PERMISSION_DICT = {
         name: Permission.NAME.PHOTO_LIMIT,
         type: Permission.TYPE.MINOR,
         level: 1000
+    },
+    'photo-delete': {
+        name: Permission.NAME.PHOTO_DELETE,
+        type: Permission.TYPE.MAJOR,
+        level: 1000
+    },
+    'photo-delete-self': {
+        name: Permission.NAME.PHOTO_DELETE,
+        type: Permission.TYPE.MAJOR,
+        level: 100
     }
 };
 

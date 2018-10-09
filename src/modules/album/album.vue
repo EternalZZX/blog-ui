@@ -29,7 +29,8 @@
                         @delete="removePhoto"
                         @click="editMode ? selectPhoto(photo) : getPreview(index)">
                     </et-photo>
-                    <div class="et-photo__wrapper et-photo__wrapper_add">
+                    <div class="et-photo__wrapper et-photo__wrapper_add"
+                        v-perm:photo-add>
                         <div class="et-photo__add"
                             :title="$t('photo.create.title')"
                             @click="addPhoto">
@@ -107,7 +108,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            hasIdentity: 'hasIdentity'
+            hasIdentity: 'hasIdentity',
+            userUuid: 'userUuid'
         }),
         navOptions () {
             return {
@@ -121,7 +123,7 @@ export default {
                     value: 'private',
                     label: this.$t('photo.nav.private')
                 }],
-                menu: [{
+                menu: this.isSelf ? [{
                     icon: 'ei-round-plus',
                     label: this.$t('photo.nav.create'),
                     event: this.addPhoto,
@@ -130,14 +132,15 @@ export default {
                     icon: 'ei-trash',
                     label: this.$t('photo.nav.delete'),
                     event: this.removePhoto,
-                    show: this.editMode
+                    show: this.editMode,
+                    disabled: !Permission.hasPermission('photo-delete-self')
                 }, {
                     icon: this.editMode ? 'ei-exit' : 'ei-edit',
                     label: this.editMode ?
                         this.$t('photo.nav.editFinish') :
                         this.$t('photo.nav.edit'),
                     event: this.editModeTrigger
-                }]
+                }] : []
             };
         },
         privacy () {
@@ -150,6 +153,9 @@ export default {
         },
         albumUuid () {
             return this.$route.params.uuid;
+        },
+        isSelf () {
+            return this.album && this.album.author.uuid === this.userUuid;
         }
     },
     watch: {
