@@ -156,11 +156,9 @@ export default {
                 Common.notify(this.$t('comment.create.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-CREATE');
-                Common.notify(
-                    Utils.errorMessage(err),
-                    err.type || 'error',
-                    this.notifyStyle
-                );
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('comment.create.error')
+                ), err.type || 'error', this.notifyStyle);
             });
         },
         replyComment (data) {
@@ -182,7 +180,9 @@ export default {
                 Common.notify(this.$t('comment.delete.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-DELETE');
-                Common.notify(Utils.errorMessage(err), 'error', this.notifyStyle);
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('comment.delete.error')
+                ), 'error', this.notifyStyle);
             });
         },
         deleteConfirm (data) {

@@ -45,7 +45,7 @@
         </div>
         <i v-if="deletable"
             class="et-photo__delete et-icon ei-round-close-fill"
-            @click="eventHandle('remove')">
+            @click="eventHandle('delete')">
         </i>
     </div>
 </transition>

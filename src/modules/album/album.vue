@@ -23,6 +23,7 @@
                         :selectable="editMode"
                         :deletable="editMode"
                         :editable="editMode"
+                        @delete="removePhoto"
                         @click="editMode ? selectPhoto(photo) : getPreview(index)">
                     </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
@@ -43,6 +44,13 @@
             @create="init(loadType)">
         </et-photo-add>
 
+        <et-confirm
+            :show.sync="confirm.show"
+            :data="confirm.data"
+            :message="confirm.message"
+            @confirm="deletePhotos">
+        </et-confirm>
+
         <et-preview
             :show.sync="preview.show"
             :index.sync="preview.index"
@@ -55,6 +63,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { EVENT } from '@/common/bus';
+import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
 import Album from '@/common/api/albums';
@@ -67,16 +76,21 @@ export default {
     },
     data () {
         return {
+            album: null,
             dataList: [],
             params: {
                 page: 1,
                 page_size: 10
             },
             loadType: 'all',
-            album: null,
             photoAddShow: false,
             editMode: false,
             selectPhotos: [],
+            confirm: {
+                show: false,
+                data: null,
+                message: ''
+            },
             preview: {
                 show: false,
                 index: 0
@@ -176,6 +190,18 @@ export default {
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
         },
+        deletePhotos (data) {
+            Photo.deletePhotos(data).then(response => {
+                this.init(this.loadType);
+                this.editMode = true;
+                Common.notify(this.$t('photo.delete.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-DELETE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('photo.create.error')
+                ), 'error');
+            });
+        },
         getAlbum () {
             Album.get(this.albumUuid).then(response => {
                 this.album = response.data;
@@ -193,6 +219,13 @@ export default {
         addPhoto () {
             this.editMode = false;
             this.photoAddShow = true;
+        },
+        removePhoto (data) {
+            this.confirm = {
+                show: true,
+                data: [data],
+                message: this.$t('photo.delete.confirm')
+            };
         },
         editModeTrigger () {
             this.editMode = !this.editMode;

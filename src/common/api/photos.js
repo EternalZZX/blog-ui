@@ -102,6 +102,16 @@ class PhotoApi extends BaseRequest {
             ...data
         }, config);
     }
+
+    deletePhotos (photos, data = {}, config = {}) {
+        return super.delete(this.url, {
+            data: {
+                id_list: photos.map(photo => photo.uuid).join(','),
+                ...data
+            },
+            ...config
+        });
+    }
 }
 
 PhotoApi.STATUS = {

@@ -32,7 +32,6 @@ export default {
             default: ''
         },
         data: {
-            type: Object,
             default () {
                 return {};
             }

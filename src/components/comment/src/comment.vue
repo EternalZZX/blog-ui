@@ -166,8 +166,7 @@ export default {
             editContent: '',
             editContentLength: 0,
             contentMaxLength: 500,
-            editShow: false,
-            confirmShow: false
+            editShow: false
         };
     },
     computed: {
@@ -231,11 +230,9 @@ export default {
                 Common.notify(this.$t('comment.create.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-REPLY');
-                Common.notify(
-                    Utils.errorMessage(err),
-                    err.type || 'error',
-                    this.notifyStyle
-                );
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('comment.create.error')
+                ), err.type || 'error', this.notifyStyle);
             });
         },
         updateComment () {
@@ -253,11 +250,9 @@ export default {
                 Common.notify(this.$t('comment.edit.success'), 'success', this.notifyStyle);
             }).catch(err => {
                 Utils.errorLog(err, 'COMMENT-EDIT');
-                Common.notify(
-                    Utils.errorMessage(err),
-                    err.type || 'error',
-                    this.notifyStyle
-                );
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('comment.edit.error')
+                ), err.type || 'error', this.notifyStyle);
             });
         },
         upvoteComment () {

@@ -85,6 +85,11 @@ export default {
             untreated: 'Uncompressed',
             success: 'Upload photo succeed!',
             error: 'Upload photo failed!'
+        },
+        delete: {
+            success: 'Photo delete successfully!',
+            error: 'Photo delete failed!',
+            confirm: 'Are you sure to delete this photo?'
         }
     },
     comment: {
@@ -97,13 +102,16 @@ export default {
         replyUser: 'Reply {name}...',
         placeholder: 'Please enter comment...',
         create: {
-            success: 'Comment post successfully!'
+            success: 'Comment post successfully!',
+            error: 'Comment post failed!'
         },
         edit: {
-            success: 'Comment edit successfully!'
+            success: 'Comment edit successfully!',
+            error: 'Comment edit failed!'
         },
         delete: {
             success: 'Comment delete successfully!',
+            error: 'Comment delete failed!',
             confirm: 'Are you sure to delete this comment?'
         }
     },

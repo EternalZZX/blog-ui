@@ -85,6 +85,11 @@ export default {
             untreated: '禁用图片压缩',
             success: '上传图片完成!',
             error: '上传图片失败!'
+        },
+        delete: {
+            success: '删除图片成功!',
+            error: '删除图片失败!',
+            confirm: '您确定要删除该图片吗?'
         }
     },
     comment: {
@@ -97,13 +102,16 @@ export default {
         replyUser: '回复{name}...',
         placeholder: '请输入您的评论内容...',
         create: {
-            success: '发布评论成功!'
+            success: '发布评论成功!',
+            error: '发布评论失败!'
         },
         edit: {
-            success: '编辑评论成功!'
+            success: '编辑评论成功!',
+            error: '编辑评论失败!'
         },
         delete: {
             success: '删除评论成功!',
+            error: '删除评论失败!',
             confirm: '您确定要删除该评论吗?'
         }
     },
