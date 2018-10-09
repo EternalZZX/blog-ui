@@ -1,8 +1,9 @@
 import axios from 'axios';
 import qs from 'query-string';
 import Utils from '@/common/utils';
+import Loading from '@/common/loading';
 import validate from '@/common/validate';
-import { ValidationError } from '@/common/error';
+import { RequestError, ValidationError } from '@/common/error';
 import Bus, { EVENT } from '@/common/bus';
 import SETTING from '@/setting';
 
@@ -54,42 +55,63 @@ class BaseRequest {
 
     post (url, data = null, config = {}) {
         return new Promise((resolve, reject) => {
+            if (Loading.isActive()) {
+                reject(new RequestError());
+                return;
+            }
+            const loading = Loading.open();
             this.$http.post(url, data, {
                 headers: BaseRequest._getHeadersToken(),
                 transformRequest: [request => qs.stringify(request)],
                 ...config
             }).then(response => {
                 resolve(response);
+                loading.close();
             }).catch(err => {
                 reject(err);
+                loading.close();
             });
         });
     }
 
     put (url, data = null, config = {}) {
         return new Promise((resolve, reject) => {
+            if (Loading.isActive()) {
+                reject(new RequestError());
+                return;
+            }
+            const loading = Loading.open();
             this.$http.put(url, data, {
                 headers: BaseRequest._getHeadersToken(),
                 transformRequest: [request => qs.stringify(request)],
                 ...config
             }).then(response => {
                 resolve(response);
+                loading.close();
             }).catch(err => {
                 reject(err);
+                loading.close();
             });
         });
     }
 
     delete (url, config = {}) {
         return new Promise((resolve, reject) => {
+            if (Loading.isActive()) {
+                reject(new RequestError());
+                return;
+            }
+            const loading = Loading.open();
             this.$http.delete(url, {
                 headers: BaseRequest._getHeadersToken(),
                 transformRequest: [request => qs.stringify(request)],
                 ...config
             }).then(response => {
                 resolve(response);
+                loading.close();
             }).catch(err => {
                 reject(err);
+                loading.close();
             });
         });
     }

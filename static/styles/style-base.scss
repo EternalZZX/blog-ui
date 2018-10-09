@@ -518,6 +518,26 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 }
 
+.et-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background-color: $themeColor;
+    z-index: $fullscreenLoadingIndex;
+    animation: loading 10s cubic-bezier(0, 0, 0.2, 1) forwards;
+
+    @keyframes loading {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+}
+
 .et-upload {
     .el-upload {
         display: flex;

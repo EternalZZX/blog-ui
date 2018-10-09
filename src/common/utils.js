@@ -95,7 +95,7 @@ class Utils {
     }
 
     static errorLog (err, modules = 'ET-BLOG') {
-        if (!SETTING.DEBUG) {
+        if (!SETTING.DEBUG || (!err.response && !err.message)) {
             return;
         }
         const message = `[${modules}] ${err.response ? err.response.data : err.message}`;
@@ -104,7 +104,7 @@ class Utils {
     }
 
     static errorMessage (err, defaultMessage = i18n.t('request.errorRequest')) {
-        if (err.message) {
+        if (err.message !== void 0) {
             return err.message;
         }
         const dict = {

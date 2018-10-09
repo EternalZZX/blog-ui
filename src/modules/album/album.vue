@@ -123,7 +123,7 @@ export default {
                     value: 'private',
                     label: this.$t('photo.nav.private')
                 }],
-                menu: this.isSelf ? [{
+                menu: this.isSelfAlbum ? [{
                     icon: 'ei-round-plus',
                     label: this.$t('photo.nav.create'),
                     event: this.addPhoto,
@@ -154,7 +154,7 @@ export default {
         albumUuid () {
             return this.$route.params.uuid;
         },
-        isSelf () {
+        isSelfAlbum () {
             return this.album && this.album.author.uuid === this.userUuid;
         }
     },

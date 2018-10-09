@@ -80,6 +80,9 @@ class Common {
     }
 
     static notify (message, type = 'info', style = 'normal', duration = 3000) {
+        if (!message) {
+            return;
+        }
         const classDict = {
             normal: 'et-notify et-notify_normal',
             fullscreen: 'et-notify et-notify_fullscreen',
