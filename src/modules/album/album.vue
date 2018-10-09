@@ -46,7 +46,7 @@
             :album="album"
             :edit-data="editData"
             @create="init(loadType)"
-            @edit="updatePhoto">
+            @edit="editModeInit">
         </et-photo-add>
 
         <et-confirm
@@ -213,8 +213,7 @@ export default {
         },
         deletePhotos (data) {
             Photo.deletePhotos(data).then(response => {
-                this.init(this.loadType);
-                this.editMode = true;
+                this.editModeInit();
                 Common.notify(this.$t('photo.delete.success'), 'success');
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-DELETE');
@@ -277,6 +276,10 @@ export default {
                 this.selectPhotos.splice(this.selectPhotos.findIndex(
                     item => item.uuid === photo.uuid
                 ), 1);
+        },
+        editModeInit () {
+            this.init(this.loadType);
+            this.editMode = true;
         },
         updatePhoto (data) {
             this.dataList.splice(data.index, 1, data.photo);
