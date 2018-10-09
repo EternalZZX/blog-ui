@@ -87,6 +87,11 @@ export default {
             success: 'Upload photo succeed!',
             error: 'Upload photo failed!'
         },
+        edit: {
+            title: 'Edit Photo',
+            success: 'Photo edit successfully!',
+            error: 'Photo edit failed!'
+        },
         delete: {
             success: 'Photo delete successfully!',
             error: 'Photo delete failed!',

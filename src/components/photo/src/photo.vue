@@ -22,7 +22,10 @@
                         class="et-photo__info_button"
                         :title="data.metadata.like_count"
                         @click="eventHandle('upvote')">
-                        <i class="et-icon ei-like"></i>
+                        <i class="et-icon"
+                            :class="data.is_like_user === LIKE_TYPE.LIKE ?
+                            'ei-like-fill' : 'ei-like'">
+                        </i>
                         {{ data.metadata.like_count | count }}
                     </span>
                     <span v-if="editable"
@@ -52,6 +55,8 @@
 </template>
 
 <script>
+import { AlbumApi } from '@/common/api/albums';
+import { PhotoApi } from '@/common/api/photos';
 export default {
     name: 'EtPhoto',
     props: {
@@ -107,6 +112,10 @@ export default {
                     `url(${url}?hash=${this.hash})` :
                     `url(${url})`;
             return url ? { backgroundImage } : null;
+        },
+        LIKE_TYPE () {
+            return this.type === 'album' ?
+                AlbumApi.LIKE_TYPE : PhotoApi.LIKE_TYPE;
         }
     },
     methods: {

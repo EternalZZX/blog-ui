@@ -23,6 +23,8 @@
                         :selectable="editMode"
                         :deletable="editMode"
                         :editable="editMode"
+                        @upvote="upvotePhoto(photo, index)"
+                        @edit="editPhoto(photo, index)"
                         @delete="removePhoto"
                         @click="editMode ? selectPhoto(photo) : getPreview(index)">
                     </et-photo>
@@ -41,7 +43,9 @@
         <et-photo-add v-perm:photo-add
             :show.sync="photoAddShow"
             :album="album"
-            @create="init(loadType)">
+            :edit-data="editData"
+            @create="init(loadType)"
+            @edit="updatePhoto">
         </et-photo-add>
 
         <et-confirm
@@ -86,6 +90,7 @@ export default {
             loadType: 'all',
             photoAddShow: false,
             editMode: false,
+            editData: null,
             selectPhotos: [],
             confirm: {
                 show: false,
@@ -197,6 +202,14 @@ export default {
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
         },
+        upvotePhoto (photo, index) {
+            Photo.upvote(photo.uuid).then(response => {
+                this.updatePhoto({ photo: response.data, index });
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-UPVOTE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
         deletePhotos (data) {
             Photo.deletePhotos(data).then(response => {
                 this.init(this.loadType);
@@ -224,7 +237,12 @@ export default {
             this.$router.go(-1);
         },
         addPhoto () {
+            this.editData = null;
             this.editMode = false;
+            this.photoAddShow = true;
+        },
+        editPhoto (photo, index) {
+            this.editData = { photo, index };
             this.photoAddShow = true;
         },
         removePhoto (data) {

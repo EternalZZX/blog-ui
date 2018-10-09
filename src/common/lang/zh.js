@@ -87,6 +87,11 @@ export default {
             success: '上传图片完成!',
             error: '上传图片失败!'
         },
+        edit: {
+            title: '编辑图片',
+            success: '编辑图片成功!',
+            error: '编辑图片失败!'
+        },
         delete: {
             success: '删除图片成功!',
             error: '删除图片失败!',
