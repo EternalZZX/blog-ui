@@ -522,10 +522,16 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     position: fixed;
     top: 0;
     left: 0;
-    height: 2px;
+    height: 1px;
     background-color: $themeColor;
     z-index: $fullscreenLoadingIndex;
     animation: loading 10s cubic-bezier(0, 0, 0.2, 1) forwards;
+
+    &.et-loading_finish {
+        width: 100%;
+        transition: width .3s;
+        animation: none;
+    }
 
     @keyframes loading {
         0% {
@@ -533,7 +539,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         }
 
         100% {
-            width: 100%;
+            width: 95%;
         }
     }
 }

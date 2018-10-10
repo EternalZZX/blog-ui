@@ -10,11 +10,17 @@ class Loading {
         const self = this;
         const LoadingComponent = Vue.extend({
             data () {
-                return {};
+                return {
+                    finish: false
+                };
             },
-            template: `<div class="et-loading"></div>`,
+            template: `
+            <div class="et-loading"
+                :class="{'et-loading_finish': finish}">
+            </div>`,
             methods: {
                 close () {
+                    this.finish = true;
                     setTimeout(() => {
                         this.$el.parentNode.removeChild(this.$el);
                         this.$destroy();
