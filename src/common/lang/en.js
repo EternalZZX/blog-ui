@@ -68,6 +68,8 @@ export default {
             private: 'Private Photos',
             create: 'Upload Photo',
             delete: 'Delete Photo',
+            check: 'Check All',
+            uncheck: 'Uncheck All',
             edit: 'Edit Mode',
             editFinish: 'Edit Finish',
             browse: 'Browse Mode'

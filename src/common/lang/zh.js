@@ -68,6 +68,8 @@ export default {
             private: '私有图片',
             create: '上传图片',
             delete: '删除图片',
+            check: '全选图片',
+            uncheck: '取消全选',
             edit: '编辑模式',
             editFinish: '编辑完成',
             browse: '浏览模式'

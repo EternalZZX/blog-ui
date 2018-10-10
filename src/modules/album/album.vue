@@ -93,7 +93,7 @@ export default {
             photoAddShow: false,
             editMode: false,
             editData: null,
-            selectPhotos: [],
+            dataChecked: [],
             confirm: {
                 show: false,
                 message: '',
@@ -128,6 +128,16 @@ export default {
                     label: this.$t('photo.nav.create'),
                     event: this.addPhoto,
                     disabled: !Permission.hasPermission('photo-add')
+                }, {
+                    icon: 'ei-square-check',
+                    label: this.$t('photo.nav.check'),
+                    event: this.checkAllPhotos,
+                    show: this.editMode && this.dataChecked.length !== this.dataList.length
+                }, {
+                    icon: 'ei-square',
+                    label: this.$t('photo.nav.uncheck'),
+                    event: this.uncheckAllPhotos,
+                    show: this.editMode && this.dataChecked.length === this.dataList.length
                 }, {
                     icon: 'ei-trash',
                     label: this.$t('photo.nav.delete'),
@@ -164,7 +174,7 @@ export default {
                 for (const item of this.dataList) {
                     item.checked = false;
                 }
-                this.selectPhotos = [];
+                this.dataChecked = [];
             }
         }
     },
@@ -260,10 +270,10 @@ export default {
                     type: 'confirm'
                 };
             } else {
-                this.confirm = this.selectPhotos.length ? {
+                this.confirm = this.dataChecked.length ? {
                     show: true,
                     message: this.$t('photo.delete.confirmPhotos'),
-                    data: this.selectPhotos,
+                    data: this.dataChecked,
                     type: 'confirm'
                 } : {
                     show: true,
@@ -278,10 +288,22 @@ export default {
         selectPhoto (photo) {
             photo.checked = !photo.checked;
             photo.checked ?
-                this.selectPhotos.push(photo) :
-                this.selectPhotos.splice(this.selectPhotos.findIndex(
+                this.dataChecked.push(photo) :
+                this.dataChecked.splice(this.dataChecked.findIndex(
                     item => item.uuid === photo.uuid
                 ), 1);
+        },
+        selectPhotos (checked) {
+            for (const item of this.dataList) {
+                item.checked = checked;
+            }
+            this.dataChecked = checked ? Utils.deepClone(this.dataList) : [];
+        },
+        checkAllPhotos () {
+            this.selectPhotos(true);
+        },
+        uncheckAllPhotos () {
+            this.selectPhotos(false);
         },
         editModeInit () {
             this.init(this.loadType);
