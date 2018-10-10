@@ -7,8 +7,8 @@
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 v-perm:album-add
-                @click="add">
-                {{ $t("album.nav.create") }}
+                @click="add('album')">
+                {{ $t("album.nav.add") }}
             </el-button>
         </et-nav>
 
@@ -18,15 +18,22 @@
                 @more="loadMore">
                 <div v-if="loadType !== 'other'" class="et-photo__container">
                     <et-photo v-for="album in dataList"
+                        type="album"
                         :key="album.uuid"
                         :data="album"
-                        type="album"
-                        @click="getAlbum(album.uuid)">
+                        :selectable="editMode"
+                        :deletable="editMode"
+                        :editable="editMode"
+                        @upvote="upvotePhoto(album, index)"
+                        @comment="getPreview(index)"
+                        @edit="editPhoto(album, index)"
+                        @delete="removePhoto"
+                        @click="editMode ? selectPhoto(album) : getAlbum(album.uuid)">
                     </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
                             :title="$t('album.create.title')"
-                            @click="albumAddShow = true">
+                            @click="add">
                             <i class="et-icon ei-plus"></i>
                         </div>
                     </div>
@@ -35,12 +42,19 @@
                     <et-photo v-for="(photo, index) in dataList"
                         :key="photo.uuid"
                         :data="photo"
-                        @click="getPreview(index)">
+                        :selectable="editMode"
+                        :deletable="editMode"
+                        :editable="editMode"
+                        @upvote="upvotePhoto(photo, index)"
+                        @comment="getPreview(index)"
+                        @edit="editPhoto(photo, index)"
+                        @delete="removePhoto"
+                        @click="editMode ? selectPhoto(photo) : getPreview(index)">
                     </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
                             :title="$t('photo.create.title')"
-                            @click="photoAddShow = true">
+                            @click="add">
                             <i class="et-icon ei-plus"></i>
                         </div>
                     </div>
@@ -55,8 +69,18 @@
 
         <et-photo-add v-perm:photo-add
             :show.sync="photoAddShow"
-            @create="init(loadType)">
+            :edit-data="editData"
+            @create="init(loadType)"
+            @edit="editModeInit">
         </et-photo-add>
+
+        <et-confirm
+            :show.sync="confirm.show"
+            :data="confirm.data"
+            :message="confirm.message"
+            :type="confirm.type"
+            @confirm="deletePhotos">
+        </et-confirm>
 
         <et-preview
             :show.sync="preview.show"
@@ -68,11 +92,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { EVENT } from '@/common/bus';
+import Common from '@/common/common';
+import Utils from '@/common/utils';
+import Permission from '@/common/permission';
 import Album, { AlbumApi } from '@/common/api/albums';
 import Photo from '@/common/api/photos';
-import Utils from '@/common/utils';
-import { EVENT } from '@/common/bus';
-import { mapGetters } from 'vuex';
 import EtAlbumAdd from './album-add';
 import EtPhotoAdd from './photo-add';
 export default {
@@ -88,7 +114,31 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            navOptions: {
+            loadType: 'all',
+            albumAddShow: false,
+            photoAddShow: false,
+            editMode: false,
+            editData: null,
+            dataChecked: [],
+            confirm: {
+                show: false,
+                message: '',
+                data: null,
+                type: 'confirm'
+            },
+            preview: {
+                show: false,
+                index: 0
+            }
+        };
+    },
+    computed: {
+        ...mapGetters({
+            hasIdentity: 'hasIdentity',
+            userUuid: 'userUuid'
+        }),
+        navOptions () {
+            const options = {
                 nav: [{
                     value: 'all',
                     label: this.$t('album.nav.all')
@@ -102,20 +152,76 @@ export default {
                     value: 'other',
                     label: this.$t('album.nav.other')
                 }]
-            },
-            loadType: 'all',
-            albumAddShow: false,
-            photoAddShow: false,
-            preview: {
-                show: false,
-                index: 0
+            };
+            if (this.isSelf) {
+                options.menu = this.loadType === 'other' ? [{
+                    icon: 'ei-round-plus',
+                    label: this.$t('photo.nav.create'),
+                    event: this.add,
+                    disabled: !Permission.hasPermission('photo-add')
+                }, {
+                    icon: 'ei-square-check',
+                    label: this.$t('photo.nav.check'),
+                    event: this.checkAllPhotos,
+                    show: this.editMode &&
+                        (this.dataList.length === 0 ||
+                        this.dataChecked.length !== this.dataList.length),
+                    disabled: this.dataList.length === 0
+                }, {
+                    icon: 'ei-square',
+                    label: this.$t('photo.nav.uncheck'),
+                    event: this.uncheckAllPhotos,
+                    show: this.editMode &&
+                        this.dataList.length !== 0 &&
+                        this.dataChecked.length === this.dataList.length
+                }, {
+                    icon: 'ei-trash',
+                    label: this.$t('photo.nav.delete'),
+                    event: this.removePhoto,
+                    show: this.editMode,
+                    disabled: !Permission.hasPermission('photo-delete-self')
+                }, {
+                    icon: this.editMode ? 'ei-exit' : 'ei-edit',
+                    label: this.editMode ?
+                        this.$t('photo.nav.browse') :
+                        this.$t('photo.nav.edit'),
+                    event: this.editModeTrigger
+                }] : [{
+                    icon: 'ei-round-plus',
+                    label: this.$t('album.nav.create'),
+                    event: this.add,
+                    disabled: !Permission.hasPermission('album-add')
+                }, {
+                    icon: 'ei-square-check',
+                    label: this.$t('album.nav.check'),
+                    event: this.checkAllPhotos,
+                    show: this.editMode &&
+                        (this.dataList.length === 0 ||
+                        this.dataChecked.length !== this.dataList.length),
+                    disabled: this.dataList.length === 0
+                }, {
+                    icon: 'ei-square',
+                    label: this.$t('album.nav.uncheck'),
+                    event: this.uncheckAllPhotos,
+                    show: this.editMode &&
+                        this.dataList.length !== 0 &&
+                        this.dataChecked.length === this.dataList.length
+                }, {
+                    icon: 'ei-trash',
+                    label: this.$t('album.nav.delete'),
+                    event: this.removePhoto,
+                    show: this.editMode,
+                    disabled: !Permission.hasPermission('photo-delete-self')
+                }, {
+                    icon: this.editMode ? 'ei-exit' : 'ei-edit',
+                    label: this.editMode ?
+                        this.$t('album.nav.browse') :
+                        this.$t('album.nav.edit'),
+                    event: this.editModeTrigger
+                }];
             }
-        };
-    },
-    computed: {
-        ...mapGetters({
-            hasIdentity: 'hasIdentity'
-        }),
+            return options;
+        },
         privacy () {
             const privacyDict = {
                 'all': null,
@@ -127,6 +233,19 @@ export default {
         },
         identityUuid () {
             return this.$route.params.uuid;
+        },
+        isSelf () {
+            return this.identityUuid === this.userUuid;
+        }
+    },
+    watch: {
+        editMode (val) {
+            if (!val) {
+                for (const item of this.dataList) {
+                    item.checked = false;
+                }
+                this.dataChecked = [];
+            }
         }
     },
     mounted () {
@@ -141,6 +260,7 @@ export default {
         init (loadType) {
             this.dataList = [];
             this.params.page = 1;
+            this.editMode = false;
             this.loadType = loadType || 'all';
             this.$refs.scroll.reset();
         },
@@ -184,11 +304,13 @@ export default {
         updatePhoto (data) {
             this.dataList.splice(data.index, 1, data.photo);
         },
-        add () {
-            if (this.loadType === 'other') {
-                this.photoAddShow = true;
-            } else {
+        add (type) {
+            this.editData = null;
+            this.editMode = false;
+            if (this.loadType !== 'other' || type === 'album') {
                 this.albumAddShow = true;
+            } else {
+                this.photoAddShow = true;
             }
         },
         getAlbum (uuid) {
@@ -202,6 +324,78 @@ export default {
         getPreview (index) {
             this.preview.show = true;
             this.preview.index = index;
+        },
+
+        upvotePhoto (photo, index) {
+            Photo.upvote(photo.uuid).then(response => {
+                this.updatePhoto({ photo: response.data, index });
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-UPVOTE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
+        deletePhotos (data) {
+            Photo.deletePhotos(data).then(response => {
+                this.editModeInit();
+                Common.notify(this.$t('photo.delete.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-DELETE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('photo.create.error')
+                ), 'error');
+            });
+        },
+        editPhoto (photo, index) {
+            this.editData = { photo, index };
+            this.photoAddShow = true;
+        },
+        removePhoto (data) {
+            if (data) {
+                this.confirm = {
+                    show: true,
+                    message: this.$t('photo.delete.confirm'),
+                    data: [data],
+                    type: 'confirm'
+                };
+            } else {
+                this.confirm = this.dataChecked.length ? {
+                    show: true,
+                    message: this.$t('photo.delete.confirmPhotos'),
+                    data: this.dataChecked,
+                    type: 'confirm'
+                } : {
+                    show: true,
+                    message: this.$t('photo.delete.confirmSelect'),
+                    type: 'alert'
+                };
+            }
+        },
+        editModeTrigger () {
+            this.editMode = !this.editMode;
+        },
+        selectPhoto (photo) {
+            photo.checked = !photo.checked;
+            photo.checked ?
+                this.dataChecked.push(photo) :
+                this.dataChecked.splice(this.dataChecked.findIndex(
+                    item => item.uuid === photo.uuid
+                ), 1);
+        },
+        selectPhotos (checked) {
+            for (const item of this.dataList) {
+                item.checked = checked;
+            }
+            this.dataChecked = checked ? Utils.deepClone(this.dataList) : [];
+        },
+        checkAllPhotos () {
+            this.selectPhotos(true);
+        },
+        uncheckAllPhotos () {
+            this.selectPhotos(false);
+        },
+        editModeInit () {
+            this.init(this.loadType);
+            this.editMode = true;
         }
     }
 };

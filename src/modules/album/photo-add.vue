@@ -29,6 +29,7 @@
                     v-model="data.description"
                     :placeholder="$t('photo.create.descriptionPlaceholder')"
                     :rows="2"
+                    :maxlength="300"
                     resize="none">
                 </el-input>
             </el-form-item>

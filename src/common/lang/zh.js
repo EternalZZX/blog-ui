@@ -49,14 +49,34 @@ export default {
     album: {
         nav: {
             title: '相册',
-            create: '新增',
+            add: '新增',
             all: '全部相册',
             public: '公开相册',
             private: '私有相册',
-            other: '其他图片'
+            other: '其他图片',
+            create: '创建相册',
+            delete: '删除相册',
+            check: '全选相册',
+            uncheck: '取消全选',
+            edit: '编辑模式',
+            browse: '浏览模式'
         },
         create: {
-            title: '创建相册'
+            title: '创建相册',
+            name: '相册名称',
+            namePlaceholder: '请输入相册名称',
+            description: '相册描述',
+            descriptionPlaceholder: '请输入相册描述信息',
+            cover: '相册封面',
+            privacy: '私有相册',
+            system: '系统相册',
+            success: '创建相册成功!',
+            error: '创建相册失败!'
+        },
+        edit: {
+            title: '编辑相册',
+            success: '编辑相册成功!',
+            error: '编辑相册失败!'
         }
     },
     photo: {
@@ -71,7 +91,6 @@ export default {
             check: '全选图片',
             uncheck: '取消全选',
             edit: '编辑模式',
-            editFinish: '编辑完成',
             browse: '浏览模式'
         },
         create: {

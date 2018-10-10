@@ -132,12 +132,17 @@ export default {
                     icon: 'ei-square-check',
                     label: this.$t('photo.nav.check'),
                     event: this.checkAllPhotos,
-                    show: this.editMode && this.dataChecked.length !== this.dataList.length
+                    show: this.editMode &&
+                        (this.dataList.length === 0 ||
+                        this.dataChecked.length !== this.dataList.length),
+                    disabled: this.dataList.length === 0
                 }, {
                     icon: 'ei-square',
                     label: this.$t('photo.nav.uncheck'),
                     event: this.uncheckAllPhotos,
-                    show: this.editMode && this.dataChecked.length === this.dataList.length
+                    show: this.editMode &&
+                        this.dataList.length &&
+                        this.dataChecked.length === this.dataList.length
                 }, {
                     icon: 'ei-trash',
                     label: this.$t('photo.nav.delete'),
@@ -147,7 +152,7 @@ export default {
                 }, {
                     icon: this.editMode ? 'ei-exit' : 'ei-edit',
                     label: this.editMode ?
-                        this.$t('photo.nav.editFinish') :
+                        this.$t('photo.nav.browse') :
                         this.$t('photo.nav.edit'),
                     event: this.editModeTrigger
                 }] : []

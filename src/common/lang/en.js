@@ -49,14 +49,34 @@ export default {
     album: {
         nav: {
             title: 'Albums',
-            create: 'Add',
+            add: 'Add',
             all: 'All Albums',
             public: 'Public Albums',
             private: 'Private Albums',
-            other: 'Other Photos'
+            other: 'Other Photos',
+            create: 'Add Album',
+            delete: 'Delete Album',
+            check: 'Check All',
+            uncheck: 'Uncheck All',
+            edit: 'Edit Mode',
+            browse: 'Browse Mode'
         },
         create: {
-            title: 'Add Album'
+            title: 'Add Album',
+            name: 'Album Name',
+            namePlaceholder: 'Please enter album name',
+            description: 'Description',
+            descriptionPlaceholder: 'Please enter album description',
+            cover: 'Album Cover',
+            privacy: 'Private Album',
+            system: 'System Album',
+            success: 'Album create succeed!',
+            error: 'Album create failed!'
+        },
+        edit: {
+            title: 'Edit Album',
+            success: 'Album edit successfully!',
+            error: 'Album edit failed!'
         }
     },
     photo: {
@@ -71,7 +91,6 @@ export default {
             check: 'Check All',
             uncheck: 'Uncheck All',
             edit: 'Edit Mode',
-            editFinish: 'Edit Finish',
             browse: 'Browse Mode'
         },
         create: {

@@ -105,6 +105,21 @@ Permission.PERMISSION_DICT = {
         name: Permission.NAME.ALBUM_CREATE,
         type: Permission.TYPE.STATUS
     },
+    'album-private-set': {
+        name: Permission.NAME.ALBUM_PRIVACY,
+        type: Permission.TYPE.MINOR,
+        level: 200
+    },
+    'album-delete': {
+        name: Permission.NAME.ALBUM_DELETE,
+        type: Permission.TYPE.MAJOR,
+        level: 1000
+    },
+    'album-delete-self': {
+        name: Permission.NAME.ALBUM_DELETE,
+        type: Permission.TYPE.MAJOR,
+        level: 100
+    },
     'photo-add': {
         name: Permission.NAME.PHOTO_CREATE,
         type: Permission.TYPE.STATUS
