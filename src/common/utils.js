@@ -104,7 +104,7 @@ class Utils {
     }
 
     static errorMessage (err, defaultMessage = i18n.t('request.errorRequest')) {
-        if (err.message !== void 0) {
+        if (err.type && err.message !== void 0) {
             return err.message;
         }
         const dict = {
