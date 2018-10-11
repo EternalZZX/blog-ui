@@ -26,7 +26,7 @@
             </el-form-item>
             <el-form-item :label="$t('photo.create.description')">
                 <el-input type="textarea"
-                    v-model="data.description"
+                    v-model.trim="data.description"
                     :placeholder="$t('photo.create.descriptionPlaceholder')"
                     :rows="2"
                     :maxlength="300"

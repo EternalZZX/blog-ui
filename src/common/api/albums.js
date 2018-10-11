@@ -72,6 +72,30 @@ class AlbumApi extends BaseRequest {
             ...config
         });
     }
+
+    upvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: AlbumApi.LIKE_OPERATE.LIKE,
+            ...data
+        }, config);
+    }
+
+    downvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: AlbumApi.LIKE_OPERATE.DISLIKE,
+            ...data
+        }, config);
+    }
+
+    deleteAlbums (albums, data = {}, config = {}) {
+        return super.delete(this.url, {
+            data: {
+                id_list: albums.map(album => album.uuid).join(','),
+                ...data
+            },
+            ...config
+        });
+    }
 }
 
 AlbumApi.PRIVACY = {

@@ -226,7 +226,7 @@ export default {
         },
         upvotePhoto (photo, index) {
             Photo.upvote(photo.uuid).then(response => {
-                this.updatePhoto({ photo: response.data, index });
+                this.updatePhoto({ data: response.data, index });
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-UPVOTE');
                 Common.notify(Utils.errorMessage(err), 'error');
@@ -315,7 +315,7 @@ export default {
             this.editMode = true;
         },
         updatePhoto (data) {
-            this.dataList.splice(data.index, 1, data.photo);
+            this.dataList.splice(data.index, 1, data.data);
         }
     }
 };

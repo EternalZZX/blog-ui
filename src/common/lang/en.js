@@ -77,6 +77,13 @@ export default {
             title: 'Edit Album',
             success: 'Album edit successfully!',
             error: 'Album edit failed!'
+        },
+        delete: {
+            success: 'Album delete successfully!',
+            error: 'Album delete failed!',
+            confirm: 'Are you sure to delete this album?',
+            confirmPhotos: 'Are you sure to delete these albums?',
+            confirmSelect: 'Please select at least one album to delete!'
         }
     },
     photo: {

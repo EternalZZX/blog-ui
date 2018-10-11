@@ -10,14 +10,15 @@
         <el-form class="et-form" ref="form" :model="data"
             v-show="!photoSelectShow">
             <el-form-item :label="$t('album.create.name')">
-                <el-input v-model="data.name"
+                <el-input v-model.trim="data.name"
                     :placeholder="$t('album.create.namePlaceholder')"
-                    :maxlength="50">
+                    :maxlength="50"
+                    :clearable="true">
                 </el-input>
             </el-form-item>
             <el-form-item :label="$t('album.create.description')">
                 <el-input type="textarea"
-                    v-model="data.description"
+                    v-model.trim="data.description"
                     :placeholder="$t('album.create.descriptionPlaceholder')"
                     :rows="2"
                     :maxlength="300"

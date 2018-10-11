@@ -24,11 +24,11 @@
                         :selectable="editMode"
                         :deletable="editMode"
                         :editable="editMode"
-                        @upvote="upvotePhoto(album, index)"
+                        @upvote="upvoteAlbum(album, index)"
                         @comment="getAlbum(album.uuid)"
                         @edit="editAlbum(album, index)"
-                        @delete="removePhoto"
-                        @click="editMode ? selectPhoto(album) : getAlbum(album.uuid)">
+                        @delete="removeData"
+                        @click="editMode ? selectData(album) : getAlbum(album.uuid)">
                     </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
@@ -48,8 +48,8 @@
                         @upvote="upvotePhoto(photo, index)"
                         @comment="getPreview(index)"
                         @edit="editPhoto(photo, index)"
-                        @delete="removePhoto"
-                        @click="editMode ? selectPhoto(photo) : getPreview(index)">
+                        @delete="removeData"
+                        @click="editMode ? selectData(photo) : getPreview(index)">
                     </et-photo>
                     <div class="et-photo__wrapper et-photo__wrapper_add">
                         <div class="et-photo__add"
@@ -82,14 +82,14 @@
             :data="confirm.data"
             :message="confirm.message"
             :type="confirm.type"
-            @confirm="deletePhotos">
+            @confirm="deleteData">
         </et-confirm>
 
         <et-preview
             :show.sync="preview.show"
             :index.sync="preview.index"
             :data="dataList"
-            @update="updatePhoto">
+            @update="updateData">
         </et-preview>
     </div>
 </template>
@@ -180,7 +180,7 @@ export default {
                 }, {
                     icon: 'ei-trash',
                     label: this.$t('photo.nav.delete'),
-                    event: this.removePhoto,
+                    event: this.removeData,
                     show: this.editMode,
                     disabled: !Permission.hasPermission('photo-delete-self')
                 }, {
@@ -212,7 +212,7 @@ export default {
                 }, {
                     icon: 'ei-trash',
                     label: this.$t('album.nav.delete'),
-                    event: this.removePhoto,
+                    event: this.removeData,
                     show: this.editMode,
                     disabled: !Permission.hasPermission('photo-delete-self')
                 }, {
@@ -298,14 +298,51 @@ export default {
             });
         },
         loadData (state, data, total) {
-            this.dataList = this.dataList.concat(data);
+            const items = data.map(item => {
+                item.checked = false;
+                return item;
+            });
+            this.dataList = this.dataList.concat(items);
             this.params.page ++;
             total === this.dataList.length ?
                 state.complete() :
                 state.loaded();
         },
-        updatePhoto (data) {
-            this.dataList.splice(data.index, 1, data.photo);
+        removeData (data) {
+            const type = this.loadType === 'other' ? 'photo' : 'album';
+            if (data) {
+                this.confirm = {
+                    show: true,
+                    message: this.$t(`${type}.delete.confirm`),
+                    data: [data],
+                    type: 'confirm'
+                };
+            } else {
+                this.confirm = this.dataChecked.length ? {
+                    show: true,
+                    message: this.$t(`${type}.delete.confirmPhotos`),
+                    data: this.dataChecked,
+                    type: 'confirm'
+                } : {
+                    show: true,
+                    message: this.$t(`${type}.delete.confirmSelect`),
+                    type: 'alert'
+                };
+            }
+        },
+        deleteData (data) {
+            this.loadType === 'other' ? this.deletePhotos(data) : this.deleteAlbums(data);
+        },
+        updateData (data) {
+            this.dataList.splice(data.index, 1, data.data);
+        },
+        selectData (data) {
+            data.checked = !data.checked;
+            data.checked ?
+                this.dataChecked.push(data) :
+                this.dataChecked.splice(this.dataChecked.findIndex(
+                    item => item.uuid === data.uuid
+                ), 1);
         },
         add (type) {
             this.editData = null;
@@ -329,6 +366,25 @@ export default {
             this.preview.index = index;
         },
 
+        upvoteAlbum (photo, index) {
+            Album.upvote(photo.uuid).then(response => {
+                this.updateData({ data: response.data, index });
+            }).catch(err => {
+                Utils.errorLog(err, 'ALBUM-UPVOTE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
+        },
+        deleteAlbums (data) {
+            Album.deleteAlbums(data).then(response => {
+                this.editModeInit();
+                Common.notify(this.$t('album.delete.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'ALBUM-DELETE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('album.create.error')
+                ), 'error');
+            });
+        },
         editAlbum (album, index) {
             this.editData = { album, index };
             this.albumAddShow = true;
@@ -336,7 +392,7 @@ export default {
 
         upvotePhoto (photo, index) {
             Photo.upvote(photo.uuid).then(response => {
-                this.updatePhoto({ photo: response.data, index });
+                this.updateData({ data: response.data, index });
             }).catch(err => {
                 Utils.errorLog(err, 'PHOTO-UPVOTE');
                 Common.notify(Utils.errorMessage(err), 'error');
@@ -357,37 +413,8 @@ export default {
             this.editData = { photo, index };
             this.photoAddShow = true;
         },
-        removePhoto (data) {
-            if (data) {
-                this.confirm = {
-                    show: true,
-                    message: this.$t('photo.delete.confirm'),
-                    data: [data],
-                    type: 'confirm'
-                };
-            } else {
-                this.confirm = this.dataChecked.length ? {
-                    show: true,
-                    message: this.$t('photo.delete.confirmPhotos'),
-                    data: this.dataChecked,
-                    type: 'confirm'
-                } : {
-                    show: true,
-                    message: this.$t('photo.delete.confirmSelect'),
-                    type: 'alert'
-                };
-            }
-        },
         editModeTrigger () {
             this.editMode = !this.editMode;
-        },
-        selectPhoto (photo) {
-            photo.checked = !photo.checked;
-            photo.checked ?
-                this.dataChecked.push(photo) :
-                this.dataChecked.splice(this.dataChecked.findIndex(
-                    item => item.uuid === photo.uuid
-                ), 1);
         },
         selectPhotos (checked) {
             for (const item of this.dataList) {

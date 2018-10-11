@@ -244,7 +244,7 @@ export default {
         likeImage () {
             Photo.upvote(this.image.uuid).then(response => {
                 this.$emit('update', {
-                    photo: response.data,
+                    data: response.data,
                     index: this.index
                 });
             }).catch(err => {

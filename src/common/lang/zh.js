@@ -77,6 +77,13 @@ export default {
             title: '编辑相册',
             success: '编辑相册成功!',
             error: '编辑相册失败!'
+        },
+        delete: {
+            success: '删除相册成功!',
+            error: '删除相册失败!',
+            confirm: '您确定要删除该相册吗?',
+            confirmPhotos: '您确定要删除这些相册吗?',
+            confirmSelect: '请至少选择一张要删除的相册!'
         }
     },
     photo: {
