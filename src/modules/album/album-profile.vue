@@ -165,7 +165,7 @@ export default {
                 }, {
                     icon: 'ei-square-check',
                     label: this.$t('photo.nav.check'),
-                    event: this.checkAllPhotos,
+                    event: this.checkAllData,
                     show: this.editMode &&
                         (this.dataList.length === 0 ||
                         this.dataChecked.length !== this.dataList.length),
@@ -173,7 +173,7 @@ export default {
                 }, {
                     icon: 'ei-square',
                     label: this.$t('photo.nav.uncheck'),
-                    event: this.uncheckAllPhotos,
+                    event: this.uncheckAllData,
                     show: this.editMode &&
                         this.dataList.length !== 0 &&
                         this.dataChecked.length === this.dataList.length
@@ -197,7 +197,7 @@ export default {
                 }, {
                     icon: 'ei-square-check',
                     label: this.$t('album.nav.check'),
-                    event: this.checkAllPhotos,
+                    event: this.checkAllData,
                     show: this.editMode &&
                         (this.dataList.length === 0 ||
                         this.dataChecked.length !== this.dataList.length),
@@ -205,7 +205,7 @@ export default {
                 }, {
                     icon: 'ei-square',
                     label: this.$t('album.nav.uncheck'),
-                    event: this.uncheckAllPhotos,
+                    event: this.uncheckAllData,
                     show: this.editMode &&
                         this.dataList.length !== 0 &&
                         this.dataChecked.length === this.dataList.length
@@ -308,64 +308,6 @@ export default {
                 state.complete() :
                 state.loaded();
         },
-        removeData (data) {
-            const type = this.loadType === 'other' ? 'photo' : 'album';
-            if (data) {
-                this.confirm = {
-                    show: true,
-                    message: this.$t(`${type}.delete.confirm`),
-                    data: [data],
-                    type: 'confirm'
-                };
-            } else {
-                this.confirm = this.dataChecked.length ? {
-                    show: true,
-                    message: this.$t(`${type}.delete.confirmPhotos`),
-                    data: this.dataChecked,
-                    type: 'confirm'
-                } : {
-                    show: true,
-                    message: this.$t(`${type}.delete.confirmSelect`),
-                    type: 'alert'
-                };
-            }
-        },
-        deleteData (data) {
-            this.loadType === 'other' ? this.deletePhotos(data) : this.deleteAlbums(data);
-        },
-        updateData (data) {
-            this.dataList.splice(data.index, 1, data.data);
-        },
-        selectData (data) {
-            data.checked = !data.checked;
-            data.checked ?
-                this.dataChecked.push(data) :
-                this.dataChecked.splice(this.dataChecked.findIndex(
-                    item => item.uuid === data.uuid
-                ), 1);
-        },
-        add (type) {
-            this.editData = null;
-            this.editMode = false;
-            if (this.loadType !== 'other' || type === 'album') {
-                this.albumAddShow = true;
-            } else {
-                this.photoAddShow = true;
-            }
-        },
-        getAlbum (uuid) {
-            this.$router.push({
-                name: 'album',
-                params: {
-                    uuid
-                }
-            });
-        },
-        getPreview (index) {
-            this.preview.show = true;
-            this.preview.index = index;
-        },
-
         upvoteAlbum (photo, index) {
             Album.upvote(photo.uuid).then(response => {
                 this.updateData({ data: response.data, index });
@@ -389,7 +331,6 @@ export default {
             this.editData = { album, index };
             this.albumAddShow = true;
         },
-
         upvotePhoto (photo, index) {
             Photo.upvote(photo.uuid).then(response => {
                 this.updateData({ data: response.data, index });
@@ -413,20 +354,79 @@ export default {
             this.editData = { photo, index };
             this.photoAddShow = true;
         },
+        add (type) {
+            this.editData = null;
+            this.editMode = false;
+            if (this.loadType !== 'other' || type === 'album') {
+                this.albumAddShow = true;
+            } else {
+                this.photoAddShow = true;
+            }
+        },
+        removeData (data) {
+            const type = this.loadType === 'other' ? 'photo' : 'album';
+            if (data) {
+                this.confirm = {
+                    show: true,
+                    message: this.$t(`${type}.delete.confirm`),
+                    data: [data],
+                    type: 'confirm'
+                };
+            } else {
+                this.confirm = this.dataChecked.length ? {
+                    show: true,
+                    message: this.$t(`${type}.delete.confirmPhotos`),
+                    data: this.dataChecked,
+                    type: 'confirm'
+                } : {
+                    show: true,
+                    message: this.$t(`${type}.delete.confirmSelect`),
+                    type: 'alert'
+                };
+            }
+        },
+        deleteData (data) {
+            this.loadType === 'other' ?
+                this.deletePhotos(data) :
+                this.deleteAlbums(data);
+        },
+        updateData (data) {
+            this.dataList.splice(data.index, 1, data.data);
+        },
+        getAlbum (uuid) {
+            this.$router.push({
+                name: 'album',
+                params: {
+                    uuid
+                }
+            });
+        },
+        getPreview (index) {
+            this.preview.show = true;
+            this.preview.index = index;
+        },
         editModeTrigger () {
             this.editMode = !this.editMode;
         },
-        selectPhotos (checked) {
+        selectData (data) {
+            data.checked = !data.checked;
+            data.checked ?
+                this.dataChecked.push(data) :
+                this.dataChecked.splice(this.dataChecked.findIndex(
+                    item => item.uuid === data.uuid
+                ), 1);
+        },
+        selectItems (checked) {
             for (const item of this.dataList) {
                 item.checked = checked;
             }
             this.dataChecked = checked ? Utils.deepClone(this.dataList) : [];
         },
-        checkAllPhotos () {
-            this.selectPhotos(true);
+        checkAllData () {
+            this.selectItems(true);
         },
-        uncheckAllPhotos () {
-            this.selectPhotos(false);
+        uncheckAllData () {
+            this.selectItems(false);
         },
         editModeInit () {
             this.init(this.loadType);

@@ -40,11 +40,21 @@
                         :disabled="privateDisabled">
                     </el-switch>
                 </el-form-item>
+                <el-form-item :label="$t('album.create.system')"
+                    v-perm:album-system-set>
+                    <el-select v-model="data.system">
+                        <el-option v-for="item in systemTypes"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
             </et-collapse>
         </el-form>
         <et-photo-select v-model="cover"
             :show.sync="photoSelectShow"
-            :systemType="SYSTEM_TYPE">
+            :system-type="SYSTEM_TYPE.ALBUM_COVER_ALBUM">
         </et-photo-select>
         <div slot="footer">
             <el-button @click="cancel">{{ $t("common.cancelButton") }}</el-button>
@@ -82,7 +92,23 @@ export default {
             },
             cover: null,
             photoSelectShow: false,
-            collapseShow: false
+            collapseShow: false,
+            systemTypes: [{
+                label: this.$t('album.system.none'),
+                value: null
+            }, {
+                label: this.$t('album.system.avatar'),
+                value: AlbumApi.SYSTEM.AVATAR_ALBUM
+            }, {
+                label: this.$t('album.system.album'),
+                value: AlbumApi.SYSTEM.ALBUM_COVER_ALBUM
+            }, {
+                label: this.$t('album.system.section'),
+                value: AlbumApi.SYSTEM.SECTION_COVER_ALBUM
+            }, {
+                label: this.$t('album.system.article'),
+                value: AlbumApi.SYSTEM.ARTICLE_COVER_ALBUM
+            }]
         };
     },
     computed: {
@@ -96,7 +122,7 @@ export default {
             return AlbumApi.PRIVACY;
         },
         SYSTEM_TYPE () {
-            return AlbumApi.SYSTEM.ALBUM_COVER_ALBUM;
+            return AlbumApi.SYSTEM;
         }
     },
     methods: {

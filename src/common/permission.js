@@ -110,6 +110,11 @@ Permission.PERMISSION_DICT = {
         type: Permission.TYPE.MINOR,
         level: 200
     },
+    'album-system-set': {
+        name: Permission.NAME.ALBUM_SYSTEM,
+        type: Permission.TYPE.MAJOR,
+        level: 1000
+    },
     'album-delete': {
         name: Permission.NAME.ALBUM_DELETE,
         type: Permission.TYPE.MAJOR,

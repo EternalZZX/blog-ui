@@ -69,7 +69,7 @@ export default {
             descriptionPlaceholder: 'Please enter album description',
             cover: 'Album Cover',
             privacy: 'Private Album',
-            system: 'System Album',
+            system: 'Public Cover',
             success: 'Album create succeed!',
             error: 'Album create failed!'
         },
@@ -84,6 +84,13 @@ export default {
             confirm: 'Are you sure to delete this album?',
             confirmPhotos: 'Are you sure to delete these albums?',
             confirmSelect: 'Please select at least one album to delete!'
+        },
+        system: {
+            none: 'Non-default Album',
+            avatar: 'Default Avatar Album',
+            album: 'Album Cover Album',
+            section: 'Section Cover Album',
+            article: 'Article Cover Album'
         }
     },
     photo: {

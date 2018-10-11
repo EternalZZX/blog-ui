@@ -69,7 +69,7 @@ export default {
             descriptionPlaceholder: '请输入相册描述信息',
             cover: '相册封面',
             privacy: '私有相册',
-            system: '系统相册',
+            system: '公共封面相册',
             success: '创建相册成功!',
             error: '创建相册失败!'
         },
@@ -84,6 +84,13 @@ export default {
             confirm: '您确定要删除该相册吗?',
             confirmPhotos: '您确定要删除这些相册吗?',
             confirmSelect: '请至少选择一张要删除的相册!'
+        },
+        system: {
+            none: '非系统共享相册',
+            avatar: '默认头像相册',
+            album: '默认相册封面相册',
+            section: '默认话题封面相册',
+            article: '默认文章封面相册'
         }
     },
     photo: {
