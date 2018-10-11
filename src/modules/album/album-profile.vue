@@ -17,7 +17,7 @@
                 ref="scroll"
                 @more="loadMore">
                 <div v-if="loadType !== 'other'" class="et-photo__container">
-                    <et-photo v-for="album in dataList"
+                    <et-photo v-for="(album, index) in dataList"
                         type="album"
                         :key="album.uuid"
                         :data="album"
@@ -25,8 +25,8 @@
                         :deletable="editMode"
                         :editable="editMode"
                         @upvote="upvotePhoto(album, index)"
-                        @comment="getPreview(index)"
-                        @edit="editPhoto(album, index)"
+                        @comment="getAlbum(album.uuid)"
+                        @edit="editAlbum(album, index)"
                         @delete="removePhoto"
                         @click="editMode ? selectPhoto(album) : getAlbum(album.uuid)">
                     </et-photo>
@@ -64,7 +64,10 @@
         </div>
 
         <et-album-add v-perm:album-add
-            :show.sync="albumAddShow">
+            :show.sync="albumAddShow"
+            :edit-data="editData"
+            @create="init(loadType)"
+            @edit="editModeInit">
         </et-album-add>
 
         <et-photo-add v-perm:photo-add
@@ -324,6 +327,11 @@ export default {
         getPreview (index) {
             this.preview.show = true;
             this.preview.index = index;
+        },
+
+        editAlbum (album, index) {
+            this.editData = { album, index };
+            this.albumAddShow = true;
         },
 
         upvotePhoto (photo, index) {

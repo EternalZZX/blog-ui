@@ -24,6 +24,12 @@
                     resize="none">
                 </el-input>
             </el-form-item>
+            <el-form-item :label="$t('album.create.cover')">
+                <div class="et-photo-select" @click="photoSelectShow = true">
+                    <img :src="cover.image_small" v-if="cover">
+                    <i class="et-icon ei-plus" v-else></i>
+                </div>
+            </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
                 <el-form-item :label="$t('album.create.privacy')">
@@ -51,7 +57,6 @@ import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
 import Album, { AlbumApi } from '@/common/api/albums';
-import Photo from '@/common/api/photos';
 export default {
     name: 'EtAlbumAdd',
     props: {
@@ -71,12 +76,11 @@ export default {
             data: {
                 name: '',
                 description: '',
-                cover_uuid: '',
                 privacy: AlbumApi.PRIVACY.PUBLIC,
                 system: null
             },
             cover: null,
-            photoSelectShow: true,
+            photoSelectShow: false,
             collapseShow: false
         };
     },
@@ -100,56 +104,74 @@ export default {
                 this.data = {
                     name: this.editData.album.name,
                     description: this.editData.album.description,
-                    cover_uuid: this.editData.album.cover,
                     privacy: this.editData.album.privacy,
                     system: this.editData.album.system
                 };
+                if (this.editData.album.cover) {
+                    this.cover = {
+                        uuid: this.editData.album.cover.split('/').pop().split('.')[0],
+                        image_small: this.editData.album.cover
+                    };
+                }
             }
         },
         close () {
             this.data = {
                 name: '',
                 description: '',
-                cover_uuid: '',
                 privacy: AlbumApi.PRIVACY.PUBLIC,
                 system: null
             };
+            this.cover = null;
+            this.photoSelectShow = false;
             this.collapseShow = false;
             this.$refs.form.resetFields();
             this.closeDialog();
         },
         submit () {
-            this.isCreate ? createAlbum() : this.updateAlbum();
+            this.isCreate ? this.createAlbum() : this.updateAlbum();
         },
         createAlbum () {
-            Photo.create(content.file, this.data).then(response => {
-                content.onSuccess(response);
+            Album.create(
+                this.formatParams(this.data)
+            ).then(response => {
                 this.closeDialog();
                 this.$emit('create', response.data);
-                Common.notify(this.$t('photo.create.success'), 'success');
+                Common.notify(this.$t('album.create.success'), 'success');
             }).catch(err => {
-                content.onError(err);
-                this.imageUrl = null;
-                Utils.errorLog(err, 'PHOTO-CREATE');
+                Utils.errorLog(err, 'ALBUM-CREATE');
                 Common.notify(Utils.errorMessage(err,
-                    this.$t('photo.create.error')
+                    this.$t('album.create.error')
                 ), 'error', 'dialog');
             });
         },
         updateAlbum () {
-            Photo.update(this.editData.photo.uuid, this.data).then(response => {
+            Album.update(
+                this.editData.album.uuid,
+                this.formatParams(this.data)
+            ).then(response => {
                 this.closeDialog();
                 this.$emit('edit', {
-                    photo: response.data,
+                    album: response.data,
                     index: this.editData.index
                 });
-                Common.notify(this.$t('photo.edit.success'), 'success');
+                Common.notify(this.$t('album.edit.success'), 'success');
             }).catch(err => {
-                Utils.errorLog(err, 'PHOTO-UPDATE');
+                Utils.errorLog(err, 'ALBUM-UPDATE');
                 Common.notify(Utils.errorMessage(err,
-                    this.$t('photo.edit.error')
+                    this.$t('album.edit.error')
                 ), 'error', 'dialog');
             });
+        },
+        formatParams (data) {
+            const params = {
+                name: data.name,
+                description: data.description,
+                privacy: data.privacy
+            };
+            params.cover_uuid = this.cover ? this.cover.uuid : '';
+            data.system !== null && (params.system = data.system);
+            return params;
         },
         cancel () {
             this.closeDialog();

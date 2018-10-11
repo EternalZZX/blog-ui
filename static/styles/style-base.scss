@@ -544,34 +544,47 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     }
 }
 
+%upload {
+    display: flex;
+    justify-content: center;
+    width: $uploadWidth;
+    height: $uploadWidth;
+    border-radius: $radiusSmall;
+    border: 1px dashed $elementColor;
+    cursor: pointer;
+
+    .et-icon {
+        font-size: 3rem;
+        line-height: $uploadWidth;
+        color: $elementColor;
+    }
+
+    &:hover {
+        border-color: $elementHoverColor;
+    }
+
+    &:hover .et-icon {
+        color: $elementHoverColor;
+    }
+}
+
 .et-upload {
     .el-upload {
-        display: flex;
-        justify-content: center;
-        width: $uploadWidth;
-        height: $uploadWidth;
-        border-radius: $radiusSmall;
-        border: 1px dashed $elementColor;
-        cursor: pointer;
+        @extend %upload;
 
         .et-upload__image {
             width: 100%;
             height: 100%;
         }
+    }
+}
 
-        .et-icon {
-            font-size: 3rem;
-            line-height: $uploadWidth;
-            color: $elementColor;
-        }
+.et-photo-select {
+    @extend %upload;
 
-        &:hover {
-            border-color: $elementHoverColor;
-        }
-
-        &:hover .et-icon {
-            color: $elementHoverColor;
-        }
+    > img {
+        width: 100%;
+        height: 100%;
     }
 }
 

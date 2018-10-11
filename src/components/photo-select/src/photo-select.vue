@@ -1,5 +1,5 @@
 <template>
-    <div class="et-photo-select" v-show="show">
+    <div v-show="show">
         <div class="et-dialog__panel">
             <el-button :title="$t('common.back')"
                 @click="back">
@@ -36,7 +36,6 @@
 <script>
 import { debounce } from 'throttle-debounce';
 import { mapGetters } from 'vuex';
-import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Photo from '@/common/api/photos';
 import Album from '@/common/api/albums';
