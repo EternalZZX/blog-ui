@@ -3,8 +3,7 @@
     <div class="et-photo__wrapper"
         :class="{
             'et-photo__wrapper_albums': type === 'album',
-            'et-photo__wrapper_checked': selectable && type === 'photo' && data.checked,
-            'et-photo_deletable': deletable
+            'et-photo__wrapper_deletable': deletable
         }">
         <div ref="photo"
             class="et-photo"
@@ -20,32 +19,37 @@
                     </span>
                     <span v-if="!selectable"
                         class="et-photo__info_button"
-                        :title="data.metadata.like_count"
-                        @click="eventHandle('upvote')">
+                        :title="data.metadata.like_count">
                         <i class="et-icon"
                             :class="data.is_like_user === LIKE_TYPE.LIKE ?
-                            'ei-like-fill' : 'ei-like'">
+                            'ei-like-fill' : 'ei-like'"
+                            @click="eventHandle('upvote')">
                         </i>
                         {{ data.metadata.like_count | count }}
                     </span>
                     <span v-if="editable"
                         class="et-photo__info_button"
-                        :title="$t('common.edit')"
-                        @click="eventHandle('edit')">
-                        <i class="et-icon ei-edit"></i>
+                        :title="$t('common.edit')">
+                        <i class="et-icon ei-edit"
+                            @click="eventHandle('edit')">
+                        </i>
                     </span>
                 </li>
                 <li v-if="!selectable" class="et-photo__info">
                     <span>{{ data.create_at | date }}</span>
                     <span class="et-photo__info_button"
-                        :title="data.metadata.comment_count"
-                        @click="eventHandle('comment')">
-                        <i class="et-icon ei-message"></i>
+                        :title="data.metadata.comment_count">
+                        <i class="et-icon ei-message"
+                            @click="eventHandle('comment')">
+                        </i>
                         {{ data.metadata.comment_count | count }}
                     </span>
                 </li>
             </ul>
         </div>
+        <i v-if="selectable && data.checked"
+            class="et-photo__checked">
+        </i>
         <i v-if="deletable"
             class="et-photo__delete et-icon ei-round-close-fill"
             @click="eventHandle('delete')">
@@ -166,7 +170,11 @@ export default {
         box-shadow: $cardShadow;
     }
 
-    &.et-photo__wrapper_checked {
+    .et-photo__checked {
+        position: absolute;
+        top: 0;
+        right: 0;
+
         &:before {
             content: '';
             display: block;
@@ -185,9 +193,9 @@ export default {
             content: '\e721';
             position: absolute;
             z-index: 1;
-            top: .71rem;
-            right: .75rem;
-            font-size: .9375rem;
+            top: .66rem;
+            right: .85rem;
+            font-size: $iconFontSizeTiny;
             font-family: 'et-icon';
             color: $darkContentColor;
         }
@@ -206,7 +214,7 @@ export default {
         }
     }
 
-    &.et-photo_deletable {
+    &.et-photo__wrapper_deletable {
         animation: swing .25s infinite;
     }
 }
