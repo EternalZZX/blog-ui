@@ -4,9 +4,11 @@
             $t('album.create.title') :
             $t('album.edit.title')"
         :visible="show"
+        top="5%"
         @open="open"
         @close="close">
-        <el-form class="et-form" ref="form" :model="data">
+        <el-form class="et-form" ref="form" :model="data"
+            v-show="!photoSelectShow">
             <el-form-item :label="$t('album.create.name')">
                 <el-input v-model="data.name"
                     :placeholder="$t('album.create.namePlaceholder')"
@@ -24,7 +26,7 @@
             </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
-                <el-form-item :label="$t('photo.create.privacy')">
+                <el-form-item :label="$t('album.create.privacy')">
                     <el-switch v-model="data.privacy"
                         :active-value="PRIVACY.PRIVATE"
                         :inactive-value="PRIVACY.PUBLIC"
@@ -33,6 +35,10 @@
                 </el-form-item>
             </et-collapse>
         </el-form>
+        <et-photo-select v-model="cover"
+            :show.sync="photoSelectShow"
+            :systemType="SYSTEM_TYPE">
+        </et-photo-select>
         <div slot="footer">
             <el-button @click="cancel">{{ $t("common.cancelButton") }}</el-button>
             <el-button type="primary" @click="submit">{{ $t("common.submitButton") }}</el-button>
@@ -67,35 +73,37 @@ export default {
                 description: '',
                 cover_uuid: '',
                 privacy: AlbumApi.PRIVACY.PUBLIC,
-                system: ''
+                system: null
             },
+            cover: null,
+            photoSelectShow: true,
             collapseShow: false
         };
     },
     computed: {
         privateDisabled () {
-            return !Permission.hasPermission('photo-private-set');
+            return !Permission.hasPermission('album-private-set');
         },
         isCreate () {
             return !this.editData;
         },
         PRIVACY () {
             return AlbumApi.PRIVACY;
+        },
+        SYSTEM_TYPE () {
+            return AlbumApi.SYSTEM.ALBUM_COVER_ALBUM;
         }
     },
     methods: {
         open () {
             if (!this.isCreate) {
                 this.data = {
-                    description: this.editData.photo.description,
-                    privacy: this.editData.photo.privacy,
-                    read_level: this.editData.photo.read_level,
-                    status: this.editData.photo.status
+                    name: this.editData.album.name,
+                    description: this.editData.album.description,
+                    cover_uuid: this.editData.album.cover,
+                    privacy: this.editData.album.privacy,
+                    system: this.editData.album.system
                 };
-            }
-            if (this.album) {
-                this.albums = [this.album];
-                this.data.album_uuid = this.album.uuid;
             }
         },
         close () {
@@ -104,30 +112,16 @@ export default {
                 description: '',
                 cover_uuid: '',
                 privacy: AlbumApi.PRIVACY.PUBLIC,
-                system: ''
+                system: null
             };
             this.collapseShow = false;
             this.$refs.form.resetFields();
             this.closeDialog();
         },
         submit () {
-            this.isCreate ? this.$refs.upload.submit() : this.updatePhoto();
+            this.isCreate ? createAlbum() : this.updateAlbum();
         },
-        getSelfAlbums (query) {
-            if (query !== '') {
-                this.albumLoading = true;
-                Album.QuerySelfAlbums(this.identityUuid, query).then(response => {
-                    this.albumLoading = false;
-                    this.albums = response.data.albums;
-                }).catch(err => {
-                    this.albumLoading = false;
-                    Utils.errorLog(err, 'ALBUM-QUERY');
-                });
-            } else {
-                this.albums = [];
-            }
-        },
-        uploadPhoto (content) {
+        createAlbum () {
             Photo.create(content.file, this.data).then(response => {
                 content.onSuccess(response);
                 this.closeDialog();
@@ -142,7 +136,7 @@ export default {
                 ), 'error', 'dialog');
             });
         },
-        updatePhoto () {
+        updateAlbum () {
             Photo.update(this.editData.photo.uuid, this.data).then(response => {
                 this.closeDialog();
                 this.$emit('edit', {
@@ -156,9 +150,6 @@ export default {
                     this.$t('photo.edit.error')
                 ), 'error', 'dialog');
             });
-        },
-        handleChange (file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
         },
         cancel () {
             this.closeDialog();

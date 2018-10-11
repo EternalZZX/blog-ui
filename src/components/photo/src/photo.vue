@@ -185,8 +185,8 @@ export default {
             content: '\e721';
             position: absolute;
             z-index: 1;
-            top: .8rem;
-            right: .8rem;
+            top: .71rem;
+            right: .75rem;
             font-size: .9375rem;
             font-family: 'et-icon';
             color: $darkContentColor;

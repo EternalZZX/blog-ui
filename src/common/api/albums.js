@@ -46,6 +46,19 @@ class AlbumApi extends BaseRequest {
         });
     }
 
+    listSelfAndSystemAlbums (uuid, system = null, params = {}, config = {}) {
+        const args = {
+            ...params,
+            author_uuid: uuid,
+            order_field: 'create_at'
+        };
+        system !== null && (args.system = system);
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
+
     QuerySelfAlbums (uuid, query, params = {}, config = {}) {
         const args = {
             ...params,

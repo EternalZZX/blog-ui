@@ -1,14 +1,7 @@
 <template>
-    <el-dialog class="et-dialog"
-        :title="$t('editor.insertImage')"
-        :visible="show"
-        top="5%"
-        @open="open"
-        @close="close"
-        @keyup.enter.native="submit">
+    <div class="et-photo-select" v-show="show">
         <div class="et-dialog__panel">
             <el-button :title="$t('common.back')"
-                :disabled="!loadAlbumUuid"
                 @click="back">
                 <i class="et-icon ei-undo"></i>
             </el-button>
@@ -19,14 +12,6 @@
                 @keyup.native="debouncedSearch">
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
             </el-input>
-            <el-upload action="upload"
-                :http-request="uploadPhoto"
-                :show-file-list="false"
-                :multiple="false">
-                <el-button type="file">
-                    {{ $t("common.upload") }}
-                </el-button>
-            </el-upload>
         </div>
         <et-scroll ref="scroll" @more="loadMore">
             <div class="et-photo__container">
@@ -43,53 +28,41 @@
                     :selectable="true"
                     @click="selectPhoto(photo)">
                 </et-photo>
-                <div class="et-photo__wrapper et-photo__wrapper_add">
-                    <el-upload action="upload"
-                        :http-request="uploadPhoto"
-                        :show-file-list="false"
-                        :multiple="false">
-                        <div class="et-photo__add" :title="$t('photo.create.title')">
-                            <i class="et-icon ei-plus"></i>
-                        </div>
-                    </el-upload>
-                </div>
             </div>
         </et-scroll>
-        <div slot="footer">
-            <el-button @click="cancel">
-                {{ $t("common.cancelButton") }}
-            </el-button>
-            <el-button type="primary"
-                :disabled="!selectPhotos.length"
-                @click="submit">
-                {{ $t("common.submitButton") }}
-            </el-button>
-        </div>
-    </el-dialog>
+    </div>
 </template>
 
 <script>
 import { debounce } from 'throttle-debounce';
 import { mapGetters } from 'vuex';
-import Quill from 'quill';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Photo from '@/common/api/photos';
 import Album from '@/common/api/albums';
 export default {
-    name: 'EtEditorImage',
+    name: 'EtPhotoSelect',
+    model: {
+        prop: 'photo',
+        event: 'update:photo'
+    },
     props: {
         show: {
             type: Boolean,
             default: false
         },
-        editor: {
-            type: Object
+        photo: {
+            type: Object,
+            default () {
+                return null;
+            }
+        },
+        systemType: {
+            default: null
         }
     },
     data () {
         return {
-            selectPhotos: [],
             albumList: [],
             photoList: [],
             params: {
@@ -107,24 +80,15 @@ export default {
             userUuid: 'userUuid'
         })
     },
+    watch: {
+        show (val) {
+            val ? this.init() : this.close();
+        }
+    },
     created () {
         this.debouncedSearch = debounce(500, this.search);
     },
     methods: {
-        open () {
-            this.init();
-        },
-        close () {
-            this.selectPhotos = [];
-            this.$emit('restore-focus');
-            this.closeDialog();
-        },
-        submit () {
-            for (const photo of this.selectPhotos) {
-                this.insertImage(photo.image_middle);
-            }
-            this.closeDialog();
-        },
         init (albumUuid = null, searchStr = '') {
             this.albumList = [];
             this.photoList = [];
@@ -144,9 +108,9 @@ export default {
                 this.loadPhotos(state, this.loadAlbumUuid, this.searchStr);
         },
         loadAlbums (state) {
-            Album.listSelfAlbums(
+            Album.listSelfAndSystemAlbums(
                 this.userUuid,
-                null,
+                this.systemType,
                 this.params
             ).then(response => {
                 this.albumList = this.albumList.concat(response.data.albums);
@@ -171,9 +135,7 @@ export default {
             }
             def.then(response => {
                 const photos = response.data.photos.map(item => {
-                    item.checked = this.selectPhotos.find(
-                        photo => photo.uuid === item.uuid
-                    );
+                    item.checked = this.photo && this.photo.uuid === item.uuid;
                     return item;
                 });
                 this.photoList = this.photoList.concat(photos);
@@ -189,48 +151,21 @@ export default {
             this.init(album.uuid);
         },
         selectPhoto (photo) {
-            photo.checked = !photo.checked;
-            photo.checked ?
-                this.selectPhotos.push(photo) :
-                this.selectPhotos.splice(this.selectPhotos.findIndex(
-                    item => item.uuid === photo.uuid
-                ), 1);
-        },
-        back () {
-            this.init();
+            const checked = !photo.checked;
+            for (const item of this.photoList) {
+                item.checked = false;
+            }
+            photo.checked = checked;
+            this.$emit('update:photo', checked ? photo : null);
+            this.close();
         },
         search () {
             this.init(null, this.searchStr);
         },
-        uploadPhoto (content) {
-            Photo.create(content.file).then(response => {
-                this.selectPhotos.push(response.data);
-                this.init();
-                Common.notify(this.$t('photo.create.success'), 'success', 'dialog');
-                content.onSuccess(response);
-            }).catch(err => {
-                Utils.errorLog(err, 'PHOTO-CREATE');
-                Common.notify(Utils.errorMessage(err,
-                    this.$t('photo.create.error')
-                ), 'error', 'dialog');
-                content.onError(err);
-            });
+        back () {
+            this.loadAlbumUuid ? this.init() : this.close();
         },
-        insertImage (url) {
-            const selection = this.editor.getSelection(true);
-            this.editor.insertText(selection.index, '\n', Quill.sources.USER);
-            this.editor.insertEmbed(
-                selection.index + 1,
-                'image',
-                url,
-                Quill.sources.USER
-            );
-            this.editor.setSelection(selection.index + 2, Quill.sources.SILENT);
-        },
-        cancel () {
-            this.closeDialog();
-        },
-        closeDialog () {
+        close () {
             this.$emit('update:show', false);
         }
     }

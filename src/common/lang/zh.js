@@ -119,7 +119,8 @@ export default {
             confirm: '您确定要删除该图片吗?',
             confirmPhotos: '您确定要删除这些图片吗?',
             confirmSelect: '请至少选择一张要删除的图片!'
-        }
+        },
+        search: '搜索已上传的图片'
     },
     comment: {
         comment: '评论',
@@ -182,12 +183,7 @@ export default {
         insertLink: '插入链接',
         linkText: '请输入链接文本',
         linkUrl: '请输入链接地址',
-        insertImage: '插入图片',
-        image: {
-            back: '返回',
-            upload: '上传',
-            search: '搜索已上传的图片'
-        }
+        insertImage: '插入图片'
     },
     common: {
         submit: '提交',
@@ -208,6 +204,8 @@ export default {
         commentCount: '评论',
         reply: '回复',
         menu: '菜单',
+        back: '返回',
+        upload: '上传',
         edit: '编辑',
         delete: '删除',
         notice: '用户通知',

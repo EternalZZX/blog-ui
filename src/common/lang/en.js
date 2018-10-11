@@ -119,7 +119,8 @@ export default {
             confirm: 'Are you sure to delete this photo?',
             confirmPhotos: 'Are you sure to delete these photos?',
             confirmSelect: 'Please select at least one photo to delete!'
-        }
+        },
+        search: 'Search for a photo'
     },
     comment: {
         comment: 'Comment',
@@ -184,12 +185,7 @@ export default {
         insertLink: 'Insert link',
         linkText: 'Please enter link text',
         linkUrl: 'Please enter link url',
-        insertImage: 'Insert Photo',
-        image: {
-            back: 'Back',
-            upload: 'Upload',
-            search: 'Search for a photo'
-        }
+        insertImage: 'Insert Photo'
     },
     common: {
         submit: 'Submit',
@@ -210,6 +206,8 @@ export default {
         commentCount: 'Comments',
         reply: 'Reply',
         menu: 'Menu',
+        back: 'Back',
+        upload: 'Upload',
         edit: 'Edit',
         delete: 'Delete',
         notice: 'Notice',

@@ -5,6 +5,7 @@ import Confirm from './confirm';
 import Editor from './editor';
 import Nav from './nav';
 import Photo from './photo';
+import PhotoSelect from './photo-select';
 import Preview from './preview';
 import Scroll from './scroll';
 import Toolbar from './toolbar';
@@ -18,6 +19,7 @@ const components = [
     Editor,
     Nav,
     Photo,
+    PhotoSelect,
     Preview,
     Scroll,
     Toolbar,
