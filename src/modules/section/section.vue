@@ -2,7 +2,8 @@
     <div class="et-layout">
         <et-nav :title="$t('section.nav.title')"
             :index.sync="loadType"
-            :options="navOptions">
+            :options="navOptions"
+            @select="init">
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 v-perm:section-add
@@ -10,6 +11,7 @@
                 {{ $t("section.nav.create") }}
             </el-button>
         </et-nav>
+
         <div class="et-content">
             <et-scroll class="et-content__wrapper"
                 ref="scroll"
@@ -81,7 +83,9 @@ import { EVENT } from '@/common/bus';
 import EtSectionAdd from './section-add';
 export default {
     name: 'EtSection',
-    components: { EtSectionAdd },
+    components: {
+        EtSectionAdd
+    },
     data () {
         return {
             dataList: [],
@@ -105,7 +109,6 @@ export default {
                 }]
             },
             loadType: 'all',
-            hashCode: Utils.randString(),
             sectionAddShow: false
         };
     },
@@ -119,7 +122,6 @@ export default {
             this.dataList = [];
             this.params.page = 1;
             this.loadType = 'all';
-            this.hashCode = Utils.randString();
             this.sectionAddShow = false;
             this.$refs.scroll.reset();
         },
@@ -136,7 +138,7 @@ export default {
         },
         getCover (data) {
             return data.cover ? {
-                backgroundImage: `url(${data.cover}?hash=${this.hashCode})`
+                backgroundImage: `url(${data.cover})`
             } : null;
         }
     }

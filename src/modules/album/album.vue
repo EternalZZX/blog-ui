@@ -6,7 +6,6 @@
             @select="init">
             <el-button slot="button" type="text"
                 class="et-nav__button"
-                v-perm:photo-add
                 @click="back">
                 {{ $t("photo.nav.back") }}
             </el-button>

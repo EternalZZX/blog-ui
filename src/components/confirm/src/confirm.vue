@@ -3,6 +3,7 @@
         :title="$t('common.notice')"
         :append-to-body="true"
         :visible="show"
+        top="3%"
         @close="close">
         <span class="et-dialog__message">
             {{ message || $t('common.confirmMessage') }}
