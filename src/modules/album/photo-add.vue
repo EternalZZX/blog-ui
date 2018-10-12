@@ -24,7 +24,8 @@
                     <i class="et-icon ei-plus" v-else></i>
                 </el-upload>
             </el-form-item>
-            <el-form-item :label="$t('photo.create.description')">
+            <el-form-item prop="description"
+                :label="$t('photo.create.description')">
                 <el-input type="textarea"
                     v-model.trim="data.description"
                     :placeholder="$t('photo.create.descriptionPlaceholder')"
@@ -33,7 +34,8 @@
                     resize="none">
                 </el-input>
             </el-form-item>
-            <el-form-item :label="$t('photo.create.album')">
+            <el-form-item prop="album_uuid"
+                :label="$t('photo.create.album')">
                 <el-select v-model="data.album_uuid"
                     clearable
                     filterable
@@ -51,21 +53,24 @@
             </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
-                <el-form-item :label="$t('photo.create.privacy')">
+                <el-form-item prop="privacy"
+                    :label="$t('photo.create.privacy')">
                     <el-switch v-model="data.privacy"
                         :active-value="PRIVACY.PRIVATE"
                         :inactive-value="PRIVACY.PUBLIC"
                         :disabled="privateDisabled">
                     </el-switch>
                 </el-form-item>
-                <el-form-item :label="$t('photo.create.readLevel')"
+                <el-form-item prop="read_level"
+                    :label="$t('photo.create.readLevel')"
                     v-perm:photo-read-set>
                     <el-slider v-model="data.read_level"
                         :max="maxReadLevel"
                         :step="10">
                     </el-slider>
                 </el-form-item>
-                <el-form-item :label="$t('photo.create.audit')"
+                <el-form-item prop="status"
+                    :label="$t('photo.create.audit')"
                     v-perm:photo-audit-set>
                     <el-select v-model="data.status">
                         <el-option v-for="item in status"
@@ -75,12 +80,14 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item :label="$t('photo.create.origin')"
+                <el-form-item prop="origin"
+                    :label="$t('photo.create.origin')"
                     v-if="isCreate"
                     v-perm:photo-origin>
                     <el-switch v-model="data.origin"></el-switch>
                 </el-form-item>
-                <el-form-item :label="$t('photo.create.untreated')"
+                <el-form-item prop="untreated"
+                    :label="$t('photo.create.untreated')"
                     v-if="isCreate"
                     v-perm:photo-untreated>
                     <el-switch v-model="data.untreated"></el-switch>
@@ -178,15 +185,6 @@ export default {
             }
         },
         close () {
-            this.data = {
-                description: '',
-                album_uuid: '',
-                privacy: PhotoApi.PRIVACY.PUBLIC,
-                read_level: 100,
-                status: PhotoApi.STATUS.AUDIT,
-                origin: false,
-                untreated: false
-            };
             this.imageUrl = null;
             this.collapseShow = false;
             this.$refs.form.resetFields();

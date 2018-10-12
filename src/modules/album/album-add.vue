@@ -7,16 +7,21 @@
         top="5%"
         @open="open"
         @close="close">
-        <el-form class="et-form" ref="form" :model="data"
+        <el-form ref="form"
+            class="et-form"
+            :rules="rules"
+            :model="data"
             v-show="!photoSelectShow">
-            <el-form-item :label="$t('album.create.name')">
+            <el-form-item prop="name"
+                :label="$t('album.create.name')">
                 <el-input v-model.trim="data.name"
                     :placeholder="$t('album.create.namePlaceholder')"
                     :maxlength="50"
                     :clearable="true">
                 </el-input>
             </el-form-item>
-            <el-form-item :label="$t('album.create.description')">
+            <el-form-item prop="description"
+                :label="$t('album.create.description')">
                 <el-input type="textarea"
                     v-model.trim="data.description"
                     :placeholder="$t('album.create.descriptionPlaceholder')"
@@ -33,14 +38,16 @@
             </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
-                <el-form-item :label="$t('album.create.privacy')">
+                <el-form-item prop="privacy"
+                    :label="$t('album.create.privacy')">
                     <el-switch v-model="data.privacy"
                         :active-value="PRIVACY.PRIVATE"
                         :inactive-value="PRIVACY.PUBLIC"
                         :disabled="privateDisabled">
                     </el-switch>
                 </el-form-item>
-                <el-form-item :label="$t('album.create.system')"
+                <el-form-item prop="system"
+                    :label="$t('album.create.system')"
                     v-perm:album-system-set>
                     <el-select v-model="data.system">
                         <el-option v-for="item in systemTypes"
@@ -108,7 +115,10 @@ export default {
             }, {
                 label: this.$t('album.system.article'),
                 value: AlbumApi.SYSTEM.ARTICLE_COVER_ALBUM
-            }]
+            }],
+            rules: {
+                name: [{ required: true, message: this.$t('validate.none'), trigger: 'blur' }]
+            }
         };
     },
     computed: {
@@ -143,12 +153,6 @@ export default {
             }
         },
         close () {
-            this.data = {
-                name: '',
-                description: '',
-                privacy: AlbumApi.PRIVACY.PUBLIC,
-                system: null
-            };
             this.cover = null;
             this.photoSelectShow = false;
             this.collapseShow = false;

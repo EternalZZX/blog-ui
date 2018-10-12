@@ -608,6 +608,22 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             color: $navColor;
         }
 
+        .el-form-item__error {
+            margin-left: $formLabelWidth;
+            padding: 2px $spaceSmall;
+        }
+
+        &.is-success {
+            .el-input__inner,
+            .el-textarea__inner {
+                border-color: $elementColor;
+            }
+            .el-input__inner:focus,
+            .el-textarea__inner:focus {
+                border-color: $themeColor;
+            }
+        }
+
         .el-input, .el-textarea {
             width: $elementWidth;
         }
@@ -632,6 +648,12 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
                 width: 50%;
                 text-align: left;
             }
+
+            .el-form-item__error {
+                margin-left: 0;
+                padding: 5px $spaceSmall;
+            }
+
             .el-input, .el-textarea,
             .el-select, .el-slider {
                 width: 100%;
