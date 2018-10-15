@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Utils from '@/common/utils';
+import Permission from '@/common/permission';
 import Comments from '@/common/api/comments';
 export default {
     name: 'EtCommentDialog',
@@ -52,11 +52,6 @@ export default {
             }
         };
     },
-    computed: {
-        ...mapGetters({
-            hasIdentity: 'hasIdentity'
-        })
-    },
     methods: {
         open () {
             this.init();
@@ -70,7 +65,8 @@ export default {
             this.$refs.scroll && this.$refs.scroll.reset();
         },
         loadMore (state) {
-            if (!this.show || !this.hasIdentity) {
+            if (!this.show ||
+                !Permission.hasPermission('comment-list')) {
                 state.complete();
                 return;
             }
@@ -95,6 +91,7 @@ export default {
                     state.complete() :
                     state.loaded();
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'COMMENT-LIST');
             });
         },

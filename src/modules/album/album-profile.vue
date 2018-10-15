@@ -30,7 +30,8 @@
                         @delete="removeData"
                         @click="editMode ? selectData(album) : getAlbum(album.uuid)">
                     </et-photo>
-                    <div class="et-photo__wrapper et-photo__wrapper_add">
+                    <div class="et-photo__wrapper et-photo__wrapper_add"
+                        v-perm:album-add>
                         <div class="et-photo__add"
                             :title="$t('album.create.title')"
                             @click="add">
@@ -51,7 +52,8 @@
                         @delete="removeData"
                         @click="editMode ? selectData(photo) : getPreview(index)">
                     </et-photo>
-                    <div class="et-photo__wrapper et-photo__wrapper_add">
+                    <div class="et-photo__wrapper et-photo__wrapper_add"
+                        v-perm:photo-add>
                         <div class="et-photo__add"
                             :title="$t('photo.create.title')"
                             @click="add">
@@ -137,7 +139,6 @@ export default {
     },
     computed: {
         ...mapGetters({
-            hasIdentity: 'hasIdentity',
             userUuid: 'userUuid'
         }),
         navOptions () {
@@ -268,7 +269,9 @@ export default {
             this.$refs.scroll.reset();
         },
         loadMore (state) {
-            if (!this.hasIdentity) {
+            if (!Permission.hasPermission(
+                this.loadType === 'other' ? 'photo-list' : 'album-list')
+            ) {
                 state.complete();
                 return;
             }
@@ -284,6 +287,7 @@ export default {
             ).then(response => {
                 this.loadData(state, response.data.albums, response.data.total);
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'ALBUM-LIST');
             });
         },
@@ -294,6 +298,7 @@ export default {
             ).then(response => {
                 this.loadData(state, response.data.photos, response.data.total);
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
         },

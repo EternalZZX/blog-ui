@@ -29,11 +29,12 @@ export default {
     section: {
         nav: {
             title: 'Topics',
-            create: 'Add',
+            add: 'Add',
             all: 'All Topics',
             hot: 'Hot Topics',
             follow: 'Topics Followed',
-            manage: 'Topics Managed'
+            manage: 'Topics Managed',
+            create: 'Add Topic'
         },
         card: {
             detail: 'Information details',

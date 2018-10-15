@@ -97,9 +97,19 @@ Permission.TYPE = {
 };
 
 Permission.PERMISSION_DICT = {
+    'section-list': {
+        name: Permission.NAME.SECTION_SELECT,
+        type: Permission.TYPE.MINOR,
+        level: 100
+    },
     'section-add': {
         name: Permission.NAME.SECTION_CREATE,
         type: Permission.TYPE.STATUS
+    },
+    'album-list': {
+        name: Permission.NAME.ALBUM_SELECT,
+        type: Permission.TYPE.MINOR,
+        level: 100
     },
     'album-add': {
         name: Permission.NAME.ALBUM_CREATE,
@@ -123,6 +133,11 @@ Permission.PERMISSION_DICT = {
     'album-delete-self': {
         name: Permission.NAME.ALBUM_DELETE,
         type: Permission.TYPE.MAJOR,
+        level: 100
+    },
+    'photo-list': {
+        name: Permission.NAME.PHOTO_SELECT,
+        type: Permission.TYPE.MINOR,
         level: 100
     },
     'photo-add': {
@@ -168,6 +183,10 @@ Permission.PERMISSION_DICT = {
         name: Permission.NAME.PHOTO_DELETE,
         type: Permission.TYPE.MAJOR,
         level: 100
+    },
+    'comment-list': {
+        name: Permission.NAME.COMMENT_SELECT,
+        type: Permission.TYPE.STATUS
     }
 };
 

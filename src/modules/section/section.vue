@@ -7,8 +7,8 @@
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 v-perm:section-add
-                @click="sectionAddShow = true">
-                {{ $t("section.nav.create") }}
+                @click="addSection">
+                {{ $t("section.nav.add") }}
             </el-button>
         </et-nav>
 
@@ -31,9 +31,10 @@
 </template>
 
 <script>
-import Section from '@/common/api/sections';
-import Utils from '@/common/utils';
 import { EVENT } from '@/common/bus';
+import Utils from '@/common/utils';
+import Permission from '@/common/permission';
+import Section from '@/common/api/sections';
 import EtSectionAdd from './section-add';
 export default {
     name: 'EtSection',
@@ -47,7 +48,13 @@ export default {
                 page: 1,
                 page_size: 10
             },
-            navOptions: {
+            loadType: 'all',
+            sectionAddShow: false
+        };
+    },
+    computed: {
+        navOptions () {
+            return {
                 nav: [{
                     value: 'all',
                     label: this.$t('section.nav.all')
@@ -60,26 +67,39 @@ export default {
                 }, {
                     value: 'manage',
                     label: this.$t('section.nav.manage')
+                }],
+                menu: [{
+                    icon: 'ei-round-plus',
+                    label: this.$t('section.nav.create'),
+                    event: this.addSection,
+                    show: Permission.hasPermission('section-add')
                 }]
-            },
-            loadType: 'all',
-            sectionAddShow: false
-        };
+            };
+        }
     },
     mounted () {
         this.$root.Bus.$on(EVENT.TOKEN_REFRESH, () => {
             !this._inacitve && this.init();
         });
     },
+    activated () {
+        this.init();
+    },
     methods: {
         init () {
             this.dataList = [];
             this.params.page = 1;
             this.loadType = 'all';
-            this.sectionAddShow = false;
             this.$refs.scroll.reset();
         },
         loadMore (state) {
+            if (!Permission.hasPermission('section-list')) {
+                state.complete();
+                return;
+            }
+            this.loadSections(state);
+        },
+        loadSections (state) {
             Section.list(this.params).then(response => {
                 this.dataList = this.dataList.concat(response.data.sections);
                 this.params.page ++;
@@ -87,13 +107,12 @@ export default {
                     state.complete() :
                     state.loaded();
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'SECTION-LIST');
             });
         },
-        getCover (data) {
-            return data.cover ? {
-                backgroundImage: `url(${data.cover})`
-            } : null;
+        addSection () {
+            this.sectionAddShow = true;
         }
     }
 };

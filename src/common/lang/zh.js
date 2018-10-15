@@ -29,11 +29,12 @@ export default {
     section: {
         nav: {
             title: '话题',
-            create: '新增',
+            add: '新增',
             all: '全部话题',
             hot: '热门话题',
             follow: '我关注的话题',
-            manage: '我管理的话题'
+            manage: '我管理的话题',
+            create: '创建话题'
         },
         card: {
             detail: '信息详情',

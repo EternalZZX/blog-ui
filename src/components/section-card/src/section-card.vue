@@ -47,7 +47,7 @@
                         </i>
                     </el-popover>
                 </span>
-                <span @click="sectionAddShow = true">
+                <span>
                     {{ data.create_at | date }}
                 </span>
             </div>
@@ -73,8 +73,8 @@ export default {
     computed: {
         coverUrl () {
             const backgroundImage = this.hash ?
-                    `url(${this.data.cover}?hash=${this.hash})` :
-                    `url(${this.data.cover})`;
+                `url(${this.data.cover}?hash=${this.hash})` :
+                `url(${this.data.cover})`;
             return this.data.cover ? { backgroundImage } : null;
         }
     }
@@ -83,7 +83,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~static/styles/style-common";
-
 
 .et-section-card {
     /deep/ .et-section-card__cover {
@@ -100,7 +99,7 @@ export default {
             }
         }
 
-        @at-root .et-section-card.disabled .et-section-card__cover {
+        @at-root .et-section-card.et-section-card_disabled .et-section-card__cover {
             cursor: not-allowed;
         }
     }
@@ -152,11 +151,11 @@ export default {
         cursor: pointer;
         @extend %text-overview;
 
-        @at-root .et-section-card.disabled .et-section-card__title {
+        @at-root .et-section-card.et-section-card_disabled .et-section-card__title {
             cursor: not-allowed;
         }
 
-        @at-root .et-section-card:not(.disabled) .et-section-card__title:hover {
+        @at-root .et-section-card:not(.et-section-card_disabled) .et-section-card__title:hover {
             color: $subThemeColor;
         }
     }

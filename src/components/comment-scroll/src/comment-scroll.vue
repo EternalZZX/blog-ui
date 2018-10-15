@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import Comments, { CommentApi } from '@/common/api/comments';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
+import Permission from '@/common/permission';
+import Comments, { CommentApi } from '@/common/api/comments';
 import EtCommentDialog from './comment-dialog';
 export default {
     name: 'EtCommentScroll',
@@ -99,9 +99,6 @@ export default {
         };
     },
     computed: {
-        ...mapGetters({
-            hasIdentity: 'hasIdentity'
-        }),
         notifyStyle () {
             return this.theme === 'dark' ? 'fullscreen' : 'normal';
         }
@@ -119,7 +116,7 @@ export default {
             this.init();
         },
         loadMore (state) {
-            if (!this.hasIdentity) {
+            if (!Permission.hasPermission('comment-list')) {
                 state.complete();
                 return;
             }
@@ -138,6 +135,7 @@ export default {
                     state.loaded();
                 this.commentScrollShow = response.data.total !== 0;
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'COMMENT-LIST');
             });
         },

@@ -107,7 +107,6 @@ export default {
     },
     computed: {
         ...mapGetters({
-            hasIdentity: 'hasIdentity',
             userUuid: 'userUuid'
         }),
         navOptions () {
@@ -200,7 +199,7 @@ export default {
             this.$refs.scroll.reset();
         },
         loadMore (state) {
-            if (!this.hasIdentity) {
+            if (!Permission.hasPermission('photo-list')) {
                 state.complete();
                 return;
             }
@@ -220,6 +219,7 @@ export default {
                     state.complete() :
                     state.loaded();
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
         },

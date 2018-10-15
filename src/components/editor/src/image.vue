@@ -74,6 +74,7 @@ import { mapGetters } from 'vuex';
 import Quill from 'quill';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
+import Permission from '@/common/permission';
 import Photo from '@/common/api/photos';
 import Album from '@/common/api/albums';
 export default {
@@ -103,7 +104,6 @@ export default {
     },
     computed: {
         ...mapGetters({
-            hasIdentity: 'hasIdentity',
             userUuid: 'userUuid'
         })
     },
@@ -135,7 +135,9 @@ export default {
             this.$refs.scroll && this.$refs.scroll.reset();
         },
         loadMore (state) {
-            if (!this.show || !this.hasIdentity) {
+            if (!this.show || !Permission.hasPermission(
+                this.loadType === 'album' ? 'album-list' : 'photo-list')
+            ) {
                 state.complete();
                 return;
             }
@@ -157,6 +159,7 @@ export default {
                     this.params.page = 1;
                 }
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'ALBUM-LIST');
             });
         },
@@ -182,6 +185,7 @@ export default {
                     state.complete() :
                     state.loaded();
             }).catch(err => {
+                state.complete();
                 Utils.errorLog(err, 'PHOTO-LIST');
             });
         },
