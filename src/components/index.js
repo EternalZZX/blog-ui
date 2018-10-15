@@ -1,3 +1,4 @@
+import Card from './card';
 import Collapse from './collapse';
 import Comments from './comment';
 import CommentScroll from './comment-scroll';
@@ -8,10 +9,12 @@ import Photo from './photo';
 import PhotoSelect from './photo-select';
 import Preview from './preview';
 import Scroll from './scroll';
+import SectionCard from './section-card';
 import Toolbar from './toolbar';
 import User from './user';
 
 const components = [
+    Card,
     Collapse,
     Comments,
     CommentScroll,
@@ -22,6 +25,7 @@ const components = [
     PhotoSelect,
     Preview,
     Scroll,
+    SectionCard,
     Toolbar,
     User
 ];
