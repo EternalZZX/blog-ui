@@ -39,12 +39,28 @@ export default {
         card: {
             detail: 'Information details',
             noPermission: 'Topic permission denied',
-            owner: 'Initiator',
-            moderator: 'Moderator',
+            owner: 'Sponsor',
+            moderator: 'Moderators',
             assistant: 'Assistants'
         },
         create: {
-            title: 'Add Topic'
+            title: 'Add Topic',
+            name: 'Topic Id',
+            namePlaceholder: 'Please enter topic ID for the URL',
+            nick: 'Topic title',
+            nickPlaceholder: 'Please enter topic title',
+            description: 'Description',
+            descriptionPlaceholder: 'Please enter topic description',
+            cover: 'Topic Cover',
+            owner: 'Sponsor',
+            moderator: 'Moderators',
+            assistant: 'Assistants',
+            readLevel: 'Read Level',
+            status: 'Topic Status',
+            onlyRoles: 'Role Limit',
+            roles: 'Role Allowed',
+            success: 'Topic create succeed!',
+            error: 'Topic create failed!'
         }
     },
     album: {
@@ -64,8 +80,8 @@ export default {
         },
         create: {
             title: 'Add Album',
-            name: 'Album Name',
-            namePlaceholder: 'Please enter album name',
+            name: 'Album Title',
+            namePlaceholder: 'Please enter album title',
             description: 'Description',
             descriptionPlaceholder: 'Please enter album description',
             cover: 'Album Cover',
@@ -114,7 +130,7 @@ export default {
             description: 'Description',
             descriptionPlaceholder: 'Please enter photo description',
             album: 'Photo Album',
-            albumPlaceholder: 'Please enter album name',
+            albumPlaceholder: 'Please enter album title',
             audit: 'Audit Status',
             privacy: 'Private Photo',
             readLevel: 'Read Level',

@@ -44,7 +44,23 @@ export default {
             assistant: '小版主'
         },
         create: {
-            title: '发起话题'
+            title: '发起话题',
+            name: '话题标识',
+            namePlaceholder: '请输入话题的唯一标识用于URL',
+            nick: '话题标题',
+            nickPlaceholder: '请输入话题标题',
+            description: '话题描述',
+            descriptionPlaceholder: '请输入话题描述信息',
+            cover: '话题封面',
+            owner: '发起人',
+            moderator: '版主',
+            assistant: '小版主',
+            readLevel: '阅读等级',
+            status: '话题状态',
+            onlyRoles: '角色限制',
+            roles: '准入角色',
+            success: '发起话题成功!',
+            error: '发起话题失败!'
         }
     },
     album: {
@@ -64,8 +80,8 @@ export default {
         },
         create: {
             title: '创建相册',
-            name: '相册名称',
-            namePlaceholder: '请输入相册名称',
+            name: '相册标题',
+            namePlaceholder: '请输入相册标题',
             description: '相册描述',
             descriptionPlaceholder: '请输入相册描述信息',
             cover: '相册封面',
@@ -114,7 +130,7 @@ export default {
             description: '图片描述',
             descriptionPlaceholder: '请输入图片描述信息',
             album: '所属相册',
-            albumPlaceholder: '请输入相册名称',
+            albumPlaceholder: '请输入相册标题',
             audit: '审核状态',
             privacy: '私有图片',
             readLevel: '阅读等级',
