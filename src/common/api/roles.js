@@ -32,6 +32,18 @@ class RoleApi extends BaseRequest {
             ...config
         });
     }
+
+    queryRoles (query, params = {}, config = {}) {
+        const args = {
+            ...params,
+            query,
+            order_field: 'create_at'
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
 }
 
 export default new RoleApi();

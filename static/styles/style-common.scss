@@ -152,6 +152,14 @@
     }
 }
 
+.el-select {
+    .el-select__tags {
+        .el-select__input {
+            margin-left: $spaceSmall;
+        }
+    }
+}
+
 .el-select-dropdown {
     &.el-popper[x-placement^=top] {
         margin-bottom: 0;

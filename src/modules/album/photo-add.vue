@@ -40,9 +40,9 @@
                     clearable
                     filterable
                     remote
+                    default-first-option
                     :remote-method="getSelfAlbums"
                     :loading="albumLoading"
-                    :default-first-option="true"
                     :placeholder="$t('photo.create.albumPlaceholder')">
                     <el-option v-for="item in albums"
                         :key="item.uuid"
@@ -196,7 +196,7 @@ export default {
         getSelfAlbums (query) {
             if (query !== '') {
                 this.albumLoading = true;
-                Album.QuerySelfAlbums(this.identityUuid, query).then(response => {
+                Album.querySelfAlbums(this.identityUuid, query).then(response => {
                     this.albumLoading = false;
                     this.albums = response.data.albums;
                 }).catch(err => {

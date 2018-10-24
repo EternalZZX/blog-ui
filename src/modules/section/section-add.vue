@@ -46,19 +46,32 @@
             </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
-                <el-form-item prop="privacy"
-                    :label="$t('album.create.privacy')">
-                    <el-switch v-model="data.privacy"
-                        :active-value="PRIVACY.PRIVATE"
-                        :inactive-value="PRIVACY.PUBLIC"
-                        :disabled="privateDisabled">
-                    </el-switch>
+                <el-form-item prop="only_roles"
+                    :label="$t('section.create.onlyRoles')">
+                    <el-switch v-model="data.only_roles"></el-switch>
                 </el-form-item>
-                <el-form-item prop="system"
-                    :label="$t('album.create.system')"
-                    v-perm:album-system-set>
-                    <el-select v-model="data.system">
-                        <el-option v-for="item in systemTypes"
+                <el-form-item prop="role_ids"
+                    :label="$t('section.create.roles')">
+                    <el-select v-model="data.role_ids"
+                        multiple
+                        filterable
+                        remote
+                        default-first-option
+                        :remote-method="getRoles"
+                        :loading="roleLoading"
+                        :placeholder="$t('photo.create.albumPlaceholder')">
+                        <el-option v-for="item in roles"
+                            :key="item.id"
+                            :label="item.nick"
+                            :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item prop="status"
+                    :label="$t('photo.create.audit')"
+                    v-perm:photo-audit-set>
+                    <el-select v-model="data.status">
+                        <el-option v-for="item in status"
                             :key="item.value"
                             :label="item.label"
                             :value="item.value">
@@ -83,6 +96,7 @@ import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
 import { AlbumApi } from '@/common/api/albums';
+import Role from '@/common/api/roles';
 import Section, { SectionApi } from '@/common/api/sections';
 export default {
     name: 'EtSectionAdd',
@@ -115,6 +129,8 @@ export default {
             cover: null,
             photoSelectShow: false,
             collapseShow: false,
+            roles: [],
+            roleLoading: false,
             systemTypes: [{
                 label: this.$t('album.system.none'),
                 value: null
@@ -175,10 +191,10 @@ export default {
             this.closeDialog();
         },
         submit () {
-            this.isCreate ? this.createAlbum() : this.updateAlbum();
+            this.isCreate ? this.createSection() : this.updateSection();
         },
-        createAlbum () {
-            Album.create(
+        createSection () {
+            Section.create(
                 this.formatParams(this.data)
             ).then(response => {
                 this.closeDialog();
@@ -191,8 +207,8 @@ export default {
                 ), 'error', 'dialog');
             });
         },
-        updateAlbum () {
-            Album.update(
+        updateSection () {
+            Section.update(
                 this.editData.album.uuid,
                 this.formatParams(this.data)
             ).then(response => {
@@ -208,6 +224,20 @@ export default {
                     this.$t('album.edit.error')
                 ), 'error', 'dialog');
             });
+        },
+        getRoles (query) {
+            if (query !== '') {
+                this.roleLoading = true;
+                Role.queryRoles(query).then(response => {
+                    this.roleLoading = false;
+                    this.roles = response.data.roles;
+                }).catch(err => {
+                    this.roleLoading = false;
+                    Utils.errorLog(err, 'ROLE-QUERY');
+                });
+            } else {
+                this.roles = [];
+            }
         },
         formatParams (data) {
             const params = {
