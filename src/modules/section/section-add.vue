@@ -46,12 +46,73 @@
             </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
+                <el-form-item prop="owner_uuid"
+                    :label="$t('section.create.owner')">
+                    <el-select v-model="data.owner_uuid"
+                        filterable
+                        remote
+                        default-first-option
+                        :remote-method="getUsers"
+                        :loading="userLoading"
+                        :placeholder="$t('section.create.ownerPlaceholder')">
+                        <el-option v-for="item in users"
+                            :key="item.uuid"
+                            :label="item.nick"
+                            :value="item.uuid">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item prop="moderator_uuids"
+                    :label="$t('section.create.moderator')">
+                    <el-select v-model="data.moderator_uuids"
+                        multiple
+                        filterable
+                        remote
+                        default-first-option
+                        :remote-method="getUsers"
+                        :loading="userLoading"
+                        :placeholder="$t('section.create.moderatorPlaceholder')">
+                        <el-option v-for="item in users"
+                            :key="item.uuid"
+                            :label="item.nick"
+                            :value="item.uuid">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item prop="assistant_uuids"
+                    :label="$t('section.create.assistant')">
+                    <el-select v-model="data.assistant_uuids"
+                        multiple
+                        filterable
+                        remote
+                        default-first-option
+                        :remote-method="getUsers"
+                        :loading="userLoading"
+                        :placeholder="$t('section.create.assistantPlaceholder')">
+                        <el-option v-for="item in users"
+                            :key="item.uuid"
+                            :label="item.nick"
+                            :value="item.uuid">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item prop="status"
+                    :label="$t('section.create.status')">
+                </el-form-item>
+                <el-form-item prop="read_level"
+                    :label="$t('section.create.readLevel')">
+                    <el-slider v-model="data.read_level"
+                        :max="maxReadLevel"
+                        :step="10">
+                    </el-slider>
+                </el-form-item>
                 <el-form-item prop="only_roles"
                     :label="$t('section.create.onlyRoles')">
                     <el-switch v-model="data.only_roles"></el-switch>
                 </el-form-item>
                 <el-form-item prop="role_ids"
-                    :label="$t('section.create.roles')">
+                    :label="$t('section.create.roles')"
+                    v-show="data.only_roles">
                     <el-select v-model="data.role_ids"
                         multiple
                         filterable
@@ -59,22 +120,11 @@
                         default-first-option
                         :remote-method="getRoles"
                         :loading="roleLoading"
-                        :placeholder="$t('photo.create.albumPlaceholder')">
+                        :placeholder="$t('section.create.rolesPlaceholder')">
                         <el-option v-for="item in roles"
                             :key="item.id"
                             :label="item.nick"
                             :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item prop="status"
-                    :label="$t('photo.create.audit')"
-                    v-perm:photo-audit-set>
-                    <el-select v-model="data.status">
-                        <el-option v-for="item in status"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -92,11 +142,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
-import Permission from '@/common/permission';
-import { AlbumApi } from '@/common/api/albums';
+import User from '@/common/api/users';
 import Role from '@/common/api/roles';
+import { AlbumApi } from '@/common/api/albums';
 import Section, { SectionApi } from '@/common/api/sections';
 export default {
     name: 'EtSectionAdd',
@@ -129,38 +180,21 @@ export default {
             cover: null,
             photoSelectShow: false,
             collapseShow: false,
+            users: [],
+            userLoading: false,
             roles: [],
             roleLoading: false,
-            systemTypes: [{
-                label: this.$t('album.system.none'),
-                value: null
-            }, {
-                label: this.$t('album.system.avatar'),
-                value: AlbumApi.SYSTEM.AVATAR_ALBUM
-            }, {
-                label: this.$t('album.system.album'),
-                value: AlbumApi.SYSTEM.ALBUM_COVER_ALBUM
-            }, {
-                label: this.$t('album.system.section'),
-                value: AlbumApi.SYSTEM.SECTION_COVER_ALBUM
-            }, {
-                label: this.$t('album.system.article'),
-                value: AlbumApi.SYSTEM.ARTICLE_COVER_ALBUM
-            }],
             rules: {
                 name: [{ required: true, message: this.$t('validate.none'), trigger: 'blur' }]
             }
         };
     },
     computed: {
-        privateDisabled () {
-            return !Permission.hasPermission('album-private-set');
-        },
+        ...mapGetters({
+            identity: 'identity'
+        }),
         isCreate () {
             return !this.editData;
-        },
-        PRIVACY () {
-            return AlbumApi.PRIVACY;
         },
         SYSTEM_TYPE () {
             return AlbumApi.SYSTEM;
@@ -168,7 +202,10 @@ export default {
     },
     methods: {
         open () {
-            if (!this.isCreate) {
+            if (this.isCreate) {
+                this.users = [this.identity];
+                this.data.owner_uuid = this.identity.uuid;
+            } else {
                 this.data = {
                     name: this.editData.album.name,
                     description: this.editData.album.description,
@@ -224,6 +261,20 @@ export default {
                     this.$t('album.edit.error')
                 ), 'error', 'dialog');
             });
+        },
+        getUsers (query) {
+            if (query !== '') {
+                this.userLoading = true;
+                User.queryUsers(query).then(response => {
+                    this.userLoading = false;
+                    this.users = response.data.users;
+                }).catch(err => {
+                    this.userLoading = false;
+                    Utils.errorLog(err, 'USER-QUERY');
+                });
+            } else {
+                this.users = [];
+            }
         },
         getRoles (query) {
             if (query !== '') {

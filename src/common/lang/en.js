@@ -53,12 +53,16 @@ export default {
             descriptionPlaceholder: 'Please enter topic description',
             cover: 'Topic Cover',
             owner: 'Sponsor',
+            ownerPlaceholder: 'Please enter topic sponsor',
             moderator: 'Moderators',
+            moderatorPlaceholder: 'Please enter topic moderators',
             assistant: 'Assistants',
+            assistantPlaceholder: 'Please enter topic assistants',
             readLevel: 'Read Level',
             status: 'Topic Status',
             onlyRoles: 'Role Limit',
             roles: 'Role Allowed',
+            rolesPlaceholder: 'Please enter role name',
             success: 'Topic create succeed!',
             error: 'Topic create failed!'
         }

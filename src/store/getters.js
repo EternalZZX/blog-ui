@@ -1,4 +1,5 @@
 export default {
+    identity: state => state.identity,
     userUuid: state => state.identity ? state.identity.uuid : null,
     hasIdentity: state => state.identity !== null,
     hasPermission: state => state.permission !== null,

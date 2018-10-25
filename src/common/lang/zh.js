@@ -53,12 +53,16 @@ export default {
             descriptionPlaceholder: '请输入话题描述信息',
             cover: '话题封面',
             owner: '发起人',
+            ownerPlaceholder: '请输入话题发起人',
             moderator: '版主',
+            moderatorPlaceholder: '请输入话题版主',
             assistant: '小版主',
+            assistantPlaceholder: '请输入话题小版主',
             readLevel: '阅读等级',
             status: '话题状态',
             onlyRoles: '角色限制',
             roles: '准入角色',
+            rolesPlaceholder: '请输入角色名称',
             success: '发起话题成功!',
             error: '发起话题失败!'
         }

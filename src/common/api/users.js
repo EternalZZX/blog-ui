@@ -36,6 +36,17 @@ class UserApi extends BaseRequest {
             ...config
         });
     }
+
+    queryUsers (query, params = {}, config = {}) {
+        const args = {
+            ...params,
+            query
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
 }
 
 UserApi.GENDER = {
