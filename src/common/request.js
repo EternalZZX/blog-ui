@@ -3,8 +3,8 @@ import qs from 'query-string';
 import Utils from '@/common/utils';
 import Loading from '@/common/loading';
 import Validate from '@/common/validate';
-import { RequestError, ValidationError } from '@/common/error';
 import Bus, { EVENT } from '@/common/bus';
+import { RequestError, ValidationError } from '@/common/error';
 import SETTING from '@/setting';
 
 class BaseRequest {
@@ -59,17 +59,17 @@ class BaseRequest {
                 reject(new RequestError());
                 return;
             }
-            const loading = Loading.open();
+            Loading.open();
             this.$http.post(url, data, {
                 headers: BaseRequest._getHeadersToken(),
                 transformRequest: [request => qs.stringify(request)],
                 ...config
             }).then(response => {
                 resolve(response);
-                loading.close();
+                Loading.close();
             }).catch(err => {
                 reject(err);
-                loading.close();
+                Loading.close();
             });
         });
     }
@@ -80,17 +80,17 @@ class BaseRequest {
                 reject(new RequestError());
                 return;
             }
-            const loading = Loading.open();
+            Loading.open();
             this.$http.put(url, data, {
                 headers: BaseRequest._getHeadersToken(),
                 transformRequest: [request => qs.stringify(request)],
                 ...config
             }).then(response => {
                 resolve(response);
-                loading.close();
+                Loading.close();
             }).catch(err => {
                 reject(err);
-                loading.close();
+                Loading.close();
             });
         });
     }
@@ -101,17 +101,17 @@ class BaseRequest {
                 reject(new RequestError());
                 return;
             }
-            const loading = Loading.open();
+            Loading.open();
             this.$http.delete(url, {
                 headers: BaseRequest._getHeadersToken(),
                 transformRequest: [request => qs.stringify(request)],
                 ...config
             }).then(response => {
                 resolve(response);
-                loading.close();
+                Loading.close();
             }).catch(err => {
                 reject(err);
-                loading.close();
+                Loading.close();
             });
         });
     }
