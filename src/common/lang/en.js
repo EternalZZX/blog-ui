@@ -211,10 +211,8 @@ export default {
     validate: {
         none: 'The field can not empty!',
         integer: 'Please enter an integer!',
-        name: 'Username supports only letters, digits, underscores and ' +
-              'separators, and contains at least 3 characters!',
-        nick: 'Nick support only letters, digits, chinese, underscores, ' +
-              'and separators, and contain at least 2 characters!',
+        name: 'Support letters, digits, underscores and separators, and contains at least 3 characters!',
+        nick: 'Support letters, digits, chinese, underscores, and separators, and contain at least 2 characters!',
         email: 'Please enter the correct email address!',
         phone: 'Please enter the correct phone number!',
         password: 'Password contain at least 6 characters!',

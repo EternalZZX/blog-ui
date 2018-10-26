@@ -161,7 +161,11 @@ export default {
             this.closeDialog();
         },
         submit () {
-            this.isCreate ? this.createAlbum() : this.updateAlbum();
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    this.isCreate ? this.createAlbum() : this.updateAlbum();
+                }
+            });
         },
         createAlbum () {
             Album.create(

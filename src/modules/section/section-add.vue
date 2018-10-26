@@ -203,7 +203,9 @@ export default {
             roles: [],
             roleLoading: false,
             rules: {
-                name: [{ required: true, validator: Validate.none, trigger: 'blur' }]
+                name: [{ required: true, validator: Validate.name, trigger: 'blur' }],
+                nick: [{ required: true, validator: Validate.none, trigger: 'blur' }],
+                owner_uuid: [{ required: true, validator: Validate.none, trigger: 'change' }]
             }
         };
     },
@@ -246,7 +248,11 @@ export default {
             this.closeDialog();
         },
         submit () {
-            this.isCreate ? this.createSection() : this.updateSection();
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    this.isCreate ? this.createSection() : this.updateSection();
+                }
+            });
         },
         createSection () {
             Section.create(
