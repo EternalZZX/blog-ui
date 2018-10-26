@@ -8,5 +8,13 @@ export default {
             auth: true,
             keepAlive: true
         }
+    }, {
+        path: 'setting/:name',
+        name: 'sectionSetting',
+        component: () => import('@/modules/section/section-setting'),
+        meta: {
+            auth: true,
+            keepAlive: true
+        }
     }]
 };

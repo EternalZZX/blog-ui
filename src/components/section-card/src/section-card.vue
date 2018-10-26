@@ -43,24 +43,11 @@
                                 <i class="et-icon ei-service"></i>
                             </button>
                         </el-popover>
-                        <el-dropdown trigger="click"
-                            placement="bottom"
-                            @command="handleCommand">
-                            <button class="et-section-card__button"
-                                :title="$t('common.menu')">
-                                <i class="et-icon ei-edit"></i>
-                            </button>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item command="edit">
-                                    <i class="et-icon ei-editor"></i>
-                                    {{ $t("common.edit") }}
-                                </el-dropdown-item>
-                                <el-dropdown-item command="delete">
-                                    <i class="et-icon ei-trash"></i>
-                                    {{ $t("common.delete") }}
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
+                        <button class="et-section-card__button"
+                            :title="$t('common.menu')"
+                            @click="setting">
+                            <i class="et-icon ei-setup"></i>
+                        </button>
                     </div>
                 </li>
                 <li class="et-section-card__panel-item">
@@ -100,8 +87,13 @@ export default {
         }
     },
     methods: {
-        handleCommand (command) {
-            this.$emit(command, this.data);
+        setting () {
+            this.$router.push({
+                name: 'sectionSetting',
+                params: {
+                    name: this.data.name
+                }
+            });
         }
     }
 };

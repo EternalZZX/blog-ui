@@ -1,8 +1,6 @@
 <template>
     <el-dialog class="et-dialog"
-        :title="isCreate ?
-            $t('section.create.title') :
-            $t('section.edit.title')"
+        :title="$t('section.create.title')"
         :visible="show"
         top="5%"
         @open="open"
@@ -163,12 +161,6 @@ export default {
         show: {
             type: Boolean,
             default: false
-        },
-        editData: {
-            type: Object,
-            default () {
-                return null;
-            }
         }
     },
     data () {
@@ -213,32 +205,14 @@ export default {
         ...mapGetters({
             identity: 'identity'
         }),
-        isCreate () {
-            return !this.editData;
-        },
         SYSTEM_TYPE () {
             return AlbumApi.SYSTEM;
         }
     },
     methods: {
         open () {
-            if (this.isCreate) {
-                this.users = [this.identity];
-                this.data.owner_uuid = this.identity.uuid;
-            } else {
-                this.data = {
-                    name: this.editData.album.name,
-                    description: this.editData.album.description,
-                    privacy: this.editData.album.privacy,
-                    system: this.editData.album.system
-                };
-                if (this.editData.album.cover) {
-                    this.cover = {
-                        uuid: this.editData.album.cover.split('/').pop().split('.')[0],
-                        image_small: this.editData.album.cover
-                    };
-                }
-            }
+            this.users = [this.identity];
+            this.data.owner_uuid = this.identity.uuid;
         },
         close () {
             this.cover = null;
@@ -249,9 +223,7 @@ export default {
         },
         submit () {
             this.$refs.form.validate(valid => {
-                if (valid) {
-                    this.isCreate ? this.createSection() : this.updateSection();
-                }
+                valid && this.createSection();
             });
         },
         createSection () {
@@ -265,24 +237,6 @@ export default {
                 Utils.errorLog(err, 'SECTION-CREATE');
                 Common.notify(Utils.errorMessage(err,
                     this.$t('section.create.error')
-                ), 'error', 'dialog');
-            });
-        },
-        updateSection () {
-            Section.update(
-                this.editData.album.uuid,
-                this.formatParams(this.data)
-            ).then(response => {
-                this.closeDialog();
-                this.$emit('edit', {
-                    album: response.data,
-                    index: this.editData.index
-                });
-                Common.notify(this.$t('album.edit.success'), 'success');
-            }).catch(err => {
-                Utils.errorLog(err, 'ALBUM-UPDATE');
-                Common.notify(Utils.errorMessage(err,
-                    this.$t('album.edit.error')
                 ), 'error', 'dialog');
             });
         },
