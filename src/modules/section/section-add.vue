@@ -98,11 +98,18 @@
                 </el-form-item>
                 <el-form-item prop="status"
                     :label="$t('section.create.status')">
+                    <el-select v-model="data.status">
+                        <el-option v-for="item in status"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item prop="read_level"
                     :label="$t('section.create.readLevel')">
                     <el-slider v-model="data.read_level"
-                        :max="maxReadLevel"
+                        :max="1000"
                         :step="10">
                     </el-slider>
                 </el-form-item>
@@ -172,8 +179,8 @@ export default {
                 owner_uuid: '',
                 moderator_uuids: [],
                 assistant_uuids: [],
-                read_level: 100,
                 status: SectionApi.STATUS.NORMAL,
+                read_level: 100,
                 only_roles: false,
                 role_ids: []
             },
@@ -182,6 +189,16 @@ export default {
             collapseShow: false,
             users: [],
             userLoading: false,
+            status: [{
+                label: this.$t('section.status.normal'),
+                value: SectionApi.STATUS.NORMAL
+            }, {
+                label: this.$t('section.status.hide'),
+                value: SectionApi.STATUS.HIDE
+            }, {
+                label: this.$t('section.status.cancel'),
+                value: SectionApi.STATUS.CANCEL
+            }],
             roles: [],
             roleLoading: false,
             rules: {
@@ -236,11 +253,11 @@ export default {
             ).then(response => {
                 this.closeDialog();
                 this.$emit('create', response.data);
-                Common.notify(this.$t('album.create.success'), 'success');
+                Common.notify(this.$t('section.create.success'), 'success');
             }).catch(err => {
-                Utils.errorLog(err, 'ALBUM-CREATE');
+                Utils.errorLog(err, 'SECTION-CREATE');
                 Common.notify(Utils.errorMessage(err,
-                    this.$t('album.create.error')
+                    this.$t('section.create.error')
                 ), 'error', 'dialog');
             });
         },
@@ -291,14 +308,19 @@ export default {
             }
         },
         formatParams (data) {
-            const params = {
+            return {
                 name: data.name,
+                nick: data.nick,
                 description: data.description,
-                privacy: data.privacy
+                cover_uuid: this.cover ? this.cover.uuid : '',
+                owner_uuid: data.owner_uuid,
+                moderator_uuids: data.moderator_uuids.join(','),
+                assistant_uuids: data.assistant_uuids.join(','),
+                status: data.status,
+                read_level: data.read_level,
+                only_roles: data.only_roles,
+                role_ids: data.role_ids.join(',')
             };
-            params.cover_uuid = this.cover ? this.cover.uuid : '';
-            data.system !== null && (params.system = data.system);
-            return params;
         },
         cancel () {
             this.closeDialog();

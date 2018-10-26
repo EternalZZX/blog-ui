@@ -25,7 +25,10 @@
         </div>
 
         <et-section-add v-perm:section-add
-            :show.sync="sectionAddShow">
+            :show.sync="sectionAddShow"
+            :edit-data="editData"
+            @create="init"
+            @edit="init">
         </et-section-add>
     </div>
 </template>
@@ -49,7 +52,8 @@ export default {
                 page_size: 10
             },
             loadType: 'all',
-            sectionAddShow: false
+            sectionAddShow: false,
+            editData: null
         };
     },
     computed: {

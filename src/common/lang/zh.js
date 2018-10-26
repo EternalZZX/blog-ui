@@ -65,6 +65,11 @@ export default {
             rolesPlaceholder: '请输入角色名称',
             success: '发起话题成功!',
             error: '发起话题失败!'
+        },
+        status: {
+            normal: '普通模式',
+            hide: '隐藏模式',
+            cancel: '注销模式'
         }
     },
     album: {

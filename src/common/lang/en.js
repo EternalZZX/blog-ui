@@ -65,6 +65,11 @@ export default {
             rolesPlaceholder: 'Please enter role name',
             success: 'Topic create succeed!',
             error: 'Topic create failed!'
+        },
+        status: {
+            normal: 'Normal',
+            hide: 'Hide',
+            cancel: 'Cnacel'
         }
     },
     album: {
