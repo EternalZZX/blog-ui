@@ -152,6 +152,7 @@
 import { mapGetters } from 'vuex';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
+import Validate from '@/common/validate';
 import User from '@/common/api/users';
 import Role from '@/common/api/roles';
 import { AlbumApi } from '@/common/api/albums';
@@ -202,7 +203,7 @@ export default {
             roles: [],
             roleLoading: false,
             rules: {
-                name: [{ required: true, message: this.$t('validate.none'), trigger: 'blur' }]
+                name: [{ required: true, validator: Validate.none, trigger: 'blur' }]
             }
         };
     },

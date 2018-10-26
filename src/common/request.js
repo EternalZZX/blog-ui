@@ -2,7 +2,7 @@ import axios from 'axios';
 import qs from 'query-string';
 import Utils from '@/common/utils';
 import Loading from '@/common/loading';
-import validate from '@/common/validate';
+import Validate from '@/common/validate';
 import { RequestError, ValidationError } from '@/common/error';
 import Bus, { EVENT } from '@/common/bus';
 import SETTING from '@/setting';
@@ -31,7 +31,7 @@ class BaseRequest {
     }
 
     static validateParams (data, rules) {
-        const validateResult = validate(data, rules);
+        const validateResult = Validate.test(data, rules);
         if (!validateResult.result) {
             return new Promise((resolve, reject) => {
                 reject(new ValidationError(validateResult.message));

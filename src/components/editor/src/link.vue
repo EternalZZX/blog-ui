@@ -38,7 +38,7 @@
 
 <script>
 import Quill from 'quill';
-import validate from '@/common/validate';
+import Validate from '@/common/validate';
 export default {
     name: 'EtEditorLink',
     props: {
@@ -69,7 +69,7 @@ export default {
     },
     watch: {
         'data.url' () {
-            this.submitDisabled = !validate(this.data, {
+            this.submitDisabled = !Validate.test(this.data, {
                 url: [{ required: true, validator: 'url' }]
             }).result;
         }

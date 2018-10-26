@@ -74,6 +74,7 @@
 import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
+import Validate from '@/common/validate';
 import Album, { AlbumApi } from '@/common/api/albums';
 export default {
     name: 'EtAlbumAdd',
@@ -117,7 +118,7 @@ export default {
                 value: AlbumApi.SYSTEM.ARTICLE_COVER_ALBUM
             }],
             rules: {
-                name: [{ required: true, message: this.$t('validate.none'), trigger: 'blur' }]
+                name: [{ required: true, validator: Validate.none, trigger: 'blur' }]
             }
         };
     },

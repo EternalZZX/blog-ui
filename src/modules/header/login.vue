@@ -46,7 +46,7 @@ import STORE_TYPES from '@/store/types';
 import Clickoutside from 'element-ui/src/utils/clickoutside';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
-import validate from '@/common/validate';
+import Validate from '@/common/validate';
 import Account from '@/common/api/accounts';
 export default {
     name: 'EtLogin',
@@ -70,7 +70,7 @@ export default {
             updatePermission: STORE_TYPES.UPDATE_PERMISSION
         }),
         signIn () {
-            const validateResult = validate(this.data, {
+            const validateResult = Validate.test(this.data, {
                 username: [{ required: true, message: this.$t('account.noUsername') }],
                 password: [{ required: true, message: this.$t('account.noPassword') }]
             });
@@ -88,7 +88,7 @@ export default {
             });
         },
         signUp () {
-            const validateResult = validate(this.data, {
+            const validateResult = Validate.test(this.data, {
                 username: [{ required: true, message: this.$t('account.noUsername') }, { validator: 'name' }],
                 password: [{ required: true, message: this.$t('account.noPassword') }, { validator: 'password' }]
             });
