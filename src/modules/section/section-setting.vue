@@ -14,7 +14,7 @@
         <div class="et-content">
             <div class="et-content__wrapper">
                 <el-form ref="form"
-                    class="et-form"
+                    class="et-form et-block"
                     :rules="rules"
                     :model="data">
                     <el-form-item prop="name"
