@@ -360,7 +360,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         }
 
         .et-content .et-content__wrapper .et-block {
-            padding: $spaceLarge $spaceSmall;
+            padding: $spaceLarge;
             background-color: $blockBackground;
             border: $splitBorder;
             border-radius: $radiusSmall;

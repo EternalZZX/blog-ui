@@ -66,6 +66,36 @@ export default {
             success: 'Topic create succeed!',
             error: 'Topic create failed!'
         },
+        edit: {
+            permissions: {
+                set_permission: 'Set Permission',
+                delete_permission: 'Delete Topic',
+                set_owner: 'Set Owner',
+                set_name: 'Set Topic Id',
+                set_nick: 'Set Topic Name',
+                set_description: 'Set Description',
+                set_cover: 'Set Cover',
+                set_moderator: 'Set Moderator',
+                set_assistant: 'Set Assistant',
+                set_status: 'Set Topic Status',
+                set_cancel: 'Cancel Topic',
+                cancel_visible: 'Cancel Visable',
+                set_read_level: 'Set Read Level',
+                set_read_user: 'Set Read Limit',
+                set_policy: 'Set Topic Policy',
+                article_audit: 'Audit Article',
+                article_edit: 'Edit Article',
+                article_draft: 'Audit Draft',
+                article_recycled: 'Recycle Article',
+                article_cancel: 'Cancel Article',
+                article_delete: 'Delete Article',
+                comment_audit: 'Audit Comment',
+                comment_edit: 'Edit Comment',
+                comment_recycled: 'Recycle Comment',
+                comment_cancel: 'Cancel Comment',
+                comment_delete: 'Delete Comment'
+            }
+        },
         status: {
             normal: 'Normal',
             hide: 'Hide',

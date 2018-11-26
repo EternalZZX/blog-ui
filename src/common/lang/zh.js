@@ -66,6 +66,36 @@ export default {
             success: '发起话题成功!',
             error: '发起话题失败!'
         },
+        edit: {
+            permissions: {
+                set_permission: '权限修改',
+                delete_permission: '删除话题',
+                set_owner: '设置话题发起人',
+                set_name: '设置话题标识',
+                set_nick: '设置话题标题',
+                set_description: '设置话题描述',
+                set_cover: '设置话题封面',
+                set_moderator: '设置话题版主',
+                set_assistant: '设置话题小版主',
+                set_status: '设置话题状态',
+                set_cancel: '注销话题',
+                cancel_visible: '话题注销可见',
+                set_read_level: '设置话题阅读等级',
+                set_read_user: '设置话题阅读限制',
+                set_policy: '设置话题策略',
+                article_audit: '审核文章',
+                article_edit: '编辑文章',
+                article_draft: '审核草稿',
+                article_recycled: '审核回收站文章',
+                article_cancel: '注销文章',
+                article_delete: '删除文章',
+                comment_audit: '审核评论',
+                comment_edit: '编辑评论',
+                comment_recycled: '审核回收站评论',
+                comment_cancel: '注销评论',
+                comment_delete: '删除评论'
+            }
+        },
         status: {
             normal: '普通模式',
             hide: '隐藏模式',

@@ -50,7 +50,7 @@
                         </div>
                     </el-form-item>
                     <et-collapse :title="$t('common.advanced')"
-                        :show.sync="collapseShow">
+                        :show.sync="advancedCollapseShow">
                         <el-form-item prop="owner_uuid"
                             :label="$t('section.create.owner')">
                             <el-select v-model="data.owner_uuid"
@@ -141,6 +141,13 @@
                             </el-select>
                         </el-form-item>
                     </et-collapse>
+                    <et-collapse :title="$t('common.advanced')"
+                        :show.sync="policyCollapseShow">
+                        <el-form-item v-for="(value, permission) in permissions"
+                            :key="permission"
+                            :label="$t(`section.edit.permissions.${permission}`)">
+                        </el-form-item>
+                    </et-collapse>
                 </el-form>
             </div>
             <et-toolbar></et-toolbar>
@@ -172,9 +179,39 @@ export default {
                 only_roles: false,
                 role_ids: []
             },
+            permissions: {
+                set_permission: 0,
+                delete_permission: 0,
+                set_owner: 0,
+                set_name: 0,
+                set_nick: 0,
+                set_description: 0,
+                set_cover: 0,
+                set_moderator: 0,
+                set_assistant: 0,
+                set_status: 0,
+                set_cancel: 0,
+                cancel_visible: 0,
+                set_read_level: 0,
+                set_read_user: 0,
+                set_policy: 0,
+                article_audit: 0,
+                article_edit: 0,
+                article_draft: 0,
+                article_recycled: 0,
+                article_cancel: 0,
+                article_delete: 0,
+                comment_audit: 0,
+                comment_edit: 0,
+                comment_recycled: 0,
+                comment_cancel: 0,
+                comment_delete: 0
+            },
             cover: null,
             photoSelectShow: false,
-            collapseShow: false,
+            advancedCollapseShow: false,
+            policyCollapseShow: false,
+            permissionCollapseShow: false,
             users: [],
             userLoading: false,
             status: [{
