@@ -67,6 +67,16 @@ export default {
             error: 'Topic create failed!'
         },
         edit: {
+            policy: 'Policy Setting',
+            polices: {
+                autoAudit: 'Auto Audit',
+                articleMute: 'Article Mute',
+                replyMute: 'Comment Mute',
+                maxArticles: 'Max Articles',
+                maxArticlesPlaceholder: 'Maximum articles per account',
+                maxArticlesOneDay: 'Max Articles / Day',
+                maxArticlesOneDayPlaceholder: 'Maximum articles per account per day'
+            },
             permission: 'Permission Setting',
             permissions: {
                 set_permission: 'Set Permission',

@@ -67,6 +67,16 @@ export default {
             error: '发起话题失败!'
         },
         edit: {
+            policy: '策略设置',
+            polices: {
+                autoAudit: '自动审核',
+                articleMute: '禁止发帖',
+                replyMute: '禁止回复',
+                maxArticles: '文章数量限制',
+                maxArticlesPlaceholder: '每个账户文章数量限制',
+                maxArticlesOneDay: '每日文章数量限制',
+                maxArticlesOneDayPlaceholder: '每个账户每日文章数量限制'
+            },
             permission: '权限设置',
             permissions: {
                 set_permission: '权限修改',

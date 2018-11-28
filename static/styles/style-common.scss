@@ -217,6 +217,20 @@
     }
 }
 
+.el-input-number {
+    width: $uploadWidth;
+    line-height: $elementHeight;
+
+    .el-input-number__decrease, .el-input-number__increase {
+        width: $elementHeight;
+        bottom: 1px;
+    }
+
+    .el-input {
+        width: 100% !important;
+    }
+}
+
 .el-form {
     .el-form-item {
         margin-bottom: $spaceSmall;

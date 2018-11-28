@@ -141,12 +141,44 @@
                             </el-select>
                         </el-form-item>
                     </et-collapse>
-                    <et-collapse :title="$t('section.edit.permission')"
+                    <et-collapse :title="$t('section.edit.policy')"
                         :show.sync="policyCollapseShow">
-                        <el-form-item v-for="(value, key) in permissions"
+                        <el-form-item prop="polices.auto_audit"
+                            :label="$t('section.edit.polices.autoAudit')">
+                            <el-switch v-model="data.polices.auto_audit"></el-switch>
+                        </el-form-item>
+                        <el-form-item prop="polices.article_mute"
+                            :label="$t('section.edit.polices.articleMute')">
+                            <el-switch v-model="data.polices.article_mute"></el-switch>
+                        </el-form-item>
+                        <el-form-item prop="polices.reply_mute"
+                            :label="$t('section.edit.polices.replyMute')">
+                            <el-switch v-model="data.polices.reply_mute"></el-switch>
+                        </el-form-item>
+                        <el-form-item prop="polices.max_articles"
+                            :label="$t('section.edit.polices.maxArticles')">
+                            <el-input v-model.trim="data.polices.max_articles"
+                                :placeholder="$t('section.edit.polices.maxArticlesPlaceholder')"
+                                :maxlength="8"
+                                :clearable="true">
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item prop="polices.max_articles_one_day"
+                            :label="$t('section.edit.polices.maxArticlesOneDay')">
+                            <el-input v-model.trim="data.polices.max_articles_one_day"
+                                :placeholder="$t('section.edit.polices.maxArticlesOneDayPlaceholder')"
+                                :maxlength="8"
+                                :clearable="true">
+                            </el-input>
+                        </el-form-item>
+                    </et-collapse>
+                    <et-collapse :title="$t('section.edit.permission')"
+                        :show.sync="permissionCollapseShow">
+                        <el-form-item v-for="(value, key) in data.permissions"
                             :key="key"
+                            :prop="`permissions.${key}`"
                             :label="$t(`section.edit.permissions.${key}`)">
-                            <el-radio-group v-model="permissions[key]">
+                            <el-radio-group v-model="data.permissions[key]">
                                 <el-radio v-for="role in permissionRoles"
                                     :key="role.value"
                                     :label="role.value">
@@ -184,35 +216,42 @@ export default {
                 status: SectionApi.STATUS.NORMAL,
                 read_level: 100,
                 only_roles: false,
-                role_ids: []
-            },
-            permissions: {
-                set_permission: 0,
-                delete_permission: 0,
-                set_owner: 0,
-                set_name: 0,
-                set_nick: 0,
-                set_description: 0,
-                set_cover: 0,
-                set_moderator: 0,
-                set_assistant: 0,
-                set_status: 0,
-                set_cancel: 0,
-                cancel_visible: 0,
-                set_read_level: 0,
-                set_read_user: 0,
-                set_policy: 0,
-                article_audit: 0,
-                article_edit: 0,
-                article_draft: 0,
-                article_recycled: 0,
-                article_cancel: 0,
-                article_delete: 0,
-                comment_audit: 0,
-                comment_edit: 0,
-                comment_recycled: 0,
-                comment_cancel: 0,
-                comment_delete: 0
+                role_ids: [],
+                polices: {
+                    auto_audit: true,
+                    article_mute: false,
+                    reply_mute: false,
+                    max_articles: '',
+                    max_articles_one_day: ''
+                },
+                permissions: {
+                    set_permission: 0,
+                    delete_permission: 0,
+                    set_owner: 0,
+                    set_name: 0,
+                    set_nick: 0,
+                    set_description: 0,
+                    set_cover: 0,
+                    set_moderator: 0,
+                    set_assistant: 0,
+                    set_status: 0,
+                    set_cancel: 0,
+                    cancel_visible: 0,
+                    set_read_level: 0,
+                    set_read_user: 0,
+                    set_policy: 0,
+                    article_audit: 0,
+                    article_edit: 0,
+                    article_draft: 0,
+                    article_recycled: 0,
+                    article_cancel: 0,
+                    article_delete: 0,
+                    comment_audit: 0,
+                    comment_edit: 0,
+                    comment_recycled: 0,
+                    comment_cancel: 0,
+                    comment_delete: 0
+                }
             },
             cover: null,
             photoSelectShow: false,
