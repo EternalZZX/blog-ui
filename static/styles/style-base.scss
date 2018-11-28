@@ -366,6 +366,22 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             border-radius: $radiusSmall;
         }
 
+        .et-content .et-content__wrapper .et-block.et-form .el-form-item__label {
+            width: $pageFormLabelWidth;
+        }
+
+        .et-content .et-content__wrapper .et-block.et-form .el-form-item__error {
+            margin-left: $pageFormLabelWidth;
+        }
+
+        .et-content .et-content__wrapper .et-block.et-form .et-collapse .et-collapse__header::before {
+            left: $pageFormLabelWidth;
+        }
+
+        .et-content .et-content__wrapper .et-block.et-form .et-collapse .et-collapse__title {
+            width: $pageFormLabelWidth;
+        }
+
         .et-toolbar {
             display: none;
             flex: none;
@@ -538,6 +554,15 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
         .el-switch {
             height: $elementHeight;
+        }
+
+        .el-radio-group {
+            padding: 0 $spaceTiny;
+            line-height: $elementHeight;
+        }
+
+        .el-radio-group .el-radio {
+            line-height: $elementHeight;
         }
 
         @include max-screen($phoneMaxWidth) {

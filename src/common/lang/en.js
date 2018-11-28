@@ -67,6 +67,7 @@ export default {
             error: 'Topic create failed!'
         },
         edit: {
+            permission: 'Permission Setting',
             permissions: {
                 set_permission: 'Set Permission',
                 delete_permission: 'Delete Topic',
@@ -94,6 +95,11 @@ export default {
                 comment_recycled: 'Recycle Comment',
                 comment_cancel: 'Cancel Comment',
                 comment_delete: 'Delete Comment'
+            },
+            permissionRoles: {
+                owner: 'Sponsor',
+                moderator: 'Moderators',
+                manager: 'Managers'
             }
         },
         status: {

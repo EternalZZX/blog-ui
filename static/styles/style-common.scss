@@ -211,6 +211,12 @@
     }
 }
 
+.el-radio {
+    .el-radio__label {
+        padding: $spaceTiny;
+    }
+}
+
 .el-form {
     .el-form-item {
         margin-bottom: $spaceSmall;

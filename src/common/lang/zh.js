@@ -67,6 +67,7 @@ export default {
             error: '发起话题失败!'
         },
         edit: {
+            permission: '权限设置',
             permissions: {
                 set_permission: '权限修改',
                 delete_permission: '删除话题',
@@ -94,6 +95,11 @@ export default {
                 comment_recycled: '审核回收站评论',
                 comment_cancel: '注销评论',
                 comment_delete: '删除评论'
+            },
+            permissionRoles: {
+                owner: '发起人',
+                moderator: '发起人与版主',
+                manager: '所有管理者'
             }
         },
         status: {

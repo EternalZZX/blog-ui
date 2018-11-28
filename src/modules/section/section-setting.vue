@@ -141,11 +141,18 @@
                             </el-select>
                         </el-form-item>
                     </et-collapse>
-                    <et-collapse :title="$t('common.advanced')"
+                    <et-collapse :title="$t('section.edit.permission')"
                         :show.sync="policyCollapseShow">
-                        <el-form-item v-for="(value, permission) in permissions"
-                            :key="permission"
-                            :label="$t(`section.edit.permissions.${permission}`)">
+                        <el-form-item v-for="(value, key) in permissions"
+                            :key="key"
+                            :label="$t(`section.edit.permissions.${key}`)">
+                            <el-radio-group v-model="permissions[key]">
+                                <el-radio v-for="role in permissionRoles"
+                                    :key="role.value"
+                                    :label="role.value">
+                                    {{ role.label }}
+                                </el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </et-collapse>
                 </el-form>
@@ -223,6 +230,16 @@ export default {
             }, {
                 label: this.$t('section.status.cancel'),
                 value: SectionApi.STATUS.CANCEL
+            }],
+            permissionRoles: [{
+                label: this.$t('section.edit.permissionRoles.owner'),
+                value: SectionApi.PERMISSION.OWNER
+            }, {
+                label: this.$t('section.edit.permissionRoles.moderator'),
+                value: SectionApi.PERMISSION.MODERATOR
+            }, {
+                label: this.$t('section.edit.permissionRoles.manager'),
+                value: SectionApi.PERMISSION.MANAGER
             }],
             roles: [],
             roleLoading: false,

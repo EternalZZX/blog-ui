@@ -40,6 +40,12 @@ SectionApi.STATUS = {
     HIDE: 2
 };
 
+SectionApi.PERMISSION = {
+    OWNER: 0,
+    MODERATOR: 1,
+    MANAGER: 2
+};
+
 export { SectionApi };
 
 export default new SectionApi();
