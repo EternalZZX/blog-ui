@@ -143,29 +143,29 @@
                     </et-collapse>
                     <et-collapse :title="$t('section.edit.policy')"
                         :show.sync="policyCollapseShow">
-                        <el-form-item prop="polices.auto_audit"
+                        <el-form-item prop="policy.auto_audit"
                             :label="$t('section.edit.polices.autoAudit')">
-                            <el-switch v-model="data.polices.auto_audit"></el-switch>
+                            <el-switch v-model="data.policy.auto_audit"></el-switch>
                         </el-form-item>
-                        <el-form-item prop="polices.article_mute"
+                        <el-form-item prop="policy.article_mute"
                             :label="$t('section.edit.polices.articleMute')">
-                            <el-switch v-model="data.polices.article_mute"></el-switch>
+                            <el-switch v-model="data.policy.article_mute"></el-switch>
                         </el-form-item>
-                        <el-form-item prop="polices.reply_mute"
+                        <el-form-item prop="policy.reply_mute"
                             :label="$t('section.edit.polices.replyMute')">
-                            <el-switch v-model="data.polices.reply_mute"></el-switch>
+                            <el-switch v-model="data.policy.reply_mute"></el-switch>
                         </el-form-item>
-                        <el-form-item prop="polices.max_articles"
+                        <el-form-item prop="policy.max_articles"
                             :label="$t('section.edit.polices.maxArticles')">
-                            <el-input v-model.trim="data.polices.max_articles"
+                            <el-input v-model.trim="data.policy.max_articles"
                                 :placeholder="$t('section.edit.polices.maxArticlesPlaceholder')"
                                 :maxlength="8"
                                 :clearable="true">
                             </el-input>
                         </el-form-item>
-                        <el-form-item prop="polices.max_articles_one_day"
+                        <el-form-item prop="policy.max_articles_one_day"
                             :label="$t('section.edit.polices.maxArticlesOneDay')">
-                            <el-input v-model.trim="data.polices.max_articles_one_day"
+                            <el-input v-model.trim="data.policy.max_articles_one_day"
                                 :placeholder="$t('section.edit.polices.maxArticlesOneDayPlaceholder')"
                                 :maxlength="8"
                                 :clearable="true">
@@ -174,11 +174,11 @@
                     </et-collapse>
                     <et-collapse :title="$t('section.edit.permission')"
                         :show.sync="permissionCollapseShow">
-                        <el-form-item v-for="(value, key) in data.permissions"
+                        <el-form-item v-for="(value, key) in data.permission"
                             :key="key"
-                            :prop="`permissions.${key}`"
+                            :prop="`permission.${key}`"
                             :label="$t(`section.edit.permissions.${key}`)">
-                            <el-radio-group v-model="data.permissions[key]">
+                            <el-radio-group v-model="data.permission[key]">
                                 <el-radio v-for="role in permissionRoles"
                                     :key="role.value"
                                     :label="role.value">
@@ -200,7 +200,7 @@ import Permission from '@/common/permission';
 import Validate from '@/common/validate';
 import User from '@/common/api/users';
 import Role from '@/common/api/roles';
-import { SectionApi } from '@/common/api/sections';
+import Section, { SectionApi } from '@/common/api/sections';
 export default {
     name: 'EtSectionSetting',
     data () {
@@ -217,14 +217,14 @@ export default {
                 read_level: 100,
                 only_roles: false,
                 role_ids: [],
-                polices: {
+                policy: {
                     auto_audit: true,
                     article_mute: false,
                     reply_mute: false,
                     max_articles: '',
                     max_articles_one_day: ''
                 },
-                permissions: {
+                permission: {
                     set_permission: 0,
                     delete_permission: 0,
                     set_owner: 0,
@@ -260,6 +260,8 @@ export default {
             permissionCollapseShow: false,
             users: [],
             userLoading: false,
+            roles: [],
+            roleLoading: false,
             status: [{
                 label: this.$t('section.status.normal'),
                 value: SectionApi.STATUS.NORMAL
@@ -280,8 +282,6 @@ export default {
                 label: this.$t('section.edit.permissionRoles.manager'),
                 value: SectionApi.PERMISSION.MANAGER
             }],
-            roles: [],
-            roleLoading: false,
             rules: {
                 name: [{ required: true, validator: Validate.name, trigger: 'blur' }],
                 nick: [{ required: true, validator: Validate.none, trigger: 'blur' }],
@@ -312,11 +312,24 @@ export default {
                     show: Permission.hasPermission('section-add')
                 }]
             };
+        },
+        sectionName () {
+            return this.$route.params.name;
         }
+    },
+    activated () {
+        this.init();
     },
     methods: {
         init () {
-            //
+            this.getSection();
+        },
+        getSection () {
+            Section.get(this.sectionName).then(response => {
+                this.data = this.formatData(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'SECTION-GET');
+            });
         },
         getUsers (query) {
             if (query !== '') {
@@ -345,6 +358,45 @@ export default {
             } else {
                 this.roles = [];
             }
+        },
+        formatData (data) {
+            const section = {
+                name: data.name,
+                nick: data.nick,
+                description: data.description,
+                owner_uuid: data.owner.uuid,
+                moderator_uuids: data.moderators.map(item => item.uuid),
+                assistant_uuids: data.assistants.map(item => item.uuid),
+                status: data.status,
+                read_level: data.read_level,
+                only_roles: data.only_roles,
+                role_ids: data.roles.map(item => item.id),
+                policy: {},
+                permission: {}
+            };
+            for (const key of Object.keys(this.data.policy)) {
+                section.policy[key] = data.policy[key];
+            }
+            for (const key of Object.keys(this.data.permission)) {
+                section.permission[key] = data.permission[key];
+            }
+            if (data.cover) {
+                this.cover = {
+                    uuid: data.cover.split('/').pop().split('.')[0],
+                    image_small: data.cover
+                };
+            }
+            const users = [data.owner].concat(data.moderators).concat(data.assistants);
+            const obj = {};
+            this.users = users.reduce((arr, item) => {
+                if (!obj[item.uuid]) {
+                    obj[item.uuid] = true;
+                    arr.push(item);
+                }
+                return arr;
+            }, []);
+            this.roles = data.roles;
+            return section;
         },
         back () {
             this.$router.go(-1);

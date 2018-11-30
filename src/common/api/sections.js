@@ -6,8 +6,8 @@ class SectionApi extends BaseRequest {
         this.url = '/content/sections/';
     }
 
-    get (id, config = {}) {
-        return super.get(`${this.url}${id}/`, config);
+    get (name, config = {}) {
+        return super.get(`${this.url}${name}/`, config);
     }
 
     list (params = {}, config = {}) {
@@ -21,12 +21,12 @@ class SectionApi extends BaseRequest {
         return super.post(this.url, data, config);
     }
 
-    update (id, data, config = {}) {
-        return super.put(`${this.url}${id}/`, data, config);
+    update (name, data, config = {}) {
+        return super.put(`${this.url}${name}/`, data, config);
     }
 
-    delete (id = '', data = {}, config = {}) {
-        const deleteUrl = id === '' ? `${this.url}` : `${this.url}${id}/`;
+    delete (name = '', data = {}, config = {}) {
+        const deleteUrl = name === '' ? `${this.url}` : `${this.url}${name}/`;
         return super.delete(deleteUrl, {
             data,
             ...config
