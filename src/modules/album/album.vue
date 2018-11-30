@@ -7,7 +7,7 @@
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 @click="back">
-                {{ $t("photo.nav.back") }}
+                {{ $t("common.back") }}
             </el-button>
         </et-nav>
 

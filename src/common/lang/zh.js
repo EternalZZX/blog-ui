@@ -67,8 +67,14 @@ export default {
             error: '发起话题失败!'
         },
         edit: {
-            policy: '策略设置',
-            polices: {
+            nav: {
+                title: '话题设置',
+                basic: '基础设置',
+                policy: '策略设置',
+                permission: '权限设置',
+                delete: '删除话题'
+            },
+            policy: {
                 autoAudit: '自动审核',
                 articleMute: '禁止发帖',
                 replyMute: '禁止回复',
@@ -77,8 +83,7 @@ export default {
                 maxArticlesOneDay: '每日文章数量限制',
                 maxArticlesOneDayPlaceholder: '每个账户每日文章数量限制'
             },
-            permission: '权限设置',
-            permissions: {
+            permission: {
                 set_permission: '权限修改',
                 delete_permission: '删除话题',
                 set_owner: '设置话题发起人',
@@ -168,7 +173,6 @@ export default {
     photo: {
         nav: {
             title: '图片',
-            back: '返回',
             all: '全部图片',
             public: '公开图片',
             private: '私有图片',

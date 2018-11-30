@@ -382,6 +382,15 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             width: $pageFormLabelWidth;
         }
 
+        .et-content .et-content__wrapper .et-block-panel {
+            margin-top: $spaceMiddle;
+            padding: $spaceSmall;
+            text-align: center;
+            background-color: $blockBackground;
+            border: $splitBorder;
+            border-radius: $radiusSmall;
+        }
+
         .et-toolbar {
             display: none;
             flex: none;

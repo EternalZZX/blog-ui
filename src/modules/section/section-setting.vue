@@ -1,13 +1,13 @@
 <template>
     <div class="et-layout">
-        <et-nav :title="$t('section.nav.title')"
+        <et-nav :title="$t('section.edit.nav.title')"
             :index.sync="loadType"
             :options="navOptions"
             @select="init">
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 @click="back">
-                {{ $t("photo.nav.back") }}
+                {{ $t("common.back") }}
             </el-button>
         </et-nav>
 
@@ -141,43 +141,43 @@
                             </el-select>
                         </el-form-item>
                     </et-collapse>
-                    <et-collapse :title="$t('section.edit.policy')"
+                    <et-collapse :title="$t('section.edit.nav.policy')"
                         :show.sync="policyCollapseShow">
                         <el-form-item prop="policy.auto_audit"
-                            :label="$t('section.edit.polices.autoAudit')">
+                            :label="$t('section.edit.policy.autoAudit')">
                             <el-switch v-model="data.policy.auto_audit"></el-switch>
                         </el-form-item>
                         <el-form-item prop="policy.article_mute"
-                            :label="$t('section.edit.polices.articleMute')">
+                            :label="$t('section.edit.policy.articleMute')">
                             <el-switch v-model="data.policy.article_mute"></el-switch>
                         </el-form-item>
                         <el-form-item prop="policy.reply_mute"
-                            :label="$t('section.edit.polices.replyMute')">
+                            :label="$t('section.edit.policy.replyMute')">
                             <el-switch v-model="data.policy.reply_mute"></el-switch>
                         </el-form-item>
                         <el-form-item prop="policy.max_articles"
-                            :label="$t('section.edit.polices.maxArticles')">
+                            :label="$t('section.edit.policy.maxArticles')">
                             <el-input v-model.trim="data.policy.max_articles"
-                                :placeholder="$t('section.edit.polices.maxArticlesPlaceholder')"
+                                :placeholder="$t('section.edit.policy.maxArticlesPlaceholder')"
                                 :maxlength="8"
                                 :clearable="true">
                             </el-input>
                         </el-form-item>
                         <el-form-item prop="policy.max_articles_one_day"
-                            :label="$t('section.edit.polices.maxArticlesOneDay')">
+                            :label="$t('section.edit.policy.maxArticlesOneDay')">
                             <el-input v-model.trim="data.policy.max_articles_one_day"
-                                :placeholder="$t('section.edit.polices.maxArticlesOneDayPlaceholder')"
+                                :placeholder="$t('section.edit.policy.maxArticlesOneDayPlaceholder')"
                                 :maxlength="8"
                                 :clearable="true">
                             </el-input>
                         </el-form-item>
                     </et-collapse>
-                    <et-collapse :title="$t('section.edit.permission')"
+                    <et-collapse :title="$t('section.edit.nav.permission')"
                         :show.sync="permissionCollapseShow">
                         <el-form-item v-for="(value, key) in data.permission"
                             :key="key"
                             :prop="`permission.${key}`"
-                            :label="$t(`section.edit.permissions.${key}`)">
+                            :label="$t(`section.edit.permission.${key}`)">
                             <el-radio-group v-model="data.permission[key]">
                                 <el-radio v-for="role in permissionRoles"
                                     :key="role.value"
@@ -188,6 +188,10 @@
                         </el-form-item>
                     </et-collapse>
                 </el-form>
+                <div class="et-block-panel">
+                    <el-button @click="back">{{ $t("common.cancelButton") }}</el-button>
+                    <el-button type="primary" @click="submit">{{ $t("common.submitButton") }}</el-button>
+                </div>
             </div>
             <et-toolbar></et-toolbar>
         </div>
@@ -294,22 +298,19 @@ export default {
             return {
                 nav: [{
                     value: 'all',
-                    label: this.$t('section.nav.all')
+                    label: this.$t('section.edit.nav.basic')
                 }, {
                     value: 'hot',
-                    label: this.$t('section.nav.hot')
+                    label: this.$t('section.edit.nav.policy')
                 }, {
                     value: 'follow',
-                    label: this.$t('section.nav.follow')
-                }, {
-                    value: 'manage',
-                    label: this.$t('section.nav.manage')
+                    label: this.$t('section.edit.nav.permission')
                 }],
                 menu: [{
-                    icon: 'ei-round-plus',
-                    label: this.$t('section.nav.create'),
-                    event: this.addSection,
-                    show: Permission.hasPermission('section-add')
+                    icon: 'ei-trash',
+                    label: this.$t('section.edit.nav.delete'),
+                    event: this.deleteSection,
+                    disabled: !Permission.hasPermission('section-delete')
                 }]
             };
         },
@@ -324,12 +325,18 @@ export default {
         init () {
             this.getSection();
         },
+        submit () {
+            //
+        },
         getSection () {
             Section.get(this.sectionName).then(response => {
                 this.data = this.formatData(response.data);
             }).catch(err => {
                 Utils.errorLog(err, 'SECTION-GET');
             });
+        },
+        deleteSection () {
+            //
         },
         getUsers (query) {
             if (query !== '') {

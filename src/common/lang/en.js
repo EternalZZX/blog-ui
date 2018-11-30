@@ -67,8 +67,14 @@ export default {
             error: 'Topic create failed!'
         },
         edit: {
-            policy: 'Policy Setting',
-            polices: {
+            nav: {
+                title: 'Setting',
+                basic: 'Basic Setting',
+                policy: 'Policy Setting',
+                permission: 'Permission Setting',
+                delete: 'Delete Topic'
+            },
+            policy: {
                 autoAudit: 'Auto Audit',
                 articleMute: 'Article Mute',
                 replyMute: 'Comment Mute',
@@ -77,8 +83,7 @@ export default {
                 maxArticlesOneDay: 'Max Articles / Day',
                 maxArticlesOneDayPlaceholder: 'Maximum articles per account per day'
             },
-            permission: 'Permission Setting',
-            permissions: {
+            permission: {
                 set_permission: 'Set Permission',
                 delete_permission: 'Delete Topic',
                 set_owner: 'Set Owner',
@@ -168,7 +173,6 @@ export default {
     photo: {
         nav: {
             title: 'Photos',
-            back: 'Back',
             all: 'All Photos',
             public: 'Public Photos',
             private: 'Private Photos',
