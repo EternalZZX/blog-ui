@@ -70,6 +70,7 @@ export default {
             nav: {
                 title: '话题设置',
                 basic: '基础设置',
+                advanced: '高级设置',
                 policy: '策略设置',
                 permission: '权限设置',
                 delete: '删除话题'

@@ -70,6 +70,7 @@ export default {
             nav: {
                 title: 'Setting',
                 basic: 'Basic Setting',
+                advanced: 'Advanced Setting',
                 policy: 'Policy Setting',
                 permission: 'Permission Setting',
                 delete: 'Delete Topic'

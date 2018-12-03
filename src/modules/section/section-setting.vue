@@ -3,7 +3,7 @@
         <et-nav :title="$t('section.edit.nav.title')"
             :index.sync="loadType"
             :options="navOptions"
-            @select="init">
+            @select="scroll">
             <el-button slot="button" type="text"
                 class="et-nav__button"
                 @click="back">
@@ -49,7 +49,8 @@
                             <i class="et-icon ei-plus" v-else></i>
                         </div>
                     </el-form-item>
-                    <et-collapse :title="$t('common.advanced')"
+                    <et-collapse ref="advanced"
+                        :title="$t('common.advanced')"
                         :show.sync="advancedCollapseShow">
                         <el-form-item prop="owner_uuid"
                             :label="$t('section.create.owner')">
@@ -141,7 +142,8 @@
                             </el-select>
                         </el-form-item>
                     </et-collapse>
-                    <et-collapse :title="$t('section.edit.nav.policy')"
+                    <et-collapse ref="policy"
+                        :title="$t('section.edit.nav.policy')"
                         :show.sync="policyCollapseShow">
                         <el-form-item prop="policy.auto_audit"
                             :label="$t('section.edit.policy.autoAudit')">
@@ -172,7 +174,8 @@
                             </el-input>
                         </el-form-item>
                     </et-collapse>
-                    <et-collapse :title="$t('section.edit.nav.permission')"
+                    <et-collapse ref="permission"
+                        :title="$t('section.edit.nav.permission')"
                         :show.sync="permissionCollapseShow">
                         <el-form-item v-for="(value, key) in data.permission"
                             :key="key"
@@ -306,13 +309,16 @@ export default {
         navOptions () {
             return {
                 nav: [{
-                    value: 'all',
+                    value: 'form',
                     label: this.$t('section.edit.nav.basic')
                 }, {
-                    value: 'hot',
+                    value: 'advanced',
+                    label: this.$t('section.edit.nav.advanced')
+                }, {
+                    value: 'policy',
                     label: this.$t('section.edit.nav.policy')
                 }, {
-                    value: 'follow',
+                    value: 'permission',
                     label: this.$t('section.edit.nav.permission')
                 }],
                 menu: [{
@@ -451,6 +457,20 @@ export default {
                 params[key] = data.permission[key];
             }
             return params;
+        },
+        scroll (type) {
+            const dict = {
+                advanced: 'advancedCollapseShow',
+                policy: 'policyCollapseShow',
+                permission: 'permissionCollapseShow'
+            };
+            dict[type] && (this[dict[type]] = true);
+            setTimeout(() => {
+                Common.scrollAnimation(
+                    document.documentElement,
+                    this.$refs[type].$el.offsetTop - 60
+                );
+            }, 300);
         },
         back () {
             this.$router.go(-1);
