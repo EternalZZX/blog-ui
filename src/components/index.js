@@ -7,6 +7,7 @@ import Editor from './editor';
 import Nav from './nav';
 import Photo from './photo';
 import PhotoSelect from './photo-select';
+import PhotoSelectDialog from './photo-select-dialog';
 import Preview from './preview';
 import Scroll from './scroll';
 import SectionCard from './section-card';
@@ -23,6 +24,7 @@ const components = [
     Nav,
     Photo,
     PhotoSelect,
+    PhotoSelectDialog,
     Preview,
     Scroll,
     SectionCard,

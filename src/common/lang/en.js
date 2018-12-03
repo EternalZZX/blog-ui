@@ -74,6 +74,7 @@ export default {
                 permission: 'Permission Setting',
                 delete: 'Delete Topic'
             },
+            selectCover: 'Select Topic Cover',
             policy: {
                 autoAudit: 'Auto Audit',
                 articleMute: 'Article Mute',

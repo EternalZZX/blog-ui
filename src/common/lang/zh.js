@@ -74,6 +74,7 @@ export default {
                 permission: '权限设置',
                 delete: '删除话题'
             },
+            selectCover: '选择话题封面',
             policy: {
                 autoAudit: '自动审核',
                 articleMute: '禁止发帖',

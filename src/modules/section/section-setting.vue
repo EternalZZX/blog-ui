@@ -195,6 +195,13 @@
             </div>
             <et-toolbar></et-toolbar>
         </div>
+
+        <et-photo-select-dialog
+            v-model="cover"
+            :show.sync="photoSelectShow"
+            :system-type="SYSTEM_TYPE.SECTION_COVER_ALBUM"
+            :title="$t('section.edit.selectCover')">
+        </et-photo-select-dialog>
     </div>
 </template>
 
@@ -205,6 +212,7 @@ import Permission from '@/common/permission';
 import Validate from '@/common/validate';
 import User from '@/common/api/users';
 import Role from '@/common/api/roles';
+import { AlbumApi } from '@/common/api/albums';
 import Section, { SectionApi } from '@/common/api/sections';
 export default {
     name: 'EtSectionSetting',
@@ -317,6 +325,9 @@ export default {
         },
         sectionName () {
             return this.$route.params.name;
+        },
+        SYSTEM_TYPE () {
+            return AlbumApi.SYSTEM;
         }
     },
     activated () {
@@ -403,12 +414,10 @@ export default {
             for (const key of Object.keys(this.data.permission)) {
                 section.permission[key] = data.permission[key];
             }
-            if (data.cover) {
-                this.cover = {
-                    uuid: data.cover.split('/').pop().split('.')[0],
-                    image_small: data.cover
-                };
-            }
+            this.cover = data.cover ? {
+                uuid: data.cover.split('/').pop().split('.')[0],
+                image_small: data.cover
+            } : null;
             const users = [data.owner].concat(data.moderators).concat(data.assistants);
             const obj = {};
             this.users = users.reduce((arr, item) => {

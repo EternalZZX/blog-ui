@@ -231,6 +231,12 @@
     }
 }
 
+.el-slider {
+    .el-slider__button-wrapper {
+        z-index: auto;
+    }
+}
+
 .el-form {
     .el-form-item {
         margin-bottom: $spaceSmall;
