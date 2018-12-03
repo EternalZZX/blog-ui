@@ -199,6 +199,7 @@
 </template>
 
 <script>
+import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
 import Validate from '@/common/validate';
@@ -326,13 +327,28 @@ export default {
             this.getSection();
         },
         submit () {
-            //
+            this.$refs.form.validate(valid => {
+                valid && this.updateSection();
+            });
         },
         getSection () {
             Section.get(this.sectionName).then(response => {
                 this.data = this.formatData(response.data);
             }).catch(err => {
                 Utils.errorLog(err, 'SECTION-GET');
+            });
+        },
+        updateSection () {
+            Section.update(
+                this.sectionName,
+                this.formatParams(this.data)
+            ).then(response => {
+                Common.notify(this.$t('section.edit.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'SECTION-UPDATE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('section.edit.error')
+                ), 'error');
             });
         },
         deleteSection () {
@@ -404,6 +420,28 @@ export default {
             }, []);
             this.roles = data.roles;
             return section;
+        },
+        formatParams (data) {
+            const params = {
+                name: data.name,
+                nick: data.nick,
+                description: data.description,
+                cover_uuid: this.cover ? this.cover.uuid : '',
+                owner_uuid: data.owner_uuid,
+                moderator_uuids: data.moderator_uuids.join(','),
+                assistant_uuids: data.assistant_uuids.join(','),
+                status: data.status,
+                read_level: data.read_level,
+                only_roles: data.only_roles,
+                role_ids: data.role_ids.join(',')
+            };
+            for (const key of Object.keys(data.policy)) {
+                params[key] = data.policy[key];
+            }
+            for (const key of Object.keys(data.permission)) {
+                params[key] = data.permission[key];
+            }
+            return params;
         },
         back () {
             this.$router.go(-1);

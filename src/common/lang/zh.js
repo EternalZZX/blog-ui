@@ -115,7 +115,9 @@ export default {
                 owner: '发起人',
                 moderator: '发起人与版主',
                 manager: '所有管理者'
-            }
+            },
+            success: '话题设置编辑成功!',
+            error: '话题设置编辑失败!'
         },
         status: {
             normal: '普通模式',

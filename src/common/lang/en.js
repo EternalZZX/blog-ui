@@ -115,7 +115,9 @@ export default {
                 owner: 'Sponsor',
                 moderator: 'Moderators',
                 manager: 'Managers'
-            }
+            },
+            success: 'Topic settings update successfully!',
+            error: 'Topic settings update failed!'
         },
         status: {
             normal: 'Normal',
