@@ -209,6 +209,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
@@ -222,6 +223,8 @@ export default {
     data () {
         return {
             loadType: 'form',
+            manageType: 'none',
+            managePermission: {},
             data: {
                 name: '',
                 nick: '',
@@ -308,6 +311,9 @@ export default {
         };
     },
     computed: {
+        ...mapGetters({
+            userUuid: 'userUuid'
+        }),
         navOptions () {
             return {
                 nav: [{
@@ -356,6 +362,8 @@ export default {
         getSection () {
             Section.get(this.sectionName).then(response => {
                 this.data = this.formatData(response.data);
+                this.manageType = this.getManageType(this.data);
+                this.managePermission = Utils.deepClone(this.data.permission);
             }).catch(err => {
                 Utils.errorLog(err, 'SECTION-GET');
             });
@@ -365,6 +373,9 @@ export default {
                 this.sectionName,
                 this.formatParams(this.data)
             ).then(response => {
+                this.data = this.formatData(response.data);
+                this.manageType = this.getManageType(this.data);
+                this.managePermission = Utils.deepClone(this.data.permission);
                 Common.notify(this.$t('section.edit.success'), 'success');
             }).catch(err => {
                 Utils.errorLog(err, 'SECTION-UPDATE');
@@ -403,6 +414,27 @@ export default {
             } else {
                 this.roles = [];
             }
+        },
+        hasPermission (type) {
+            return !((this.managePermission[type] === SectionApi.PERMISSION.OWNER
+                && this.manageType !== 'owner')
+                || (this.managePermission[type] === SectionApi.PERMISSION.MODERATOR
+                && this.manageType !== 'owner'
+                && this.manageType !== 'moderator')
+                || (this.managePermission[type] === SectionApi.PERMISSION.MANAGER
+                && this.manageType !== 'owner'
+                && this.manageType !== 'moderator'
+                && this.manageType !== 'assistant'));
+        },
+        getManageType (data) {
+            if (data.owner_uuid === this.userUuid) {
+                return 'owner';
+            } else if (data.moderator_uuids.indexOf(this.userUuid) !== -1) {
+                return 'moderator';
+            } else if (data.assistant_uuids.indexOf(this.userUuid) !== -1) {
+                return 'assistant';
+            }
+            return 'none';
         },
         formatData (data) {
             const section = {

@@ -106,6 +106,26 @@ Permission.PERMISSION_DICT = {
         name: Permission.NAME.SECTION_CREATE,
         type: Permission.TYPE.STATUS
     },
+    'section-edit': {
+        name: Permission.NAME.SECTION_UPDATE,
+        type: Permission.TYPE.MAJOR,
+        level: 900
+    },
+    'section-edit-permission': {
+        name: Permission.NAME.SECTION_UPDATE,
+        type: Permission.TYPE.MAJOR,
+        level: 1000
+    },
+    'section-edit-policy': {
+        name: Permission.NAME.SECTION_UPDATE,
+        type: Permission.TYPE.MINOR,
+        level: 1000
+    },
+    'section-delete': {
+        name: Permission.NAME.SECTION_DELETE,
+        type: Permission.TYPE.MAJOR,
+        level: 1000
+    },
     'album-list': {
         name: Permission.NAME.ALBUM_SELECT,
         type: Permission.TYPE.MINOR,
