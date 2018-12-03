@@ -50,7 +50,10 @@ const router = new VueRouter({
         path: albumRouter.base,
         component: frameCompontent,
         children: albumRouter.routes
-    }]
+    }],
+    scrollBehavior (to, from, savedPosition) {
+        return savedPosition || { x: 0, y: 0 };
+    }
 });
 
 router.beforeEach((to, from, next) => {

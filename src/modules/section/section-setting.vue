@@ -221,7 +221,7 @@ export default {
     name: 'EtSectionSetting',
     data () {
         return {
-            loadType: 'all',
+            loadType: 'form',
             data: {
                 name: '',
                 nick: '',
@@ -271,9 +271,9 @@ export default {
             },
             cover: null,
             photoSelectShow: false,
-            advancedCollapseShow: false,
-            policyCollapseShow: false,
-            permissionCollapseShow: false,
+            advancedCollapseShow: true,
+            policyCollapseShow: true,
+            permissionCollapseShow: true,
             users: [],
             userLoading: false,
             roles: [],
@@ -301,7 +301,9 @@ export default {
             rules: {
                 name: [{ required: true, validator: Validate.name, trigger: 'blur' }],
                 nick: [{ required: true, validator: Validate.none, trigger: 'blur' }],
-                owner_uuid: [{ required: true, validator: Validate.none, trigger: 'change' }]
+                owner_uuid: [{ required: true, validator: Validate.none, trigger: 'change' }],
+                'policy.max_articles': [{ validator: Validate.integer, trigger: 'blur' }],
+                'policy.max_articles_one_day': [{ validator: Validate.integer, trigger: 'blur' }]
             }
         };
     },
@@ -341,6 +343,9 @@ export default {
     },
     methods: {
         init () {
+            this.advancedCollapseShow = true;
+            this.policyCollapseShow = true;
+            this.permissionCollapseShow = true;
             this.getSection();
         },
         submit () {
