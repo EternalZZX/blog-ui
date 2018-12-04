@@ -136,6 +136,16 @@ export default {
             normal: 'Normal',
             hide: 'Partly Visible',
             cancel: 'Closed'
+        },
+        detail: {
+            nav: {
+                title: 'Articles',
+                all: 'All Articles',
+                hot: 'Hot Articles',
+                upvoted: 'Articles Upvoted',
+                mine: 'My Articles',
+                create: 'Add Articles'
+            }
         }
     },
     album: {

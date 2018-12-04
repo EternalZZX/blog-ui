@@ -1,6 +1,6 @@
 <template>
     <div class="et-layout">
-        <et-nav :title="$t('section.edit.nav.title')"
+        <et-nav :title="$t('section.detail.nav.title')"
             :index.sync="loadType"
             :options="navOptions"
             @select="init">
@@ -12,8 +12,14 @@
         </et-nav>
 
         <div class="et-content">
-            <div class="et-content__wrapper">
-            </div>
+            <et-scroll class="et-content__wrapper"
+                ref="scroll"
+                @more="loadMore">
+                <et-section-card v-for="section in dataList"
+                    :key="section.id"
+                    :data="section">
+                </et-section-card>
+            </et-scroll>
             <et-toolbar></et-toolbar>
         </div>
     </div>
@@ -21,11 +27,20 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { EVENT } from '@/common/bus';
+import Utils from '@/common/utils';
+import Permission from '@/common/permission';
+import Section from '@/common/api/sections';
 export default {
     name: 'EtSectionDetail',
     data () {
         return {
-            loadType: 'form',
+            dataList: [],
+            params: {
+                page: 1,
+                page_size: 10
+            },
+            loadType: 'all',
             manageType: 'none'
         };
     },
@@ -36,14 +51,17 @@ export default {
         navOptions () {
             return {
                 nav: [{
-                    value: 'form',
-                    label: this.$t('section.edit.nav.basic')
+                    value: 'all',
+                    label: this.$t('section.detail.nav.all')
                 }, {
-                    value: 'advanced',
-                    label: this.$t('section.edit.nav.advanced')
+                    value: 'hot',
+                    label: this.$t('section.detail.nav.hot')
                 }, {
-                    value: 'policy',
-                    label: this.$t('section.edit.nav.policy')
+                    value: 'upvoted',
+                    label: this.$t('section.detail.nav.upvoted')
+                }, {
+                    value: 'mine',
+                    label: this.$t('section.detail.nav.mine')
                 }]
             };
         },
@@ -51,12 +69,39 @@ export default {
             return this.$route.params.name;
         }
     },
+    mounted () {
+        this.$root.Bus.$on(EVENT.TOKEN_REFRESH, () => {
+            !this._inacitve && this.init();
+        });
+    },
     activated () {
         this.init();
     },
     methods: {
         init () {
-            //
+            this.dataList = [];
+            this.params.page = 1;
+            this.loadType = 'all';
+            this.$refs.scroll.reset();
+        },
+        loadMore (state) {
+            if (!Permission.hasPermission('section-list')) {
+                state.complete();
+                return;
+            }
+            this.loadSections(state);
+        },
+        loadSections (state) {
+            Section.list(this.params).then(response => {
+                this.dataList = this.dataList.concat(response.data.sections);
+                this.params.page ++;
+                response.data.total === this.dataList.length ?
+                    state.complete() :
+                    state.loaded();
+            }).catch(err => {
+                state.complete();
+                Utils.errorLog(err, 'SECTION-LIST');
+            });
         },
         getManageType (data) {
             const roleObj = {

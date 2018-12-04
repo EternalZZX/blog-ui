@@ -135,6 +135,16 @@ export default {
             normal: '全部可见',
             hide: '部分可见',
             cancel: '已关闭'
+        },
+        detail: {
+            nav: {
+                title: '文章',
+                all: '全部文章',
+                hot: '热门文章',
+                upvoted: '我喜欢的文章',
+                mine: '我的文章',
+                create: '创作文章'
+            }
         }
     },
     album: {
