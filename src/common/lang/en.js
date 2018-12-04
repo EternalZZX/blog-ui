@@ -73,6 +73,7 @@ export default {
                 advanced: 'Advanced Setting',
                 policy: 'Policy Setting',
                 permission: 'Permission Setting',
+                cancel: 'Close Topic',
                 delete: 'Delete Topic'
             },
             selectCover: 'Select Topic Cover',
@@ -96,8 +97,8 @@ export default {
                 set_moderator: 'Set Moderator',
                 set_assistant: 'Set Assistant',
                 set_status: 'Set Topic Status',
-                set_cancel: 'Cancel Topic',
-                cancel_visible: 'Cancel Visable',
+                set_cancel: 'Close Topic',
+                cancel_visible: 'Close Visable',
                 set_read_level: 'Set Read Level',
                 set_read_user: 'Set Read Limit',
                 set_policy: 'Set Topic Policy',
@@ -115,16 +116,26 @@ export default {
             },
             permissionRoles: {
                 owner: 'Sponsor',
-                moderator: 'Moderators',
+                controller: 'Controllers',
                 manager: 'Managers'
             },
             success: 'Topic settings update successfully!',
             error: 'Topic settings update failed!'
         },
+        delete: {
+            success: 'Topic delete successfully!',
+            error: 'Topic delete failed!',
+            confirm: 'Are you sure to delete this topic?'
+        },
+        cancel: {
+            success: 'Topic close successfully!',
+            error: 'Topic close failed!',
+            confirm: 'Are you sure to close this topic?'
+        },
         status: {
             normal: 'Normal',
-            hide: 'Hide',
-            cancel: 'Cnacel'
+            hide: 'Partly Visible',
+            cancel: 'Closed'
         }
     },
     album: {

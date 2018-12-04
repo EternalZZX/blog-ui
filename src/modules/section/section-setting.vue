@@ -22,7 +22,8 @@
                         <el-input v-model.trim="data.name"
                             :placeholder="$t('section.create.namePlaceholder')"
                             :maxlength="50"
-                            :clearable="true">
+                            :clearable="true"
+                            :disabled="!hasPermission('set_name')">
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="nick"
@@ -30,7 +31,8 @@
                         <el-input v-model.trim="data.nick"
                             :placeholder="$t('section.create.nickPlaceholder')"
                             :maxlength="50"
-                            :clearable="true">
+                            :clearable="true"
+                            :disabled="!hasPermission('set_nick')">
                         </el-input>
                     </el-form-item>
                     <el-form-item prop="description"
@@ -40,14 +42,16 @@
                             :placeholder="$t('section.create.descriptionPlaceholder')"
                             :rows="2"
                             :maxlength="300"
+                            :disabled="!hasPermission('set_description')"
                             resize="none">
                         </el-input>
                     </el-form-item>
                     <el-form-item :label="$t('section.create.cover')">
-                        <div class="et-photo-select" @click="photoSelectShow = true">
-                            <img :src="cover.image_small" v-if="cover">
-                            <i class="et-icon ei-plus" v-else></i>
-                        </div>
+                        <et-photo-select-box
+                            :data="cover"
+                            :disabled="!hasPermission('set_cover')"
+                            @click="photoSelectShow = true">
+                        </et-photo-select-box>
                     </el-form-item>
                     <et-collapse ref="advanced"
                         :title="$t('common.advanced')"
@@ -60,7 +64,8 @@
                                 default-first-option
                                 :remote-method="getUsers"
                                 :loading="userLoading"
-                                :placeholder="$t('section.create.ownerPlaceholder')">
+                                :placeholder="$t('section.create.ownerPlaceholder')"
+                                :disabled="!hasPermission('set_owner')">
                                 <el-option v-for="item in users"
                                     :key="item.uuid"
                                     :label="item.nick"
@@ -77,7 +82,8 @@
                                 default-first-option
                                 :remote-method="getUsers"
                                 :loading="userLoading"
-                                :placeholder="$t('section.create.moderatorPlaceholder')">
+                                :placeholder="$t('section.create.moderatorPlaceholder')"
+                                :disabled="!hasPermission('set_moderator')">
                                 <el-option v-for="item in users"
                                     :key="item.uuid"
                                     :label="item.nick"
@@ -94,7 +100,8 @@
                                 default-first-option
                                 :remote-method="getUsers"
                                 :loading="userLoading"
-                                :placeholder="$t('section.create.assistantPlaceholder')">
+                                :placeholder="$t('section.create.assistantPlaceholder')"
+                                :disabled="!hasPermission('set_assistant')">
                                 <el-option v-for="item in users"
                                     :key="item.uuid"
                                     :label="item.nick"
@@ -104,7 +111,8 @@
                         </el-form-item>
                         <el-form-item prop="status"
                             :label="$t('section.create.status')">
-                            <el-select v-model="data.status">
+                            <el-select v-model="data.status"
+                                :disabled="!hasPermission('set_status')">
                                 <el-option v-for="item in status"
                                     :key="item.value"
                                     :label="item.label"
@@ -116,11 +124,13 @@
                             :label="$t('section.create.readLevel')">
                             <el-slider v-model="data.read_level"
                                 :max="1000"
-                                :step="10">
+                                :step="10"
+                                :disabled="!hasPermission('set_read_level')">
                             </el-slider>
                         </el-form-item>
                         <el-form-item prop="only_roles"
-                            :label="$t('section.create.onlyRoles')">
+                            :label="$t('section.create.onlyRoles')"
+                            :disabled="!hasPermission('set_read_user')">
                             <el-switch v-model="data.only_roles"></el-switch>
                         </el-form-item>
                         <el-form-item prop="role_ids"
@@ -133,7 +143,8 @@
                                 default-first-option
                                 :remote-method="getRoles"
                                 :loading="roleLoading"
-                                :placeholder="$t('section.create.rolesPlaceholder')">
+                                :placeholder="$t('section.create.rolesPlaceholder')"
+                                :disabled="!hasPermission('set_read_user')">
                                 <el-option v-for="item in roles"
                                     :key="item.id"
                                     :label="item.nick"
@@ -147,22 +158,29 @@
                         :show.sync="policyCollapseShow">
                         <el-form-item prop="policy.auto_audit"
                             :label="$t('section.edit.policy.autoAudit')">
-                            <el-switch v-model="data.policy.auto_audit"></el-switch>
+                            <el-switch v-model="data.policy.auto_audit"
+                                :disabled="!hasPermission('set_policy')">
+                            </el-switch>
                         </el-form-item>
                         <el-form-item prop="policy.article_mute"
                             :label="$t('section.edit.policy.articleMute')">
-                            <el-switch v-model="data.policy.article_mute"></el-switch>
+                            <el-switch v-model="data.policy.article_mute"
+                                :disabled="!hasPermission('set_policy')">
+                            </el-switch>
                         </el-form-item>
                         <el-form-item prop="policy.reply_mute"
                             :label="$t('section.edit.policy.replyMute')">
-                            <el-switch v-model="data.policy.reply_mute"></el-switch>
+                            <el-switch v-model="data.policy.reply_mute"
+                                :disabled="!hasPermission('set_policy')">
+                            </el-switch>
                         </el-form-item>
                         <el-form-item prop="policy.max_articles"
                             :label="$t('section.edit.policy.maxArticles')">
                             <el-input v-model.trim="data.policy.max_articles"
                                 :placeholder="$t('section.edit.policy.maxArticlesPlaceholder')"
                                 :maxlength="8"
-                                :clearable="true">
+                                :clearable="true"
+                                :disabled="!hasPermission('set_policy')">
                             </el-input>
                         </el-form-item>
                         <el-form-item prop="policy.max_articles_one_day"
@@ -170,13 +188,15 @@
                             <el-input v-model.trim="data.policy.max_articles_one_day"
                                 :placeholder="$t('section.edit.policy.maxArticlesOneDayPlaceholder')"
                                 :maxlength="8"
-                                :clearable="true">
+                                :clearable="true"
+                                :disabled="!hasPermission('set_policy')">
                             </el-input>
                         </el-form-item>
                     </et-collapse>
                     <et-collapse ref="permission"
                         :title="$t('section.edit.nav.permission')"
-                        :show.sync="permissionCollapseShow">
+                        :show.sync="permissionCollapseShow"
+                        v-if="hasPermission('set_permission')">
                         <el-form-item v-for="(value, key) in data.permission"
                             :key="key"
                             :prop="`permission.${key}`"
@@ -205,6 +225,13 @@
             :system-type="SYSTEM_TYPE.SECTION_COVER_ALBUM"
             :title="$t('section.edit.selectCover')">
         </et-photo-select-dialog>
+
+        <et-confirm
+            :show.sync="confirm.show"
+            :data="confirm.data"
+            :message="confirm.message"
+            @confirm="deleteSection">
+        </et-confirm>
     </div>
 </template>
 
@@ -274,6 +301,11 @@ export default {
             },
             cover: null,
             photoSelectShow: false,
+            confirm: {
+                show: false,
+                data: null,
+                message: ''
+            },
             advancedCollapseShow: true,
             policyCollapseShow: true,
             permissionCollapseShow: true,
@@ -295,8 +327,8 @@ export default {
                 label: this.$t('section.edit.permissionRoles.owner'),
                 value: SectionApi.PERMISSION.OWNER
             }, {
-                label: this.$t('section.edit.permissionRoles.moderator'),
-                value: SectionApi.PERMISSION.MODERATOR
+                label: this.$t('section.edit.permissionRoles.controller'),
+                value: SectionApi.PERMISSION.CONTROLLER
             }, {
                 label: this.$t('section.edit.permissionRoles.manager'),
                 value: SectionApi.PERMISSION.MANAGER
@@ -315,25 +347,33 @@ export default {
             userUuid: 'userUuid'
         }),
         navOptions () {
+            const options = [{
+                value: 'form',
+                label: this.$t('section.edit.nav.basic')
+            }, {
+                value: 'advanced',
+                label: this.$t('section.edit.nav.advanced')
+            }, {
+                value: 'policy',
+                label: this.$t('section.edit.nav.policy')
+            }];
+            this.hasPermission('set_policy') && options.push({
+                value: 'permission',
+                label: this.$t('section.edit.nav.permission')
+            });
             return {
-                nav: [{
-                    value: 'form',
-                    label: this.$t('section.edit.nav.basic')
-                }, {
-                    value: 'advanced',
-                    label: this.$t('section.edit.nav.advanced')
-                }, {
-                    value: 'policy',
-                    label: this.$t('section.edit.nav.policy')
-                }, {
-                    value: 'permission',
-                    label: this.$t('section.edit.nav.permission')
-                }],
+                nav: options,
                 menu: [{
+                    icon: 'ei-round-minus',
+                    label: this.$t('section.edit.nav.cancel'),
+                    event: this.cancelConfirm,
+                    show: this.data.status !== SectionApi.STATUS.CANCEL,
+                    disabled: !this.hasPermission('set_cancel')
+                }, {
                     icon: 'ei-trash',
                     label: this.$t('section.edit.nav.delete'),
-                    event: this.deleteSection,
-                    disabled: !Permission.hasPermission('section-delete')
+                    event: this.deleteConfirm,
+                    disabled: !this.hasPermission('delete_permission')
                 }]
             };
         },
@@ -384,8 +424,26 @@ export default {
                 ), 'error');
             });
         },
-        deleteSection () {
-            //
+        deleteSection (data) {
+            const isDelete = data.type === 'delete';
+            Section.delete(
+                data.name,
+                { force: data.type === 'delete' }
+            ).then(response => {
+                if (isDelete) {
+                    this.$router.replace({ name: 'section' });
+                } else {
+                    this.data.status = SectionApi.STATUS.CANCEL;
+                }
+                Common.notify(this.$t(isDelete ?
+                    'section.delete.success' :
+                    'section.cancel.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'SECTION-DELETE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t(isDelete ? 'section.delete.error' : 'section.cancel.error')
+                ), 'error');
+            });
         },
         getUsers (query) {
             if (query !== '') {
@@ -416,25 +474,30 @@ export default {
             }
         },
         hasPermission (type) {
-            return !((this.managePermission[type] === SectionApi.PERMISSION.OWNER
-                && this.manageType !== 'owner')
-                || (this.managePermission[type] === SectionApi.PERMISSION.MODERATOR
-                && this.manageType !== 'owner'
-                && this.manageType !== 'moderator')
-                || (this.managePermission[type] === SectionApi.PERMISSION.MANAGER
-                && this.manageType !== 'owner'
-                && this.manageType !== 'moderator'
-                && this.manageType !== 'assistant'));
+            const permissionDict = {
+                set_permission: 'section-edit-permission',
+                delete_permission: 'section-delete',
+                set_policy: 'section-edit-policy'
+            };
+            const manageDict = {
+                [SectionApi.PERMISSION.OWNER]: this.manageType.isOwner,
+                [SectionApi.PERMISSION.CONTROLLER]: this.manageType.isController,
+                [SectionApi.PERMISSION.MANAGER]: this.manageType.isManager
+            };
+            return manageDict[this.managePermission[type]] ||
+                Permission.hasPermission(permissionDict[type] || 'section-edit');
         },
         getManageType (data) {
-            if (data.owner_uuid === this.userUuid) {
-                return 'owner';
-            } else if (data.moderator_uuids.indexOf(this.userUuid) !== -1) {
-                return 'moderator';
-            } else if (data.assistant_uuids.indexOf(this.userUuid) !== -1) {
-                return 'assistant';
-            }
-            return 'none';
+            const roleObj = {
+                isOwner: data.owner_uuid === this.userUuid,
+                isModerator: data.moderator_uuids.indexOf(this.userUuid) !== -1,
+                isAssistant: data.assistant_uuids.indexOf(this.userUuid) !== -1
+            };
+            return {
+                ...roleObj,
+                isController: roleObj.isOwner || roleObj.isModerator,
+                isManager: roleObj.isOwner || roleObj.isModerator || roleObj.isAssistant
+            };
         },
         formatData (data) {
             const section = {
@@ -508,6 +571,26 @@ export default {
                     this.$refs[type].$el.offsetTop - 60
                 );
             }, 300);
+        },
+        cancelConfirm () {
+            this.confirm = {
+                show: true,
+                data: {
+                    name: this.sectionName,
+                    type: 'cancel'
+                },
+                message: this.$t('section.cancel.confirm')
+            };
+        },
+        deleteConfirm () {
+            this.confirm = {
+                show: true,
+                data: {
+                    name: this.sectionName,
+                    type: 'delete'
+                },
+                message: this.$t('section.delete.confirm')
+            };
         },
         back () {
             this.$router.go(-1);

@@ -115,16 +115,26 @@ export default {
             },
             permissionRoles: {
                 owner: '发起人',
-                moderator: '发起人与版主',
+                controller: '发起人与版主',
                 manager: '所有管理者'
             },
             success: '话题设置编辑成功!',
             error: '话题设置编辑失败!'
         },
+        delete: {
+            success: '删除话题成功!',
+            error: '删除话题失败!',
+            confirm: '您确定要删除该话题吗?'
+        },
+        cancel: {
+            success: '关闭话题成功!',
+            error: '关闭话题失败!',
+            confirm: '您确定要关闭该话题吗?'
+        },
         status: {
-            normal: '普通模式',
-            hide: '隐藏模式',
-            cancel: '注销模式'
+            normal: '全部可见',
+            hide: '部分可见',
+            cancel: '已关闭'
         }
     },
     album: {

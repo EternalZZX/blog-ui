@@ -42,7 +42,7 @@ SectionApi.STATUS = {
 
 SectionApi.PERMISSION = {
     OWNER: 0,
-    MODERATOR: 1,
+    CONTROLLER: 1,
     MANAGER: 2
 };
 

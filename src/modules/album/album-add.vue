@@ -31,10 +31,9 @@
                 </el-input>
             </el-form-item>
             <el-form-item :label="$t('album.create.cover')">
-                <div class="et-photo-select" @click="photoSelectShow = true">
-                    <img :src="cover.image_small" v-if="cover">
-                    <i class="et-icon ei-plus" v-else></i>
-                </div>
+                <et-photo-select-box :data="cover"
+                    @click="photoSelectShow = true">
+                </et-photo-select-box>
             </el-form-item>
             <et-collapse :title="$t('common.advanced')"
                 :show.sync="collapseShow">
