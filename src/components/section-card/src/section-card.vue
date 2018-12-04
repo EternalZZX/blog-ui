@@ -1,13 +1,15 @@
 <template>
+<transition enter-active-class="animated fadeIn fast">
     <et-card class="et-section-card"
         :class="{ 'et-section-card_disabled': !data.read_permission }">
         <div slot="header" class="et-section-card__cover"
-            :style="coverUrl">
+            :style="coverUrl"
+            @click="handleClick">
         </div>
         <template slot="body">
             <ul class="et-section-card__panel">
                 <li class="et-section-card__panel-item">
-                    <a class="et-section-card__title">
+                    <a class="et-section-card__title" @click="handleClick">
                         {{ data.nick | none }}
                     </a>
                     <div class="et-section-card__button-group">
@@ -61,6 +63,7 @@
             </ul>
         </template>
     </et-card>
+</transition>
 </template>
 
 <script>
@@ -87,6 +90,14 @@ export default {
         }
     },
     methods: {
+        handleClick () {
+            this.$router.push({
+                name: 'sectionDetail',
+                params: {
+                    name: this.data.name
+                }
+            });
+        },
         setting () {
             this.$router.push({
                 name: 'sectionSetting',
