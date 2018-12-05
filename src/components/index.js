@@ -1,3 +1,5 @@
+
+import ArticleCard from './article-card';
 import Card from './card';
 import Collapse from './collapse';
 import Comments from './comment';
@@ -16,6 +18,7 @@ import Toolbar from './toolbar';
 import User from './user';
 
 const components = [
+    ArticleCard,
     Card,
     Collapse,
     Comments,

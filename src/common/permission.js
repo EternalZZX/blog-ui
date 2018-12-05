@@ -126,6 +126,11 @@ Permission.PERMISSION_DICT = {
         type: Permission.TYPE.MAJOR,
         level: 1000
     },
+    'article-list': {
+        name: Permission.NAME.ARTICLE_SELECT,
+        type: Permission.TYPE.MINOR,
+        level: 100
+    },
     'album-list': {
         name: Permission.NAME.ALBUM_SELECT,
         type: Permission.TYPE.MINOR,

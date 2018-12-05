@@ -15,10 +15,10 @@
             <et-scroll class="et-content__wrapper"
                 ref="scroll"
                 @more="loadMore">
-                <et-section-card v-for="section in dataList"
-                    :key="section.id"
-                    :data="section">
-                </et-section-card>
+                <et-article-card v-for="article in dataList"
+                    :key="article.uuid"
+                    :data="article">
+                </et-article-card>
             </et-scroll>
             <et-toolbar></et-toolbar>
         </div>
@@ -30,7 +30,7 @@ import { mapGetters } from 'vuex';
 import { EVENT } from '@/common/bus';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
-import Section from '@/common/api/sections';
+import Article from '@/common/api/articles';
 export default {
     name: 'EtSectionDetail',
     data () {
@@ -85,22 +85,22 @@ export default {
             this.$refs.scroll.reset();
         },
         loadMore (state) {
-            if (!Permission.hasPermission('section-list')) {
+            if (!Permission.hasPermission('article-list')) {
                 state.complete();
                 return;
             }
-            this.loadSections(state);
+            this.loadArticles(state);
         },
-        loadSections (state) {
-            Section.list(this.params).then(response => {
-                this.dataList = this.dataList.concat(response.data.sections);
+        loadArticles (state) {
+            Article.listSectionArticles(this.sectionName, this.params).then(response => {
+                this.dataList = this.dataList.concat(response.data.articles);
                 this.params.page ++;
                 response.data.total === this.dataList.length ?
                     state.complete() :
                     state.loaded();
             }).catch(err => {
                 state.complete();
-                Utils.errorLog(err, 'SECTION-LIST');
+                Utils.errorLog(err, 'ARTICLE-LIST');
             });
         },
         getManageType (data) {

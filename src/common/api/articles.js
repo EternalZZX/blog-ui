@@ -32,6 +32,19 @@ class ArticleApi extends BaseRequest {
             ...config
         });
     }
+
+    listSectionArticles (sectionName, params = {}, config = {}) {
+        const args = {
+            section_name: sectionName,
+            status: `${ArticleApi.STATUS.ACTIVE}${ArticleApi.STATUS.AUDIT}`,
+            order_field: 'create_at',
+            ...params
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
 }
 
 ArticleApi.STATUS = {
