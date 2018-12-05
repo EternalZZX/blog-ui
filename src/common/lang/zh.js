@@ -147,6 +147,9 @@ export default {
             }
         }
     },
+    article: {
+        more: '阅读全文'
+    },
     album: {
         nav: {
             title: '相册',

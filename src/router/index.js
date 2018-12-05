@@ -5,6 +5,7 @@ import header from '@/modules/header/header';
 import footer from '@/modules/footer/footer';
 import rootRouter from './root';
 import sectionRouter from './section';
+import articleRouter from './article';
 import markRouter from './mark';
 import albumRouter from './album';
 
@@ -42,6 +43,10 @@ const router = new VueRouter({
         path: sectionRouter.base,
         component: frameCompontent,
         children: sectionRouter.routes
+    }, {
+        path: articleRouter.base,
+        component: frameCompontent,
+        children: articleRouter.routes
     }, {
         path: markRouter.base,
         component: frameCompontent,

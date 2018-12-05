@@ -12,7 +12,7 @@
                         :subtitle="data.create_at">
                     </et-user>
                     <p class="et-article-card__overview" v-if="data.overview">
-                        {{ data.overview }} (<a>more</a>)
+                        {{ data.overview }} (<a>{{ $t('article.more') }}</a>)
                     </p>
                 </li>
                 <li class="et-article-card__item" v-if="data.cover">
@@ -69,7 +69,7 @@ export default {
             this.$router.push({
                 name: 'article',
                 params: {
-                    name: this.data.uuid
+                    uuid: this.data.uuid
                 }
             });
         }

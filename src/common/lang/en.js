@@ -148,6 +148,9 @@ export default {
             }
         }
     },
+    article: {
+        more: 'more'
+    },
     album: {
         nav: {
             title: 'Albums',
