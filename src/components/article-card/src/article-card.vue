@@ -11,12 +11,17 @@
                     <et-user :user="data.author"
                         :subtitle="data.create_at">
                     </et-user>
-                    <p class="et-article-card__overview" v-if="data.overview">
+                    <p class="et-article-card__overview"
+                        v-if="data.overview"
+                        @click="handleClick">
                         {{ data.overview }} (<a>{{ $t('article.more') }}</a>)
                     </p>
                 </li>
                 <li class="et-article-card__item" v-if="data.cover">
-                    <div class="et-article-card__cover" :style="coverUrl"></div>
+                    <div class="et-article-card__cover"
+                        :style="coverUrl"
+                        @click="handleClick">
+                    </div>
                 </li>
             </ul>
             <ul class="et-article-card__panel">
