@@ -148,7 +148,10 @@ export default {
         }
     },
     article: {
-        more: '阅读全文'
+        more: '阅读全文',
+        nav: {
+            title: '文章'
+        }
     },
     album: {
         nav: {

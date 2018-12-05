@@ -1,14 +1,19 @@
 <template>
     <div class="et-layout">
-        <et-nav :title="$t('section.nav.title')"
+        <et-nav :title="$t('article.nav.title')"
             :index.sync="loadType"
             :options="navOptions">
+            <el-button slot="button" type="text"
+                class="et-nav__button"
+                @click="back">
+                {{ $t("common.back") }}
+            </el-button>
         </et-nav>
         <div class="et-content">
             <div class="et-content__wrapper">
                 <et-comment-scroll
                     :resource-type="2"
-                    resource-uuid="e541cd39-3de9-5bef-ad9f-b80df3b82327">
+                    :resource-uuid="articleUuid">
                 </et-comment-scroll>
             </div>
             <et-toolbar></et-toolbar>
@@ -21,26 +26,23 @@ export default {
     name: 'EtArticle',
     data () {
         return {
-            navOptions: {
-                nav: [{
-                    value: 'all',
-                    label: this.$t('section.nav.all')
-                }, {
-                    value: 'hot',
-                    label: this.$t('section.nav.hot')
-                }, {
-                    value: 'follow',
-                    label: this.$t('section.nav.follow')
-                }, {
-                    value: 'manage',
-                    label: this.$t('section.nav.manage')
-                }]
-            },
-            loadType: 'all',
-            imageUrl: ''
+            loadType: 'all'
         };
     },
+    computed: {
+        navOptions () {
+            return {
+                nav: []
+            };
+        },
+        articleUuid () {
+            return this.$route.params.uuid;
+        }
+    },
     methods: {
+        back () {
+            this.$router.go(-1);
+        }
     }
 };
 </script>

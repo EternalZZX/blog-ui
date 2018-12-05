@@ -149,7 +149,10 @@ export default {
         }
     },
     article: {
-        more: 'more'
+        more: 'more',
+        nav: {
+            title: 'Article'
+        }
     },
     album: {
         nav: {
