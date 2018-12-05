@@ -12,14 +12,30 @@
                         :subtitle="data.create_at">
                     </et-user>
                     <p class="et-article-card__overview" v-if="data.overview">
-                        {{ data.overview }}
+                        {{ data.overview }} (<a>more</a>)
                     </p>
                 </li>
                 <li class="et-article-card__item" v-if="data.cover">
                     <div class="et-article-card__cover" :style="coverUrl"></div>
                 </li>
             </ul>
-            <div class="et-article-card__panel"></div>
+            <ul class="et-article-card__panel">
+                <li class="et-article-card__panel-item"
+                    :title="$t('common.readCount')">
+                    <i class="et-icon ei-user"></i>
+                    {{ $t("common.readCount") }} · {{ data.metadata.read_count | count }}
+                </li>
+                <li class="et-article-card__panel-item"
+                    :title="$t('common.likeCount')">
+                    <i class="et-icon ei-appreciate"></i>
+                    {{ $t("common.likeCount") }} · {{ data.metadata.like_count | count }}
+                </li>
+                <li class="et-article-card__panel-item"
+                    :title="$t('common.commentCount')">
+                    <i class="et-icon ei-message"></i>
+                    {{ $t("common.commentCount") }} · {{ data.metadata.comment_count | count }}
+                </li>
+            </ul>
         </div>
     </et-card>
 </transition>
@@ -51,9 +67,9 @@ export default {
     methods: {
         handleClick () {
             this.$router.push({
-                name: 'sectionDetail',
+                name: 'article',
                 params: {
-                    name: this.data.name
+                    name: this.data.uuid
                 }
             });
         }
@@ -74,7 +90,7 @@ export default {
     .et-article-card__title {
         display: block;
         padding: $spaceLarge;
-        padding-bottom: 0;
+        padding-bottom: $spaceBig;
         font-size: $titleFontSize;
         font-weight: $titleFontWeight;
         line-height: $titleFontSize;
@@ -89,7 +105,7 @@ export default {
 
     .et-article-card__body {
         padding: $spaceLarge;
-        padding-top: $spaceSmall;
+        padding-top: 0;
 
         .et-article-card__content {
             display: flex;
@@ -102,6 +118,11 @@ export default {
         .et-article-card__item:first-child {
             flex: auto;
             width: 0;
+            padding-right: $spaceSmall;
+        }
+
+        .et-article-card__item:last-child {
+            padding-right: 0;
         }
 
         .et-article-card__overview {
@@ -109,6 +130,15 @@ export default {
             margin-top: $spaceTiny;
             font-size: $contentFontSize;
             line-height: 1.5rem;
+            cursor: pointer;
+        }
+
+        .et-article-card__overview > a {
+            color: $submitColor;
+        }
+
+        .et-article-card__overview > a:hover {
+            color: $submitHoverColor;
         }
 
         .et-article-card__cover {
@@ -117,7 +147,28 @@ export default {
             background-position: center;
             background-size: contain;
             background-repeat: no-repeat;
+            background-color: $commentBackground;
             border-radius: $radiusSmall;
+            cursor: pointer;
+        }
+    }
+
+    .et-article-card__panel {
+        display: flex;
+        margin-top: $spaceSmall;
+        font-size: $descriptionFontSize;
+        color: $descriptionColor;
+        user-select: none;
+        cursor: default;
+
+        .et-article-card__panel-item {
+            margin-right: $spaceLarge;
+            list-style: none;
+        }
+
+        .et-icon {
+            font-size: $iconFontSizeSmall;
+            vertical-align: middle;
         }
     }
 }
