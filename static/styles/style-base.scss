@@ -349,12 +349,6 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             padding: $spaceLarge 0;
         }
 
-        @include max-screen($phoneMaxWidth) {
-            .et-content {
-                padding-top: $spaceSmall;
-            }
-        }
-
         .et-content .et-content__wrapper {
             flex: auto;
             width: 0;
@@ -401,6 +395,19 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
                 & {
                     display: block;
                 }
+            }
+        }
+
+        @include max-screen($phoneMaxWidth) {
+            .et-content {
+                padding-top: $spaceSmall;
+            }
+
+            .et-content .et-content__wrapper .et-block,
+            .et-content .et-content__wrapper .et-block-panel {
+                border-right: none;
+                border-left: none;
+                border-radius: 0;
             }
         }
     }

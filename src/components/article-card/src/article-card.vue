@@ -171,5 +171,33 @@ export default {
             vertical-align: middle;
         }
     }
+
+    @include max-screen($phoneMaxWidth) {
+        &.et-card {
+            border-right: none;
+            border-left: none;
+        }
+
+        .et-article-card__body {
+            .et-article-card__content {
+                flex-direction: column;
+            }
+
+            .et-article-card__item:first-child {
+                width: 100%;
+                padding-right: 0;
+            }
+
+            .et-article-card__cover {
+                width: 100%;
+                height: 200px;
+                margin-top: $spaceSmall;
+            }
+        }
+
+        .et-article-card__panel .et-icon {
+            display: none;
+        }
+    }
 }
 </style>
