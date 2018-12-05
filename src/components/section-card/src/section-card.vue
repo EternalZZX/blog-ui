@@ -138,7 +138,7 @@ export default {
     }
 
     /deep/ .et-card__body .et-section-card__panel {
-        padding: $spaceSmall;
+        padding: $spaceSmall $spaceLarge;
 
         .et-section-card__panel-item {
             display: flex;

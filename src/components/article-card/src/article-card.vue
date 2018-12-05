@@ -1,27 +1,26 @@
 <template>
 <transition enter-active-class="animated fadeIn fast">
     <et-card class="et-article-card">
-        <div slot="header" class="et-section-card__cover"
-            :style="coverUrl"
+        <a slot="header" class="et-article-card__title"
             @click="handleClick">
-        </div>
-        <template slot="body">
-            <ul class="et-section-card__panel">
-                <li class="et-section-card__panel-item">
-                    <a class="et-section-card__title" @click="handleClick">
-                        {{ data.title | none }}
-                    </a>
+            {{ data.title | none }}
+        </a>
+        <div slot="body" class="et-article-card__body">
+            <ul class="et-article-card__content">
+                <li class="et-article-card__item">
+                    <et-user :user="data.author"
+                        :subtitle="data.create_at">
+                    </et-user>
+                    <p class="et-article-card__overview" v-if="data.overview">
+                        {{ data.overview }}
+                    </p>
                 </li>
-                <li class="et-section-card__panel-item">
-                    <span class="et-section-card__description">
-                        {{ data.description | none }}
-                    </span>
-                    <span>
-                        {{ data.create_at | date }}
-                    </span>
+                <li class="et-article-card__item" v-if="data.cover">
+                    <div class="et-article-card__cover" :style="coverUrl"></div>
                 </li>
             </ul>
-        </template>
+            <div class="et-article-card__panel"></div>
+        </div>
     </et-card>
 </transition>
 </template>
@@ -66,100 +65,59 @@ export default {
 @import "~static/styles/style-common";
 
 .et-article-card {
-    /deep/ .et-section-card__cover {
-        height: 160px;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50%;
-        transition: .5s;
-        cursor: pointer;
-
-        @include min-screen($laptopMinWidth) {
-            & {
-                border-radius: $radiusTiny $radiusTiny 0 0;
-            }
-        }
-
-        @at-root .et-section-card.et-section-card_disabled .et-section-card__cover {
-            cursor: not-allowed;
-        }
+    &.et-card {
+        margin-bottom: $spaceSmall;
+        border: $splitBorder;
+        box-shadow: none;
     }
 
-    &:hover /deep/ .et-section-card__cover {
-        background-position-y: 55%;
-    }
-
-    /deep/ .et-card__body .et-section-card__panel {
-        padding: $spaceSmall;
-
-        .et-section-card__panel-item {
-            display: flex;
-            font-size: $descriptionFontSize;
-            color: $descriptionColor;
-            user-select: none;
-        }
-    }
-
-    .et-section-card__title {
-        flex: auto;
+    .et-article-card__title {
         display: block;
-        width: 0;
+        padding: $spaceLarge;
+        padding-bottom: 0;
         font-size: $titleFontSize;
         font-weight: $titleFontWeight;
         line-height: $titleFontSize;
         color: $titleColor;
-        user-select: none;
         cursor: pointer;
         @extend %text-overview;
 
-        @at-root .et-section-card.et-section-card_disabled .et-section-card__title {
-            cursor: not-allowed;
-        }
-
-        @at-root .et-section-card:not(.et-section-card_disabled) .et-section-card__title:hover {
+        &:hover {
             color: $subThemeColor;
         }
     }
 
-    .et-section-card__description {
-        flex: auto;
-        display: block;
-        width: 0;
-        font-size: $descriptionFontSize;
-        color: $descriptionColor;
-        user-select: none;
-        @extend %text-overview;
-    }
+    .et-article-card__body {
+        padding: $spaceLarge;
+        padding-top: $spaceSmall;
 
-    .et-section-card__button-group {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-
-        .et-icon {
-            display: block;
-            font-size: $iconFontSizeSmall;
+        .et-article-card__content {
+            display: flex;
         }
 
-        .et-section-card__button {
-            margin-left: $spaceTiny;
-            font-size: $iconFontSizeMiddle;
-            color: $descriptionColor;
-            cursor: pointer;
-
-            &:hover {
-                color: $subThemeColor;
-            }
+        .et-article-card__item {
+            list-style: none;
         }
-    }
 
-    @at-root .et-section-card__popover {
-        max-width: $userWidth * 3;
+        .et-article-card__item:first-child {
+            flex: auto;
+            width: 0;
+        }
 
-        /deep/ .el-form .el-form-item .el-form-item__label {
-            font-size: $descriptionFontSize;
-            line-height: $descriptionFontSize;
-            color: $descriptionColor;
+        .et-article-card__overview {
+            margin: 0;
+            margin-top: $spaceTiny;
+            font-size: $contentFontSize;
+            line-height: 1.5rem;
+        }
+
+        .et-article-card__cover {
+            width: 15rem;
+            height: 100%;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-radius: $radiusSmall;
         }
     }
 }
