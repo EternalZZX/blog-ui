@@ -1,109 +1,100 @@
 <template>
     <div class="et-layout">
-        <et-nav :title="$t('section.nav.title')"
+        <et-nav :title="$t('section.detail.nav.title')"
             :index.sync="loadType"
-            :options="navOptions">
+            :options="navOptions"
+            @select="init">
         </et-nav>
+
         <div class="et-content">
-            <div class="et-content__wrapper">
-                <et-comment-scroll
-                    :resource-type="2"
-                    resource-uuid="e541cd39-3de9-5bef-ad9f-b80df3b82327">
-                </et-comment-scroll>
-                <!-- <el-upload
-                    ref="upload"
-                    action="upload"
-                    class="avatar-uploader"
-                    :http-request="upload"
-                    :show-file-list="false"
-                    :multiple="false"
-                    :auto-upload="false"
-                    :on-change="handleChange"
-                    :on-success="handleSuccess">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-                <el-button size="small" type="primary" @click="submit">点击上传</el-button> -->
-            </div>
+            <et-scroll class="et-content__wrapper"
+                ref="scroll"
+                @more="loadMore">
+                <et-article-card v-for="article in dataList"
+                    :key="article.uuid"
+                    :data="article">
+                </et-article-card>
+            </et-scroll>
             <et-toolbar></et-toolbar>
         </div>
     </div>
 </template>
 
 <script>
-import Photo from '@/common/api/photos';
+import { mapGetters } from 'vuex';
+import { EVENT } from '@/common/bus';
+import Utils from '@/common/utils';
+import Permission from '@/common/permission';
+import Article from '@/common/api/articles';
 export default {
     name: 'EtHome',
     data () {
         return {
-            navOptions: {
-                nav: [{
-                    value: 'all',
-                    label: this.$t('section.nav.all')
-                }, {
-                    value: 'hot',
-                    label: this.$t('section.nav.hot')
-                }, {
-                    value: 'follow',
-                    label: this.$t('section.nav.follow')
-                }, {
-                    value: 'manage',
-                    label: this.$t('section.nav.manage')
-                }]
+            dataList: [],
+            params: {
+                page: 1,
+                page_size: 10
             },
             loadType: 'all',
-            imageUrl: ''
+            manageType: 'none'
         };
     },
+    computed: {
+        ...mapGetters({
+            userUuid: 'userUuid'
+        }),
+        navOptions () {
+            return {
+                nav: [{
+                    value: 'all',
+                    label: this.$t('section.detail.nav.all')
+                }, {
+                    value: 'hot',
+                    label: this.$t('section.detail.nav.hot')
+                }, {
+                    value: 'upvoted',
+                    label: this.$t('section.detail.nav.upvoted')
+                }, {
+                    value: 'mine',
+                    label: this.$t('section.detail.nav.mine')
+                }]
+            };
+        }
+    },
+    mounted () {
+        this.$root.Bus.$on(EVENT.TOKEN_REFRESH, () => {
+            !this._inacitve && this.init();
+        });
+    },
+    activated () {
+        this.init();
+    },
     methods: {
-        handleChange (file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
+        init () {
+            this.dataList = [];
+            this.params.page = 1;
+            this.loadType = 'all';
+            this.$refs.scroll.reset();
         },
-        handleSuccess (response) {
-            console.warn(response);
+        loadMore (state) {
+            if (!Permission.hasPermission('article-list')) {
+                state.complete();
+                return;
+            }
+            this.loadArticles(state);
         },
-        submit () {
-            this.$refs.upload.submit();
-        },
-        upload (content) {
-            Photo.create(content.file, {
-                description: 'a'
-            }).then(response => {
-                content.onSuccess(response.data);
+        loadArticles (state) {
+            Article.list(this.params).then(response => {
+                this.dataList = this.dataList.concat(response.data.articles);
+                this.params.page ++;
+                response.data.total === this.dataList.length ?
+                    state.complete() :
+                    state.loaded();
             }).catch(err => {
-                if (err.response) {
-                    content.onError(err.response.data);
-                } else {
-                    content.onError(err.message);
-                }
+                state.complete();
+                Utils.errorLog(err, 'ARTICLE-LIST');
             });
         }
     }
 };
 </script>
-
-<style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
-</style>
