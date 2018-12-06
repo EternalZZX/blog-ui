@@ -11,6 +11,7 @@
         </et-nav>
         <div class="et-content">
             <div class="et-content__wrapper">
+                <et-article-block :data="article"></et-article-block>
                 <et-comment-scroll
                     :resource-type="2"
                     :resource-uuid="articleUuid">
@@ -22,10 +23,13 @@
 </template>
 
 <script>
+import Utils from '@/common/utils';
+import Article from '@/common/api/articles';
 export default {
     name: 'EtArticle',
     data () {
         return {
+            article: {},
             loadType: 'all'
         };
     },
@@ -39,7 +43,20 @@ export default {
             return this.$route.params.uuid;
         }
     },
+    activated () {
+        this.init();
+    },
     methods: {
+        init () {
+            this.getArticle();
+        },
+        getArticle () {
+            Article.get(this.articleUuid).then(response => {
+                this.article = response.data;
+            }).catch(err => {
+                Utils.errorLog(err, 'ARTICLE-GET');
+            });
+        },
         back () {
             this.$router.go(-1);
         }

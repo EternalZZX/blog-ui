@@ -1,4 +1,4 @@
-
+import ArticleBlock from './article-block';
 import ArticleCard from './article-card';
 import Card from './card';
 import Collapse from './collapse';
@@ -18,6 +18,7 @@ import Toolbar from './toolbar';
 import User from './user';
 
 const components = [
+    ArticleBlock,
     ArticleCard,
     Card,
     Collapse,
