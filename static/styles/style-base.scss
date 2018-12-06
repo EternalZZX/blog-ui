@@ -5,9 +5,7 @@ html {
     height: 100%;
 
     @include max-screen($phoneMaxWidth) {
-        & {
-            font-size: 20px;
-        }
+        font-size: 20px;
     }
 
     body {
@@ -92,11 +90,9 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         background-size: 90%;
 
         @include max-screen($padMaxWidth) {
-            & {
-                width: $headerHeight;
-                background-image: url('/static/images/et-logo.png');
-                background-position: .4rem .4rem;
-            }
+            width: $headerHeight;
+            background-image: url('/static/images/et-logo.png');
+            background-position: .4rem .4rem;
         }
     }
 
@@ -106,9 +102,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         border-bottom: none;
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                display: none;
-            }
+            display: none;
         }
 
         .el-menu-item {
@@ -151,9 +145,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         padding: .5rem;
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                display: block;
-            }
+            display: block;
         }
 
         &:hover {
@@ -186,9 +178,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         padding: 0 $headerHeight / 6;
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                display: none;
-            }
+            display: none;
         }
     }
 
@@ -256,11 +246,9 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         }
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                width: 100%;
-                border-left: none;
-                border-right: none;
-            }
+            width: 100%;
+            border-left: none;
+            border-right: none;
 
             &.dropdown-enter-active {
                 animation: dropdown-enter-mobile .2s ease-in-out;
@@ -331,9 +319,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             margin-left: 0;
 
             @include min-screen($laptopMinWidth) {
-                & {
-                    display: block;
-                }
+                display: block;
             }
         }
 
@@ -392,9 +378,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
             margin-left: $spaceLarge;
 
             @include min-screen($laptopMinWidth) {
-                & {
-                    display: block;
-                }
+                display: block;
             }
         }
 
@@ -618,12 +602,10 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         border-radius: $radiusSmall;
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                width: 100%;
-                height: 100%;
-                margin: 0 !important;
-                border-radius: 0;
-            }
+            width: 100%;
+            height: 100%;
+            margin: 0 !important;
+            border-radius: 0;
 
             .el-dialog__footer {
                 border-radius: 0;
@@ -631,15 +613,11 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         }
 
         @include filter-screen($padMinWidth, $padMaxWidth) {
-            & {
-                width: 75%;
-            }
+            width: 75%;
         }
 
         @include min-screen($pcMinWidth) {
-            & {
-                width: 35%;
-            }
+            width: 35%;
         }
     }
 
@@ -733,18 +711,14 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         overflow: auto;
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                position: absolute;
-                top: 3.2rem;
-                bottom: 3.3rem;
-                max-height: none;
-            }
+            position: absolute;
+            top: 3.2rem;
+            bottom: 3.3rem;
+            max-height: none;
         }
 
         @include min-screen-height($pcMinHeight) {
-            & {
-                max-height: 600px;
-            }
+            max-height: 600px;
         }
 
         .et-load-scroll__line {
@@ -759,11 +733,9 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         border-top: $splitBorder;
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                position: absolute;
-                bottom: 0;
-                width: 100%;
-            }
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
 
         .el-button {
@@ -831,10 +803,8 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         box-sizing: border-box;
 
         @include max-screen($phoneHorizontalMinWidth) {
-            & {
-                width: 50% !important;
-                padding-bottom: calc(50% - .6rem) !important;
-            }
+            width: 50% !important;
+            padding-bottom: calc(50% - .6rem) !important;
         }
     }
 

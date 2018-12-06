@@ -123,9 +123,7 @@ export default {
         cursor: pointer;
 
         @include min-screen($laptopMinWidth) {
-            & {
-                border-radius: $radiusTiny $radiusTiny 0 0;
-            }
+            border-radius: $radiusTiny $radiusTiny 0 0;
         }
 
         @at-root .et-section-card.et-section-card_disabled .et-section-card__cover {

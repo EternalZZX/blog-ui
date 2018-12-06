@@ -97,9 +97,7 @@ export default {
     width: $userWidth;
 
     @include max-screen($phoneMaxWidth) {
-        & {
-            width: 8rem;
-        }
+        width: 8rem;
     }
 
     .et-user__avatar {

@@ -24,9 +24,7 @@ export default {
     box-shadow: $cardShadow;
 
     @include min-screen($laptopMinWidth) {
-        & {
-            border-radius: $radiusTiny;
-        }
+        border-radius: $radiusTiny;
     }
 }
 </style>

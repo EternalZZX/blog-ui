@@ -363,9 +363,7 @@ export default {
         }
 
         @include max-screen($phoneMaxWidth) {
-            & {
-                padding: 0 $spaceSmall;
-            }
+            padding: 0 $spaceSmall;
 
             .et-comment__panel .et-comment__button > span {
                 display: none;

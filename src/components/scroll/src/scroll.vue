@@ -72,9 +72,7 @@ export default {
             height: 1px;
 
             @include max-screen($phoneMaxWidth) {
-                & {
-                    width: 38%;
-                }
+                width: 38%;
             }
         }
 

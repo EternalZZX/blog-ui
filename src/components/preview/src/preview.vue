@@ -387,9 +387,7 @@ export default {
     box-sizing: border-box;
 
     @include min-screen($laptopMinWidth) {
-        & {
-            padding: 0 $navWidth;
-        }
+        padding: 0 $navWidth;
     }
 }
 
@@ -398,9 +396,7 @@ export default {
     color: $darkContentColor;
 
     @include min-screen($laptopMinWidth) {
-        & {
-            padding: 0 $spaceSmall;
-        }
+        padding: 0 $spaceSmall;
     }
 }
 
@@ -533,9 +529,7 @@ export default {
     }
 
     @include max-screen($phoneMaxWidth) {
-        & {
-            display: none;
-        }
+        display: none;
     }
 }
 
@@ -574,9 +568,7 @@ export default {
     box-sizing: border-box;
 
     @include min-screen($laptopMinWidth) {
-        & {
-            padding: 0 $navWidth;
-        }
+        padding: 0 $navWidth;
     }
 
     .et-comment__inner {

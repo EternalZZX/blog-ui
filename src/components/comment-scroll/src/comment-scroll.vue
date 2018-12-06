@@ -239,9 +239,8 @@ export default {
     }
 
     @include max-screen($phoneMaxWidth) {
-        & {
-            padding-right: $spaceSmall;
-        }
+        padding-right: $spaceSmall;
+        border-radius: 0;
     }
 
     &.et-comment-scroll_dark {
