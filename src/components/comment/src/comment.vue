@@ -53,7 +53,7 @@
             </div>
             <div v-if="!replyShow" class="et-comment__panel">
                 <button class="et-comment__button"
-                    :title="$t('comment.like')"
+                    :title="$t('common.like')"
                     @click="upvoteComment">
                     <i class="et-icon"
                         :class="data.is_like_user === LIKE_TYPE.LIKE ?
@@ -77,13 +77,13 @@
                     <span>{{ $t("common.reply") }}</span>
                 </button>
                 <button class="et-comment__button et-comment__button_hide"
-                    :title="$t('comment.dislike')"
+                    :title="$t('common.dislike')"
                     @click="downvoteComment">
                     <i class="et-icon"
                         :class="data.is_like_user === LIKE_TYPE.DISLIKE ?
                             'ei-oppose-fill' : 'ei-oppose'">
                     </i>
-                    <span>{{ $t("comment.dislike") }}</span>
+                    <span>{{ $t("common.dislike") }}</span>
                 </button>
             </div>
             <div v-else class="et-comment__editor">

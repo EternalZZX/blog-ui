@@ -150,6 +150,7 @@ export default {
     },
     article: {
         more: 'more',
+        published: 'Published ',
         nav: {
             title: 'Article'
         }
@@ -245,8 +246,6 @@ export default {
     },
     comment: {
         comment: 'Comment',
-        like: 'Upvote',
-        dislike: 'Downvote',
         dialog: 'Dialog',
         viewDialog: 'View conversation',
         reply: 'reply',
@@ -323,6 +322,8 @@ export default {
         readCount: 'Views',
         likeCount: 'Likes',
         commentCount: 'Comments',
+        like: 'Upvote',
+        dislike: 'Downvote',
         reply: 'Reply',
         menu: 'Menu',
         back: 'Back',

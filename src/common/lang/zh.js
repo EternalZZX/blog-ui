@@ -149,6 +149,7 @@ export default {
     },
     article: {
         more: '阅读全文',
+        published: '发布于 ',
         nav: {
             title: '文章'
         }
@@ -244,8 +245,6 @@ export default {
     },
     comment: {
         comment: '评论',
-        like: '赞',
-        dislike: '踩',
         dialog: '查看对话',
         viewDialog: '查看对话',
         reply: '回复',
@@ -322,6 +321,8 @@ export default {
         readCount: '阅读',
         likeCount: '点赞',
         commentCount: '评论',
+        like: '赞',
+        dislike: '踩',
         reply: '回复',
         menu: '菜单',
         back: '返回',

@@ -29,7 +29,9 @@ export default {
     name: 'EtArticle',
     data () {
         return {
-            article: {},
+            article: {
+                metadata: {}
+            },
             loadType: 'all'
         };
     },

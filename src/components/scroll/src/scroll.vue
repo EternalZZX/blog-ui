@@ -33,7 +33,7 @@ export default {
         reset () {
             setTimeout(() => {
                 this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
-            }, 100);
+            }, 300);
         }
     }
 };
