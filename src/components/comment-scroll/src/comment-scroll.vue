@@ -213,7 +213,7 @@ export default {
 
         .et-comment-scroll__editor-panel {
             display: flex;
-            padding: $spaceSmall 0;
+            padding-top: $spaceSmall;
         }
 
         .et-comment-scroll__editor-info {
@@ -231,7 +231,7 @@ export default {
     }
 
     /deep/ .et-load-scroll {
-        margin-top: $spaceLarge;
+        margin-top: $spaceLarge + $spaceSmall;
     }
 
     /deep/ .et-load-scroll > .et-comment:nth-last-child(2) {

@@ -150,6 +150,7 @@ export default {
     article: {
         more: '阅读全文',
         published: '发布于 ',
+        edited: ' 编辑于 ',
         nav: {
             title: '文章'
         }

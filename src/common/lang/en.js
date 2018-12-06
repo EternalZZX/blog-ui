@@ -151,6 +151,7 @@ export default {
     article: {
         more: 'more',
         published: 'Published ',
+        edited: ' edited at ',
         nav: {
             title: 'Article'
         }

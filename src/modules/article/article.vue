@@ -11,9 +11,9 @@
         </et-nav>
         <div class="et-content">
             <div class="et-content__wrapper">
-                <et-article-block :data="article"></et-article-block>
+                <et-article-block :data.sync="article"></et-article-block>
                 <et-comment-scroll
-                    :resource-type="2"
+                    :resource-type="RESOURCE_TYPE.ARTICLE"
                     :resource-uuid="articleUuid">
                 </et-comment-scroll>
             </div>
@@ -25,11 +25,13 @@
 <script>
 import Utils from '@/common/utils';
 import Article from '@/common/api/articles';
+import { CommentApi } from '@/common/api/comments';
 export default {
     name: 'EtArticle',
     data () {
         return {
             article: {
+                last_editor: {},
                 metadata: {}
             },
             loadType: 'all'
@@ -43,6 +45,9 @@ export default {
         },
         articleUuid () {
             return this.$route.params.uuid;
+        },
+        RESOURCE_TYPE () {
+            return CommentApi.RESOURCE_TYPE;
         }
     },
     activated () {

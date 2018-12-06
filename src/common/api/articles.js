@@ -45,6 +45,20 @@ class ArticleApi extends BaseRequest {
             ...config
         });
     }
+
+    upvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: ArticleApi.LIKE_OPERATE.LIKE,
+            ...data
+        }, config);
+    }
+
+    downvote (uuid, data = {}, config = {}) {
+        return super.put(`${this.url}${uuid}/`, {
+            like_operate: ArticleApi.LIKE_OPERATE.DISLIKE,
+            ...data
+        }, config);
+    }
 }
 
 ArticleApi.STATUS = {

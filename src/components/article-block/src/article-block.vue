@@ -16,10 +16,18 @@
         </div>
         <div class="et-article-block__body">
             <div class="et-article-block__content et-writing ql-editor"
-                v-html="data.content">
+                v-html="content">
             </div>
-            <p>{{ data.edit_at | time }}</p>
+            <p class="et-article-block__sign">
+                · {{ data.last_editor.nick }}{{ $t("article.edited") }}{{ data.edit_at | time }} ·
+            </p>
             <div class="et-article-block__panel">
+                <button class="et-article-block__button"
+                    :title="$t('common.commentCount')"
+                    @click="commentArticle">
+                    <i class="et-icon ei-message"></i>
+                    <span>{{ $t("common.commentCount") }} · </span>{{ data.metadata.comment_count | count }}
+                </button>
                 <button class="et-article-block__button"
                     :title="$t('common.like')"
                     @click="upvoteArticle">
@@ -27,7 +35,7 @@
                         :class="data.is_like_user === LIKE_TYPE.LIKE ?
                             'ei-appreciate-fill' : 'ei-appreciate'">
                     </i>
-                    {{ data.metadata.like_count | count }}
+                    <span>{{ $t("common.like") }} · </span>{{ data.metadata.like_count | count }}
                 </button>
                 <button class="et-article-block__button"
                     :title="$t('common.dislike')"
@@ -38,19 +46,16 @@
                     </i>
                     <span>{{ $t("common.dislike") }}</span>
                 </button>
-                <button class="et-article-block__button"
-                    :title="$t('common.commentCount')"
-                    @click="commentArticle">
-                    <i class="et-icon ei-message"></i>
-                    <span>{{ $t("common.commentCount") }}</span>
-                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ArticleApi } from '@/common/api/articles';
+import sanitizeHtml from 'sanitize-html';
+import Common from '@/common/common';
+import Utils from '@/common/utils';
+import Articles, { ArticleApi } from '@/common/api/articles';
 export default {
     name: 'EtArticleBlock',
     props: {
@@ -58,6 +63,7 @@ export default {
             type: Object,
             default () {
                 return {
+                    last_editor: {},
                     metadata: {}
                 };
             }
@@ -68,6 +74,30 @@ export default {
         }
     },
     computed: {
+        content () {
+            const indentArr = [
+                'ql-indent-1', 'ql-indent-2', 'ql-indent-3', 'ql-indent-4',
+                'ql-indent-5', 'ql-indent-6', 'ql-indent-7', 'ql-indent-8'
+            ];
+            return sanitizeHtml(this.data.content, {
+                allowedTags: [
+                    'p', 'h2', 'em', 'strong', 'ol', 'ul', 'li',
+                    'pre', 'blockquote', 'br', 'a', 'img'
+                ],
+                allowedClasses: {
+                    'p': indentArr,
+                    'h2': indentArr,
+                    'li': indentArr,
+                    'pre': ['ql-syntax', ...indentArr],
+                    'blockquote': indentArr
+                },
+                allowedAttributes: {
+                    'pre': ['spellcheck'],
+                    'a': ['href', 'target'],
+                    'img': ['src']
+                }
+            });
+        },
         coverUrl () {
             const backgroundImage = this.hash ?
                 `url(${this.data.cover}?hash=${this.hash})` :
@@ -80,13 +110,26 @@ export default {
     },
     methods: {
         upvoteArticle () {
-            //
+            Articles.upvote(this.data.uuid).then(response => {
+                this.updateView(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'ARTICLE-UPVOTE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
         },
         downvoteArtilce () {
-            //
+            Articles.downvote(this.data.uuid).then(response => {
+                this.updateView(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'ARTICLE-DOWNVOTE');
+                Common.notify(Utils.errorMessage(err), 'error');
+            });
         },
         commentArticle () {
-            //
+            this.$emit('comment');
+        },
+        updateView (data) {
+            this.$emit('update:data', data);
         }
     }
 };
@@ -141,14 +184,55 @@ export default {
             text-align: right;
             color: $descriptionColor;
             list-style: none;
+            user-select: none;
         }
     }
 
     .et-article-block__body {
         margin: 0 $spaceSmall;
+
+        .et-article-block__sign {
+            margin: 0 $spaceSmall;
+            padding: $spaceLarge;
+            font-size: $descriptionFontSize;
+            text-align: center;
+            color: $descriptionColor;
+            border-bottom: $splitBorder;
+        }
+    }
+
+    .et-article-block__panel {
+        display: flex;
+        padding: $spaceSmall;
+        padding-bottom: $spaceLarge;
+
+        .et-article-block__button {
+            margin-right: $spaceLarge;
+            font-size: $descriptionFontSize;
+            line-height: $descriptionFontSize;
+            color: $descriptionColor;
+            user-select: none;
+            cursor: pointer;
+
+            &:hover {
+                color: $subThemeColor;
+            }
+
+            .et-icon {
+                font-size: $iconFontSizeSmall;
+                vertical-align: middle;
+            }
+        }
     }
 
     @include max-screen($phoneMaxWidth) {
+        border-radius: 0;
+
+        .et-article-block__panel {
+            .et-article-block__button span {
+                display: none;
+            }
+        }
     }
 }
 </style>
