@@ -26,6 +26,11 @@ export default {
         welcome: '欢迎 {name} !',
         adieu: '{name} 已退出登陆!'
     },
+    home: {
+        nav: {
+            title: '首页'
+        }
+    },
     section: {
         nav: {
             title: '话题',

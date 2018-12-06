@@ -1,6 +1,6 @@
 <template>
     <div class="et-layout">
-        <et-nav :title="$t('section.detail.nav.title')"
+        <et-nav :title="$t('home.nav.title')"
             :index.sync="loadType"
             :options="navOptions"
             @select="init">

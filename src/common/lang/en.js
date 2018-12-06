@@ -26,6 +26,11 @@ export default {
         welcome: 'Welcome {name} !',
         adieu: 'Goodbye {name} !'
     },
+    home: {
+        nav: {
+            title: 'Home'
+        }
+    },
     section: {
         nav: {
             title: 'Topics',
