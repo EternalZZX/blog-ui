@@ -204,7 +204,7 @@ export default {
             none: 'Non-default Album',
             avatar: 'Default Avatar Album',
             album: 'Album Cover Album',
-            section: 'Section Cover Album',
+            section: 'Topic Cover Album',
             article: 'Article Cover Album'
         }
     },

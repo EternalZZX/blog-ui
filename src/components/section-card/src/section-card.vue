@@ -152,7 +152,7 @@ export default {
         width: 0;
         font-size: $titleFontSize;
         font-weight: $titleFontWeight;
-        line-height: $titleFontSize;
+        line-height: 1.5rem;
         color: $titleColor;
         user-select: none;
         cursor: pointer;
