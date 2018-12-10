@@ -12,7 +12,7 @@
         <div class="et-content">
             <div class="et-content__wrapper">
                 <et-article-block :data.sync="article"></et-article-block>
-                <et-comment-scroll
+                <et-comment-scroll ref="comments"
                     :resource-type="RESOURCE_TYPE.ARTICLE"
                     :resource-uuid="articleUuid">
                 </et-comment-scroll>
@@ -56,6 +56,9 @@ export default {
     methods: {
         init () {
             this.getArticle();
+            this.$nextTick(() => {
+                this.$refs.comments.reset();
+            });
         },
         getArticle () {
             Article.get(this.articleUuid).then(response => {

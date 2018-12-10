@@ -32,6 +32,17 @@ class SectionApi extends BaseRequest {
             ...config
         });
     }
+
+    listSections (params = {}, config = {}) {
+        const args = {
+            ...params,
+            order_field: 'create_at'
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
 }
 
 SectionApi.STATUS = {

@@ -20,7 +20,7 @@
             </div>
             <span v-if="subtitle"
                 class="et-user__remark"
-                :title="subtitle">
+                :title="subtitleFormated">
                 <template v-if="type === 'time'">{{ subtitle | time }}</template>
                 <template v-else-if="type === 'date'">{{ subtitle | date }}</template>
                 <template v-else>{{ subtitle | none }}</template>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import Utils from '@/common/utils';
 export default {
     name: 'EtUser',
     props: {
@@ -84,6 +85,10 @@ export default {
         avatar () {
             const defaultAvator = '/static/images/et-avatar.png';
             return this.user.avatar ? this.user.avatar : defaultAvator;
+        },
+        subtitleFormated () {
+            return ['time', 'date'].indexOf(this.type) !== -1 ?
+                Utils.formatTime(this.subtitle, 'fulldate') : this.subtitle;
         }
     }
 };

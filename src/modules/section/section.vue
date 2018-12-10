@@ -101,7 +101,7 @@ export default {
             this.loadSections(state);
         },
         loadSections (state) {
-            Section.list(this.params).then(response => {
+            Section.listSections(this.params).then(response => {
                 this.dataList = this.dataList.concat(response.data.sections);
                 this.params.page ++;
                 response.data.total === this.dataList.length ?
