@@ -22,7 +22,9 @@
                 </el-menu-item>
             </el-menu>
             <et-search></et-search>
-            <el-button class="et-header__post" type="primary">
+            <el-button class="et-header__post"
+                type="primary"
+                @click="post">
                 {{ $t("header.post") }}
             </el-button>
             <el-dropdown trigger="click">
@@ -57,12 +59,14 @@ import EtSearch from './search';
 import EtAccount from './account';
 export default {
     name: 'EtHeader',
-    components: { EtSearch, EtAccount },
-    data () {
-        return {
-        };
+    components: {
+        EtSearch,
+        EtAccount
     },
     methods: {
+        post () {
+            this.$router.push({ name: 'post' });
+        }
     }
 };
 </script>

@@ -161,6 +161,11 @@ export default {
             title: 'Article'
         }
     },
+    post: {
+        nav: {
+            title: 'Post'
+        }
+    },
     album: {
         nav: {
             title: 'Albums',

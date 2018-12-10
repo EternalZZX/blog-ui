@@ -160,6 +160,11 @@ export default {
             title: '文章'
         }
     },
+    post: {
+        nav: {
+            title: '发帖'
+        }
+    },
     album: {
         nav: {
             title: '相册',
