@@ -16,10 +16,11 @@
         </div>
         <div class="et-article-block__body">
             <div class="et-article-block__content et-writing ql-editor"
-                v-html="content">
+                v-html="content"
+                v-highlight>
             </div>
             <p class="et-article-block__sign">
-                · {{ data.last_editor.nick }}{{ $t("article.edited") }}{{ data.edit_at | time }} ·
+                {{ data.last_editor.nick }}{{ $t("article.edited") }}{{ data.edit_at | time }}
             </p>
             <div class="et-article-block__panel">
                 <button class="et-article-block__button"

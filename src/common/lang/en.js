@@ -163,7 +163,10 @@ export default {
     },
     post: {
         nav: {
-            title: 'Post'
+            title: 'Post',
+            basic: 'Title',
+            content: 'Content',
+            advanced: 'Advanced'
         }
     },
     album: {

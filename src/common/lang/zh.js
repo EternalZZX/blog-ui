@@ -162,7 +162,10 @@ export default {
     },
     post: {
         nav: {
-            title: '发帖'
+            title: '发帖',
+            basic: '文章标题',
+            content: '文章内容',
+            advanced: '更多设置'
         }
     },
     album: {
