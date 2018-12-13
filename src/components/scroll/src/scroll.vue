@@ -4,6 +4,7 @@
         <infinite-loading
             ref="infiniteLoading"
             spinner="waveDots"
+            :identifier="identifier"
             @infinite="debouncedInfiniteHandler">
             <p slot="no-more" class="et-load-scroll__line">
                 {{ $t("common.noMore") }}
@@ -23,6 +24,11 @@ export default {
     components: {
         InfiniteLoading
     },
+    data () {
+        return {
+            identifier: new Date().getTime()
+        };
+    },
     created () {
         this.debouncedInfiniteHandler = debounce(300, this.infiniteHandler);
     },
@@ -32,7 +38,7 @@ export default {
         },
         reset () {
             setTimeout(() => {
-                this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+                this.identifier = new Date().getTime();
             }, 300);
         }
     }
