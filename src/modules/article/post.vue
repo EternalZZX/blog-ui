@@ -8,10 +8,15 @@
 
         <div class="et-content" ref="container">
             <div class="et-content__wrapper">
-                <et-photo-select-box :data="cover"
-                    @click="photoSelectShow = true">
-                </et-photo-select-box>
-                <et-editor ref="editor"
+                <el-form v-if="loadType === 'title'">
+                    <et-photo-select-box :data="cover"
+                        @click="photoSelectShow = true">
+                    </et-photo-select-box>
+                    <el-input></el-input>
+                    <et-keywords></et-keywords>
+                </el-form>
+                <et-editor  v-else-if="loadType === 'content'"
+                    ref="editor"
                     v-model="content"
                     :length.sync="contentLength"
                     :max-length="contentMaxLength">

@@ -6,6 +6,7 @@ import Comments from './comment';
 import CommentScroll from './comment-scroll';
 import Confirm from './confirm';
 import Editor from './editor';
+import Keywords from './keywords';
 import Nav from './nav';
 import Photo from './photo';
 import PhotoSelect from './photo-select';
@@ -26,6 +27,7 @@ const components = [
     CommentScroll,
     Confirm,
     Editor,
+    Keywords,
     Nav,
     Photo,
     PhotoSelect,
