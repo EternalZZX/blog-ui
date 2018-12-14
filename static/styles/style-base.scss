@@ -384,7 +384,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
 
         @include max-screen($phoneMaxWidth) {
             .et-content {
-                padding-top: $spaceSmall;
+                padding: $spaceSmall 0;
             }
 
             .et-content .et-content__wrapper .et-block,

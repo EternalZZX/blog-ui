@@ -157,11 +157,12 @@ export default {
             }
         },
         getContainerHeight () {
-            const el = document.getElementsByClassName('et-content')[0];
-            const headerHeight = document.getElementsByClassName('et-header')[0].offsetHeight;
-            const footerHeight = document.getElementsByClassName('et-footer')[0].offsetHeight;
-            const paddingHeight = parseInt(getComputedStyle(el).getPropertyValue('padding-top'));
-            return `${document.body.clientHeight - headerHeight - footerHeight - 2 * paddingHeight}px`;
+            const contentStyle = getComputedStyle(document.getElementsByClassName('et-content')[0]),
+                headerHeight = document.getElementsByClassName('et-header')[0].offsetHeight,
+                footerHeight = document.getElementsByClassName('et-footer')[0].offsetHeight,
+                paddingTop = parseInt(contentStyle.getPropertyValue('padding-top')),
+                paddingBottom = parseInt(contentStyle.getPropertyValue('padding-bottom'));
+            return `${document.body.clientHeight - headerHeight - footerHeight - paddingTop - paddingBottom}px`;
         }
     }
 };
