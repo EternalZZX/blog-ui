@@ -2,8 +2,7 @@
     <div class="et-layout">
         <et-nav :title="$t('post.nav.title')"
             :index.sync="loadType"
-            :options="navOptions"
-            @select="init">
+            :options="navOptions">
         </et-nav>
 
         <div class="et-content" ref="container">
@@ -61,7 +60,8 @@
                     ref="editor"
                     v-model="data.content"
                     :length.sync="contentLength"
-                    :max-length="contentMaxLength">
+                    :max-length="contentMaxLength"
+                    :style="{ height: containerHeight }">
                 </et-editor>
             </div>
             <et-toolbar></et-toolbar>
@@ -103,7 +103,8 @@ export default {
             contentMaxLength: 30000,
             sections: [],
             sectionLoading: false,
-            photoSelectShow: false
+            photoSelectShow: false,
+            containerHeight: null
         };
     },
     computed: {
@@ -128,12 +129,18 @@ export default {
             return AlbumApi.SYSTEM;
         }
     },
+    mounted () {
+        this.containerHeight = this.getContainerHeight();
+        window.onresize = () => {
+            this.containerHeight = this.getContainerHeight();
+        };
+    },
     activated () {
         this.init();
     },
     methods: {
         init () {
-            // console.warn(document.body.clientHeight );
+            this.loadType = 'title';
         },
         getSections (query) {
             if (query !== '') {
@@ -148,6 +155,13 @@ export default {
             } else {
                 this.sections = [];
             }
+        },
+        getContainerHeight () {
+            const el = document.getElementsByClassName('et-content')[0];
+            const headerHeight = document.getElementsByClassName('et-header')[0].offsetHeight;
+            const footerHeight = document.getElementsByClassName('et-footer')[0].offsetHeight;
+            const paddingHeight = parseInt(getComputedStyle(el).getPropertyValue('padding-top'));
+            return `${document.body.clientHeight - headerHeight - footerHeight - 2 * paddingHeight}px`;
         }
     }
 };
