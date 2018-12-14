@@ -237,6 +237,33 @@
     }
 }
 
+.el-tag {
+    height: $elementHeight;
+    font-size: $descriptionFontSize;
+    line-height: $elementHeight;
+    color: $quoteColor;
+    background-color: $commentBackground;
+    border: none;
+    border-radius: $radiusSmall;
+    cursor: pointer;
+
+    &:hover {
+        color: $submitHoverColor;
+    }
+
+    .el-icon-close {
+        width: 15px;
+        height: 15px;
+        top: 0;
+        color: $descriptionColor;
+        transition: all .2s;
+
+        &:hover {
+            background-color: $descriptionColor;
+        }
+    }
+}
+
 .el-form {
     .el-form-item {
         margin-bottom: $spaceSmall;

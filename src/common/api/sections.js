@@ -43,6 +43,19 @@ class SectionApi extends BaseRequest {
             ...config
         });
     }
+
+    querySections (query, params = {}, config = {}) {
+        const args = {
+            ...params,
+            query_field: 'nick',
+            query,
+            order_field: 'create_at'
+        };
+        return super.get(this.url, {
+            params: args,
+            ...config
+        });
+    }
 }
 
 SectionApi.STATUS = {

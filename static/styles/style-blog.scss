@@ -30,4 +30,11 @@
             border-bottom: $splitBorder;
         }
     }
+
+    @include max-screen($phoneMaxWidth) {
+        .et-photo-select,
+        .et-photo-select .et-photo-select__image {
+            border-radius: 0;
+        }
+    }
 }

@@ -1,10 +1,10 @@
 <template>
     <div class="et-keywords">
         <el-tag class="et-keywords__item"
-            v-for="keyword in keywords"
+            v-for="(keyword, index) in value"
             :key="keyword"
             closable
-            @close="handleDelete(keyword)">
+            @close="handleDelete(index)">
             {{ keyword }}
         </el-tag>
         <el-input ref="input"
@@ -14,24 +14,41 @@
             @keyup.enter.native="handleAdd"
             @blur="handleAdd">
         </el-input>
-        <el-button v-else
-            class="et-keywords__button"
+        <i v-else
+            class="et-keywords__button et-icon ei-brush-fill"
+            :title="$t('article.addKeyword')"
             @click="showAdd">
-            <i class="et-icon ei-plus"></i>
-            {{ $t("article.addKeyword") }}
-        </el-button>
+        </i>
     </div>
 </template>
 
 <script>
+import Utils from '@/common/utils';
 export default {
     name: 'EtKeywords',
+    model: {
+        prop: 'value',
+        event: 'update:value'
+    },
+    props: {
+        value: {
+            type: Array,
+            default () {
+                return [];
+            }
+        }
+    },
     data () {
         return {
-            keywords: ['标签一', '标签二', '标签三'],
+            keywords: [],
             keyword: '',
             isAdd: false
         };
+    },
+    watch: {
+        value (val) {
+            this.keywords = Utils.deepClone(val);
+        }
     },
     methods: {
         showAdd () {
@@ -41,15 +58,19 @@ export default {
             });
         },
         handleAdd () {
-            const keyword = this.keyword;
-            if (keyword) {
-                this.keywords.push(keyword);
+            if (this.keyword && this.keywords.indexOf(this.keyword) === -1) {
+                this.keywords.push(this.keyword);
+                this.updateValue();
             }
             this.isAdd = false;
             this.keyword = '';
         },
-        handleDelete (keyword) {
-            this.keywords.splice(this.keywords.indexOf(keyword), 1);
+        handleDelete (index) {
+            this.keywords.splice(index, 1);
+            this.updateValue();
+        },
+        updateValue () {
+            this.$emit('update:value', this.keywords);
         }
     }
 };
@@ -63,18 +84,34 @@ export default {
 
     .et-keywords__item {
         margin-right: $spaceSmall;
+        margin-bottom: $spaceSmall;
     }
 
     .et-keywords__new {
-        width: 90px;
-        vertical-align: bottom;
+        width: 6rem;
+
+        /deep/ .el-input__inner {
+            height: $elementHeight;
+            font-size: $descriptionFontSize;
+            line-height: $elementHeight;
+            color: $quoteColor;
+            background-color: $commentBackground;
+            border: none;
+            border-radius: $radiusSmall;
+        }
     }
 
     .et-keywords__button {
-        height: 32px;
-        line-height: 30px;
-        padding-top: 0;
-        padding-bottom: 0;
+        display: block;
+        height: $elementHeight;
+        font-size: $iconFontSizeSmall;
+        line-height: $elementHeight;
+        color: $quoteColor;
+        cursor: pointer;
+
+        &:hover {
+            color: $submitHoverColor;
+        }
     }
 }
 </style>

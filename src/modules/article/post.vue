@@ -30,8 +30,21 @@
                         :maxlength="300"
                         resize="none">
                     </el-input>
-                    <et-keywords></et-keywords>
-                    <!-- <el-select></el-select> -->
+                    <et-keywords v-model="data.keywords"></et-keywords>
+                    <el-select v-model="data.section_name"
+                        clearable
+                        filterable
+                        remote
+                        default-first-option
+                        :remote-method="getSections"
+                        :loading="sectionLoading"
+                        :placeholder="$t('photo.create.albumPlaceholder')">
+                        <el-option v-for="item in sections"
+                            :key="item.name"
+                            :label="item.nick"
+                            :value="item.name">
+                        </el-option>
+                    </el-select>
                 </el-form>
                 <et-editor v-else-if="loadType === 'content'"
                     ref="editor"
@@ -55,6 +68,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import Utils from '@/common/utils';
+import Section from '@/common/api/sections';
 import { ArticleApi } from '@/common/api/articles';
 import { AlbumApi } from '@/common/api/albums';
 export default {
@@ -75,6 +90,8 @@ export default {
             cover: null,
             contentLength: 0,
             contentMaxLength: 30000,
+            sections: [],
+            sectionLoading: false,
             photoSelectShow: false
         };
     },
@@ -106,6 +123,20 @@ export default {
     methods: {
         init () {
             // console.warn(document.body.clientHeight );
+        },
+        getSections (query) {
+            if (query !== '') {
+                this.sectionLoading = true;
+                Section.querySections(query).then(response => {
+                    this.sectionLoading = false;
+                    this.sections = response.data.sections;
+                }).catch(err => {
+                    this.sectionLoading = false;
+                    Utils.errorLog(err, 'SECTION-QUERY');
+                });
+            } else {
+                this.sections = [];
+            }
         }
     }
 };
