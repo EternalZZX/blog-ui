@@ -7,13 +7,18 @@
         </et-nav>
 
         <div class="et-content" ref="container">
-            <div class="et-content__wrapper">
+            <div class="et-content__wrapper et-post">
                 <el-form v-if="loadType === 'title'">
-                    <et-photo-select-box :data="cover"
+                    <et-photo-select-box
+                        :data="cover"
+                        icon="ei-camera"
                         @click="photoSelectShow = true">
+                        <span>{{ $t("post.addCover") }}</span>
                     </et-photo-select-box>
                     <el-input></el-input>
+                    <el-input type="textarea"></el-input>
                     <et-keywords></et-keywords>
+                    <!-- <el-select></el-select> -->
                 </el-form>
                 <et-editor  v-else-if="loadType === 'content'"
                     ref="editor"
@@ -29,6 +34,7 @@
             v-model="cover"
             :show.sync="photoSelectShow"
             :system-type="SYSTEM_TYPE.ARTICLE_COVER_ALBUM"
+            :show-upload="true"
             :title="$t('section.edit.selectCover')">
         </et-photo-select-dialog>
     </div>

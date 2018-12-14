@@ -1,22 +1,25 @@
 <template>
     <div class="et-keywords">
-        <el-tag
-            v-for="tag in dynamicTags"
-            :key="tag"
-            :disable-transitions="false"
+        <el-tag class="et-keywords__item"
+            v-for="keyword in keywords"
+            :key="keyword"
             closable
-            @close="handleClose(tag)">
-            {{ tag }}
+            @close="handleDelete(keyword)">
+            {{ keyword }}
         </el-tag>
-        <el-input class="input-new-tag"
-            v-if="inputVisible"
-            v-model="inputValue"
-            ref="saveTagInput"
-            size="small"
-            @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm">
+        <el-input ref="input"
+            class="et-keywords__new"
+            v-model="keyword"
+            v-if="isAdd"
+            @keyup.enter.native="handleAdd"
+            @blur="handleAdd">
         </el-input>
-        <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+        <el-button v-else
+            class="et-keywords__button"
+            @click="showAdd">
+            <i class="et-icon ei-plus"></i>
+            {{ $t("article.addKeyword") }}
+        </el-button>
     </div>
 </template>
 
@@ -25,28 +28,28 @@ export default {
     name: 'EtKeywords',
     data () {
         return {
-            dynamicTags: ['标签一', '标签二', '标签三'],
-            inputVisible: false,
-            inputValue: ''
+            keywords: ['标签一', '标签二', '标签三'],
+            keyword: '',
+            isAdd: false
         };
     },
     methods: {
-        handleClose (tag) {
-            this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-        },
-        showInput () {
-            this.inputVisible = true;
-            this.$nextTick(_ => {
-                this.$refs.saveTagInput.$refs.input.focus();
+        showAdd () {
+            this.isAdd = true;
+            this.$nextTick(() => {
+                this.$refs.input.focus();
             });
         },
-        handleInputConfirm () {
-            const inputValue = this.inputValue;
-            if (inputValue) {
-                this.dynamicTags.push(inputValue);
+        handleAdd () {
+            const keyword = this.keyword;
+            if (keyword) {
+                this.keywords.push(keyword);
             }
-            this.inputVisible = false;
-            this.inputValue = '';
+            this.isAdd = false;
+            this.keyword = '';
+        },
+        handleDelete (keyword) {
+            this.keywords.splice(this.keywords.indexOf(keyword), 1);
         }
     }
 };
@@ -55,21 +58,23 @@ export default {
 <style lang="scss" scoped>
 @import "~static/styles/style-common";
 
-.el-tag + .el-tag {
-    margin-left: 10px;
-}
+.et-keywords {
+    display: flex;
 
-.button-new-tag {
-    margin-left: 10px;
-    height: 32px;
-    line-height: 30px;
-    padding-top: 0;
-    padding-bottom: 0;
-}
+    .et-keywords__item {
+        margin-right: $spaceSmall;
+    }
 
-.input-new-tag {
-    width: 90px;
-    margin-left: 10px;
-    vertical-align: bottom;
+    .et-keywords__new {
+        width: 90px;
+        vertical-align: bottom;
+    }
+
+    .et-keywords__button {
+        height: 32px;
+        line-height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 }
 </style>

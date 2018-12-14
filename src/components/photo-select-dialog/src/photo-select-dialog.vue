@@ -7,6 +7,7 @@
         <et-photo-select v-model="data"
             :show.sync="selectShow"
             :system-type="systemType"
+            :show-upload="showUpload"
             @update:show="closeDialog">
         </et-photo-select>
         <div slot="footer">
@@ -39,6 +40,10 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        showUpload: {
+            type: Boolean,
+            default: false
         }
     },
     data () {

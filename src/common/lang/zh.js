@@ -156,6 +156,8 @@ export default {
         more: '阅读全文',
         published: '发布于 ',
         edited: ' 编辑于 ',
+        keyword: '关键词',
+        addKeyword: '添加关键词',
         nav: {
             title: '文章'
         }
@@ -166,7 +168,8 @@ export default {
             basic: '文章标题',
             content: '文章内容',
             advanced: '更多设置'
-        }
+        },
+        addCover: '添加题图 (可选)'
     },
     album: {
         nav: {

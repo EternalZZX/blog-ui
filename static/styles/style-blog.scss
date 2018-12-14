@@ -1,1 +1,10 @@
 @import "./style-base";
+
+.et-post {
+    .et-photo-select {
+        width: 100%;
+        margin-bottom: $spaceLarge;
+        background-color: $commentBackground;
+        border: none;
+    }
+}

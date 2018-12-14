@@ -207,7 +207,9 @@ export default {
             this.init(null, this.searchStr);
         },
         uploadPhoto (content) {
-            Photo.create(content.file).then(response => {
+            Photo.create(content.file, {
+                album_uuid: this.loadAlbumUuid
+            }).then(response => {
                 this.selectPhotos.push(response.data);
                 this.init();
                 Common.notify(this.$t('photo.create.success'), 'success', 'dialog');

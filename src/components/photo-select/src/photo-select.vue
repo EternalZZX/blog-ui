@@ -12,6 +12,15 @@
                 @keyup.native="debouncedSearch">
                 <i slot="prefix" class="el-input__icon et-icon ei-search"></i>
             </el-input>
+            <el-upload v-if="showUpload"
+                action="upload"
+                :http-request="uploadPhoto"
+                :show-file-list="false"
+                :multiple="false">
+                <el-button type="file">
+                    {{ $t("common.upload") }}
+                </el-button>
+            </el-upload>
         </div>
         <et-scroll ref="scroll" @more="loadMore">
             <div class="et-photo__container">
@@ -28,6 +37,17 @@
                     :selectable="true"
                     @click="selectPhoto(photo)">
                 </et-photo>
+                <div class="et-photo__wrapper et-photo__wrapper_add"
+                    v-if="showUpload">
+                    <el-upload action="upload"
+                        :http-request="uploadPhoto"
+                        :show-file-list="false"
+                        :multiple="false">
+                        <div class="et-photo__add" :title="$t('photo.create.title')">
+                            <i class="et-icon ei-plus"></i>
+                        </div>
+                    </el-upload>
+                </div>
             </div>
         </et-scroll>
     </div>
@@ -36,6 +56,7 @@
 <script>
 import { debounce } from 'throttle-debounce';
 import { mapGetters } from 'vuex';
+import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
 import Photo from '@/common/api/photos';
@@ -59,6 +80,10 @@ export default {
         },
         systemType: {
             default: null
+        },
+        showUpload: {
+            type: Boolean,
+            default: false
         }
     },
     data () {
@@ -167,6 +192,21 @@ export default {
         },
         back () {
             this.loadAlbumUuid ? this.init() : this.close();
+        },
+        uploadPhoto (content) {
+            Photo.create(content.file, {
+                album_uuid: this.loadAlbumUuid
+            }).then(response => {
+                this.selectPhoto(response.data);
+                Common.notify(this.$t('photo.create.success'), 'success', 'dialog');
+                content.onSuccess(response);
+            }).catch(err => {
+                Utils.errorLog(err, 'PHOTO-CREATE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('photo.create.error')
+                ), 'error', 'dialog');
+                content.onError(err);
+            });
         },
         close () {
             this.$emit('update:show', false);

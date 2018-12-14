@@ -157,6 +157,8 @@ export default {
         more: 'more',
         published: 'Published ',
         edited: ' edited at ',
+        keyword: 'Keyword',
+        addKeyword: 'Add Keyword',
         nav: {
             title: 'Article'
         }
@@ -164,10 +166,11 @@ export default {
     post: {
         nav: {
             title: 'Post',
-            basic: 'Title',
-            content: 'Content',
-            advanced: 'Advanced'
-        }
+            basic: 'Article Title',
+            content: 'Article Content',
+            advanced: 'Advanced Setting'
+        },
+        addCover: 'Add Title Map (Optional)'
     },
     album: {
         nav: {

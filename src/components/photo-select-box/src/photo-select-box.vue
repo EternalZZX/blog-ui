@@ -2,8 +2,14 @@
     <div class="et-photo-select"
         :class="{'et-photo-select_disabled': disabled}"
         @click="handleClick">
-        <img :src="data.image_small" v-if="data">
-        <i class="et-icon ei-plus" v-else></i>
+        <div class="et-photo-select__image"
+            :style="imageUrl"
+            v-if="data">
+        </div>
+        <template v-else>
+            <i class="et-icon" :class="icon"></i>
+            <slot></slot>
+        </template>
     </div>
 </template>
 
@@ -20,6 +26,16 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        icon: {
+            type: String,
+            default: 'ei-plus'
+        }
+    },
+    computed: {
+        imageUrl () {
+            const backgroundImage = `url(${this.data.image_small})`;
+            return this.data ? { backgroundImage } : null;
         }
     },
     methods: {
