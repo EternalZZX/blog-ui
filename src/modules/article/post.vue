@@ -8,7 +8,7 @@
 
         <div class="et-content" ref="container">
             <div class="et-content__wrapper et-post">
-                <el-form v-if="loadType === 'title'">
+                <template v-if="loadType === 'title'">
                     <et-photo-select-box
                         :data="cover"
                         icon="ei-camera"
@@ -30,22 +30,33 @@
                         :maxlength="300"
                         resize="none">
                     </el-input>
-                    <et-keywords v-model="data.keywords"></et-keywords>
-                    <el-select v-model="data.section_name"
-                        clearable
-                        filterable
-                        remote
-                        default-first-option
-                        :remote-method="getSections"
-                        :loading="sectionLoading"
-                        :placeholder="$t('photo.create.albumPlaceholder')">
-                        <el-option v-for="item in sections"
-                            :key="item.name"
-                            :label="item.nick"
-                            :value="item.name">
-                        </el-option>
-                    </el-select>
-                </el-form>
+                    <div class="et-post__item">
+                        <et-keywords v-model="data.keywords"></et-keywords>
+                        <div class="et-post__section">
+                            <i class="et-icon ei-manage"
+                                :title="$t('post.section')">
+                            </i>
+                            <el-select v-model="data.section_name"
+                                clearable
+                                filterable
+                                remote
+                                default-first-option
+                                :remote-method="getSections"
+                                :loading="sectionLoading"
+                                :placeholder="$t('post.sectionPlaceholder')">
+                                <el-option v-for="item in sections"
+                                    :key="item.name"
+                                    :label="item.nick"
+                                    :value="item.name">
+                                </el-option>
+                            </el-select>
+                        </div>
+                    </div>
+                    <div class="et-post__panel">
+                        <i class="et-icon ei-pull-down"
+                            @click="loadType = 'content'"></i>
+                    </div>
+                </template>
                 <et-editor v-else-if="loadType === 'content'"
                     ref="editor"
                     v-model="data.content"

@@ -171,7 +171,9 @@ export default {
         },
         coverPlaceholder: '添加题图 (可选)',
         titlePlaceholder: '请输入文章标题',
-        overviewPlaceholder: '请输入文章摘要 (可选)'
+        overviewPlaceholder: '请输入文章摘要 (可选)',
+        section: '话题',
+        sectionPlaceholder: '请输入话题名称'
     },
     album: {
         nav: {

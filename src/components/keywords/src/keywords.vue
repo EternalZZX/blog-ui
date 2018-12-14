@@ -81,6 +81,7 @@ export default {
 
 .et-keywords {
     display: flex;
+    flex-wrap: wrap;
 
     .et-keywords__item {
         margin-right: $spaceSmall;
@@ -106,7 +107,7 @@ export default {
         height: $elementHeight;
         font-size: $iconFontSizeSmall;
         line-height: $elementHeight;
-        color: $quoteColor;
+        color: $placeholderColor;
         cursor: pointer;
 
         &:hover {

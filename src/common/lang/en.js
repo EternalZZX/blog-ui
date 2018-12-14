@@ -172,7 +172,9 @@ export default {
         },
         coverPlaceholder: 'Add Title Map (Optional)',
         titlePlaceholder: 'Please enter article title',
-        overviewPlaceholder: 'Please enter article abstract (Optional)'
+        overviewPlaceholder: 'Please enter article abstract (Optional)',
+        section: 'Topic',
+        sectionPlaceholder: 'Please enter topic'
     },
     album: {
         nav: {
