@@ -513,6 +513,7 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
+        border-radius: $radiusSmall;
     }
 
     &.et-photo-select_disabled {

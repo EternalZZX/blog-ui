@@ -7,4 +7,27 @@
         background-color: $commentBackground;
         border: none;
     }
+
+    .et-post__input {
+        .el-input__inner {
+            height: 3rem;
+            font-size: $titleFontSize;
+            font-weight: $titleFontWeight;
+            color: $titleColor;
+            background: none;
+            border: none;
+            border-bottom: $splitBorder;
+            border-radius: 0;
+        }
+
+        .el-textarea__inner {
+            margin-bottom: $spaceLarge;
+            font-size: $contentFontSize;
+            line-height: 1.5rem;
+            background: none;
+            border: none;
+            border-radius: 0;
+            border-bottom: $splitBorder;
+        }
+    }
 }

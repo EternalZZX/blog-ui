@@ -12,17 +12,30 @@
                     <et-photo-select-box
                         :data="cover"
                         icon="ei-camera"
+                        size="large"
                         @click="photoSelectShow = true">
-                        <span>{{ $t("post.addCover") }}</span>
+                        <span>{{ $t("post.coverPlaceholder") }}</span>
                     </et-photo-select-box>
-                    <el-input></el-input>
-                    <el-input type="textarea"></el-input>
+                    <el-input class="et-post__input"
+                        v-model.trim="data.title"
+                        :placeholder="$t('post.titlePlaceholder')"
+                        :maxlength="50"
+                        :clearable="true">
+                    </el-input>
+                    <el-input class="et-post__input"
+                        type="textarea"
+                        v-model="data.overview"
+                        :placeholder="$t('post.overviewPlaceholder')"
+                        :rows="6"
+                        :maxlength="300"
+                        resize="none">
+                    </el-input>
                     <et-keywords></et-keywords>
                     <!-- <el-select></el-select> -->
                 </el-form>
-                <et-editor  v-else-if="loadType === 'content'"
+                <et-editor v-else-if="loadType === 'content'"
                     ref="editor"
-                    v-model="content"
+                    v-model="data.content"
                     :length.sync="contentLength"
                     :max-length="contentMaxLength">
                 </et-editor>
@@ -42,16 +55,26 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { ArticleApi } from '@/common/api/articles';
 import { AlbumApi } from '@/common/api/albums';
 export default {
     name: 'EtPost',
     data () {
         return {
             loadType: 'title',
-            content: '',
+            data: {
+                title: '',
+                overview: '',
+                section_name: '',
+                keywords: [],
+                content: '',
+                status: ArticleApi.STATUS.AUDIT,
+                privacy: ArticleApi.PRIVACY.PUBLIC,
+                read_level: 100
+            },
+            cover: null,
             contentLength: 0,
             contentMaxLength: 30000,
-            cover: null,
             photoSelectShow: false
         };
     },

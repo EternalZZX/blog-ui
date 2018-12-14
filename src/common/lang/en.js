@@ -170,7 +170,9 @@ export default {
             content: 'Article Content',
             advanced: 'Advanced Setting'
         },
-        addCover: 'Add Title Map (Optional)'
+        coverPlaceholder: 'Add Title Map (Optional)',
+        titlePlaceholder: 'Please enter article title',
+        overviewPlaceholder: 'Please enter article abstract (Optional)'
     },
     album: {
         nav: {

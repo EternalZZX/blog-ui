@@ -169,7 +169,9 @@ export default {
             content: '文章内容',
             advanced: '更多设置'
         },
-        addCover: '添加题图 (可选)'
+        coverPlaceholder: '添加题图 (可选)',
+        titlePlaceholder: '请输入文章标题',
+        overviewPlaceholder: '请输入文章摘要 (可选)'
     },
     album: {
         nav: {

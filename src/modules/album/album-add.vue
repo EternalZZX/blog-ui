@@ -25,7 +25,7 @@
                 <el-input type="textarea"
                     v-model.trim="data.description"
                     :placeholder="$t('album.create.descriptionPlaceholder')"
-                    :rows="2"
+                    :rows="10"
                     :maxlength="300"
                     resize="none">
                 </el-input>
