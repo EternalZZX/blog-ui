@@ -28,7 +28,8 @@ class Validate {
                 if (rule.required && (!value || (value.trim && !value.trim().length))) {
                     return {
                         result: false,
-                        message: rule.message ? rule.message : i18n.t('validate.none')
+                        message: rule.message ? rule.message : i18n.t('validate.none'),
+                        callback: rule.callback
                     };
                 }
                 if (rule.validator &&
@@ -36,7 +37,8 @@ class Validate {
                     !this.regs[rule.validator].test(value)) {
                     return {
                         result: false,
-                        message: rule.message ? rule.message : i18n.t(`validate.${rule.validator}`)
+                        message: rule.message ? rule.message : i18n.t(`validate.${rule.validator}`),
+                        callback: rule.callback
                     };
                 }
             }

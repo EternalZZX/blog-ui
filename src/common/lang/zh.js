@@ -160,23 +160,30 @@ export default {
         addKeyword: '添加关键词',
         nav: {
             title: '文章'
-        }
-    },
-    post: {
-        nav: {
-            title: '发帖',
-            basic: '文章标题',
-            content: '文章内容',
-            advanced: '更多设置'
         },
-        coverPlaceholder: '添加题图 (可选)',
-        titlePlaceholder: '请输入文章标题',
-        overviewPlaceholder: '请输入文章摘要 (可选)',
-        section: '话题',
-        sectionPlaceholder: '请输入话题名称',
-        privacy: '私有文章',
-        readLevel: '阅读等级',
-        audit: '审核状态'
+        create: {
+            nav: {
+                title: '发帖',
+                basic: '文章标题',
+                content: '文章内容',
+                advanced: '更多设置',
+                create: '发布文章'
+            },
+            coverPlaceholder: '添加题图 (可选)',
+            titlePlaceholder: '请输入文章标题',
+            overviewPlaceholder: '请输入文章摘要 (可选)',
+            section: '话题',
+            sectionPlaceholder: '请输入话题名称',
+            privacy: '私有文章',
+            readLevel: '阅读等级',
+            audit: '审核状态',
+            success: '发布文章成功!',
+            error: '发布文章失败!'
+        },
+        validate: {
+            title: '文章标题不能为空!',
+            content: '文章内容不能为空!'
+        }
     },
     album: {
         nav: {

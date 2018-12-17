@@ -1,8 +1,13 @@
 <template>
     <div class="et-layout">
-        <et-nav :title="$t('post.nav.title')"
+        <et-nav :title="$t('article.create.nav.title')"
             :index.sync="loadType"
             :options="navOptions">
+            <el-button slot="button" type="text"
+                class="et-nav__button"
+                @click="back">
+                {{ $t("common.back") }}
+            </el-button>
         </et-nav>
 
         <div class="et-content" ref="container">
@@ -13,18 +18,18 @@
                         icon="ei-camera"
                         size="large"
                         @click="photoSelectShow = true">
-                        <span>{{ $t("post.coverPlaceholder") }}</span>
+                        <span>{{ $t("article.create.coverPlaceholder") }}</span>
                     </et-photo-select-box>
                     <el-input class="et-post__input"
                         v-model.trim="data.title"
-                        :placeholder="$t('post.titlePlaceholder')"
+                        :placeholder="$t('article.create.titlePlaceholder')"
                         :maxlength="50"
                         :clearable="true">
                     </el-input>
                     <el-input class="et-post__input"
                         type="textarea"
                         v-model="data.overview"
-                        :placeholder="$t('post.overviewPlaceholder')"
+                        :placeholder="$t('article.create.overviewPlaceholder')"
                         :rows="6"
                         :maxlength="300"
                         resize="none">
@@ -33,7 +38,7 @@
                         <et-keywords v-model="data.keywords"></et-keywords>
                         <div class="et-post__section">
                             <i class="et-icon ei-manage"
-                                :title="$t('post.section')">
+                                :title="$t('article.create.section')">
                             </i>
                             <el-select v-model="data.section_name"
                                 clearable
@@ -42,7 +47,7 @@
                                 default-first-option
                                 :remote-method="getSections"
                                 :loading="sectionLoading"
-                                :placeholder="$t('post.sectionPlaceholder')">
+                                :placeholder="$t('article.create.sectionPlaceholder')">
                                 <el-option v-for="item in sections"
                                     :key="item.name"
                                     :label="item.nick"
@@ -69,7 +74,7 @@
                         class="et-form et-block"
                         :model="data">
                         <el-form-item prop="privacy"
-                            :label="$t('post.privacy')">
+                            :label="$t('article.create.privacy')">
                             <el-switch v-model="data.privacy"
                                 :active-value="PRIVACY.PRIVATE"
                                 :inactive-value="PRIVACY.PUBLIC"
@@ -77,7 +82,7 @@
                             </el-switch>
                         </el-form-item>
                         <el-form-item prop="read_level"
-                            :label="$t('post.readLevel')"
+                            :label="$t('article.create.readLevel')"
                             v-perm:article-read-set>
                             <el-slider v-model="data.read_level"
                                 :max="1000"
@@ -85,7 +90,7 @@
                             </el-slider>
                         </el-form-item>
                         <el-form-item prop="status"
-                            :label="$t('post.audit')"
+                            :label="$t('article.create.audit')"
                             v-perm:article-audit-set>
                             <el-select v-model="data.status">
                                 <el-option v-for="item in status"
@@ -117,11 +122,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import Common from '@/common/common';
 import Utils from '@/common/utils';
 import Permission from '@/common/permission';
 import Validate from '@/common/validate';
 import Section from '@/common/api/sections';
-import { ArticleApi } from '@/common/api/articles';
+import Article, { ArticleApi } from '@/common/api/articles';
 import { AlbumApi } from '@/common/api/albums';
 export default {
     name: 'EtPost',
@@ -174,13 +180,18 @@ export default {
             return {
                 nav: [{
                     value: 'title',
-                    label: this.$t('post.nav.basic')
+                    label: this.$t('article.create.nav.basic')
                 }, {
                     value: 'content',
-                    label: this.$t('post.nav.content')
+                    label: this.$t('article.create.nav.content')
                 }, {
                     value: 'advanced',
-                    label: this.$t('post.nav.advanced')
+                    label: this.$t('article.create.nav.advanced')
+                }],
+                menu: [{
+                    icon: 'ei-pull-up',
+                    label: this.$t('article.create.nav.create'),
+                    event: this.submit
                 }]
             };
         },
@@ -208,7 +219,29 @@ export default {
             this.loadType = 'title';
         },
         submit () {
-            //
+            const validateResult = Validate.test(this.data, {
+                title: [{ required: true, message: this.$t('article.validate.title'), callback: this.goTitle }],
+                content: [{ required: true, message: this.$t('article.validate.content'), callback: this.goConetnt }]
+            });
+            if (!validateResult.result) {
+                Common.notify(validateResult.message);
+                validateResult.callback();
+                return;
+            }
+            this.createArticle();
+        },
+        createArticle () {
+            Article.create(
+                this.formatParams(this.data)
+            ).then(response => {
+                this.back();
+                Common.notify(this.$t('article.create.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'ARTICLE-CREATE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('article.create.error')
+                ), 'error');
+            });
         },
         getSections (query) {
             if (query !== '') {
@@ -224,6 +257,12 @@ export default {
                 this.sections = [];
             }
         },
+        formatParams (data) {
+            const params = { ...data };
+            params.keywords = data.keywords.join(',');
+            params.cover_uuid = this.cover ? this.cover.uuid : '';
+            return params;
+        },
         getContainerHeight () {
             const contentStyle = getComputedStyle(document.getElementsByClassName('et-content')[0]),
                 headerHeight = document.getElementsByClassName('et-header')[0].offsetHeight,
@@ -231,6 +270,12 @@ export default {
                 paddingTop = parseInt(contentStyle.getPropertyValue('padding-top')),
                 paddingBottom = parseInt(contentStyle.getPropertyValue('padding-bottom'));
             return `${document.body.clientHeight - headerHeight - footerHeight - paddingTop - paddingBottom}px`;
+        },
+        goTitle () {
+            this.loadType = 'title';
+        },
+        goConetnt () {
+            this.loadType = 'content';
         },
         back () {
             this.$router.go(-1);

@@ -161,23 +161,30 @@ export default {
         addKeyword: 'Add Keyword',
         nav: {
             title: 'Article'
-        }
-    },
-    post: {
-        nav: {
-            title: 'Post',
-            basic: 'Article Title',
-            content: 'Article Content',
-            advanced: 'Advanced Setting'
         },
-        coverPlaceholder: 'Add Title Map (Optional)',
-        titlePlaceholder: 'Please enter article title',
-        overviewPlaceholder: 'Please enter article abstract (Optional)',
-        section: 'Topic',
-        sectionPlaceholder: 'Please enter topic',
-        privacy: 'Private Article',
-        readLevel: 'Read Level',
-        audit: 'Audit Status'
+        create: {
+            nav: {
+                title: 'Post',
+                basic: 'Article Title',
+                content: 'Article Content',
+                advanced: 'Advanced Setting',
+                create: 'Post Article'
+            },
+            coverPlaceholder: 'Add Title Map (Optional)',
+            titlePlaceholder: 'Please enter article title',
+            overviewPlaceholder: 'Please enter article abstract (Optional)',
+            section: 'Topic',
+            sectionPlaceholder: 'Please enter topic',
+            privacy: 'Private Article',
+            readLevel: 'Read Level',
+            audit: 'Audit Status',
+            success: 'Article post succeed!',
+            error: 'Article post failed!'
+        },
+        validate: {
+            title: 'Article title can not empty!',
+            content: 'Article content can not empty!'
+        }
     },
     album: {
         nav: {
