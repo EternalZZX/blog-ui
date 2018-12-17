@@ -173,7 +173,10 @@ export default {
         titlePlaceholder: '请输入文章标题',
         overviewPlaceholder: '请输入文章摘要 (可选)',
         section: '话题',
-        sectionPlaceholder: '请输入话题名称'
+        sectionPlaceholder: '请输入话题名称',
+        privacy: '私有文章',
+        readLevel: '阅读等级',
+        audit: '审核状态'
     },
     album: {
         nav: {

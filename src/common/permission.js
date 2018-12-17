@@ -131,6 +131,21 @@ Permission.PERMISSION_DICT = {
         type: Permission.TYPE.MINOR,
         level: 100
     },
+    'article-private-set': {
+        name: Permission.NAME.ARTICLE_PRIVACY,
+        type: Permission.TYPE.MINOR,
+        level: 200
+    },
+    'article-read-set': {
+        name: Permission.NAME.ARTICLE_READ,
+        type: Permission.TYPE.MINOR,
+        level: 100
+    },
+    'article-audit-set': {
+        name: Permission.NAME.ARTICLE_AUDIT,
+        type: Permission.TYPE.MINOR,
+        level: 1000
+    },
     'album-list': {
         name: Permission.NAME.ALBUM_SELECT,
         type: Permission.TYPE.MINOR,

@@ -174,7 +174,10 @@ export default {
         titlePlaceholder: 'Please enter article title',
         overviewPlaceholder: 'Please enter article abstract (Optional)',
         section: 'Topic',
-        sectionPlaceholder: 'Please enter topic'
+        sectionPlaceholder: 'Please enter topic',
+        privacy: 'Private Article',
+        readLevel: 'Read Level',
+        audit: 'Audit Status'
     },
     album: {
         nav: {

@@ -53,7 +53,8 @@
                     </div>
                     <div class="et-post__panel">
                         <i class="et-icon ei-pull-down"
-                            @click="loadType = 'content'"></i>
+                            @click="loadType = 'content'">
+                        </i>
                     </div>
                 </template>
                 <et-editor v-else-if="loadType === 'content'"
@@ -63,6 +64,43 @@
                     :max-length="contentMaxLength"
                     :style="{ height: containerHeight }">
                 </et-editor>
+                <template v-else-if="loadType === 'advanced'">
+                    <el-form ref="form"
+                        class="et-form et-block"
+                        :model="data">
+                        <el-form-item prop="privacy"
+                            :label="$t('post.privacy')">
+                            <el-switch v-model="data.privacy"
+                                :active-value="PRIVACY.PRIVATE"
+                                :inactive-value="PRIVACY.PUBLIC"
+                                :disabled="privateDisabled">
+                            </el-switch>
+                        </el-form-item>
+                        <el-form-item prop="read_level"
+                            :label="$t('post.readLevel')"
+                            v-perm:article-read-set>
+                            <el-slider v-model="data.read_level"
+                                :max="1000"
+                                :step="10">
+                            </el-slider>
+                        </el-form-item>
+                        <el-form-item prop="status"
+                            :label="$t('post.audit')"
+                            v-perm:article-audit-set>
+                            <el-select v-model="data.status">
+                                <el-option v-for="item in status"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-form>
+                    <div class="et-block-panel">
+                        <el-button @click="back">{{ $t("common.cancelButton") }}</el-button>
+                        <el-button type="primary" @click="submit">{{ $t("common.submitButton") }}</el-button>
+                    </div>
+                </template>
             </div>
             <et-toolbar></et-toolbar>
         </div>
@@ -80,6 +118,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import Utils from '@/common/utils';
+import Permission from '@/common/permission';
+import Validate from '@/common/validate';
 import Section from '@/common/api/sections';
 import { ArticleApi } from '@/common/api/articles';
 import { AlbumApi } from '@/common/api/albums';
@@ -104,7 +144,26 @@ export default {
             sections: [],
             sectionLoading: false,
             photoSelectShow: false,
-            containerHeight: null
+            containerHeight: null,
+            status: [{
+                label: this.$t('status.cancel'),
+                value: ArticleApi.STATUS.CANCEL
+            }, {
+                label: this.$t('status.active'),
+                value: ArticleApi.STATUS.ACTIVE
+            }, {
+                label: this.$t('status.draft'),
+                value: ArticleApi.STATUS.DRAFT
+            }, {
+                label: this.$t('status.audit'),
+                value: ArticleApi.STATUS.AUDIT
+            }, {
+                label: this.$t('status.failed'),
+                value: ArticleApi.STATUS.FAILED
+            }, {
+                label: this.$t('status.recycled'),
+                value: ArticleApi.STATUS.RECYCLED
+            }]
         };
     },
     computed: {
@@ -125,6 +184,12 @@ export default {
                 }]
             };
         },
+        privateDisabled () {
+            return !Permission.hasPermission('article-private-set');
+        },
+        PRIVACY () {
+            return ArticleApi.PRIVACY;
+        },
         SYSTEM_TYPE () {
             return AlbumApi.SYSTEM;
         }
@@ -141,6 +206,9 @@ export default {
     methods: {
         init () {
             this.loadType = 'title';
+        },
+        submit () {
+            //
         },
         getSections (query) {
             if (query !== '') {
@@ -163,6 +231,9 @@ export default {
                 paddingTop = parseInt(contentStyle.getPropertyValue('padding-top')),
                 paddingBottom = parseInt(contentStyle.getPropertyValue('padding-bottom'));
             return `${document.body.clientHeight - headerHeight - footerHeight - paddingTop - paddingBottom}px`;
+        },
+        back () {
+            this.$router.go(-1);
         }
     }
 };
