@@ -261,6 +261,7 @@ export default {
             const params = { ...data };
             params.keywords = data.keywords.join(',');
             params.cover_uuid = this.cover ? this.cover.uuid : '';
+            params.file_storage = true;
             return params;
         },
         getContainerHeight () {
