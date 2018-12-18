@@ -195,6 +195,9 @@ export default {
                 }]
             };
         },
+        isCreate () {
+            return !this.$route.params.uuid;
+        },
         privateDisabled () {
             return !Permission.hasPermission('article-private-set');
         },
@@ -217,6 +220,9 @@ export default {
     methods: {
         init () {
             this.loadType = 'title';
+            if (!this.isCreate) {
+                this.getArticle(this.$route.params.uuid);
+            }
         },
         submit () {
             const validateResult = Validate.test(this.data, {
@@ -228,7 +234,7 @@ export default {
                 validateResult.callback();
                 return;
             }
-            this.createArticle();
+            this.isCreate ? this.createArticle() : this.updateArticle();
         },
         createArticle () {
             Article.create(
@@ -241,6 +247,27 @@ export default {
                 Common.notify(Utils.errorMessage(err,
                     this.$t('article.create.error')
                 ), 'error');
+            });
+        },
+        updateArticle () {
+            Article.update(
+                this.data.uuid,
+                this.formatParams(this.data)
+            ).then(response => {
+                this.back();
+                Common.notify(this.$t('article.create.success'), 'success');
+            }).catch(err => {
+                Utils.errorLog(err, 'ARTICLE-UPDATE');
+                Common.notify(Utils.errorMessage(err,
+                    this.$t('article.create.error')
+                ), 'error');
+            });
+        },
+        getArticle (uuid) {
+            Article.get(uuid).then(response => {
+                this.data = this.formatData(response.data);
+            }).catch(err => {
+                Utils.errorLog(err, 'ARTICLE-GET');
             });
         },
         getSections (query) {
@@ -256,6 +283,25 @@ export default {
             } else {
                 this.sections = [];
             }
+        },
+        formatData (data) {
+            const article = {
+                uuid: data.uuid,
+                title: data.title,
+                overview: data.overview,
+                section_name: data.section.name,
+                keywords: data.keywords.split(','),
+                content: data.content,
+                status: data.status,
+                privacy: data.privacy,
+                read_level: data.read_level
+            };
+            this.sections = data.section ? [data.section] : [];
+            this.cover = data.cover ? {
+                uuid: data.cover.split('/').pop().split('.')[0],
+                image_middle: data.cover
+            } : null;
+            return article;
         },
         formatParams (data) {
             const params = { ...data };

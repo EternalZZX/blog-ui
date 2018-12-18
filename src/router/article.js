@@ -9,6 +9,14 @@ export default {
             keepAlive: true
         }
     }, {
+        path: 'post/:uuid',
+        name: 'postUpdate',
+        component: () => import('@/modules/article/post'),
+        meta: {
+            auth: true,
+            keepAlive: true
+        }
+    }, {
         path: ':uuid',
         name: 'article',
         component: () => import('@/modules/article/article'),
