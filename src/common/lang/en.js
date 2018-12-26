@@ -168,7 +168,8 @@ export default {
                 basic: 'Article Title',
                 content: 'Article Content',
                 advanced: 'Advanced Setting',
-                create: 'Post Article'
+                create: 'Post Article',
+                draft: 'Save Draft'
             },
             coverPlaceholder: 'Add Title Map (Optional)',
             titlePlaceholder: 'Please enter article title',

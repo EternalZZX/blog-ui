@@ -192,6 +192,10 @@ export default {
                     icon: 'ei-pull-up',
                     label: this.$t('article.create.nav.create'),
                     event: this.submit
+                }, {
+                    icon: 'ei-edit',
+                    label: this.$t('article.create.nav.draft'),
+                    event: this.submit
                 }]
             };
         },

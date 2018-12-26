@@ -167,7 +167,8 @@ export default {
                 basic: '文章标题',
                 content: '文章内容',
                 advanced: '更多设置',
-                create: '发布文章'
+                create: '发布文章',
+                draft: '保存草稿'
             },
             coverPlaceholder: '添加题图 (可选)',
             titlePlaceholder: '请输入文章标题',
