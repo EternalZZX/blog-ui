@@ -103,7 +103,7 @@
                     </el-form>
                     <div class="et-block-panel">
                         <el-button @click="back">{{ $t("common.cancelButton") }}</el-button>
-                        <el-button type="primary" @click="submit">{{ $t("common.submitButton") }}</el-button>
+                        <el-button type="primary" @click="post">{{ $t("common.submitButton") }}</el-button>
                     </div>
                 </template>
             </div>
@@ -191,11 +191,11 @@ export default {
                 menu: [{
                     icon: 'ei-pull-up',
                     label: this.$t('article.create.nav.create'),
-                    event: this.submit
+                    event: this.post
                 }, {
                     icon: 'ei-edit',
                     label: this.$t('article.create.nav.draft'),
-                    event: this.submit
+                    event: this.save
                 }]
             };
         },
@@ -228,7 +228,7 @@ export default {
                 this.getArticle(this.$route.params.uuid);
             }
         },
-        submit () {
+        post () {
             const validateResult = Validate.test(this.data, {
                 title: [{ required: true, message: this.$t('article.validate.title'), callback: this.goTitle }],
                 content: [{ required: true, message: this.$t('article.validate.content'), callback: this.goConetnt }]
@@ -240,23 +240,29 @@ export default {
             }
             this.isCreate ? this.createArticle() : this.updateArticle();
         },
-        createArticle () {
+        save () {
+            this.isCreate ? this.createArticle(true) : this.updateArticle(true);
+        },
+        createArticle (isDraft = false) {
             Article.create(
-                this.formatParams(this.data)
+                this.formatParams(this.data, isDraft)
             ).then(response => {
                 this.back();
-                Common.notify(this.$t('article.create.success'), 'success');
+                Common.notify(this.$t(isDraft ?
+                    'article.create.draftSuccess' :
+                    'article.create.success'
+                ), 'success');
             }).catch(err => {
                 Utils.errorLog(err, 'ARTICLE-CREATE');
                 Common.notify(Utils.errorMessage(err,
-                    this.$t('article.create.error')
+                    this.$t(isDraft ? 'article.create.draftError' : 'article.create.error')
                 ), 'error');
             });
         },
-        updateArticle () {
+        updateArticle (isDraft = false) {
             Article.update(
                 this.data.uuid,
-                this.formatParams(this.data)
+                this.formatParams(this.data, isDraft)
             ).then(response => {
                 this.back();
                 Common.notify(this.$t('article.create.success'), 'success');
@@ -307,11 +313,14 @@ export default {
             } : null;
             return article;
         },
-        formatParams (data) {
+        formatParams (data, isDraft = false) {
             const params = { ...data };
             params.keywords = data.keywords.join(',');
             params.cover_uuid = this.cover ? this.cover.uuid : '';
             params.file_storage = true;
+            if (isDraft) {
+                params.status = ArticleApi.STATUS.DRAFT;
+            }
             return params;
         },
         getContainerHeight () {

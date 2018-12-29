@@ -68,7 +68,7 @@ export default {
             onlyRoles: 'Role Limit',
             roles: 'Role Allowed',
             rolesPlaceholder: 'Please enter role name',
-            success: 'Topic create succeed!',
+            success: 'Topic create succee!',
             error: 'Topic create failed!'
         },
         edit: {
@@ -179,8 +179,10 @@ export default {
             privacy: 'Private Article',
             readLevel: 'Read Level',
             audit: 'Audit Status',
-            success: 'Article post succeed!',
-            error: 'Article post failed!'
+            success: 'Article published success!',
+            error: 'Article publish failed!',
+            draftSuccess: 'Draft saved success!',
+            draftError: 'Draft save failed!'
         },
         validate: {
             title: 'Article title can not empty!',
@@ -211,7 +213,7 @@ export default {
             cover: 'Album Cover',
             privacy: 'Private Album',
             system: 'Public Cover',
-            success: 'Album create succeed!',
+            success: 'Album create succee!',
             error: 'Album create failed!'
         },
         edit: {
@@ -259,7 +261,7 @@ export default {
             readLevel: 'Read Level',
             origin: 'Original Size',
             untreated: 'Uncompressed',
-            success: 'Upload photo succeed!',
+            success: 'Upload photo succee!',
             error: 'Upload photo failed!'
         },
         edit: {

@@ -179,7 +179,9 @@ export default {
             readLevel: '阅读等级',
             audit: '审核状态',
             success: '发布文章成功!',
-            error: '发布文章失败!'
+            error: '发布文章失败!',
+            draftSuccess: '草稿保存成功!',
+            draftError: '草稿保存失败!'
         },
         validate: {
             title: '文章标题不能为空!',
