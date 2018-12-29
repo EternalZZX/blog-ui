@@ -238,38 +238,39 @@ export default {
                 validateResult.callback();
                 return;
             }
-            this.isCreate ? this.createArticle() : this.updateArticle();
+            this.createArticle({
+                isCreate: this.isCreate,
+                isDraft: false,
+                isMute: false
+            });
         },
         save () {
-            this.isCreate ? this.createArticle(true) : this.updateArticle(true);
+            this.createArticle({
+                isCreate: this.isCreate,
+                isDraft: true,
+                isMute: false
+            });
         },
-        createArticle (isDraft = false) {
-            Article.create(
-                this.formatParams(this.data, isDraft)
-            ).then(response => {
+        createArticle (option) {
+            const { isCreate, isDraft, isMute } = option;
+            const dev = isCreate ?
+                Article.create(
+                    this.formatParams(this.data, isDraft)
+                ) : Article.update(
+                    this.data.uuid,
+                    this.formatParams(this.data, isDraft)
+                );
+            dev.then(response => {
                 this.back();
-                Common.notify(this.$t(isDraft ?
+                !isMute && Common.notify(this.$t(isDraft ?
                     'article.create.draftSuccess' :
                     'article.create.success'
                 ), 'success');
             }).catch(err => {
                 Utils.errorLog(err, 'ARTICLE-CREATE');
-                Common.notify(Utils.errorMessage(err,
-                    this.$t(isDraft ? 'article.create.draftError' : 'article.create.error')
-                ), 'error');
-            });
-        },
-        updateArticle (isDraft = false) {
-            Article.update(
-                this.data.uuid,
-                this.formatParams(this.data, isDraft)
-            ).then(response => {
-                this.back();
-                Common.notify(this.$t('article.create.success'), 'success');
-            }).catch(err => {
-                Utils.errorLog(err, 'ARTICLE-UPDATE');
-                Common.notify(Utils.errorMessage(err,
-                    this.$t('article.create.error')
+                !isMute && Common.notify(Utils.errorMessage(err, this.$t(isDraft ?
+                    'article.create.draftError' :
+                    'article.create.error')
                 ), 'error');
             });
         },
