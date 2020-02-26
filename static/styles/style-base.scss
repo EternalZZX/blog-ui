@@ -407,6 +407,26 @@ $innerList: et-header, et-main, et-preview, et-zoom-tools;
     background: $footerBackground;
     border-top: $deepenBorder;
     box-shadow: $borderShadow;
+
+    p {
+        margin: 0;
+        font-size: $descriptionFontSize;
+        line-height: $footerHeight;
+        text-align: center;
+        color: $descriptionColor;
+    }
+
+    a {
+        color: $themeColor;
+
+        &:hover {
+            color: $themeHoverColor;
+        }
+
+        &:active {
+            color: $themeActiveColor;
+        }
+    }
 }
 
 .et-notify {
